@@ -15,15 +15,15 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const StyledTextField = styled(TextField)({
+const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: "#9bc661",
+    borderColor: theme.palette.primary.main,
   },
   "& .MuiInputLabel-outlined.Mui-focused": {
-    color: "#9bc661",
+    color: theme.palette.primary.main,
   },
-});
+}));
 
 const T2 = ({ handleChange, handleSubmit }) => {
   const theme = useTheme();

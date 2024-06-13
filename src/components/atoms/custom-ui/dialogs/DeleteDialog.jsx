@@ -52,7 +52,7 @@ const DeleteDialog = ({
   const { title, text } = texts({ currentTable, id });
 
   return (
-    <Dialog open={open} onClose={closeDialog} maxWidth="sm">
+    <Dialog open={open ?? false} onClose={closeDialog ?? false} maxWidth="sm">
       <DialogTitle
         sx={{
           display: "flex",

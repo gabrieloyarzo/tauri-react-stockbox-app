@@ -17,7 +17,7 @@ const DiscardDialog = ({
   const theme = useTheme();
 
   return (
-    <Dialog open={open} onClose={closeDialog} maxWidth="sm">
+    <Dialog open={open ?? false} onClose={closeDialog} maxWidth="sm">
       <DialogTitle
         sx={{
           display: "flex",
