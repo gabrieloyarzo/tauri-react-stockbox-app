@@ -12,11 +12,13 @@ import {
   Loop,
   Help,
   Settings,
+  Group,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import Orders from "../pages/Orders";
 import Products from "../pages/Products";
 import Providers from "../pages/Providers";
+import Users from "../pages/Users";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   height: "100%",
@@ -175,6 +177,12 @@ const Sidebar = () => {
                     iconPosition="start"
                   />
                   <StyledTab
+                    value="users"
+                    label={!isSmallScreen && "Usuarios"}
+                    icon={<Group />}
+                    iconPosition="start"
+                  />
+                  <StyledTab
                     value="help"
                     label={!isSmallScreen && "Ayuda"}
                     icon={<Help />}
@@ -195,6 +203,7 @@ const Sidebar = () => {
       {value === "products" && <Products />}
       {value === "orders" && <Orders />}
       {value === "providers" && <Providers />}
+      {value === "users" && <Users />}
     </>
   );
 };
