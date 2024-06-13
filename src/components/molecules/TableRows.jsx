@@ -3,14 +3,13 @@ import { useTheme } from "@mui/material";
 import { IconButton, Tooltip } from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import { StyledTableCell, StyledTableRow } from "../../styles/StylesTable";
-import { sendNotification } from "@tauri-apps/api/notification";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { auxDelete } from "../../functions/auxDelete";
 import RenderModal from "../../functions/renderModal";
 import DeleteDialog from "../atoms/custom-ui/dialogs/DeleteDialog";
-import { Delete } from "@mui/icons-material";
+import DeleteSnackbar from "../atoms/custom-ui/snackbars/DeleteSnackbar";
 
 const isDetailTable = (currentTable) => {
   return (
@@ -35,11 +34,17 @@ const TableRows = ({
     ? Object.keys(data[0]).length - 1
     : null;
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [activeModal, setActiveModal] = useState(false);
-  const [modalProps, setModalProps] = useState({});
+  // Delete Dialog
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Delete Snackbar
+  const [deleteSnackProps, setDeleteSnackProps] = useState({});
+
+  // Detail Modal
+  const [activeModal, setActiveModal] = useState(false);
+  const [modalProps, setModalProps] = useState({});
 
   const handleDetails = (details) => {
     setModalProps({
@@ -60,7 +65,7 @@ const TableRows = ({
 
   const handleDelete = (id) => {
     setIdToDelete(id);
-    setOpenDialog(true);
+    setOpenDeleteDialog(true);
   };
 
   const confirmDelete = async (id) => {
@@ -70,14 +75,40 @@ const TableRows = ({
       await auxDelete({ currentTable, id });
       await fetchData();
 
-      sendNotification(`Eliminado producto con ID: ${id}`);
+      setDeleteSnackProps({
+        open: true,
+        currentTable,
+        id: idToDelete,
+        closeSnack: (event, reason) => {
+          if (reason === "clickaway") {
+            return;
+          }
+          setDeleteSnackProps((prevProps) => ({
+            ...prevProps,
+            open: false,
+          }));
+        },
+        severity: "success",
+      });
     } catch (error) {
-      sendNotification(
-        `Error al eliminar producto: Problemas de conexión al servidor`
-      );
+      setDeleteSnackProps({
+        open: true,
+        currentTable,
+        error,
+        closeSnack: (event, reason) => {
+          if (reason === "clickaway") {
+            return;
+          }
+          setDeleteSnackProps((prevProps) => ({
+            ...prevProps,
+            open: false,
+          }));
+        },
+        severity: "error",
+      });
     }
 
-    setOpenDialog(false);
+    setOpenDeleteDialog(false);
 
     setLoading(false);
   };
@@ -171,11 +202,12 @@ const TableRows = ({
       <DeleteDialog
         currentTable={currentTable}
         loading={loading}
-        open={openDialog}
-        closeDialog={() => setOpenDialog(false)}
+        open={openDeleteDialog}
+        closeDialog={() => setOpenDeleteDialog(false)}
         id={idToDelete}
         confirmAction={() => confirmDelete(idToDelete)}
       />
+      <DeleteSnackbar {...deleteSnackProps} />
     </>
   );
 };

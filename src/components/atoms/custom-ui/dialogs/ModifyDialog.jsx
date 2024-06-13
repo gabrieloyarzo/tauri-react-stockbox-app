@@ -10,46 +10,15 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-const texts = ({ currentTable, id }) => {
-  switch (currentTable) {
-    case "products":
-      return {
-        title: "Modificar producto",
-        text: `¿Está seguro que desea modificar el producto con ID: ${id}?`,
-      };
-      break;
-
-    case "orders":
-      return {
-        title: "Modificar pedido",
-        text: `¿Está seguro que desea modificar el pedido con ID: ${id}?`,
-      };
-
-    case "sales":
-      return {
-        title: "Modificar venta",
-        text: `¿Está seguro que desea modificar la venta con ID: ${id}?`,
-      };
-
-    default:
-      return {
-        title: "Acción no reconocida",
-        text: "El tipo de tabla o acción no coincide con ninguno especificado.",
-      };
-  }
-};
-
 const ModifyDialog = ({
-  currentTable,
   open,
   closeDialog,
-  id,
   confirmAction,
   loading,
+  title,
+  text,
 }) => {
   const theme = useTheme();
-
-  const { title, text } = texts({ currentTable, id });
 
   return (
     <Dialog open={open} onClose={closeDialog} maxWidth="sm">

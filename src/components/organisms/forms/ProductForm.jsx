@@ -14,8 +14,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { sendNotification } from "@tauri-apps/api/notification";
 import { validateProduct } from "../../../services/validation/productValidation";
-import ModifyDialog from "../../atoms/custom-ui/dialogs/ModifyDialog";
-import DiscardDialog from "../../atoms/custom-ui/dialogs/DiscardDialog";
 import { isEmptyObject } from "../../../functions/isEmptyObject";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -33,21 +31,19 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const ProductForm = ({
-  currentTable,
   mode,
   initialData,
   closeForm,
   fetchData,
   categories,
+  setDiscardDialogProps,
+  setModifyDialogProps,
+  setSnackProps,
 }) => {
   const theme = useTheme();
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [openModifyDialog, setOpenModifyDialog] = useState(false);
-  const [openDiscardDialog, setOpenDiscardDialog] = useState(false);
-
-  const idToModify = initialData?.idp ?? false;
 
   const [formData, setFormData] = useState({
     idp: initialData?.idp || "",
@@ -91,7 +87,17 @@ const ProductForm = ({
     });
 
     if (mode === "modify") {
-      setOpenModifyDialog(true);
+      setModifyDialogProps({
+        open: true,
+        confirmAction: () => confirmModify(formData.idp),
+        title: "Modificar producto",
+        text: `¿Está seguro que desea modificar el producto con ID: ${formData.idp}?`,
+        closeDialog: () =>
+          setModifyDialogProps((prevProps) => ({
+            ...prevProps,
+            open: false,
+          })),
+      });
     } else {
       try {
         setLoading(true);
@@ -99,16 +105,40 @@ const ProductForm = ({
         await ProductApi.createProduct(formData);
         await fetchData();
 
-        console.log("Data enviada:", formData);
-
-        sendNotification(`Creado producto con ID: ${formData.idp}`);
+        setSnackProps({
+          open: true,
+          closeSnack: (event, reason) => {
+            if (reason === "clickaway") {
+              return;
+            }
+            setSnackProps((prevProps) => ({
+              ...prevProps,
+              open: false,
+            }));
+          },
+          text: `Producto con ID: ${formData.idp} creado exitosamente`,
+          severity: "success",
+        });
 
         setLoading(false);
 
         closeForm();
       } catch (error) {
-        // alert(`Error al crear producto: ${error}`);
-        sendNotification(`Se produjo un error: ${error.message}`);
+
+        setSnackProps({
+          open: true,
+          closeSnack: (event, reason) => {
+            if (reason === "clickaway") {
+              return;
+            }
+            setSnackProps((prevProps) => ({
+              ...prevProps,
+              open: false,
+            }));
+          },
+          text: `Error al crear producto: ${error.message}`,
+          severity: "error",
+        });
 
         setLoading(false);
       }
@@ -117,23 +147,53 @@ const ProductForm = ({
 
   const confirmModify = async (id) => {
     try {
-      setLoading(true);
+      setModifyDialogProps((prevProps) => ({
+        ...prevProps,
+        loading: true,
+      }));
 
       await ProductApi.updateProduct(id, formData);
       await fetchData();
 
-      sendNotification(`Modificado producto con ID: ${id}`);
-
-      setLoading(false);
+      setSnackProps({
+        open: true,
+        closeSnack: (event, reason) => {
+          if (reason === "clickaway") {
+            return;
+          }
+          setSnackProps((prevProps) => ({
+            ...prevProps,
+            open: false,
+          }));
+        },
+        text: `Producto con ID: ${formData.idp} modificado exitosamente`,
+        severity: "success",
+      });
 
       closeForm();
     } catch (error) {
-      setLoading(false);
-      // alert(`Error al modificar producto: ${error}`);
-      sendNotification(
-        `Hubo un error, asegúrate de no ingresar caracteres especiales y no repetir ID`
-      );
+
+      setSnackProps({
+        open: true,
+        closeSnack: (event, reason) => {
+          if (reason === "clickaway") {
+            return;
+          }
+          setSnackProps((prevProps) => ({
+            ...prevProps,
+            open: false,
+          }));
+        },
+        text: `Error al modificar producto: ${error.message}`,
+        severity: "error",
+      });
     }
+
+    setModifyDialogProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+      loading: false,
+    }));
   };
 
   return (
@@ -331,19 +391,6 @@ const ProductForm = ({
           </Box>
         </form>
       </Box>
-      <ModifyDialog
-        currentTable={currentTable}
-        loading={loading}
-        open={openModifyDialog}
-        closeDialog={() => setOpenModifyDialog(false)}
-        id={idToModify}
-        confirmAction={() => confirmModify(idToModify)}
-      />
-      <DiscardDialog
-        open={openDiscardDialog}
-        closeDialog={() => setOpenDiscardDialog(false)}
-        confirmAction={closeForm}
-      />
     </>
   );
 };
