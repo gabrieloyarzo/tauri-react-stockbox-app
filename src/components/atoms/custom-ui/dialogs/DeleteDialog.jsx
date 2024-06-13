@@ -17,26 +17,31 @@ const texts = ({ currentTable, id }) => {
         title: "Eliminar producto",
         text: `¿Está seguro que desea eliminar el producto con ID: ${id}?`,
       };
-      break;
-
     case "orders":
       return {
         title: "Eliminar pedido",
         text: `¿Está seguro que desea eliminar el pedido con ID: ${id}?`,
       };
-
     case "sales":
       return {
         title: "Eliminar venta",
         text: `¿Está seguro que desea eliminar la venta con ID: ${id}?`,
       };
-
     case "providers":
       return {
         title: "Eliminar proveedor",
         text: `¿Está seguro que desea eliminar el proveedor con RUT: ${id}?`,
       };
-
+    case "users":
+      return {
+        title: "Eliminar usuario",
+        text: `¿Está seguro que desea eliminar el usuario con RUT: ${id}?`,
+      };
+    case "refunds":
+      return {
+        title: "Eliminar devolución",
+        text: `¿Está seguro que desea eliminar la devolución con ID: ${id}?`,
+      };
     default:
       return {
         title: "Acción no reconocida",

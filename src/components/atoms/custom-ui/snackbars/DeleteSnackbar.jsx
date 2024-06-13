@@ -37,6 +37,12 @@ const defineText = ({ currentTable, id, error, severity }) => {
       } else {
         return `Proveedor con RUT: ${id} eliminado exitosamente`;
       }
+    case "users":
+      if (severity === "error") {
+        return `Error al eliminar usuario: ${error.message}`;
+      } else {
+        return `Usuario con RUT: ${id} eliminado exitosamente`;
+      }
 
     default:
       return "El tipo de tabla o acción no coincide con ninguno especificado.";
