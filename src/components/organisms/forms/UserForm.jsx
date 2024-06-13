@@ -75,9 +75,9 @@ const UserForm = ({
     if (mode === "modify") {
       setModifyDialogProps({
         open: true,
-        confirmAction: () => confirmModify(formData.rutu),
+        confirmAction: () => confirmModify(),
         title: "Modificar usuario",
-        text: `¿Está seguro que desea modificar el usuario con RUT: ${formData.rutu}?`,
+        text: `¿Está seguro que desea modificar el usuario con RUT: ${initialData.rutu}?`,
         closeDialog: () =>
           setModifyDialogProps((prevProps) => ({
             ...prevProps,
@@ -121,7 +121,7 @@ const UserForm = ({
               open: false,
             }));
           },
-          text: `Error al crear usuario: ${error.message}`,
+          text: `Error al crear usuario: ${error.response.data.message}`,
           severity: "error",
         });
 
@@ -130,14 +130,14 @@ const UserForm = ({
     }
   };
 
-  const confirmModify = async (id) => {
+  const confirmModify = async () => {
     try {
       setModifyDialogProps((prevProps) => ({
         ...prevProps,
         loading: true,
       }));
 
-      await UserApi.updateUser(id, formData);
+      await UserApi.updateUser(initialData.rutu, formData);
       await fetchData();
 
       setSnackProps({
@@ -168,7 +168,7 @@ const UserForm = ({
             open: false,
           }));
         },
-        text: `Error al modificar usuario: ${error.message}`,
+        text: `Error al modificar usuario: ${error.response.data.message}`,
         severity: "error",
       });
     }
@@ -190,7 +190,7 @@ const UserForm = ({
           maxHeight: "90vh",
           top: "50%",
           left: "50%",
-          transform: "translate(-25%, -50%)",
+          transform: "translate(-50%, -50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

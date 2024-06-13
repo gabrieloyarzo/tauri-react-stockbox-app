@@ -199,7 +199,7 @@ const ProductForm = ({
           maxWidth: "600px",
           maxHeight: "90vh",
           top: "50%",
-          left: "60%",
+          left: "50%",
           transform: "translate(-50%, -50%)",
           display: "flex",
           flexDirection: "column",

@@ -10,9 +10,9 @@ const OrderDetails = ({ data, closeModal }) => {
     <Box
       sx={{
         position: "absolute",
+        top: "50%",
         left: "50%",
-        transform: "translateX(-25%)",
-        top: "10%",
+        transform: "translate(-50%, -50%)",
         width: "80vw",
         maxWidth: "600px",
         maxHeight: "90vh",
