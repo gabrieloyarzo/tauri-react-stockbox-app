@@ -6,7 +6,6 @@ const ProductApi = {
   async getAllProducts() {
     try {
       const response = await axios.get(`${API_URL}`);
-      console.log(response)
       return response.data;
     } catch (error) {
       console.error("Error al obtener productos:", error);

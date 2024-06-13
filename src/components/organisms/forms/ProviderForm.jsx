@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import ProductApi from "../../../services/api/product.service";
+import ProviderApi from "../../../services/api/provider.service";
 import {
   Button,
   TextField,
   Box,
   Typography,
-  Autocomplete,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
-import { validateProduct } from "../../../services/validation/productValidation";
+import { validateProvider } from "../../../services/validation/providerValidation";
 import { isEmptyObject } from "../../../functions/isEmptyObject";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -29,28 +28,28 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const ProductForm = ({
+const ProviderForm = ({
   mode,
   initialData,
   closeForm,
   fetchData,
-  categories,
   setDiscardDialogProps,
   setModifyDialogProps,
   setSnackProps,
 }) => {
   const theme = useTheme();
 
+  initialData && console.log("Data inicial:", initialData)
+
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
-    idp: initialData?.idp || "",
+    rutp: initialData?.rutp || "",
     nombre: initialData?.nombre || "",
-    cat: initialData?.cat || "",
-    cit: initialData?.cit || "",
-    mCit: initialData?.mCit || "",
-    precio: initialData?.precio || "",
+    lugar: initialData?.lugar || "",
+    numero: initialData?.numero || "",
+    tipo: initialData?.tipo || "",
   });
 
   const handleChange = (e) => {
@@ -67,7 +66,7 @@ const ProductForm = ({
       return;
     }
 
-    const newErrors = validateProduct(formData);
+    const newErrors = validateProvider(formData);
 
     // Verificar si hay errores
     if (Object.keys(newErrors).length > 0) {
@@ -77,7 +76,7 @@ const ProductForm = ({
     }
 
     Object.keys(formData).forEach((key) => {
-      key === "cit" || key === "mCit" || key === "precio"
+      key === "numero"
         ? (formData[key] = parseInt(formData[key]))
         : (formData[key] = formData[key].trim());
     });
@@ -85,9 +84,9 @@ const ProductForm = ({
     if (mode === "modify") {
       setModifyDialogProps({
         open: true,
-        confirmAction: () => confirmModify(formData.idp),
-        title: "Modificar producto",
-        text: `¿Está seguro que desea modificar el producto con ID: ${formData.idp}?`,
+        confirmAction: () => confirmModify(formData.rutp),
+        title: "Modificar proveedor",
+        text: `¿Está seguro que desea modificar el proveedor con RUT: ${formData.rutp}?`,
         closeDialog: () =>
           setModifyDialogProps((prevProps) => ({
             ...prevProps,
@@ -98,7 +97,7 @@ const ProductForm = ({
       try {
         setLoading(true);
 
-        await ProductApi.createProduct(formData);
+        await ProviderApi.createProvider(formData);
         await fetchData();
 
         setSnackProps({
@@ -112,7 +111,7 @@ const ProductForm = ({
               open: false,
             }));
           },
-          text: `Producto con ID: ${formData.idp} creado exitosamente`,
+          text: `Proveedor con RUT: ${formData.rutp} creado exitosamente`,
           severity: "success",
         });
 
@@ -131,7 +130,7 @@ const ProductForm = ({
               open: false,
             }));
           },
-          text: `Error al crear producto: ${error.message}`,
+          text: `Error al crear proveedor: ${error.message}`,
           severity: "error",
         });
 
@@ -147,7 +146,7 @@ const ProductForm = ({
         loading: true,
       }));
 
-      await ProductApi.updateProduct(id, formData);
+      await ProviderApi.updateProvider(id, formData);
       await fetchData();
 
       setSnackProps({
@@ -161,7 +160,7 @@ const ProductForm = ({
             open: false,
           }));
         },
-        text: `Producto con ID: ${formData.idp} modificado exitosamente`,
+        text: `Proveedor con RUT: ${formData.rutp} modificado exitosamente`,
         severity: "success",
       });
 
@@ -178,7 +177,7 @@ const ProductForm = ({
             open: false,
           }));
         },
-        text: `Error al modificar producto: ${error.message}`,
+        text: `Error al modificar proveedor: ${error.message}`,
         severity: "error",
       });
     }
@@ -226,7 +225,7 @@ const ProductForm = ({
             variant="h5"
             sx={{ color: "#ffffff", textAlign: "center", fontWeight: "bold" }}
           >
-            {mode === "modify" ? "Modificar producto" : "Registrar producto"}
+            {mode === "modify" ? "Modificar proveedor" : "Registrar proveedor"}
           </Typography>
         </Box>
 
@@ -242,12 +241,12 @@ const ProductForm = ({
             }}
           >
             <StyledTextField
-              label="ID del producto"
-              name="idp"
-              value={formData.idp}
+              label="RUT del proveedor"
+              name="rutp"
+              value={formData.rutp}
               onChange={handleChange}
-              error={!!errors.idp}
-              helperText={errors.idp}
+              error={!!errors.rutp}
+              helperText={errors.rutp}
               inputProps={{
                 maxLength: 20,
               }}
@@ -263,70 +262,35 @@ const ProductForm = ({
                 maxLength: 20,
               }}
             />
-            <Autocomplete
-              sx={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                "& .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.contrastText,
-                },
-              }}
-              options={categories}
-              value={formData.cat}
-              freeSolo
-              onChange={(event, newValue) => {
-                handleChange({
-                  target: { name: "cat", value: newValue },
-                });
-              }}
-              renderInput={(params) => (
-                <StyledTextField
-                  {...params}
-                  label="Categoría"
-                  name="cat"
-                  value={formData.cat}
-                  onChange={handleChange}
-                  error={!!errors.cat}
-                  helperText={errors.cat}
-                  inputProps={{
-                    ...params.inputProps,
-                    maxLength: 20,
-                  }}
-                />
-              )}
-            />
-
             <StyledTextField
-              label="Cantidad"
-              name="cit"
-              value={formData.cit}
+              label="Dirección"
+              name="lugar"
+              value={formData.lugar}
               onChange={handleChange}
-              error={!!errors.cit}
-              helperText={errors.cit}
+              error={!!errors.lugar}
+              helperText={errors.lugar}
               inputProps={{
                 maxLength: 20,
               }}
             />
             <StyledTextField
-              label="Cantidad mínima"
-              name="mCit"
-              value={formData.mCit}
+              label="Teléfono"
+              name="numero"
+              value={formData.numero}
               onChange={handleChange}
-              error={!!errors.mCit}
-              helperText={errors.mCit}
+              error={!!errors.numero}
+              helperText={errors.numero}
               inputProps={{
                 maxLength: 20,
               }}
             />
             <StyledTextField
-              label="Precio"
-              name="precio"
-              value={formData.precio}
+              label="Tipo"
+              name="tipo"
+              value={formData.tipo}
               onChange={handleChange}
-              error={!!errors.precio}
-              helperText={errors.precio}
+              error={!!errors.tipo}
+              helperText={errors.tipo}
               inputProps={{
                 maxLength: 20,
               }}
@@ -404,4 +368,4 @@ const ProductForm = ({
   );
 };
 
-export default ProductForm;
+export default ProviderForm;

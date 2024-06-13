@@ -16,6 +16,7 @@ import {
 import { styled } from "@mui/material/styles";
 import Orders from "../pages/Orders";
 import Products from "../pages/Products";
+import Providers from "../pages/Providers";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   height: "100%",
@@ -193,6 +194,7 @@ const Sidebar = () => {
       </Grid>
       {value === "products" && <Products />}
       {value === "orders" && <Orders />}
+      {value === "providers" && <Providers />}
     </>
   );
 };

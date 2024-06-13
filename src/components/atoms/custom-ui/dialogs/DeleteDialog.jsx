@@ -31,6 +31,12 @@ const texts = ({ currentTable, id }) => {
         text: `¿Está seguro que desea eliminar la venta con ID: ${id}?`,
       };
 
+    case "providers":
+      return {
+        title: "Eliminar proveedor",
+        text: `¿Está seguro que desea eliminar el proveedor con RUT: ${id}?`,
+      };
+
     default:
       return {
         title: "Acción no reconocida",

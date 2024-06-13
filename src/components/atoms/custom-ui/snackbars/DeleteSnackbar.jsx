@@ -31,6 +31,12 @@ const defineText = ({ currentTable, id, error, severity }) => {
       } else {
         return `Devolución con ID: ${id} eliminada exitosamente`;
       }
+    case "providers":
+      if (severity === "error") {
+        return `Error al eliminar proveedor: ${error.message}`;
+      } else {
+        return `Proveedor con RUT: ${id} eliminado exitosamente`;
+      }
 
     default:
       return "El tipo de tabla o acción no coincide con ninguno especificado.";
