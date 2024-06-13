@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+  }
+  
+  body {
+    background-color: #f5f5f5;
+    overflow-y: hidden;
+  }
+  
+  
+  /*BARRA SUPERIOR*/
+  .container-sup {
+    height: 60px;
+    background-color: #292929;
+    display: flex;
+    align-items: center;
+  
+  }
+  
+  h1 {
+    background-color: #292929;
+    color: aliceblue;
+    flex: 1;
+    /* El título ocupará todo el espacio restante */
+    margin-right: 20px;
+    /* Margen a la derecha para separar la imagen */
+  }
+  
+  img {
+    width: 150px;
+    /* Ajusta la imagen al ancho del contenedor */
+    height: auto;
+    /* Mantiene la proporción de la imagen */
+  }
+  
+  /*FIN DE BARRA SUPERIOR*/
+  
+  
+  
+  
+  
+  /*MENU LATERAL*/
+  
+  .cont-menu {
+    width: 200px; /* Ancho completo del menú lateral */
+    max-width: 200px;
+    background-color: #292929;
+    height: 100vh;
+    position: absolute;
+    transition: width 0.5s ease;
+  }
+  
+  .cont-menu nav {
+    transform: translateY(15%);
+  }
+
+  .cont-menu nav a {
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    color: aliceblue;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;
+    position: relative;
+  }
+
+  .cont-menu nav a:hover {
+    border-left: 5px solid #c7c7c7;
+    background-color: #1f1f1f;
+  }
+
+  
+  /*FIN DEL MENU LATERAL*/
+  
+  /*BOTON FLOTANTE*/
+  #boton-flotante {
+    font-family: 'Material Symbols Outlined';
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #292929;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    /* box-shadow: 2px 2px 3px #999;*//* Sombra*/
+    cursor: pointer;
+  }
+  
+  #boton-flotante:hover {
+    background-color: #F9B872;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  /*FIN DEL BOTON FLOTANTE*/

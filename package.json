@@ -1,0 +1,30 @@
+{
+  "name": "stockbox",
+  "version": "1.0.0",
+  "main": "./src/main.jsx",
+  "author": "Katia Arévalo, Dabor Martínez, Sebastián Molina, Nicolás Muñoz, Gabriel Oyarzo, Nicolás Villanueva",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "test": "vitest",
+    "build": "vite build",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/material": "^5.15.18",
+    "@tauri-apps/api": "^1",
+    "axios": "^1.7.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.12",
+    "vitest": "^1.5.0"
+  }
+}

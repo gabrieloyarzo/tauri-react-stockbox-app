@@ -1,0 +1,94 @@
+#ventana_flotante {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+body {
+    font-family: 'Nunito', sans-serif; 
+}
+
+.titulo {
+    background-color: #292929;
+    color: #43C8D0;
+    padding: 20px 20px;
+    margin: 1;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.contenido {
+    padding: 20px 0;
+}
+
+.fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.centrado {
+    justify-content: center;
+}
+
+.etiqueta {
+    flex: 0.6;
+    margin-right: 1px;
+    font-weight: bold; 
+}
+
+input {
+    flex: 0;
+    padding: 9px;
+    border: 1.5px solid #000000;
+    color: #00000080;
+    border-radius: 3%;
+    font-size: 13px;
+}
+
+.input_producto {
+    flex: 0.5; 
+    padding: 8px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input_cantidad {
+    width: 50px; 
+    padding: 8px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.unidad {
+    margin-left: 4px;
+    color: #0000008f;
+    font-weight: bold; 
+}
+
+.total {
+    flex: 0; 
+    text-align: center;
+    color: #0000008f;
+    font-weight: bold; 
+}
+
+.cerrar-btn {
+    background-color: #F9B872;
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

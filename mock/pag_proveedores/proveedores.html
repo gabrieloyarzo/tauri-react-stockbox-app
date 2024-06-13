@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="proveedores.css">
+  <link rel="stylesheet" href="flot_datos_del_pedido.css">
+  <link rel="stylesheet" href="flot_registro_del_pedido.css"> <!-- Hoja de estilos para la ventana flotante -->
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div class="container-sup">
+    <img src="img_pag/logo_prototipo.png" alt="Imagen">
+    <h1 id="sup-text">Proveedores</h1>
+  </div>
+
+  <div class="container-menu">
+    <div class="cont-menu">
+      <nav>
+        <div id="contenedor-button">
+          <a id="proveedores" href="#">Proveedores</a>
+          <a id="registro-ventas" href="#">Registro de Ventas</a>
+          <a id="productos" href="#">Productos</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div id="boton-flotante" class="material-symbols-outlined">+</div>
+
+  <!-- Contenedor de la ventana flotante, inicialmente oculto -->
+  <div id="ventana_flotante" style="display: none;">
+    <div class="titulo">
+      Registro del Pedido
+    </div>
+    <!-- Contenido de la ventana flotante / Code gabriel -->
+    
+    <div id="ventana_flotante">
+        <div class="titulo">
+            Registro del Pedido
+        </div>
+        <div class="contenido">
+            <div class="fila centrado">
+                <div class="etiqueta">RUT de la Empresa:</div>
+                <input type="text" class="input" value="20.655.222-2">
+            </div>
+            <div class="fila centrado">
+                <div class="etiqueta">Área del pedido:</div>
+            </div>
+            <div class="fila">
+                <div class="titulo_producto">ID del Producto</div>
+                <div class="titulo_cantidad">Cantidad</div>
+                <div class="titulo_total">Total</div>
+            </div>
+            <div class="fila">
+                <input type="text" class="input_producto" value="Nombre">
+                <div class="cantidad">
+                    <input type="number" class="input_cantidad" value="1">
+                    <span class="unidad">x 1000</span>
+                </div>
+                <div class="total">$5.000</div>
+            </div>
+            <div class="fila">
+                <div class="botones">
+                    <button class="boton-anadir">Añadir</button>
+                    <button class="boton-cancelar">Cancelar</button>
+                </div>
+            </div>
+            <div class="fila">
+                <div class="total" style="border-top: 2px solid #000;">Total</div>
+                <div class="total" style="border-top: 2px solid #000;">$15.000</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="cerrar-btn" onclick="cerrarVentana()">Cerrar</button>
+            <button class="guardar-btn">Guardar</button>
+        </div>
+    </div>
+
+    <!-- Fin Contenido de la ventana flotante / Code gabriel -->
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="cerrar-btn" onclick="cerrarVentana()">Cerrar</button>
+      <button class="guardar-btn">Guardar</button>
+    </div>
+  </div>
+
+  <script src="test.js"></script> 
+
+</body>
+
+</html>

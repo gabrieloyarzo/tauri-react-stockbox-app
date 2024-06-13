@@ -1,0 +1,137 @@
+/* Cambiar por code gabriel */
+
+#ventana_flotante {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 600px; 
+    max-height: 80vh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#ventana_flotante .contenido {
+    margin: 0; 
+}
+
+body {
+    font-family: 'Nunito', sans-serif; 
+}
+
+.titulo {
+    background-color: #292929;
+    color: #43C8D0;
+    padding: 20px 20px;
+    margin: 1;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.contenido {
+    padding: 20px 0;
+}
+
+.fila {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.centrado {
+    justify-content: center;
+}
+
+.etiqueta {
+    flex: 0.6;
+    margin-right: 1px;
+    font-weight: bold; 
+}
+
+input {
+    flex: 0;
+    padding: 9px;
+    border: 1.5px solid #000000;
+    color: #00000080;
+    border-radius: 3%;
+    font-size: 13px;
+}
+
+.input_producto {
+    flex: 0.5; 
+    padding: 8px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input_cantidad {
+    width: 50px; 
+    padding: 8px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 15px;
+    
+}
+
+.unidad {
+    margin-left: 4px;
+    color: #0000008f;
+    font-weight: bold; 
+}
+
+.total {
+    flex: 0; 
+    text-align: center;
+    color: #0000008f;
+    font-weight: bold; 
+}
+
+.boton-anadir {
+    background-color: #40B4BB;
+    font-weight: bold;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 10px; 
+}
+
+.boton-cancelar {
+    background-color: #fff;
+    font-weight: bold;
+    color: #000000d5;
+    padding: 7.5px 10px;
+    border: 1.5px solid #00000065;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); */
+}
+
+.cerrar-btn {
+    background-color: #F9B872;
+    color: #000000;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.guardar-btn {
+    background-color: #F9B872;
+    color: #000;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 30px;
+}

@@ -1,0 +1,161 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+body {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+ 
+
+
+/*MENU LATERAL*/
+
+.cont-menu {
+  width: 100%;
+  max-width: 200px;
+  background-color: #292929;
+  min-height: 100vh;
+  position: absolute;
+  left: 0;
+  transition: all 500ms ease;
+}
+
+.cont-menu nav {
+  transform: translateY(15%);
+}
+
+
+.cont-menu img{
+  border-radius: 50%;
+  background-color: white;
+  width: 40px;
+}
+
+.cont-menu h1 {
+  padding: 10px;
+}
+
+.cont-menu nav a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 20px;
+  color: #c7c7c7;
+  border-left: 5px solid transparent;
+  border-bottom: 1px solid #c7c7c7;
+  transition: all 400ms ease;
+
+}
+
+.cont-menu nav a:hover {
+  border-left: 5px solid #c7c7c7;
+  background-color: #1f1f1f;
+}
+
+
+
+.img-border{
+  float: right;
+  margin-right: 10px; 
+  padding: 5px;
+  cursor: pointer;
+
+}
+.img-border:hover{
+  border: #c7c7c7 solid; 
+
+}
+
+
+
+/*FIN DEL MENU LATERAL*/
+
+
+
+
+.contenedor {
+  width: 1200px;
+  margin: auto;
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  /* margin-left: 200px; */
+}
+
+.contenedor-botones {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.contenedor-botones button {
+  background-color: #f5f5f5;
+  border: 2px solid #262626;
+  border-radius: 10px;
+  color: #000000;
+  height: 135px;
+  width: 320px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+
+.contenedor-botones button:hover {
+  background-color: #c8c8c8;
+  color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-botones img {
+  width: 50px;
+}
+
+
+
+.contenedor-sup h1 {
+  /* font-size: 58px; */
+  font-size: 75px;
+  font-family: Arial;
+  font-weight: 500;
+  /* text-transform: uppercase; */
+  color: #000000;
+  border: 0;
+}
+
+#logo{
+  width: 250px;
+  padding-right: 50px;
+}
+
+
+
+.contenedor-sup{
+  display: flex;
+  align-items: center;
+  padding: 75px 0;
+}
+
+
+
+
+
+
+
+
