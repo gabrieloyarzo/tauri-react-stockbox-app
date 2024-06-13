@@ -57,11 +57,11 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
   const theme = useTheme();
 
   const initialRow = {
-    id_pedido: "",
-    id_producto: "",
-    cantidad: "",
-    precio_unidad: "",
-    precio_total: "0",
+    ido: "",
+    idp: "",
+    cit: "",
+    precio: "",
+    suma: "0",
   };
 
   const [formData, setFormData] = useState(
@@ -69,21 +69,21 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
       ? {
           ...initialData,
           fecha: new Date().toISOString(),
-          detalle_pedido: initialData.detalle_pedido.length
-            ? initialData.detalle_pedido
+          order_details: initialData.order_details.length
+            ? initialData.order_details
             : [initialRow],
         }
       : {
-          id_pedido: "",
-          rut_proveedor: "",
-          rut_usuario: "123456789",
+          ido: "",
+          rutp: "",
+          rutu: "123456789",
           fecha: new Date().toISOString(),
-          compra_total: "",
-          detalle_pedido: [initialRow],
+          total: "",
+          order_details: [initialRow],
         }
   );
 
-  const [orderItems, setOrderItems] = useState(formData.detalle_pedido);
+  const [orderItems, setOrderItems] = useState(formData.order_details);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -102,18 +102,18 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
           ? {
               ...row,
               [name]: value,
-              precio_total:
-                name === "cantidad" || name === "precio_unidad"
-                  ? name === "cantidad"
+              suma:
+                name === "cit" || name === "precio"
+                  ? name === "cit"
                     ? !isNaN(value) && value.trim() !== ""
-                      ? parseInt(value) * row.precio_unidad
+                      ? parseInt(value) * row.precio
                       : 0
-                    : name === "precio_unidad"
+                    : name === "precio"
                     ? !isNaN(value) && value.trim() !== ""
-                      ? parseInt(value) * row.cantidad
+                      ? parseInt(value) * row.cit
                       : 0
                     : 0
-                  : row.precio_total,
+                  : row.suma,
             }
           : row
       )
@@ -126,16 +126,14 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
     setOrderItems(
       orderItems.map((row) => ({
         ...row,
-        id_pedido: formData.id_pedido,
+        ido: formData.ido,
       }))
     );
 
     setFormData({
       ...formData,
-      detalle_pedido: orderItems,
+      order_details: orderItems,
     });
-
-    console.log("Form Data:", formData);
   };
 
   const addOrderItem = () => {
@@ -151,7 +149,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
   };
 
   const total = orderItems.reduce(
-    (acc, item) => acc + item.cantidad * item.precio_unidad,
+    (acc, item) => acc + item.cit * item.precio,
     0
   );
 
@@ -201,14 +199,14 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
           <Stack alignItems="center" width="30%" p={1}>
             <StyledTextField
               label="ID del pedido"
-              name="id_pedido"
-              value={formData.id_pedido}
+              name="ido"
+              value={formData.ido}
               onChange={handleChange}
             />
             <StyledTextField
               label="RUT de empresa"
               name="rut_empresa"
-              value={formData.rut_proveedor}
+              value={formData.rutp}
               onChange={handleChange}
             />
           </Stack>
@@ -282,10 +280,10 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
                     },
                   }}
                   options={products}
-                  name="id_producto"
+                  name="idp"
                   value={
                     products.find(
-                      (product) => product.idp === row.id_producto
+                      (product) => product.idp === row.idp
                     ) || null
                   }
                   getOptionLabel={(option) => option.idp}
@@ -293,7 +291,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
                   onChange={(event, newValue) =>
                     handleChangeItem(index, {
                       target: {
-                        name: "id_producto",
+                        name: "idp",
                         value: newValue ? newValue.idp : "",
                       },
                     })
@@ -311,8 +309,8 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
                   renderInput={(params) => (
                     <OrderTextField
                       {...params}
-                      error={!!errors.id_producto}
-                      helperText={errors.id_producto}
+                      error={!!errors.idp}
+                      helperText={errors.idp}
                       InputProps={{
                         ...params.InputProps,
                         sx: { width: "100%" },
@@ -322,12 +320,12 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
                 />
 
                 <OrderTextField
-                  name="cantidad"
-                  value={row.cantidad}
+                  name="cit"
+                  value={row.cit}
                   onChange={(e) => handleChangeItem(index, e)}
                   type="number"
-                  error={!!errors.cantidad}
-                  helperText={errors.cantidad}
+                  error={!!errors.cit}
+                  helperText={errors.cit}
                   sx={{ alignItems: "center", flex: 1 }}
                   InputProps={{
                     sx: {
@@ -341,8 +339,8 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
                     x
                   </Typography>
                   <OrderTextField
-                    name="precio_unidad"
-                    value={row.precio_unidad}
+                    name="precio"
+                    value={row.precio}
                     onChange={(e) => handleChangeItem(index, e)}
                     type="number"
                     error={!!errors.precio}
@@ -360,7 +358,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
                   variant="body2"
                   sx={{ textAlign: "right", flex: 1 }}
                 >
-                  {`$ ${row.precio_total}`}
+                  {`$ ${row.suma}`}
                 </Typography>
 
                 <Box sx={{ flex: 0.3, marginLeft: 1 }}>

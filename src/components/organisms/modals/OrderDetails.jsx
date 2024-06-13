@@ -3,72 +3,6 @@ import { Stack } from "@mui/material"
 import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const or_data = {
-    id_pedido: "1",
-    rut_proveedor: "12345678-9",
-    rut_usuario: "98765432-1",
-    fecha: "2023-06-01",
-    compra_total: "150,000",
-    detalle_pedido: [
-      {
-        id_pedido: "1",
-        id_producto: "P101",
-        cantidad: 2,
-        precio_unidad: 5000,
-        precio_total: 4000000,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P102",
-        cantidad: 10,
-        precio_unidad: 50,
-        precio_total: 50,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P103",
-        cantidad: 100,
-        precio_unidad: 500,
-        precio_total: 500,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P104",
-        cantidad: 1000,
-        precio_unidad: 5000,
-        precio_total: 5000,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P105",
-        cantidad: 10,
-        precio_unidad: 5,
-        precio_total: 5,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P106",
-        cantidad: 19,
-        precio_unidad: 500000,
-        precio_total: 500000,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P107",
-        cantidad: 199,
-        precio_unidad: 500,
-        precio_total: 500,
-      },
-      {
-        id_pedido: "1",
-        id_producto: "P108",
-        cantidad: 19,
-        precio_unidad: 5000,
-        precio_total: 5000,
-      },
-    ],
-  }
-
 const OrderDetails = ({ data, closeModal }) => {
   const theme = useTheme();
 
@@ -104,25 +38,25 @@ const OrderDetails = ({ data, closeModal }) => {
             Total Venta:
           </Typography>
           <Typography variant="h4" sx={{ mb: 0, pl: 3, pb: 3 }}>
-            ${or_data.compra_total}
+            ${data.total}
           </Typography>
         </Box>
         <Box>
           <Typography sx={{ textAlign: "right", pr: 3}}>
-            Nº Pedido: {or_data.id_pedido}
+            Nº Pedido: {data.ido}
           </Typography>
           <Typography sx={{ textAlign: "right", pr: 3 }}>
-            Fecha: {or_data.fecha}
+            Fecha: {data.fecha}
           </Typography>
         </Box>
       </Box>
 
       <Box sx={{ p: 5 }}>
         <Typography>
-          <strong>RUT Proveedor:</strong> {or_data.rut_proveedor}
+          <strong>RUT Proveedor:</strong> {data.rutp}
         </Typography>
         <Typography>
-          <strong>RUT Usuario:</strong> {or_data.rut_usuario}
+          <strong>RUT Usuario:</strong> {data.rutu}
         </Typography>
 
         <hr style={{ borderTop: "1px solid black", marginBottom: "10px", marginTop: "15px" }} /> {/* LINEA */}
@@ -141,12 +75,12 @@ const OrderDetails = ({ data, closeModal }) => {
       <Box sx={{ maxHeight: "150px", overflowY: "auto" }}>
         <table style={{ width: "100%" }}>
           <tbody>
-            {or_data.detalle_pedido.map((item, index) => (
+            {data.order_details.map((item, index) => (
               <tr key={index}>
-                <td style={{ textAlign: "center", width: "25%" }}>{item.id_producto}</td>
-                <td style={{ textAlign: "center", width: "25%" }}>${item.precio_unidad}</td>
-                <td style={{ textAlign: "center", width: "25%" }}>{item.cantidad}</td>
-                <td style={{ textAlign: "center", width: "20%" }}>${item.precio_total}</td>
+                <td style={{ textAlign: "center", width: "25%" }}>{item.idp}</td>
+                <td style={{ textAlign: "center", width: "25%" }}>${item.precio}</td>
+                <td style={{ textAlign: "center", width: "25%" }}>{item.cit}</td>
+                <td style={{ textAlign: "center", width: "20%" }}>${item.suma}</td>
               </tr>
             ))}
           </tbody>
@@ -156,7 +90,7 @@ const OrderDetails = ({ data, closeModal }) => {
         <hr style={{ borderTop: "1px solid black", marginBottom: "15px",  marginTop: "20px" }} /> {/* LINEA */}
 
         <Typography variant="h6" sx={{ mt: 1, textAlign: "Right", marginRight: "25px", fontSize: "17px" }}>
-          Monto Total: ${or_data.compra_total}
+          Monto Total: ${data.total}
         </Typography>
       </Box>
 
