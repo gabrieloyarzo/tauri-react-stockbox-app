@@ -10,7 +10,6 @@ const Providers = () => {
 
   const fetchData = async () => {
     const providers = await ProviderApi.getAllProviders();
-    console.log("Proveedores data:", providers.data)
     setTableData(providers.data);
   };
 
@@ -29,13 +28,6 @@ const Providers = () => {
   // Snackbar
   const [openSnack, setOpenSnack] = useState(false);
   const [snackProps, setSnackProps] = useState({});
-
-  const closeSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return
-    }
-    setOpenSnack(false);
-  }
 
   return (
     <>

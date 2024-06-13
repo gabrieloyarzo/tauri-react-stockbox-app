@@ -13,6 +13,8 @@ const tableColumns = ({ currentTable }) => {
       return ["ID", "RUT del cliente", "RUT del usuario", "Fecha", "Venta total"];
     case "providers":
       return ["RUT del proveedor", "Nombre", "Dirección", "Teléfono", "Tipo"];
+    case "users":
+      return ["RUT del usuario", "Correo", "Contraseña", "Nombre", "Apellido"];
     default:
       return console.error("El tipo de tabla no coincide con ninguno especificado");
   }

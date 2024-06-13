@@ -43,13 +43,6 @@ const Orders = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [snackProps, setSnackProps] = useState({});
 
-  const closeSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnack(false);
-  };
-
   return (
     <>
       <MainLayout
