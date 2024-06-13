@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ProviderApi from "../../../services/api/provider.service";
-import {
-  Button,
-  TextField,
-  Box,
-  Typography,
-} from "@mui/material";
+import { Button, TextField, Box, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -39,7 +34,7 @@ const ProviderForm = ({
 }) => {
   const theme = useTheme();
 
-  initialData && console.log("Data inicial:", initialData)
+  initialData && console.log("Data inicial:", initialData);
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -62,6 +57,8 @@ const ProviderForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log("Proveedor submit data:", formData);
+
     if (JSON.stringify(formData) === JSON.stringify(initialData)) {
       return;
     }
@@ -76,9 +73,7 @@ const ProviderForm = ({
     }
 
     Object.keys(formData).forEach((key) => {
-      key === "numero"
-        ? (formData[key] = parseInt(formData[key]))
-        : (formData[key] = formData[key].trim());
+      formData[key] = formData[key].trim();
     });
 
     if (mode === "modify") {
@@ -198,8 +193,8 @@ const ProviderForm = ({
           maxWidth: "600px",
           maxHeight: "90vh",
           top: "50%",
-          left: "60%",
-          transform: "translate(-50%, -50%)",
+          left: "50%",
+          transform: "translate(-25%, -50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

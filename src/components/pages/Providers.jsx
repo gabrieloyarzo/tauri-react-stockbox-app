@@ -10,6 +10,7 @@ const Providers = () => {
 
   const fetchData = async () => {
     const providers = await ProviderApi.getAllProviders();
+    console.log("Proveedores data:", providers.data)
     setTableData(providers.data);
   };
 
