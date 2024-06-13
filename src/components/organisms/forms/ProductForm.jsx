@@ -85,9 +85,9 @@ const ProductForm = ({
     if (mode === "modify") {
       setModifyDialogProps({
         open: true,
-        confirmAction: () => confirmModify(formData.idp),
+        confirmAction: () => confirmModify(),
         title: "Modificar producto",
-        text: `¿Está seguro que desea modificar el producto con ID: ${formData.idp}?`,
+        text: `¿Está seguro que desea modificar el producto con ID: ${initialData.idp}?`,
         closeDialog: () =>
           setModifyDialogProps((prevProps) => ({
             ...prevProps,
@@ -131,7 +131,7 @@ const ProductForm = ({
               open: false,
             }));
           },
-          text: `Error al crear producto: ${error.message}`,
+          text: `Error al crear producto: ${error.response.data.message}`,
           severity: "error",
         });
 
@@ -140,14 +140,14 @@ const ProductForm = ({
     }
   };
 
-  const confirmModify = async (id) => {
+  const confirmModify = async () => {
     try {
       setModifyDialogProps((prevProps) => ({
         ...prevProps,
         loading: true,
       }));
 
-      await ProductApi.updateProduct(id, formData);
+      await ProductApi.updateProduct(initialData.idp, formData);
       await fetchData();
 
       setSnackProps({
@@ -178,7 +178,7 @@ const ProductForm = ({
             open: false,
           }));
         },
-        text: `Error al modificar producto: ${error.message}`,
+        text: `Error al modificar producto: ${error.response.data.message}`,
         severity: "error",
       });
     }

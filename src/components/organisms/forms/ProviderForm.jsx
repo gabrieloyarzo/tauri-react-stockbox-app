@@ -34,8 +34,6 @@ const ProviderForm = ({
 }) => {
   const theme = useTheme();
 
-  initialData && console.log("Data inicial:", initialData);
-
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -57,8 +55,6 @@ const ProviderForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("Proveedor submit data:", formData);
-
     if (JSON.stringify(formData) === JSON.stringify(initialData)) {
       return;
     }
@@ -79,9 +75,9 @@ const ProviderForm = ({
     if (mode === "modify") {
       setModifyDialogProps({
         open: true,
-        confirmAction: () => confirmModify(formData.rutp),
+        confirmAction: () => confirmModify(),
         title: "Modificar proveedor",
-        text: `¿Está seguro que desea modificar el proveedor con RUT: ${formData.rutp}?`,
+        text: `¿Está seguro que desea modificar el proveedor con RUT: ${initialData.rutp}?`,
         closeDialog: () =>
           setModifyDialogProps((prevProps) => ({
             ...prevProps,
@@ -125,7 +121,7 @@ const ProviderForm = ({
               open: false,
             }));
           },
-          text: `Error al crear proveedor: ${error.message}`,
+          text: `Error al crear proveedor: ${error.response.data.message}`,
           severity: "error",
         });
 
@@ -134,14 +130,14 @@ const ProviderForm = ({
     }
   };
 
-  const confirmModify = async (id) => {
+  const confirmModify = async () => {
     try {
       setModifyDialogProps((prevProps) => ({
         ...prevProps,
         loading: true,
       }));
 
-      await ProviderApi.updateProvider(id, formData);
+      await ProviderApi.updateProvider(initialData.rutp, formData);
       await fetchData();
 
       setSnackProps({
@@ -172,7 +168,7 @@ const ProviderForm = ({
             open: false,
           }));
         },
-        text: `Error al modificar proveedor: ${error.message}`,
+        text: `Error al modificar proveedor: ${error.response.data.message}`,
         severity: "error",
       });
     }
