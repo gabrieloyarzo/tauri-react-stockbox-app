@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Button,
@@ -53,11 +53,11 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
+const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => {
   const theme = useTheme();
 
   const initialRow = {
-    ido: "",
+    idpu: "",
     idp: "",
     cit: "",
     precio: "",
@@ -69,21 +69,21 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
       ? {
           ...initialData,
           fecha: new Date().toISOString(),
-          order_details: initialData.order_details.length
-            ? initialData.order_details
+          detalles: initialData.detalles.length
+            ? initialData.detalles
             : [initialRow],
         }
       : {
-          ido: "",
+          idpu: "",
           rutp: "",
           rutu: "123456789",
           fecha: new Date().toISOString(),
           total: "",
-          order_details: [initialRow],
+          detalles: [initialRow],
         }
   );
 
-  const [orderItems, setOrderItems] = useState(formData.order_details);
+  const [purchaseItems, setPurchaseItems] = useState(formData.detalles);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -96,8 +96,8 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
   const handleChangeItem = (index, e) => {
     const { name, value } = e.target;
 
-    setOrderItems(
-      orderItems.map((row, i) =>
+    setPurchaseItems(
+      purchaseItems.map((row, i) =>
         i === index
           ? {
               ...row,
@@ -123,32 +123,32 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setOrderItems(
-      orderItems.map((row) => ({
+    setPurchaseItems(
+      purchaseItems.map((row) => ({
         ...row,
-        ido: formData.ido,
+        idpu: formData.idpu,
       }))
     );
 
     setFormData({
       ...formData,
-      order_details: orderItems,
+      detalles: purchaseItems,
     });
   };
 
-  const addOrderItem = () => {
-    setOrderItems([...orderItems, { ...initialRow }]);
+  const addPurchaseItem = () => {
+    setPurchaseItems([...purchaseItems, { ...initialRow }]);
   };
 
-  const removeOrderItem = (index) => {
-    if (orderItems.length > 1) {
-      const newItems = [...orderItems];
+  const removePurchaseItem = (index) => {
+    if (purchaseItems.length > 1) {
+      const newItems = [...purchaseItems];
       newItems.splice(index, 1);
-      setOrderItems(newItems);
+      setPurchaseItems(newItems);
     }
   };
 
-  const total = orderItems.reduce(
+  const total = purchaseItems.reduce(
     (acc, item) => acc + item.cit * item.precio,
     0
   );
@@ -183,7 +183,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
         }}
       >
         <Typography variant="h5" sx={{ color: "#ffffff", fontWeight: "bold" }}>
-          {mode === "modify" ? "Modificar pedido" : "Registrar pedido"}
+          {mode === "modify" ? "Modificar compra" : "Registrar compra"}
         </Typography>
       </Box>
 
@@ -198,9 +198,9 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
         >
           <Stack alignItems="center" width="30%" p={1}>
             <StyledTextField
-              label="ID del pedido"
-              name="ido"
-              value={formData.ido}
+              label="ID de la compra"
+              name="idpu"
+              value={formData.idpu}
               onChange={handleChange}
             />
             <StyledTextField
@@ -269,7 +269,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
               maxHeight: "220px",
             }}
           >
-            {orderItems.map((row, index) => (
+            {purchaseItems.map((row, index) => (
               <StyledStack paddingBottom=".5%">
                 <Autocomplete
                   sx={{
@@ -363,7 +363,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
 
                 <Box sx={{ flex: 0.3, marginLeft: 1 }}>
                   <IconButton
-                    onClick={() => removeOrderItem(index)}
+                    onClick={() => removePurchaseItem(index)}
                     sx={{
                       width: 32,
                       height: 32,
@@ -397,7 +397,7 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
             >
               <Button
                 variant="contained"
-                onClick={addOrderItem}
+                onClick={addPurchaseItem}
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
@@ -477,4 +477,4 @@ const OrderForm = ({ mode, fetchData, closeForm, initialData, products }) => {
   );
 };
 
-export default OrderForm;
+export default PurchaseForm;

@@ -18,7 +18,7 @@ const Profile = () => {
     >
       <AccountCircle sx={{ fontSize: 50 }} />
       <Typography variant="h4" component="h2" gutterBottom>
-        Gabriel Oyarzo
+        Dabor Martínez
       </Typography>
       <Typography variant="h6" color="textSecondary">
         Administrador

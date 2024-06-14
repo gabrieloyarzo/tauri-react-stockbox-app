@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import OrderApi from "../../services/api/order.service";
+import PurchaseApi from "../../services/api/purchase.service";
 import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
 import FeedbackLayout from "../templates/FeedbackLayout";
-import OrderForm from "../organisms/forms/OrderForm";
-import mockOrders from "../../../mock/orderMocks";
+import PurchaseForm from "../organisms/forms/PurchaseForm";
+import mockPurchases from "../../../mock/purchaseMocks";
 
-const Orders = () => {
+const Purchases = () => {
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
 
   const fetchData = async () => {
-    // const orders = await OrderApi.getAllOrders();
-    const orders = mockOrders;
+    // const purchases = await PurchaseApi.getAllPurchases();
+    const purchases = mockPurchases;
     const products = await ProductApi.getAllProducts();
 
-    setTableData(orders);
+    setTableData(purchases);
     setProducts(products.data);
     setProducts([
       ...new Set(
@@ -46,7 +46,7 @@ const Orders = () => {
   return (
     <>
       <MainLayout
-        currentTable="orders"
+        currentTable="purchases"
         data={tableData}
         fetchData={fetchData}
         setFormProps={setFormProps}
@@ -58,7 +58,7 @@ const Orders = () => {
         snackProps={snackProps}
       />
       {openForm && (
-        <OrderForm
+        <PurchaseForm
           {...formProps}
           products={products}
           closeForm={() => setOpenForm(false)}
@@ -71,4 +71,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default Purchases;

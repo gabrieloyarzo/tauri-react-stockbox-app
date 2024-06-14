@@ -1,4 +1,4 @@
-import OrderForm from "../components/organisms/forms/OrderForm";
+import OrderForm from "../components/organisms/forms/PurchaseForm";
 import ProductForm from "../components/organisms/forms/ProductForm";
 
 const RenderForm = ({ currentTable, formProps }) => {

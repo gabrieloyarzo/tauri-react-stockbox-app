@@ -15,7 +15,7 @@ const isDetailTable = (currentTable) => {
   return (
     currentTable === "sales" ||
     currentTable === "refunds" ||
-    currentTable === "orders"
+    currentTable === "purchases"
   );
 };
 

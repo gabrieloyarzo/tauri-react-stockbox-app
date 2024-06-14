@@ -7,7 +7,7 @@ const tableColumns = ({ currentTable }) => {
   switch (currentTable) {
     case "products":
       return ["ID", "Nombre", "Categoría", "Cantidad", "Cantidad mínima", "Precio"];
-    case "orders":
+    case "purchases":
       return ["ID", "RUT del proveedor", "RUT del usuario", "Fecha", "Compra total"];
     case "sales":
       return ["ID", "RUT del cliente", "RUT del usuario", "Fecha", "Venta total"];

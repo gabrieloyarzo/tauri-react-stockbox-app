@@ -1,63 +1,63 @@
 // Datos mockeados para pedidos
-const mockOrders = [
+const mockPurchases = [
   {
-    ido: "1",
+    idpu: "1",
     rutp: "12345678-9",
     rutu: "98765432-1",
     fecha: "2023-06-01",
     total: "150,000",
-    order_details: [
+    detalles: [
       {
-        ido: "1",
+        idpu: "1",
         idp: "P101",
         cit: 2,
         precio: 5000,
         suma: 4000000,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P102",
         cit: 10,
         precio: 50,
         suma: 50,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P103",
         cit: 100,
         precio: 500,
         suma: 500,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P104",
         cit: 1000,
         precio: 5000,
         suma: 5000,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P105",
         cit: 10,
         precio: 5,
         suma: 5,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P106",
         cit: 19,
         precio: 500000,
         suma: 500000,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P107",
         cit: 199,
         precio: 500,
         suma: 500,
       },
       {
-        ido: "1",
+        idpu: "1",
         idp: "P108",
         cit: 19,
         precio: 5000,
@@ -66,14 +66,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 2,
+    idpu: 2,
     rutp: "22334455-6",
     rutu: "11223344-5",
     fecha: "2023-06-02",
     total: 200,
-    order_details: [
+    detalles: [
       {
-        ido: 2,
+        idpu: 2,
         idp: "P001",
         cit: 4,
         precio: 50,
@@ -82,14 +82,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 3,
+    idpu: 3,
     rutp: "33445566-7",
     rutu: "22334455-6",
     fecha: "2023-06-03",
     total: 300,
-    order_details: [
+    detalles: [
       {
-        ido: 3,
+        idpu: 3,
         idp: 301,
         cit: 3,
         precio: 100,
@@ -98,21 +98,21 @@ const mockOrders = [
     ],
   },
   {
-    ido: 4,
+    idpu: 4,
     rutp: "44556677-8",
     rutu: "33445566-7",
     fecha: "2023-06-04",
     total: 400,
-    order_details: [
+    detalles: [
       {
-        ido: 4,
+        idpu: 4,
         idp: 401,
         cit: 2,
         precio: 150,
         suma: 300,
       },
       {
-        ido: 4,
+        idpu: 4,
         idp: 402,
         cit: 2,
         precio: 50,
@@ -121,14 +121,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 5,
+    idpu: 5,
     rutp: "55667788-9",
     rutu: "44556677-8",
     fecha: "2023-06-05",
     total: 500,
-    order_details: [
+    detalles: [
       {
-        ido: 5,
+        idpu: 5,
         idp: 501,
         cit: 5,
         precio: 100,
@@ -137,14 +137,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 6,
+    idpu: 6,
     rutp: "66778899-0",
     rutu: "55667788-9",
     fecha: "2023-06-06",
     total: 600,
-    order_details: [
+    detalles: [
       {
-        ido: 6,
+        idpu: 6,
         idp: 601,
         cit: 3,
         precio: 200,
@@ -153,14 +153,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 7,
+    idpu: 7,
     rutp: "77889900-1",
     rutu: "66778899-0",
     fecha: "2023-06-07",
     total: 700,
-    order_details: [
+    detalles: [
       {
-        ido: 7,
+        idpu: 7,
         idp: 701,
         cit: 7,
         precio: 100,
@@ -169,14 +169,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 8,
+    idpu: 8,
     rutp: "88990011-2",
     rutu: "77889900-1",
     fecha: "2023-06-08",
     total: 800,
-    order_details: [
+    detalles: [
       {
-        ido: 8,
+        idpu: 8,
         idp: 801,
         cit: 4,
         precio: 200,
@@ -185,14 +185,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 9,
+    idpu: 9,
     rutp: "99001122-3",
     rutu: "88990011-2",
     fecha: "2023-06-09",
     total: 900,
-    order_details: [
+    detalles: [
       {
-        ido: 9,
+        idpu: 9,
         idp: 901,
         cit: 6,
         precio: 150,
@@ -201,14 +201,14 @@ const mockOrders = [
     ],
   },
   {
-    ido: 10,
+    idpu: 10,
     rutp: "10011223-4",
     rutu: "99001122-3",
     fecha: "2023-06-10",
     total: 1000,
-    order_details: [
+    detalles: [
       {
-        ido: 10,
+        idpu: 10,
         idp: 1001,
         cit: 10,
         precio: 100,
@@ -218,4 +218,4 @@ const mockOrders = [
   },
 ];
 
-export default mockOrders;
+export default mockPurchases;

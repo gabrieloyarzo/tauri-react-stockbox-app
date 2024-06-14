@@ -16,7 +16,7 @@ import {
   Group,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import Orders from "../pages/Orders";
+import Purchases from "../pages/Purchases";
 import Products from "../pages/Products";
 import Providers from "../pages/Providers";
 import Users from "../pages/Users";
@@ -153,8 +153,8 @@ const Sidebar = () => {
                     iconPosition="start"
                   />
                   <StyledTab
-                    value="orders"
-                    label={!isSmallScreen && "Pedidos"}
+                    value="purchases"
+                    label={!isSmallScreen && "Compras"}
                     icon={<LocalShipping />}
                     iconPosition="start"
                   />
@@ -209,7 +209,7 @@ const Sidebar = () => {
         </Box>
       </Grid>
       {value === "products" && <Products />}
-      {value === "orders" && <Orders />}
+      {value === "purchases" && <Purchases />}
       {value === "AccountCircle" && <Profile/>}
       {value === "providers" && <Providers />}
       {value === "users" && <Users />}

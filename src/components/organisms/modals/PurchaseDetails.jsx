@@ -3,7 +3,7 @@ import { Stack } from "@mui/material"
 import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const OrderDetails = ({ data, closeModal }) => {
+const PurchaseDetails = ({ data, closeModal }) => {
   const theme = useTheme();
 
   return (
@@ -43,7 +43,7 @@ const OrderDetails = ({ data, closeModal }) => {
         </Box>
         <Box>
           <Typography sx={{ textAlign: "right", pr: 3}}>
-            Nº Pedido: {data.ido}
+            Nº Pedido: {data.idpu}
           </Typography>
           <Typography sx={{ textAlign: "right", pr: 3 }}>
             Fecha: {data.fecha}
@@ -75,7 +75,7 @@ const OrderDetails = ({ data, closeModal }) => {
       <Box sx={{ maxHeight: "150px", overflowY: "auto" }}>
         <table style={{ width: "100%" }}>
           <tbody>
-            {data.order_details.map((item, index) => (
+            {data.detalles.map((item, index) => (
               <tr key={index}>
                 <td style={{ textAlign: "center", width: "25%" }}>{item.idp}</td>
                 <td style={{ textAlign: "center", width: "25%" }}>${item.precio}</td>
@@ -124,4 +124,4 @@ const OrderDetails = ({ data, closeModal }) => {
   );
 };
 
-export default OrderDetails;
+export default PurchaseDetails;

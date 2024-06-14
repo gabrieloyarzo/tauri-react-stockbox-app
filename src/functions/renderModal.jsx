@@ -1,10 +1,10 @@
 import SaleDetails from "../components/organisms/modals/SaleDetails";
-import OrderDetails from "../components/organisms/modals/OrderDetails";
+import PurchaseDetails from "../components/organisms/modals/PurchaseDetails";
 
 const RenderModal = ({ currentTable, modalProps }) => {
   switch (currentTable) {
-    case "orders":
-      return <OrderDetails {...modalProps} />;
+    case "purchases":
+      return <PurchaseDetails {...modalProps} />;
     case "sales":
       return <SaleDetails {...modalProps} />;
     default:

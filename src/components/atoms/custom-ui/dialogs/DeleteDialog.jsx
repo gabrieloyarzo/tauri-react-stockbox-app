@@ -17,10 +17,10 @@ const texts = ({ currentTable, id }) => {
         title: "Eliminar producto",
         text: `¿Está seguro que desea eliminar el producto con ID: ${id}?`,
       };
-    case "orders":
+    case "purchases":
       return {
-        title: "Eliminar pedido",
-        text: `¿Está seguro que desea eliminar el pedido con ID: ${id}?`,
+        title: "Eliminar compra",
+        text: `¿Está seguro que desea eliminar la compra con ID: ${id}?`,
       };
     case "sales":
       return {

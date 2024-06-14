@@ -1,6 +1,6 @@
 import ClientApi from "../services/api/client.service"
 import NotificationApi from "../services/api/notification.service";
-import OrderApi from "../services/api/order.service";
+import PurchaseApi from "../services/api/purchase.service";
 import ProductApi from "../services/api/product.service";
 import ProviderApi from "../services/api/provider.service";
 import RefundApi from "../services/api/refund.service";
@@ -15,8 +15,8 @@ export const auxDelete = async ({ currentTable, id }) => {
     case 'notifications':
       await NotificationApi.deleteNotification(id);
       break;
-    case 'orders':
-      await OrderApi.deleteOrder(id);
+    case 'purchases':
+      await PurchaseApi.deletePurchase(id);
       break;
     case 'products':
       await ProductApi.deleteProduct(id);

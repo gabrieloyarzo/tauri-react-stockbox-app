@@ -13,11 +13,11 @@ const defineText = ({ currentTable, id, error, severity }) => {
       } else {
         return `Producto con ID: ${id} eliminado exitosamente`;
       }
-    case "orders":
+    case "purchases":
       if (severity === "error") {
-        return `Error al eliminar pedido: ${error.message}`;
+        return `Error al eliminar compra: ${error.message}`;
       } else {
-        return `Pedido con ID: ${id} eliminado exitosamente`;
+        return `Compra con ID: ${id} eliminado exitosamente`;
       }
     case "sales":
       if (severity === "error") {
