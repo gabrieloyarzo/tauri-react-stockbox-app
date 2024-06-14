@@ -18,7 +18,6 @@ import {
 import { styled } from "@mui/material/styles";
 import Orders from "../pages/Orders";
 import Products from "../pages/Products";
-import Profile from "../pages/Profile";
 import Providers from "../pages/Providers";
 import Users from "../pages/Users";
 
@@ -53,7 +52,6 @@ const Sidebar = () => {
 
   return (
     <>
-    <Profile />
       <Grid item xs={2} md={2.75}>
         <Box
           sx={{

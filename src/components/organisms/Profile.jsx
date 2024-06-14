@@ -5,7 +5,7 @@ import { AccountCircle } from "@mui/icons-material";
 const Profile = () => {
   return (
     <Box 
-      position="fixed"
+      position="relative"
       display="flex" 
       flexDirection="column" 
       alignItems="center" 
@@ -14,11 +14,11 @@ const Profile = () => {
       right="2px"
     // height="25vh" // Ocupa toda la altura de la ventana
     //   width="75vw"
-      textAlign="center"
+      // textAlign="center"
     >
       <AccountCircle sx={{ fontSize: 50 }} />
       <Typography variant="h4" component="h2" gutterBottom>
-        Dabor Martínez
+        Gabriel Oyarzo
       </Typography>
       <Typography variant="h6" color="textSecondary">
         Administrador
