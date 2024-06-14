@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 
 const Profile = () => {
@@ -16,9 +16,9 @@ const Profile = () => {
     //   width="75vw"
       textAlign="center"
     >
-      <AccountCircle style={{ fontSize: 100 }} />
+      <AccountCircle sx={{ fontSize: 50 }} />
       <Typography variant="h4" component="h2" gutterBottom>
-        Gabriel Oyarzo
+        Dabor Martínez
       </Typography>
       <Typography variant="h6" color="textSecondary">
         Administrador

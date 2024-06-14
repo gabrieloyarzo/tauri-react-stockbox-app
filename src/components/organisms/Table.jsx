@@ -22,7 +22,6 @@ const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps }) => {
   const columns = useTableColumns({ data });
 
   return (
-    <Grid item xs={10} md={9.25}>
     <TableContainer
       sx={{ marginTop: "2%" }}
       component={Paper}
@@ -44,7 +43,6 @@ const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps }) => {
         />
       </TableMUI>
     </TableContainer>
-    </Grid>
   );
 };
 
