@@ -55,7 +55,6 @@ const Sidebar = () => {
       <Grid item xs={2} md={2.75}>
         <Box
           sx={{
-            margin: 2,
             height: "100%",
             minHeight: "100vh",
             bgcolor: theme.palette.primary.main,

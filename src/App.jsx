@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
-      <Grid container sx={{ minHeight: "100vh", minWidth: "720px", bgcolor: theme.palette.background.default }}>
+      <Grid container spacing={2} sx={{ minHeight: "100vh", minWidth: "720px", bgcolor: theme.palette.background.default }}>
         <Login/>
       </Grid>
     </ThemeProvider>

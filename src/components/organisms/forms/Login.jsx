@@ -29,7 +29,7 @@ const T2 = ({ handleChange, handleSubmit }) => {
   const theme = useTheme();
 
   return (
-    <Grid container spacing={2} sx={{ height: "100vh" }}>
+    <>
       <Grid item xs={12} md={6}>
         <Box
           sx={{
@@ -151,7 +151,7 @@ const T2 = ({ handleChange, handleSubmit }) => {
           </Card>
         </Box>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
