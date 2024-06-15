@@ -63,7 +63,16 @@ const DeleteDialog = ({
   const { title, text } = texts({ currentTable, id });
 
   return (
-    <Dialog open={open ?? false} onClose={closeDialog ?? false} maxWidth="sm">
+    <Dialog
+      open={open ?? false}
+      onClose={closeDialog ?? false}
+      maxWidth="sm"
+      PaperProps={{
+        sx: {
+          transform: "translate(35%, -10%)",
+        },
+      }}
+    >
       <DialogTitle
         sx={{
           display: "flex",

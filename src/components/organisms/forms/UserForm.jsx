@@ -8,6 +8,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateUser } from "../../../services/validation/userValidation";
 import { isEmptyObject } from "../../../functions/isEmptyObject";
+import { message } from "@tauri-apps/api/dialog";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -43,7 +44,18 @@ const UserForm = ({
     pwd: initialData?.pwd || "",
     nombre: initialData?.nombre || "",
     apellido: initialData?.apellido || "",
+    rol: initialData?.rol || "",
   });
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+    }));
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -88,21 +100,13 @@ const UserForm = ({
       try {
         setLoading(true);
 
-        await UserApi.createUser(formData);
+        const response = await UserApi.createUser(formData);
         await fetchData();
 
         setSnackProps({
           open: true,
-          closeSnack: (event, reason) => {
-            if (reason === "clickaway") {
-              return;
-            }
-            setSnackProps((prevProps) => ({
-              ...prevProps,
-              open: false,
-            }));
-          },
-          text: `Usuario con RUT: ${formData.rutu} creado exitosamente`,
+          closeSnack: handleCloseSnack,
+          message: response.message,
           severity: "success",
         });
 
@@ -112,16 +116,8 @@ const UserForm = ({
       } catch (error) {
         setSnackProps({
           open: true,
-          closeSnack: (event, reason) => {
-            if (reason === "clickaway") {
-              return;
-            }
-            setSnackProps((prevProps) => ({
-              ...prevProps,
-              open: false,
-            }));
-          },
-          text: `Error al crear usuario: ${error.response.data.message}`,
+          closeSnack: handleCloseSnack,
+          message: error.response.data.message,
           severity: "error",
         });
 
@@ -137,21 +133,13 @@ const UserForm = ({
         loading: true,
       }));
 
-      await UserApi.updateUser(initialData.rutu, formData);
+      const response = await UserApi.updateUser(initialData.rutu, formData);
       await fetchData();
 
       setSnackProps({
         open: true,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
-        text: `Usuario con RUT: ${formData.rutu} modificado exitosamente`,
+        closeSnack: handleCloseSnack,
+        message: response.message,
         severity: "success",
       });
 
@@ -159,16 +147,8 @@ const UserForm = ({
     } catch (error) {
       setSnackProps({
         open: true,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
-        text: `Error al modificar usuario: ${error.response.data.message}`,
+        closeSnack: handleCloseSnack,
+        message: error.response.data.message,
         severity: "error",
       });
     }
@@ -190,7 +170,7 @@ const UserForm = ({
           maxHeight: "90vh",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-25%, -50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -283,6 +263,17 @@ const UserForm = ({
               onChange={handleChange}
               error={!!errors.apellido}
               helperText={errors.apellido}
+              inputProps={{
+                maxLength: 20,
+              }}
+            />
+            <StyledTextField
+              label="Rol"
+              name="rol"
+              value={formData.rol}
+              onChange={handleChange}
+              error={!!errors.rol}
+              helperText={errors.rol}
               inputProps={{
                 maxLength: 20,
               }}

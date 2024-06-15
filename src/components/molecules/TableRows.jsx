@@ -9,7 +9,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { auxDelete } from "../../functions/auxDelete";
 import RenderModal from "../../functions/renderModal";
 import DeleteDialog from "../atoms/custom-ui/dialogs/DeleteDialog";
-import DeleteSnackbar from "../atoms/custom-ui/snackbars/DeleteSnackbar";
+import CustomSnackbar from "../atoms/custom-ui/snackbars/CustomSnackbar";
 
 const isDetailTable = (currentTable) => {
   return (
@@ -40,7 +40,7 @@ const TableRows = ({
   const [loading, setLoading] = useState(false);
 
   // Delete Snackbar
-  const [deleteSnackProps, setDeleteSnackProps] = useState({});
+  const [snackProps, setSnackProps] = useState({});
 
   // Detail Modal
   const [activeModal, setActiveModal] = useState(false);
@@ -68,49 +68,40 @@ const TableRows = ({
     setOpenDeleteDialog(true);
   };
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+    }));
+  };
+
   const confirmDelete = async (id) => {
     setLoading(true);
 
     try {
-      await auxDelete({ currentTable, id });
+      const response = await auxDelete({ currentTable, id });
       await fetchData();
 
-      setDeleteSnackProps({
+      setSnackProps({
         open: true,
-        currentTable,
-        id: idToDelete,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setDeleteSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
+        closeSnack: handleCloseSnack,
+        message: response.message,
         severity: "success",
       });
     } catch (error) {
-      setDeleteSnackProps({
+      setSnackProps({
         open: true,
-        currentTable,
-        error,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setDeleteSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
+        message: error.response.data.message,
+        closeSnack: handleCloseSnack,
         severity: "error",
       });
     }
+    setLoading(false);
 
     setOpenDeleteDialog(false);
-
-    setLoading(false);
   };
 
   return (
@@ -207,7 +198,7 @@ const TableRows = ({
         id={idToDelete}
         confirmAction={() => confirmDelete(idToDelete)}
       />
-      <DeleteSnackbar {...deleteSnackProps} />
+      <CustomSnackbar {...snackProps} />
     </>
   );
 };

@@ -45,6 +45,16 @@ const ProviderForm = ({
     tipo: initialData?.tipo || "",
   });
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+    }));
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -88,21 +98,13 @@ const ProviderForm = ({
       try {
         setLoading(true);
 
-        await ProviderApi.createProvider(formData);
+        const response = await ProviderApi.createProvider(formData);
         await fetchData();
 
         setSnackProps({
           open: true,
-          closeSnack: (event, reason) => {
-            if (reason === "clickaway") {
-              return;
-            }
-            setSnackProps((prevProps) => ({
-              ...prevProps,
-              open: false,
-            }));
-          },
-          text: `Proveedor con RUT: ${formData.rutp} creado exitosamente`,
+          closeSnack: handleCloseSnack,
+          message: response.message,
           severity: "success",
         });
 
@@ -112,16 +114,8 @@ const ProviderForm = ({
       } catch (error) {
         setSnackProps({
           open: true,
-          closeSnack: (event, reason) => {
-            if (reason === "clickaway") {
-              return;
-            }
-            setSnackProps((prevProps) => ({
-              ...prevProps,
-              open: false,
-            }));
-          },
-          text: `Error al crear proveedor: ${error.response.data.message}`,
+          closeSnack: handleCloseSnack,
+          message: error.response.data.message,
           severity: "error",
         });
 
@@ -137,21 +131,13 @@ const ProviderForm = ({
         loading: true,
       }));
 
-      await ProviderApi.updateProvider(initialData.rutp, formData);
+      const response = await ProviderApi.updateProvider(initialData.rutp, formData);
       await fetchData();
 
       setSnackProps({
         open: true,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
-        text: `Proveedor con RUT: ${formData.rutp} modificado exitosamente`,
+        closeSnack: handleCloseSnack,
+        message: response.message,
         severity: "success",
       });
 
@@ -159,16 +145,8 @@ const ProviderForm = ({
     } catch (error) {
       setSnackProps({
         open: true,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
-        text: `Error al modificar proveedor: ${error.response.data.message}`,
+        closeSnack: handleCloseSnack,
+        message: error.response.data.message,
         severity: "error",
       });
     }
@@ -190,7 +168,7 @@ const ProviderForm = ({
           maxHeight: "90vh",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-25%, -50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

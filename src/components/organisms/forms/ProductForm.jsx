@@ -14,6 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateProduct } from "../../../services/validation/productValidation";
 import { isEmptyObject } from "../../../functions/isEmptyObject";
+import { message } from "@tauri-apps/api/dialog";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -52,6 +53,16 @@ const ProductForm = ({
     mCit: initialData?.mCit || "",
     precio: initialData?.precio || "",
   });
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+    }));
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -98,21 +109,13 @@ const ProductForm = ({
       try {
         setLoading(true);
 
-        await ProductApi.createProduct(formData);
+        const response = await ProductApi.createProduct(formData);
         await fetchData();
 
         setSnackProps({
           open: true,
-          closeSnack: (event, reason) => {
-            if (reason === "clickaway") {
-              return;
-            }
-            setSnackProps((prevProps) => ({
-              ...prevProps,
-              open: false,
-            }));
-          },
-          text: `Producto con ID: ${formData.idp} creado exitosamente`,
+          closeSnack: handleCloseSnack,
+          message: response.message,
           severity: "success",
         });
 
@@ -122,16 +125,8 @@ const ProductForm = ({
       } catch (error) {
         setSnackProps({
           open: true,
-          closeSnack: (event, reason) => {
-            if (reason === "clickaway") {
-              return;
-            }
-            setSnackProps((prevProps) => ({
-              ...prevProps,
-              open: false,
-            }));
-          },
-          text: `Error al crear producto: ${error.response.data.message}`,
+          closeSnack: handleCloseSnack,
+          message: error.response.data.message,
           severity: "error",
         });
 
@@ -147,21 +142,13 @@ const ProductForm = ({
         loading: true,
       }));
 
-      await ProductApi.updateProduct(initialData.idp, formData);
+      const response = await ProductApi.updateProduct(initialData.idp, formData);
       await fetchData();
 
       setSnackProps({
         open: true,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
-        text: `Producto con ID: ${formData.idp} modificado exitosamente`,
+        closeSnack: handleCloseSnack,
+        message: response.message,
         severity: "success",
       });
 
@@ -169,16 +156,8 @@ const ProductForm = ({
     } catch (error) {
       setSnackProps({
         open: true,
-        closeSnack: (event, reason) => {
-          if (reason === "clickaway") {
-            return;
-          }
-          setSnackProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          }));
-        },
-        text: `Error al modificar producto: ${error.response.data.message}`,
+        closeSnack: handleCloseSnack,
+        message: error.response.data.message,
         severity: "error",
       });
     }
@@ -200,7 +179,7 @@ const ProductForm = ({
           maxHeight: "90vh",
           top: "50%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-25%, -50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

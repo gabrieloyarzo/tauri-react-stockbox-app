@@ -8,7 +8,7 @@ const Profile = () => {
       direction="column"
       spacing="-.25em"
     >   
-      <Typography variant="h6" fontWeight="bold">
+      <Typography variant="h6" fontWeight="bold" fontSize="16px">
         DABOR MARTINEZ
       </Typography>
       <Typography variant="body2" color="textSecondary">

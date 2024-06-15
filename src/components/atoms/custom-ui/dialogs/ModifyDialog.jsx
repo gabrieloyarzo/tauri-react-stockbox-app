@@ -21,7 +21,16 @@ const ModifyDialog = ({
   const theme = useTheme();
 
   return (
-    <Dialog open={open ?? false} onClose={closeDialog} maxWidth="sm">
+    <Dialog
+      open={open ?? false}
+      onClose={closeDialog}
+      maxWidth="sm"
+      PaperProps={{
+        sx: {
+          transform: "translate(35%, -10%)",
+        },
+      }}
+    >
       <DialogTitle
         sx={{
           display: "flex",

@@ -163,7 +163,7 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
         top: "50%",
         left: "50%",
         display: "flex",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-25%, -50%)",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",

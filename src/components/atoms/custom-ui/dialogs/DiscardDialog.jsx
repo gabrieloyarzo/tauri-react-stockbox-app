@@ -9,15 +9,20 @@ import {
   Button,
 } from "@mui/material";
 
-const DiscardDialog = ({
-  open,
-  closeDialog,
-  confirmAction,
-}) => {
+const DiscardDialog = ({ open, closeDialog, confirmAction }) => {
   const theme = useTheme();
 
   return (
-    <Dialog open={open ?? false} onClose={closeDialog} maxWidth="sm">
+    <Dialog
+      open={open ?? false}
+      onClose={closeDialog}
+      maxWidth="sm"
+      PaperProps={{
+        sx: {
+          transform: "translate(35%, -10%)",
+        },
+      }}
+    >
       <DialogTitle
         sx={{
           display: "flex",

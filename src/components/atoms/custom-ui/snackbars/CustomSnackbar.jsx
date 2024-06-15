@@ -5,7 +5,7 @@ const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert elevation={6} ref={ref} {...props} />;
 });
 
-const CustomSnackbar = ({ open, closeSnack, text, severity }) => {
+const CustomSnackbar = ({ open, closeSnack, message, severity }) => {
   return (
     <Snackbar
       open={open}
@@ -17,7 +17,7 @@ const CustomSnackbar = ({ open, closeSnack, text, severity }) => {
       }}
     >
       <SnackbarAlert onClose={closeSnack} severity={severity}>
-        {text}
+        {message}
       </SnackbarAlert>
     </Snackbar>
   );

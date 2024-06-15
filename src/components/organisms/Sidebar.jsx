@@ -12,7 +12,6 @@ import {
   Loop,
   Help,
   Settings,
-  AccountCircle,
   Group,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
@@ -55,7 +54,8 @@ const Sidebar = () => {
       <Grid item xs={2} md={2.75}>
         <Box
           sx={{
-            height: "100%",
+            marginLeft: 2,
+            marginTop: 2,
             minHeight: "100vh",
             bgcolor: theme.palette.primary.main,
             borderRadius: "24px",
@@ -194,13 +194,6 @@ const Sidebar = () => {
                     icon={<Settings />}
                     iconPosition="start"
                   />
-                  {/*
-                  <StyledTab
-                    value="AccountCircle"
-                    label={!isSmallScreen && "Perfil"}
-                    icon={< AccountCircle />}
-                    iconPosition="start"
-                  />*/}
                 </TabList>
               </Box>
             </TabContext>

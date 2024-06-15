@@ -4,7 +4,7 @@ import AddButton from "../molecules/AddButton";
 import LoadingData from "../atoms/LoadingData";
 import RenderForm from "../../functions/renderForm";
 import SkeletonTable from "../../components/molecules/SkeletonTable";
-import { Grid, Stack } from "@mui/material";
+import { Grid, Stack, Box } from "@mui/material";
 import Profile from "../molecules/Profile";
 import NotificationsPanel from "../organisms/NotificationPanel";
 
@@ -18,36 +18,40 @@ const MainLayout = ({
   return (
     <>
       <Grid item xs={10} md={9.25}>
-        <Grid container>
-          <Grid item xs={12} md={12}>
-            <Stack direction="row" spacing={5} justifyContent="right">
-              <NotificationsPanel />
-              <Profile />
-            </Stack>
+          <Grid container marginTop=".5em" justifyContent="center">
+            <Box width="95%">
+            <Grid item xs={12} md={12}>
+              <Stack direction="row" spacing={5} justifyContent="right">
+                <NotificationsPanel />
+                <Profile />
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              {!data ? (
+                <SkeletonTable />
+              ) : (
+                <>
+                  <Table
+                    currentTable={currentTable}
+                    data={data}
+                    fetchData={fetchData}
+                    toggleForm={toggleForm}
+                    setFormProps={setFormProps}
+                  />
+                </>
+              )}
+            </Grid>
+            </Box>
           </Grid>
-          <Grid item xs={12} md={12}>
-            {!data ? (
-              <SkeletonTable />
-            ) : (
-              <>
-                <Table
-                  currentTable={currentTable}
-                  data={data}
-                  fetchData={fetchData}
-                  toggleForm={toggleForm}
-                  setFormProps={setFormProps}
-                />
-                <AddButton
-                  currentTable={currentTable}
-                  fetchData={fetchData}
-                  toggleForm={toggleForm}
-                  setFormProps={setFormProps}
-                />
-              </>
-            )}
-          </Grid>
-        </Grid>
       </Grid>
+      {data && (
+        <AddButton
+          currentTable={currentTable}
+          fetchData={fetchData}
+          toggleForm={toggleForm}
+          setFormProps={setFormProps}
+        />
+      )}
     </>
   );
 };

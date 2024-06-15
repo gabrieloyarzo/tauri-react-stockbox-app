@@ -21,5 +21,9 @@ export function validateUser(formData) {
     newErrors.apellido = "Apellido es requerido";
   }
 
+  if (formData.rol.trim() === "") {
+    newErrors.rol = "Rol es requerido";
+  }
+
   return newErrors;
 }

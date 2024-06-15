@@ -10,29 +10,21 @@ import UserApi from "../services/api/user.service";
 export const auxDelete = async ({ currentTable, id }) => {
   switch (currentTable) {
     case 'clients':
-      await ClientApi.deleteClient(id);
-      break;
+      return await ClientApi.deleteClient(id);
     case 'notifications':
-      await NotificationApi.deleteNotification(id);
-      break;
+      return await NotificationApi.deleteNotification(id);
     case 'purchases':
-      await PurchaseApi.deletePurchase(id);
-      break;
+      return await PurchaseApi.deletePurchase(id);
     case 'products':
-      await ProductApi.deleteProduct(id);
-      break;
+      return await ProductApi.deleteProduct(id);
     case 'providers':
-      await ProviderApi.deleteProvider(id);
-      break;
+      return await ProviderApi.deleteProvider(id);
     case 'refunds':
-      await RefundApi.deleteRefund(id);
-      break;
+      return await RefundApi.deleteRefund(id);
     case 'sales':
-      await SaleApi.deleteSale(id);
-      break;
+      return await SaleApi.deleteSale(id);
     case 'users':
-      await UserApi.deleteUser(id);
-      break;
+      return await UserApi.deleteUser(id);
     default:
       console.error("currentTable doesn't match any of the switch cases");
   }
