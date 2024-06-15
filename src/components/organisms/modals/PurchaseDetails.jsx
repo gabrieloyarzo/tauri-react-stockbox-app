@@ -12,7 +12,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
         position: "absolute",
         top: "50%",
         left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-25%, -50%)",
         width: "80vw",
         maxWidth: "600px",
         maxHeight: "90vh",
