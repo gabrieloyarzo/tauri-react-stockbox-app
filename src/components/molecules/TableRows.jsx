@@ -30,9 +30,10 @@ const TableRows = ({
   const theme = useTheme();
 
   // index key which would contain the array of details if it exists
-  const dIndexKey = isDetailTable(currentTable)
-    ? Object.keys(data[0]).length - 1
-    : null;
+  const dIndexKey =
+    isDetailTable(currentTable) && data.length > 0
+      ? Object.keys(data[0]).length - 1
+      : null;
 
   // Delete Dialog
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
