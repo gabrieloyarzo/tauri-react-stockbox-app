@@ -24,8 +24,6 @@ const ProductApi = {
   },
 
   async createProduct(productData) {
-    console.log("Data:", productData)
-  
     try {
       const response = await axios.post(`${API_URL}/create`, productData, {
         headers: {
