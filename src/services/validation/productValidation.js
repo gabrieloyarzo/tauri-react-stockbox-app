@@ -26,6 +26,11 @@ export function validateProduct(formData) {
       }
     }
   }
+  else {
+    if (formData.cit < 1 || typeof formData.cit === "float") {
+      newErrors.cit = "Cantidad debe ser un número entero positivo";
+    }
+  }
 
   if (typeof formData.mCit === "string") {
     if (formData.mCit.trim() === "") {
@@ -40,6 +45,11 @@ export function validateProduct(formData) {
       }
     }
   }
+  else {
+    if (formData.mCit < 1 || typeof formData.mCit === "float") {
+      newErrors.cit = "Cantidad mínima debe ser un número entero positivo";
+    }
+  }
 
   if (typeof formData.precio === "string") {
     if (formData.precio.trim() === "") {
@@ -52,6 +62,11 @@ export function validateProduct(formData) {
       ) {
         newErrors.precio = "Precio de venta debe ser un número entero positivo";
       }
+    }
+  }
+  else {
+    if (formData.precio < 1 || typeof formData.precio === "float") {
+      newErrors.precio = "Precio de venta debe ser un número entero positivo";
     }
   }
 

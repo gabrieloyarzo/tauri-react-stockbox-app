@@ -12,6 +12,14 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
+import {
+  validatePurchase,
+  validatePurchaseItems,
+} from "../../../services/validation/purchaseValidation";
+import {
+  isEmptyObject,
+  isEmptyArrayWithObjects,
+} from "../../../functions/helpers";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -31,7 +39,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const OrderTextField = styled(TextField)(({ theme }) => ({
+const ItemTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     fontSize: "14px",
     height: "4px",
@@ -53,11 +61,18 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => {
+const PurchaseForm = ({
+  mode,
+  fetchData,
+  closeForm,
+  initialData,
+  products,
+  providers,
+  setDiscardDialogProps,
+}) => {
   const theme = useTheme();
 
   const initialRow = {
-    idpu: "",
     idp: "",
     cit: "",
     precio: "",
@@ -68,9 +83,8 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
     initialData
       ? {
           ...initialData,
-          fecha: new Date().toISOString(),
           detalles: initialData.detalles.length
-            ? initialData.detalles
+            ? initialData.detalles.map(({ idpu, ...rest }) => rest)
             : [initialRow],
         }
       : {
@@ -85,6 +99,7 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
 
   const [purchaseItems, setPurchaseItems] = useState(formData.detalles);
   const [errors, setErrors] = useState({});
+  const [itemErrors, setItemErrors] = useState([{}]);
 
   const handleChange = (e) => {
     setFormData({
@@ -96,8 +111,8 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
   const handleChangeItem = (index, e) => {
     const { name, value } = e.target;
 
-    setPurchaseItems(
-      purchaseItems.map((row, i) =>
+    setPurchaseItems((prevItems) =>
+      prevItems.map((row, i) =>
         i === index
           ? {
               ...row,
@@ -123,17 +138,35 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setPurchaseItems(
-      purchaseItems.map((row) => ({
-        ...row,
-        idpu: formData.idpu,
-      }))
-    );
+    const newErrors = validatePurchase(formData);
+    const newItemErrors = validatePurchaseItems(purchaseItems);
 
-    setFormData({
-      ...formData,
-      detalles: purchaseItems,
+    if (Object.keys(newErrors).length > 0 || newItemErrors.length > 0) {
+      setErrors(newErrors);
+      setItemErrors(newItemErrors);
+      return;
+    }
+
+    const submitItems = purchaseItems.map((item) => {
+      const newItem = {};
+
+      Object.keys(item).forEach((key) => {
+        key === "cit" || key === "precio" || key === "total"
+          ? (newItem[key] = parseInt(item[key]))
+          : (newItem[key] =
+              typeof item[key] === "string" ? item[key].trim() : item[key]);
+      });
+
+      return newItem;
     });
+
+    const submitData = {
+      ...formData,
+      total: total,
+      detalles: submitItems,
+    };
+
+    console.log("Form Submitted Data:", submitData);
   };
 
   const addPurchaseItem = () => {
@@ -142,9 +175,7 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
 
   const removePurchaseItem = (index) => {
     if (purchaseItems.length > 1) {
-      const newItems = [...purchaseItems];
-      newItems.splice(index, 1);
-      setPurchaseItems(newItems);
+      setPurchaseItems((prevItems) => prevItems.filter((_, i) => i !== index));
     }
   };
 
@@ -201,13 +232,55 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
               label="ID de la compra"
               name="idpu"
               value={formData.idpu}
+              error={!!errors.idpu}
               onChange={handleChange}
             />
-            <StyledTextField
-              label="RUT de empresa"
-              name="rut_empresa"
-              value={formData.rutp}
-              onChange={handleChange}
+            <Autocomplete
+              sx={{
+                display: "flex",
+                flex: 1,
+                width: "100%",
+                "& .MuiSvgIcon-root": {
+                  color: theme.palette.secondary.contrastText,
+                },
+              }}
+              options={providers}
+              name="rutp"
+              value={
+                providers.find((provider) => provider.rutp === formData.rutp) ||
+                null
+              }
+              getOptionLabel={(option) => option.rutp}
+              noOptionsText="Sin opciones"
+              onChange={(event, newValue) =>
+                handleChange({
+                  target: {
+                    name: "rutp",
+                    value: newValue ? newValue.rutp : "",
+                  },
+                })
+              }
+              renderOption={(props, option) => (
+                <Box component="li" {...props}>
+                  <div>
+                    <Typography fontSize="14px">{option.rutp}</Typography>
+                    <Typography fontSize="12px" color="textSecondary">
+                      {option.nombre}
+                    </Typography>
+                  </div>
+                </Box>
+              )}
+              renderInput={(params) => (
+                <StyledTextField
+                  {...params}
+                  label="RUT de proveedor"
+                  error={!!errors.rutp}
+                  InputProps={{
+                    ...params.InputProps,
+                    sx: { width: "100%" },
+                  }}
+                />
+              )}
             />
           </Stack>
 
@@ -282,9 +355,7 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
                   options={products}
                   name="idp"
                   value={
-                    products.find(
-                      (product) => product.idp === row.idp
-                    ) || null
+                    products.find((product) => product.idp === row.idp) || null
                   }
                   getOptionLabel={(option) => option.idp}
                   noOptionsText="Sin opciones"
@@ -307,10 +378,9 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
                     </Box>
                   )}
                   renderInput={(params) => (
-                    <OrderTextField
+                    <ItemTextField
                       {...params}
-                      error={!!errors.idp}
-                      helperText={errors.idp}
+                      error={!!itemErrors[index]?.idp}
                       InputProps={{
                         ...params.InputProps,
                         sx: { width: "100%" },
@@ -319,13 +389,12 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
                   )}
                 />
 
-                <OrderTextField
+                <ItemTextField
                   name="cit"
                   value={row.cit}
                   onChange={(e) => handleChangeItem(index, e)}
                   type="number"
-                  error={!!errors.cit}
-                  helperText={errors.cit}
+                  error={!!itemErrors[index]?.cit}
                   sx={{ alignItems: "center", flex: 1 }}
                   InputProps={{
                     sx: {
@@ -338,13 +407,12 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
                   <Typography variant="body1" margin="5%">
                     x
                   </Typography>
-                  <OrderTextField
+                  <ItemTextField
                     name="precio"
                     value={row.precio}
                     onChange={(e) => handleChangeItem(index, e)}
                     type="number"
-                    error={!!errors.precio}
-                    helperText={errors.precio}
+                    error={!!itemErrors[index]?.precio}
                     sx={{ alignItems: "left" }}
                     InputProps={{
                       sx: {
@@ -450,7 +518,38 @@ const PurchaseForm = ({ mode, fetchData, closeForm, initialData, products }) => 
                   color: "#7e7e7e",
                 },
               }}
-              onClick={closeForm}
+              onClick={
+                mode === "modify" ||
+                isEmptyObject(
+                  Object.keys(formData).filter(
+                    (key) =>
+                      !key.includes("rutu") ||
+                      !key.includes("fecha") ||
+                      !key.includes("total") ||
+                      !key.includes("detalles")
+                  )
+                ) ||
+                isEmptyArrayWithObjects(
+                  purchaseItems.map(({ suma, ...rest }) => rest)
+                )
+                  ? closeForm
+                  : () =>
+                      setDiscardDialogProps({
+                        open: true,
+                        confirmAction: () => {
+                          closeForm();
+                          setDiscardDialogProps((prevProps) => ({
+                            ...prevProps,
+                            open: false,
+                          }));
+                        },
+                        closeDialog: () =>
+                          setDiscardDialogProps((prevProps) => ({
+                            ...prevProps,
+                            open: false,
+                          })),
+                      })
+              }
             >
               Cerrar
             </Button>

@@ -4,19 +4,29 @@ import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
 import FeedbackLayout from "../templates/FeedbackLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
+import ProviderApi from "../../services/api/provider.service";
 import mockPurchases from "../../../mock/purchaseMocks";
 
 const Purchases = () => {
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
+  const [providers, setProviders] = useState([]);
 
   const fetchData = async () => {
     // const purchases = await PurchaseApi.getAllPurchases();
-    const purchases = mockPurchases;
+    const providers = await ProviderApi.getAllProviders();
     const products = await ProductApi.getAllProducts();
 
-    setTableData(purchases);
-    setProducts(products.data);
+    setTableData(mockPurchases)
+    // setTableData(purchases.data);
+    setProviders([
+      ...new Set(
+        providers.data.map((item) => ({
+          rutp: item.rutp,
+          nombre: item.nombre,
+        }))
+      ),
+    ]);
     setProducts([
       ...new Set(
         products.data.map((item) => ({
@@ -61,6 +71,7 @@ const Purchases = () => {
         <PurchaseForm
           {...formProps}
           products={products}
+          providers={providers}
           closeForm={() => setOpenForm(false)}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}

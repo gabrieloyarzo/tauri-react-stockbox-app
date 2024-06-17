@@ -7,7 +7,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateProvider } from "../../../services/validation/providerValidation";
-import { isEmptyObject } from "../../../functions/isEmptyObject";
+import { isEmptyObject } from "../../../functions/helpers";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",

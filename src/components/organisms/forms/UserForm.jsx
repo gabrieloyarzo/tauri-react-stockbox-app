@@ -7,8 +7,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateUser } from "../../../services/validation/userValidation";
-import { isEmptyObject } from "../../../functions/isEmptyObject";
-import { message } from "@tauri-apps/api/dialog";
+import { isEmptyObject } from "../../../functions/helpers";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",

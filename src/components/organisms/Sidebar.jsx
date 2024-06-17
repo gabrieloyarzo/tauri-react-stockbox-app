@@ -4,7 +4,6 @@ import { TabContext, TabList } from "@mui/lab";
 import { Box, CardMedia, Typography, Tab, Grid } from "@mui/material";
 import {
   AttachMoney,
-  Groups,
   Contacts,
   Inventory,
   Leaderboard,
@@ -12,7 +11,7 @@ import {
   Loop,
   Help,
   Settings,
-  Group,
+  Groups,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import Purchases from "../pages/Purchases";
@@ -163,13 +162,6 @@ const Sidebar = () => {
                     icon={<Inventory />}
                     iconPosition="start"
                   />
-
-                  <StyledTab
-                    value="clients"
-                    label={!isSmallScreen && "Clientes"}
-                    icon={<Groups />}
-                    iconPosition="start"
-                  />
                   <StyledTab
                     value="providers"
                     label={!isSmallScreen && "Proveedores"}
@@ -179,7 +171,7 @@ const Sidebar = () => {
                   <StyledTab
                     value="users"
                     label={!isSmallScreen && "Usuarios"}
-                    icon={<Group />}
+                    icon={<Groups />}
                     iconPosition="start"
                   />
                   <StyledTab
@@ -202,7 +194,6 @@ const Sidebar = () => {
       </Grid>
       {value === "products" && <Products />}
       {value === "purchases" && <Purchases />}
-      {value === "AccountCircle" && <Profile/>}
       {value === "providers" && <Providers />}
       {value === "users" && <Users />}
     </>
