@@ -13,12 +13,11 @@ const Purchases = () => {
   const [providers, setProviders] = useState([]);
 
   const fetchData = async () => {
-    // const purchases = await PurchaseApi.getAllPurchases();
+    const purchases = await PurchaseApi.getAllPurchases();
     const providers = await ProviderApi.getAllProviders();
     const products = await ProductApi.getAllProducts();
-
-    setTableData(mockPurchases)
-    // setTableData(purchases.data);
+    
+    setTableData(purchases.data);
     setProviders([
       ...new Set(
         providers.data.map((item) => ({

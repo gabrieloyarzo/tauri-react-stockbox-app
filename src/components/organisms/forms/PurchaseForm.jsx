@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import {
   validatePurchase,
@@ -20,6 +22,7 @@ import {
   isEmptyObject,
   isEmptyArrayWithObjects,
 } from "../../../functions/helpers";
+import PurchaseApi from "../../../services/api/purchase.service";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -69,6 +72,8 @@ const PurchaseForm = ({
   products,
   providers,
   setDiscardDialogProps,
+  setModifyDialogProps,
+  setSnackProps,
 }) => {
   const theme = useTheme();
 
@@ -79,27 +84,45 @@ const PurchaseForm = ({
     suma: "0",
   };
 
+  initialData = initialData
+    ? {
+        ...initialData,
+        detalles: initialData.detalles.map(({ idpu, ...rest }) => rest),
+      }
+    : null;
+
   const [formData, setFormData] = useState(
     initialData
       ? {
           ...initialData,
           detalles: initialData.detalles.length
-            ? initialData.detalles.map(({ idpu, ...rest }) => rest)
+            ? initialData.detalles
             : [initialRow],
         }
       : {
           idpu: "",
           rutp: "",
-          rutu: "123456789",
+          rutu: "12345",
           fecha: new Date().toISOString(),
           total: "",
           detalles: [initialRow],
         }
   );
 
+  const [loading, setLoading] = useState(false);
   const [purchaseItems, setPurchaseItems] = useState(formData.detalles);
   const [errors, setErrors] = useState({});
   const [itemErrors, setItemErrors] = useState([{}]);
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+    }));
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -138,6 +161,13 @@ const PurchaseForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (
+      JSON.stringify({ ...formData, detalles: purchaseItems }) ===
+      JSON.stringify(initialData)
+    ) {
+      return;
+    }
+
     const newErrors = validatePurchase(formData);
     const newItemErrors = validatePurchaseItems(purchaseItems);
 
@@ -147,26 +177,103 @@ const PurchaseForm = ({
       return;
     }
 
-    const submitItems = purchaseItems.map((item) => {
-      const newItem = {};
-
-      Object.keys(item).forEach((key) => {
-        key === "cit" || key === "precio" || key === "total"
-          ? (newItem[key] = parseInt(item[key]))
-          : (newItem[key] =
-              typeof item[key] === "string" ? item[key].trim() : item[key]);
-      });
-
-      return newItem;
-    });
+    // const submitItems =
 
     const submitData = {
       ...formData,
       total: total,
-      detalles: submitItems,
+      detalles: purchaseItems.map((item) => {
+        const newItem = {};
+
+        Object.keys(item).forEach((key) => {
+          if (key === "cit" || key === "precio" || key === "total") {
+            newItem[key] = parseInt(item[key]);
+          } else {
+            newItem[key] =
+              typeof item[key] === "string" ? item[key].trim() : item[key];
+          }
+        });
+
+        return newItem;
+      }),
     };
 
-    console.log("Form Submitted Data:", submitData);
+    if (mode === "modify") {
+      setModifyDialogProps({
+        open: true,
+        confirmAction: () => confirmModify(submitData),
+        title: "Modificar compra",
+        text: `¿Está seguro que desea modificar la compra con ID: ${initialData.idpu}?`,
+        closeDialog: () =>
+          setModifyDialogProps((prevProps) => ({
+            ...prevProps,
+            open: false,
+          })),
+      });
+    } else {
+      try {
+        setLoading(true);
+
+        const response = await PurchaseApi.createPurchase(submitData);
+        await fetchData();
+
+        setSnackProps({
+          open: true,
+          closeSnack: handleCloseSnack,
+          message: response.message,
+          severity: "success",
+        });
+
+        setLoading(false);
+        closeForm();
+      } catch (error) {
+        setSnackProps({
+          open: true,
+          closeSnack: handleCloseSnack,
+          message: error.response.data.message,
+          severity: "error",
+        });
+
+        setLoading(false);
+      }
+    }
+  };
+
+  const confirmModify = async (submitData) => {
+    try {
+      setModifyDialogProps((prevProps) => ({
+        ...prevProps,
+        loading: true,
+      }));
+
+      const response = await PurchaseApi.updatePurchase(
+        initialData.idpu,
+        submitData
+      );
+      await fetchData();
+
+      setSnackProps({
+        open: true,
+        closeSnack: handleCloseSnack,
+        message: response.message,
+        severity: "success",
+      });
+
+      closeForm();
+    } catch (error) {
+      setSnackProps({
+        open: true,
+        closeSnack: handleCloseSnack,
+        message: error.response.data.message,
+        severity: "error",
+      });
+    }
+
+    setModifyDialogProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+      loading: false,
+    }));
   };
 
   const addPurchaseItem = () => {
@@ -553,8 +660,11 @@ const PurchaseForm = ({
             >
               Cerrar
             </Button>
-            <Button
+            <LoadingButton
               variant="contained"
+              loading={loading}
+              loadingPosition="end"
+              endIcon={<SaveIcon />}
               sx={{
                 backgroundColor: "#266763",
                 color: "#ffffff",
@@ -567,8 +677,8 @@ const PurchaseForm = ({
               }}
               type="submit"
             >
-              Guardar
-            </Button>
+              {mode === "modify" ? "Modificar" : "Guardar"}
+            </LoadingButton>
           </Box>
         </Box>
       </form>

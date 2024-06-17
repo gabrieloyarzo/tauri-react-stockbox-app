@@ -119,7 +119,6 @@ const ProductForm = ({
         });
 
         setLoading(false);
-
         closeForm();
       } catch (error) {
         setSnackProps({
@@ -141,7 +140,10 @@ const ProductForm = ({
         loading: true,
       }));
 
-      const response = await ProductApi.updateProduct(initialData.idp, formData);
+      const response = await ProductApi.updateProduct(
+        initialData.idp,
+        formData
+      );
       await fetchData();
 
       setSnackProps({
