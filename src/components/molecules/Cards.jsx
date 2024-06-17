@@ -60,7 +60,7 @@ const CardGrid = () => {
         <CardFormat titulo="N° de ventas" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de devoluciones" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de compras" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.3}>
         <CardFormat titulo="Alertas de bajo stock" monto="400" />
