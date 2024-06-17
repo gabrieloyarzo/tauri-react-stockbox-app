@@ -35,7 +35,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
       >
         <Box>
           <Typography variant="h5" sx={{ mb: 0, pl: 3, pt: 4, pb: 1.5 }}>
-            Total Venta:
+            Total compra:
           </Typography>
           <Typography variant="h4" sx={{ mb: 0, pl: 3, pb: 3 }}>
             ${data.total}
@@ -43,7 +43,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
         </Box>
         <Box>
           <Typography sx={{ textAlign: "right", pr: 3}}>
-            Nº Pedido: {data.idpu}
+            ID venta: {data.idpu}
           </Typography>
           <Typography sx={{ textAlign: "right", pr: 3 }}>
             Fecha: {data.fecha}
@@ -53,10 +53,10 @@ const PurchaseDetails = ({ data, closeModal }) => {
 
       <Box sx={{ p: 5 }}>
         <Typography>
-          <strong>RUT Proveedor:</strong> {data.rutp}
+          <strong>RUT del proveedor:</strong> {data.rutp}
         </Typography>
         <Typography>
-          <strong>RUT Usuario:</strong> {data.rutu}
+          <strong>RUT del usuario:</strong> {data.rutu}
         </Typography>
 
         <hr style={{ borderTop: "1px solid black", marginBottom: "10px", marginTop: "15px" }} /> {/* LINEA */}
@@ -64,9 +64,9 @@ const PurchaseDetails = ({ data, closeModal }) => {
         <Box sx={{ py: 1, fontWeight: "bold", textAlign: "center"}}>
         <Typography component="div">
           <Box>
-            <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>ID</span>
-            <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Precio Unitario</span>
-            <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Cantidad</span>
+            <span style={{ width: "20%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>ID</span>
+            <span style={{ width: "27%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Cantidad</span>
+            <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Precio c/u</span>
             <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Subtotal</span>
           </Box>
         </Typography>
@@ -77,9 +77,10 @@ const PurchaseDetails = ({ data, closeModal }) => {
           <tbody>
             {data.detalles.map((item, index) => (
               <tr key={index}>
-                <td style={{ textAlign: "center", width: "25%" }}>{item.idp}</td>
+                <td style={{ textAlign: "center", width: "20%" }}>{item.idp}</td>
+                <td style={{ textAlign: "center", width: "20%" }}>{item.cit}</td>
+                <td style={{ textAlign: "center", width: "1%"}}>x</td>
                 <td style={{ textAlign: "center", width: "25%" }}>${item.precio}</td>
-                <td style={{ textAlign: "center", width: "25%" }}>{item.cit}</td>
                 <td style={{ textAlign: "center", width: "20%" }}>${item.suma}</td>
               </tr>
             ))}
@@ -90,7 +91,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
         <hr style={{ borderTop: "1px solid black", marginBottom: "15px",  marginTop: "20px" }} /> {/* LINEA */}
 
         <Typography variant="h6" sx={{ mt: 1, textAlign: "Right", marginRight: "25px", fontSize: "17px" }}>
-          Monto Total: ${data.total}
+          Monto total: ${data.total}
         </Typography>
       </Box>
 
