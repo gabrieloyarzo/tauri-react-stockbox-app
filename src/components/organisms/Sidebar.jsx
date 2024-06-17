@@ -18,6 +18,7 @@ import Purchases from "../pages/Purchases";
 import Products from "../pages/Products";
 import Providers from "../pages/Providers";
 import Users from "../pages/Users";
+import DashboardLayout from "../templates/DashboardLayout"; //Cambiar por page Dashbard despues
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   height: "100%",
@@ -192,6 +193,7 @@ const Sidebar = () => {
           </Box>
         </Box>
       </Grid>
+      {value === "analytics" && <DashboardLayout />}
       {value === "products" && <Products />}
       {value === "purchases" && <Purchases />}
       {value === "providers" && <Providers />}
