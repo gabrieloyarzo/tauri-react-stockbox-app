@@ -55,7 +55,7 @@ const Sidebar = () => {
           sx={{
             marginLeft: 2,
             marginTop: 2,
-            minHeight: "100vh",
+            minHeight: "93.5vh",
             bgcolor: theme.palette.primary.main,
             borderRadius: "24px",
           }}

@@ -45,6 +45,7 @@ const T2 = ({ handleChange, handleSubmit }) => {
             alignItems: "center",
             justifyContent: "center",
             boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)",
+            borderRadius: "15px",
           }}
         >
           <CardMedia
