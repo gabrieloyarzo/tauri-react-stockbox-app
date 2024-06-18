@@ -17,7 +17,7 @@ const Purchases = () => {
     const providers = await ProviderApi.getAllProviders();
     const products = await ProductApi.getAllProducts();
     
-    setTableData(purchases.data);
+    setTableData(purchases.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));
     setProviders([
       ...new Set(
         providers.data.map((item) => ({

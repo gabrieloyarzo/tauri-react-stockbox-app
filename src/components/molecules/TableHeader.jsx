@@ -6,11 +6,11 @@ import { StyledTableCell } from "../../styles/StylesTable";
 const tableColumns = ({ currentTable }) => {
   switch (currentTable) {
     case "products":
-      return ["ID", "Nombre", "Categoría", "Cantidad", "Cantidad mínima", "Precio"];
+      return ["ID", "Código", "Nombre", "Categoría", "Cantidad", "Cantidad mínima", "Precio"];
     case "purchases":
-      return ["ID", "RUT del proveedor", "RUT del usuario", "Fecha", "Compra total"];
+      return ["ID", "Código", "RUT del proveedor", "RUT del usuario", "Fecha", "Compra total"];
     case "sales":
-      return ["ID", "RUT del cliente", "RUT del usuario", "Fecha", "Venta total"];
+      return ["ID", "Código", "RUT del cliente", "RUT del usuario", "Fecha", "Venta total"];
     case "providers":
       return ["RUT del proveedor", "Nombre", "Dirección", "Teléfono", "Tipo"];
     case "users":

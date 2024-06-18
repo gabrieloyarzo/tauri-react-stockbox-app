@@ -1,8 +1,8 @@
 export function validateProduct(formData) {
   const newErrors = {};
 
-  if (formData.idp.trim() === "") {
-    newErrors.idp = "ID del producto es requerido";
+  if (formData.cod.trim() === "") {
+    newErrors.cod = "Código es requerido";
   }
 
   if (formData.nombre.trim() === "") {

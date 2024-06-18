@@ -45,7 +45,7 @@ const ProductForm = ({
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
-    idp: initialData?.idp || "",
+    cod: initialData?.cod || "",
     nombre: initialData?.nombre || "",
     cat: initialData?.cat || "",
     cit: initialData?.cit || "",
@@ -73,7 +73,10 @@ const ProductForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (JSON.stringify(formData) === JSON.stringify(initialData)) {
+    if (
+      JSON.stringify({ idp: initialData?.idp, ...formData }) ===
+      JSON.stringify(initialData)
+    ) {
       return;
     }
 
@@ -221,13 +224,20 @@ const ProductForm = ({
               p: 5,
             }}
           >
+            {initialData?.idp && (
+              <StyledTextField
+                label="ID del producto"
+                value={initialData?.idp}
+                disabled
+              />
+            )}
             <StyledTextField
-              label="ID del producto"
-              name="idp"
-              value={formData.idp}
+              label="Código"
+              name="cod"
+              value={formData.cod}
               onChange={handleChange}
-              error={!!errors.idp}
-              helperText={errors.idp}
+              error={!!errors.cod}
+              helperText={errors.cod}
               inputProps={{
                 maxLength: 20,
               }}

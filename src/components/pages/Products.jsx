@@ -10,7 +10,9 @@ const Products = () => {
 
   const fetchData = async () => {
     const products = await ProductApi.getAllProducts();
-    setTableData(products.data);
+    setTableData(
+      products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
+    );
     setCategories([...new Set(products.data.map((item) => item.cat))]);
   };
 

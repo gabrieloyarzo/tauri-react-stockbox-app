@@ -10,7 +10,7 @@ const Users = () => {
 
   const fetchData = async () => {
     const users = await UserApi.getAllUsers();
-    setTableData(users.data);
+    setTableData(users.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));
   };
 
   useEffect(() => {
