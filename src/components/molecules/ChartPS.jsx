@@ -10,7 +10,7 @@ const data = [
 const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
 
 const EstadisticasProductos = () => (
-  <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto", textAlign: 'left' }}>
+  <div style={{ width: '100%', height: '100vh', padding: '20px' }}>
     <h3 style={{ textAlign: 'left'}}>Estadísticas de Productos</h3>
     <ResponsiveContainer width={500} height={300}>
       <PieChart>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Typography, Box } from '@mui/material';
+// import ProductApi from "../../services/api/analytics.service";
 
 const CardFormat = ({ titulo, monto, incremento, periodo }) => {
   return (
@@ -49,6 +50,69 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
     </Box>
   );
 }
+
+// const CardGrid = () => {
+//   const [data, setData] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await ProductApi.getAnalyticsData();
+//         setData(response.data);
+//       } catch (error) {
+//         console.error("Error fetching data: ", error);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   if (!data) {
+//     return <div>Loading...</div>;
+//   }
+
+//   return (
+//     <Grid container spacing={2}>
+//       <Grid item xs={2.4}>
+//         <CardFormat 
+//           titulo={data.ingresosTotales.titulo} 
+//           monto={data.ingresosTotales.monto} 
+//           incremento={data.ingresosTotales.incremento} 
+//           periodo={data.ingresosTotales.periodo} 
+//         />
+//       </Grid>
+//       <Grid item xs={2.4}>
+//         <CardFormat 
+//           titulo={data.numeroDeVentas.titulo} 
+//           monto={data.numeroDeVentas.monto} 
+//           incremento={data.numeroDeVentas.incremento} 
+//           periodo={data.numeroDeVentas.periodo} 
+//         />
+//       </Grid>
+//       <Grid item xs={2.4}>
+//         <CardFormat 
+//           titulo={data.numeroDeCompras.titulo} 
+//           monto={data.numeroDeCompras.monto} 
+//           incremento={data.numeroDeCompras.incremento} 
+//           periodo={data.numeroDeCompras.periodo} 
+//         />
+//       </Grid>
+//       <Grid item xs={2.3}>
+//         <CardFormat 
+//           titulo={data.alertasDeBajoStock.titulo} 
+//           monto={data.alertasDeBajoStock.monto} 
+//         />
+//       </Grid>
+//       <Grid item xs={2.5}>
+//         <CardFormat 
+//           titulo={data.inventarioActualDeProductos.titulo} 
+//           monto={data.inventarioActualDeProductos.monto}
+//         />
+//       </Grid>
+//     </Grid>
+//   );
+// }
+
 
 const CardGrid = () => {
   return (
