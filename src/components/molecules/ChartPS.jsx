@@ -4,13 +4,13 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 const data = [
   { name: 'Orden Completa', value: 56236 },
   { name: 'Orden Pendiente', value: 12596 },
-  { name: 'Orden Devuelta', value: 12568 },
+  { name: 'Orden Cancelada', value: 12568 },
 ];
 
 const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
 
 const EstadisticasProductos = () => (
-  <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto", textAlign: 'left' }}>
+  <div style={{ width: '100%', height: '100vh', padding: '20px' }}>
     <h3 style={{ textAlign: 'left'}}>Estadísticas de Productos</h3>
     <ResponsiveContainer width={500} height={300}>
       <PieChart>
@@ -35,7 +35,7 @@ const EstadisticasProductos = () => (
     <div>
       {data.map((entry, index) => (
         <div key={`item-${index}`} style={{ color: COLORS[index % COLORS.length], marginTop: '10px' }}>
-          {entry.name}: {entry.value} ({entry.increment})
+          {entry.name}: {entry.value}
         </div>
       ))}
     </div>

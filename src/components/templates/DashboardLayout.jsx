@@ -5,6 +5,7 @@ import NotificationsPanel from "../organisms/NotificationPanel";
 import LoadingData from "../atoms/LoadingData";
 import Cards from '../molecules/Cards';
 import ChartPS from '../molecules/ChartPS'; 
+import ChartSales from '../molecules/ChartSales'; 
 
 const Dashboard = ({ data }) => {
   return (
@@ -23,9 +24,14 @@ const Dashboard = ({ data }) => {
                 <Cards />
               </Box>
             </Grid>
-            <Grid item xs={12} marginTop="1em">
-              <Box width="30%" display="flex" justifyContent="center">
-                <ChartPS style={{ width: "100%" }} />
+            <Grid item xs={10} marginTop="1em">
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <Box width="60%" paddingRight="1em">
+                  <ChartSales style={{ width: "100%" }} />
+                </Box>
+                <Box width="40%">
+                  <ChartPS style={{ width: "100%" }} />
+                </Box>
               </Box>
             </Grid>
           </Grid>
