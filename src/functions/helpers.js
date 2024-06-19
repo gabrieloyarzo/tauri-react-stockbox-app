@@ -20,3 +20,12 @@ export const isEmptyArrayWithObjects = (array) => {
     );
   });
 };
+
+export const localcurrency = (num) => {
+  // Verifica si el argumento es un número
+  if (typeof num !== 'number') {
+    return '';
+  }
+  // Usa toLocaleString para formatear el número de acuerdo a la moneda del país y retorna con los puntos.
+  return num.toLocaleString('es-CL');
+}     
