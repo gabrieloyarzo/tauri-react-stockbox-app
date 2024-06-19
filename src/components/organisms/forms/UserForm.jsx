@@ -226,7 +226,7 @@ const UserForm = ({
             <StyledTextField
               label="Contraseña"
               name="pwd"
-              // type="password"
+              type="password"
               value={formData.pwd}
               onChange={handleChange}
               error={!!errors.pwd}

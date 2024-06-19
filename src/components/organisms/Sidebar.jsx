@@ -26,7 +26,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   fontSize: theme.typography.subtitle1.fontSize,
   color: theme.palette.primary.contrastText,
   textTransform: "none",
-  marginBottom: "1.5%",
+  marginBottom: ".5em",
 }));
 
 const Sidebar = () => {
@@ -36,7 +36,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 1000);
+      setIsSmallScreen(window.innerWidth <= 900);
     };
     window.addEventListener("resize", handleResize);
     // Limpia el evento de cambio de tamaño al desmontar el componente
@@ -54,10 +54,9 @@ const Sidebar = () => {
       <Grid item xs={2} md={2.75}>
         <Box
           sx={{
-            marginTop: ".5em",
-            minHeight: "96.5vh",
+            minHeight: "98vh",
             bgcolor: theme.palette.primary.main,
-            borderRadius: "1.5em",
+            borderRadius: "2em",
           }}
         >
           <Box>
@@ -72,7 +71,7 @@ const Sidebar = () => {
                 image="/src/images/logo_2.png"
                 style={{
                   padding: "5%",
-                  width: isSmallScreen ? "60px" : "75px",
+                  width: "4em",
                   height: "auto",
                   borderRadius: "50%",
                 }}
@@ -95,8 +94,8 @@ const Sidebar = () => {
                 sx={{
                   width: "auto",
                   height: "100%",
-                  bgcolor: "#266763",
-                  borderRadius: "24px",
+                  bgcolor: theme.palette.primary.main,
+                  borderRadius: "2em",
                 }}
               >
                 <TabList
@@ -108,11 +107,11 @@ const Sidebar = () => {
                     },
                     "& .MuiTab-root": {
                       minWidth: 0,
-                      width: isSmallScreen ? "50px" : "auto",
+                      width: isSmallScreen ? "50%" : "auto",
                       "&:not(.Mui-selected)": {
                         "&:hover": {
                           backgroundColor: theme.palette.primary.light,
-                          borderRadius: "32px",
+                          borderRadius: "2rem",
                         },
                       },
                     },
@@ -120,15 +119,15 @@ const Sidebar = () => {
                       color: theme.palette.primary.main,
                       boxShadow: "sm",
                       bgcolor: "#c3fa7b",
-                      borderRadius: "32px",
+                      borderRadius: "2rem",
                     },
                     button: {
                       minHeight: 50,
                       alignItems: isSmallScreen ? "center" : "left",
                       justifyContent: isSmallScreen ? "center" : "left",
-                      "@media (max-width: 899px)": {
-                        width: "57px",
-                      },
+                      // "@media (max-width: 899px)": {
+                      //   width: "57px",
+                      // },
                     },
                   }}
                 >
