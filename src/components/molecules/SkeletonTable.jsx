@@ -14,13 +14,13 @@ const SkeletonTable = () => {
   const columns = Array.from({ length: 4 }, (_, index) => index + 1);
 
   return (
-    <Stack sx={{ marginTop: "2%" }}>
+    <Stack>
       <LinearProgress color="primary" />
       <TableContainer component={Paper}>
         <Table>
           <TableHead sx={{ borderRadius: "0px" }}>
             <TableRow>
-              <TableCell colSpan={columns.length}>
+              <TableCell sx={{ paddingRight: "1.25em", paddingLeft: "1.25em" }} colSpan={columns.length}>
                 <Skeleton variant="rectangular" />
               </TableCell>
             </TableRow>

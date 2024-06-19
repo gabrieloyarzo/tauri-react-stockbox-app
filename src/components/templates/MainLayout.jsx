@@ -7,6 +7,8 @@ import SkeletonTable from "../../components/molecules/SkeletonTable";
 import { Grid, Stack, Box } from "@mui/material";
 import Profile from "../molecules/Profile";
 import NotificationsPanel from "../organisms/NotificationPanel";
+import Filters from "../organisms/Filters";
+import Pagination from "../organisms/Pagination";
 
 const MainLayout = ({
   currentTable,
@@ -18,31 +20,46 @@ const MainLayout = ({
   return (
     <>
       <Grid item xs={10} md={9.25}>
-          <Grid container marginTop=".5em" justifyContent="center">
-            <Box width="100%" marginRight=".5em">
+        <Grid container marginTop=".5em" justifyContent="center">
+          <Stack spacing=".75rem" width="100%" marginRight=".5em">
             <Grid item xs={12} md={12}>
-              <Stack direction="row" spacing={5} justifyContent="right">
+              <Stack
+                direction="row"
+                spacing={5}
+                justifyContent="right"
+                marginBottom=".5rem"
+              >
                 <NotificationsPanel />
                 <Profile />
               </Stack>
             </Grid>
             <Grid item xs={12} md={12}>
-              {!data ? (
-                <SkeletonTable />
-              ) : (
-                <>
-                  <Table
-                    currentTable={currentTable}
-                    data={data}
-                    fetchData={fetchData}
-                    toggleForm={toggleForm}
-                    setFormProps={setFormProps}
-                  />
-                </>
-              )}
+              <Filters />
             </Grid>
-            </Box>
-          </Grid>
+            <Grid item xs={12} md={12}>
+              <Box height="37.5rem">
+                {!data ? (
+                  <SkeletonTable />
+                ) : (
+                  <>
+                    <Table
+                      currentTable={currentTable}
+                      data={data}
+                      fetchData={fetchData}
+                      toggleForm={toggleForm}
+                      setFormProps={setFormProps}
+                    />
+                  </>
+                )}
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Box display="flex" justifyContent="center">
+                <Pagination />
+              </Box>
+            </Grid>
+          </Stack>
+        </Grid>
       </Grid>
       {data && (
         <AddButton

@@ -23,7 +23,6 @@ const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps }) => {
 
   return (
     <TableContainer
-      sx={{ marginTop: "2%" }}
       component={Paper}
     >
       <TableMUI
