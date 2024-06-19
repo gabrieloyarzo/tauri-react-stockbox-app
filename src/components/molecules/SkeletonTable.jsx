@@ -18,7 +18,7 @@ const SkeletonTable = () => {
       <LinearProgress color="primary" />
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead sx={{ borderRadius: "0px" }}>
             <TableRow>
               <TableCell colSpan={columns.length}>
                 <Skeleton variant="rectangular" />

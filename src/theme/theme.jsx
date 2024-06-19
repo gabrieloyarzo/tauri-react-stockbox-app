@@ -76,17 +76,19 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           border: "1px solid #d3d3d3",
+          height: "3rem",
         },
         head: {
           boxShadow: baseLightTheme.shadows[5],
           position: "relative",
-        },
+          height: "2.5rem",
+        }
       },
     },
     MuiTableCell: {
       styleOverrides: {
         root: {
-          // just in case
+          padding: 0,
         },
         head: {
           backgroundColor: "#d9d9d9",
@@ -95,6 +97,8 @@ const lightTheme = createTheme({
         body: {
           backgroundColor: "#ffffff",
           border: "1px solid #ebebeb",
+          paddingRight: 10,
+          paddingLeft: 10,
         },
       },
     },
@@ -112,7 +116,7 @@ const lightTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Nunito, sans-serif",
+    // fontFamily: "Poppins, sans-serif",
     h1: {
       fontSize: "clamp(1.5rem, 4vw, 3.5rem)", // 1.5rem mínimo, 4vw preferido, 3.5rem máximo
     },
@@ -255,15 +259,6 @@ const darkTheme = createTheme({
           },
         },
       ],
-    },
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
     },
   },
 });

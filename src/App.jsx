@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./App.css";
 import { Grid } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
@@ -45,7 +46,7 @@ const App = () => {
           minHeight: "100vh",
           minWidth: "720px",
           bgcolor: theme.palette.background.default,
-          fontFamily: theme.typography.fontFamily,
+          // fontFamily: theme.typography.fontFamily,
         }}
       >
         <Login />

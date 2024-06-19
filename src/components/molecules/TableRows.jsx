@@ -120,7 +120,7 @@ const TableRows = ({
                   </TableCell>
                 ))
             )}
-            <TableCell key="actions" sx={{ textAlign: "center" }}>
+            <TableCell key="options" sx={{ textAlign: "center" }}>
               <div>
                 {dIndexKey && (
                   <IconButton
