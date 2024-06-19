@@ -19,7 +19,7 @@ const MainLayout = ({
     <>
       <Grid item xs={10} md={9.25}>
           <Grid container marginTop=".5em" justifyContent="center">
-            <Box width="95%">
+            <Box width="100%" marginRight=".5em">
             <Grid item xs={12} md={12}>
               <Stack direction="row" spacing={5} justifyContent="right">
                 <NotificationsPanel />

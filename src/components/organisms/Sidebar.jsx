@@ -22,8 +22,8 @@ import DashboardLayout from "../templates/DashboardLayout"; //Cambiar por page D
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   height: "100%",
-  maxWidth: "230px",
-  fontSize: "18px",
+  maxWidth: "80%",
+  fontSize: theme.typography.subtitle1.fontSize,
   color: theme.palette.primary.contrastText,
   textTransform: "none",
   marginBottom: "1.5%",
@@ -54,11 +54,10 @@ const Sidebar = () => {
       <Grid item xs={2} md={2.75}>
         <Box
           sx={{
-            marginLeft: 2,
-            marginTop: 2,
-            minHeight: "93.5vh",
+            marginTop: ".5em",
+            minHeight: "96.5vh",
             bgcolor: theme.palette.primary.main,
-            borderRadius: "24px",
+            borderRadius: "1.5em",
           }}
         >
           <Box>

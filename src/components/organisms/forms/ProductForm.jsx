@@ -18,15 +18,6 @@ import { isEmptyObject } from "../../../functions/helpers";
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
   width: "75%",
-  "& .MuiInputBase-input": {
-    fontSize: "16px",
-  },
-  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main,
-  },
-  "& .MuiInputLabel-outlined.Mui-focused": {
-    color: theme.palette.primary.main,
-  },
 }));
 
 const ProductForm = ({

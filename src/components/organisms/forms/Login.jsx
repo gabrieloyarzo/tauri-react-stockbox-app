@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import UserApi from "../../../services/api/user.service";
-import Sidebar from '../Sidebar';
+import Sidebar from "../Sidebar";
 import {
   Box,
   Button,
@@ -30,22 +30,17 @@ const T2 = ({ handleChange, handleSubmit }) => {
 
   return (
     <>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={6} md={6}>
         <Box
           sx={{
-            "@media (max-width: 899.99px)": {
-              height: "300px",
-            },
-            "@media (min-width: 900px)": {
-              height: "100%",
-            },
+            height: "100%",
             width: "100%",
             backgroundColor: "#266763",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)",
-            borderRadius: "15px",
+            borderRadius: "1em",
           }}
         >
           <CardMedia
@@ -53,17 +48,16 @@ const T2 = ({ handleChange, handleSubmit }) => {
             alt="StockBox"
             image="/src/images/logo_2.png"
             sx={{
-              height: "55%",
-              width: "auto",
-              minHeight: "250px",
+              width: "45%",
+              height: "auto",
             }}
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={6} md={6}>
         <Box
           sx={{
-            backgroundColor: "#fff",
+            backgroundColor: theme.palette.background.default,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -74,12 +68,12 @@ const T2 = ({ handleChange, handleSubmit }) => {
           <Card
             sx={{
               width: "65%",
-              borderRadius: "16px",
+              borderRadius: "1em",
               bgcolor: theme.palette.background.default,
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+              boxShadow: theme.shadows[2],
             }}
           >
-            <Box sx={{ padding: "50px", margin: 2 }}>
+            <Box sx={{ padding: "2rem", margin: 2 }}>
               <Typography
                 variant="h4"
                 sx={{ fontWeight: "bold", textAlign: "center" }}
@@ -129,24 +123,15 @@ const T2 = ({ handleChange, handleSubmit }) => {
                     label="Recordar usuario"
                   />
                 </Box>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#266763",
-                    color: "#ffffff",
-                    fontSize: "1rem",
-                    width: "200px",
-                    borderRadius: "12px",
-                    "&:hover": {
-                      backgroundColor: "#c3fa7b",
-                      color: "#7e7e7e",
-                    },
-                    margin: 5,
-                  }}
-                  type="submit"
-                >
-                  INGRESAR
-                </Button>
+                <Box width="100%" display="flex" justifyContent="center" padding="2em">
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{ width: "50%" }}
+                  >
+                    INGRESAR
+                  </Button>
+                </Box>
               </Box>
             </form>
           </Card>
@@ -178,7 +163,6 @@ const Login = () => {
       const token = await UserApi.logUsers(credentials);
       console.log(token);
       //credentials -> {rut, password}
-
     } catch (error) {
       console.error("Error al setear datos");
     }
