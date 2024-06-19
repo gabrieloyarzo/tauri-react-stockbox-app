@@ -1,7 +1,5 @@
 import React from "react";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { StyledTableCell } from "../../styles/StylesTable";
+import { TableHead, TableRow, TableCell } from "@mui/material";
 
 const tableColumns = ({ currentTable }) => {
   switch (currentTable) {
@@ -28,9 +26,9 @@ const TableHeader = ({ currentTable }) => {
     <TableHead>
       <TableRow>
         {columns.map((column) => (
-          <StyledTableCell key={column}>{column}</StyledTableCell>
+          <TableCell key={column} sx={{ textAlign: "center" }}>{column}</TableCell>
         ))}
-        <StyledTableCell>Acciones</StyledTableCell>
+        <TableCell key="actions" sx={{ textAlign: "center" }}>Acciones</TableCell>
       </TableRow>
     </TableHead>
   );

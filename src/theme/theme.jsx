@@ -1,4 +1,11 @@
+import { backdropClasses } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
+
+const baseLightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
 
 const lightTheme = createTheme({
   palette: {
@@ -11,7 +18,7 @@ const lightTheme = createTheme({
     },
     secondary: {
       main: "#c3fa7b", // Verde chillón
-      light: "#CFFB95", // Verde chillón claro 
+      light: "#CFFB95", // Verde chillón claro
       dark: "#88AF56", // Verde chillón oscuro
       contrastText: "#8c8c8c", // Gris
     },
@@ -20,7 +27,7 @@ const lightTheme = createTheme({
       light: "#e57373", // Rojo claro
       dark: "#d32f2f", // Rojo oscuro
       contrastText: "#ffffff", // Blanco
-    }, 
+    },
     warning: {
       main: "#ffc107", // Amarillo
       light: "#ffecb3", // Amarillo claro
@@ -62,6 +69,32 @@ const lightTheme = createTheme({
         },
         "& .MuiInputBase-input": {
           // add something just in case
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          border: "1px solid #d3d3d3",
+        },
+        head: {
+          boxShadow: baseLightTheme.shadows[5],
+          position: "relative",
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          // just in case
+        },
+        head: {
+          backgroundColor: "#d9d9d9",
+          fontWeight: "bold",
+        },
+        body: {
+          backgroundColor: "#ffffff",
+          border: "1px solid #ebebeb",
         },
       },
     },

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material";
 import { IconButton, Tooltip } from "@mui/material";
-import TableBody from "@mui/material/TableBody";
-import { StyledTableCell, StyledTableRow } from "../../styles/StylesTable";
+import { TableBody, TableCell, TableRow } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -109,14 +108,19 @@ const TableRows = ({
     <>
       <TableBody>
         {data.map((obj, index) => (
-          <StyledTableRow key={index}>
+          <TableRow key={index}>
             {columns.map(
               (column, index) =>
-                !Array.isArray(obj[column]) && (
-                  <StyledTableCell key={index}>{obj[column]}</StyledTableCell>
-                )
+                !Array.isArray(obj[column]) &&
+                (isNaN(obj[column]) ? (
+                  <TableCell key={index}>{obj[column]}</TableCell>
+                ) : (
+                  <TableCell key={index} sx={{ textAlign: "right" }}>
+                    {obj[column]}
+                  </TableCell>
+                ))
             )}
-            <StyledTableCell key="actions">
+            <TableCell key="actions" sx={{ textAlign: "center" }}>
               <div>
                 {dIndexKey && (
                   <IconButton
@@ -184,8 +188,8 @@ const TableRows = ({
                   </Tooltip>
                 </IconButton>
               </div>
-            </StyledTableCell>
-          </StyledTableRow>
+            </TableCell>
+          </TableRow>
         ))}
       </TableBody>
       {activeModal && (

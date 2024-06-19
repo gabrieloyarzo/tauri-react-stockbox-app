@@ -45,6 +45,7 @@ const App = () => {
           minHeight: "100vh",
           minWidth: "720px",
           bgcolor: theme.palette.background.default,
+          fontFamily: theme.typography.fontFamily,
         }}
       >
         <Login />

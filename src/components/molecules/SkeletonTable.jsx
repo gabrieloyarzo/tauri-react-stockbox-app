@@ -5,9 +5,10 @@ import {
   TableBody,
   TableContainer,
   TableHead,
+  TableCell,
+  TableRow,
   Paper,
 } from "@mui/material";
-import { StyledTableCell, StyledTableRow } from "../../styles/StylesTable";
 
 const SkeletonTable = () => {
   const columns = Array.from({ length: 4 }, (_, index) => index + 1);
@@ -18,20 +19,20 @@ const SkeletonTable = () => {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <StyledTableRow>
-              <StyledTableCell colSpan={columns.length}>
+            <TableRow>
+              <TableCell colSpan={columns.length}>
                 <Skeleton variant="rectangular" />
-              </StyledTableCell>
-            </StyledTableRow>
+              </TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
-            <StyledTableRow>
+            <TableRow>
               {columns.map((column) => (
-                <StyledTableCell key={column}>
+                <TableCell key={column}>
                   <Skeleton variant="rectangular" />
-                </StyledTableCell>
+                </TableCell>
               ))}
-            </StyledTableRow>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
