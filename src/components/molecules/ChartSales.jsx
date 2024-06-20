@@ -10,14 +10,14 @@ const data = [
   { month: 'May', amount: 95000 },
   { month: 'Jun', amount: 150000 },
   { month: 'Jul', amount: 140000 },
-  { month: 'Ago', amount: 160000 },
+  { month: 'Ago', amount: 190000 },
   { month: 'Sep', amount: 135000 },
   { month: 'Oct', amount: 14500 },
   { month: 'Nov', amount: 13000 },
   { month: 'Dic', amount: 15500 },
 ];
 
-const ChartSales = () => {
+const Ventas = () => {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -33,20 +33,20 @@ const ChartSales = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '100vh', padding: '20px' }}>
+    <div style={{ width: '100%', height: 'auto'}}>
       <Typography gutterBottom align="left" sx={{fontSize: "27px", fontWeight: "bold"}}>
         Ventas
-        <Typography component="span" color="textSecondary"sx={{fontSize: "30px", fontWeight: "bold", marginLeft: "10px"}}>
+        <Typography component="span" color="textSecondary"sx={{fontSize: "30px", fontWeight: "bold", marginLeft: "5px"}}>
           $150,000
         </Typography>
       </Typography>
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={350}>
             <LineChart
               data={data}
-              margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
+              margin={{ top: 5, right: 10, left: 7, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
@@ -62,4 +62,4 @@ const ChartSales = () => {
   );
 };
 
-export default ChartSales;
+export default Ventas;
