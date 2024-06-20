@@ -215,13 +215,6 @@ const ProductForm = ({
               p: 5,
             }}
           >
-            {initialData?.idp && (
-              <StyledTextField
-                label="ID del producto"
-                value={initialData?.idp}
-                disabled
-              />
-            )}
             <StyledTextField
               label="Código"
               name="cod"

@@ -82,14 +82,8 @@ const PurchaseForm = ({
     cit: "",
     precio: "",
     suma: "0",
+    cod: "",
   };
-
-  initialData = initialData
-    ? {
-        ...initialData,
-        detalles: initialData.detalles.map(({ idpu, ...rest }) => rest),
-      }
-    : null;
 
   const [formData, setFormData] = useState(
     initialData
@@ -100,10 +94,10 @@ const PurchaseForm = ({
             : [initialRow],
         }
       : {
-          idpu: "",
+          cod: "",
           rutp: "",
-          rutu: "12345",
-          fecha: new Date().toISOString(),
+          rutu: "17545058-0",
+          fecha: new Date().toISOString().slice(0, 10),
           total: "",
           detalles: [initialRow],
         }
@@ -177,12 +171,10 @@ const PurchaseForm = ({
       return;
     }
 
-    // const submitItems =
-
     const submitData = {
       ...formData,
       total: total,
-      detalles: purchaseItems.map((item) => {
+      detalles: purchaseItems.map(({ cod, ...item }) => {
         const newItem = {};
 
         Object.keys(item).forEach((key) => {
@@ -203,7 +195,7 @@ const PurchaseForm = ({
         open: true,
         confirmAction: () => confirmModify(submitData),
         title: "Modificar compra",
-        text: `¿Está seguro que desea modificar la compra con ID: ${initialData.idpu}?`,
+        text: `¿Está seguro que desea modificar la compra con código: ${initialData.cod}?`,
         closeDialog: () =>
           setModifyDialogProps((prevProps) => ({
             ...prevProps,
@@ -212,6 +204,7 @@ const PurchaseForm = ({
       });
     } else {
       try {
+        console.log(submitData)
         setLoading(true);
 
         const response = await PurchaseApi.createPurchase(submitData);
@@ -336,10 +329,10 @@ const PurchaseForm = ({
         >
           <Stack alignItems="center" width="30%" p={1}>
             <StyledTextField
-              label="ID de la compra"
-              name="idpu"
-              value={formData.idpu}
-              error={!!errors.idpu}
+              label="Código"
+              name="cod"
+              value={formData.cod}
+              error={!!errors.cod}
               onChange={handleChange}
             />
             <Autocomplete
@@ -411,7 +404,7 @@ const PurchaseForm = ({
                   fontWeight="bold"
                   sx={{ textAlign: "center", flex: 1 }}
                 >
-                  ID del producto
+                  Código del producto
                 </Typography>
                 <Typography
                   variant="body1"
@@ -460,24 +453,30 @@ const PurchaseForm = ({
                     },
                   }}
                   options={products}
-                  name="idp"
+                  name="cod"
                   value={
-                    products.find((product) => product.idp === row.idp) || null
+                    products.find((product) => product.cod === row.cod) || null
                   }
-                  getOptionLabel={(option) => option.idp}
+                  getOptionLabel={(option) => option.cod}
                   noOptionsText="Sin opciones"
-                  onChange={(event, newValue) =>
+                  onChange={(event, newValue) => {
+                    handleChangeItem(index, {
+                      target: {
+                        name: "cod",
+                        value: newValue ? newValue.cod : "",
+                      },
+                    });
                     handleChangeItem(index, {
                       target: {
                         name: "idp",
                         value: newValue ? newValue.idp : "",
                       },
-                    })
-                  }
+                    });
+                  }}
                   renderOption={(props, option) => (
                     <Box component="li" {...props}>
                       <div>
-                        <Typography fontSize="14px">{option.idp}</Typography>
+                        <Typography fontSize="14px">{option.cod}</Typography>
                         <Typography fontSize="12px" color="textSecondary">
                           {option.nombre}
                         </Typography>
@@ -487,7 +486,7 @@ const PurchaseForm = ({
                   renderInput={(params) => (
                     <ItemTextField
                       {...params}
-                      error={!!itemErrors[index]?.idp}
+                      error={!!itemErrors[index]?.cod}
                       InputProps={{
                         ...params.InputProps,
                         sx: { width: "100%" },

@@ -10,7 +10,7 @@ const Providers = () => {
 
   const fetchData = async () => {
     const providers = await ProviderApi.getAllProviders();
-    setTableData(providers.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));
+    setTableData(providers.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));   
   };
 
   useEffect(() => {

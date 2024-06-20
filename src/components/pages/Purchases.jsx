@@ -30,6 +30,7 @@ const Purchases = () => {
       ...new Set(
         products.data.map((item) => ({
           idp: item.idp,
+          cod: item.cod,
           nombre: item.nombre,
         }))
       ),

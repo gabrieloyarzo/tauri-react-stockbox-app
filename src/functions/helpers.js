@@ -21,7 +21,7 @@ export const isEmptyArrayWithObjects = (array) => {
   });
 };
 
-export const localcurrency = (num) => {
+export const formatNumber = (num) => {
   // Verifica si el argumento es un número
   if (typeof num !== 'number') {
     return '';

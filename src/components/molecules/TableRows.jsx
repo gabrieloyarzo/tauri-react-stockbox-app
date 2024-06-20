@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useTheme } from "@mui/material";
 import { IconButton, Tooltip } from "@mui/material";
 import { TableBody, TableCell, TableRow } from "@mui/material";
+import { auxDelete } from "../../functions/auxDelete";
+import { formatNumber } from "../../functions/helpers";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { auxDelete } from "../../functions/auxDelete";
 import RenderModal from "../../functions/renderModal";
 import DeleteDialog from "../atoms/custom-ui/dialogs/DeleteDialog";
 import CustomSnackbar from "../atoms/custom-ui/snackbars/CustomSnackbar";
@@ -15,6 +16,15 @@ const isDetailTable = (currentTable) => {
     currentTable === "sales" ||
     currentTable === "refunds" ||
     currentTable === "purchases"
+  );
+};
+
+const isIdTable = (currentTable) => {
+  return (
+    currentTable === "sales" ||
+    currentTable === "refunds" ||
+    currentTable === "purchases" ||
+    currentTable === "products"
   );
 };
 
@@ -109,17 +119,34 @@ const TableRows = ({
       <TableBody>
         {data.map((obj, index) => (
           <TableRow key={index}>
-            {columns.map(
-              (column, index) =>
-                !Array.isArray(obj[column]) &&
-                (isNaN(obj[column]) ? (
-                  <TableCell key={index}>{obj[column]}</TableCell>
-                ) : (
-                  <TableCell key={index} sx={{ textAlign: "right" }}>
-                    {obj[column]}
-                  </TableCell>
-                ))
-            )}
+            {isIdTable(currentTable)
+              ? columns.map(
+                  (column, index) =>
+                    index != 0 &&
+                    !Array.isArray(obj[column]) &&
+                    (isNaN(obj[column]) ? (
+                      <TableCell key={index}>{obj[column]}</TableCell>
+                    ) : (
+                      <TableCell key={index} sx={{ textAlign: "right" }}>
+                        {formatNumber(obj[column])}
+                      </TableCell>
+                    ))
+                )
+              : columns.map(
+                  (column, index) =>
+                    !Array.isArray(obj[column]) &&
+                    (typeof obj[column] === "boolean" ? (
+                      <TableCell key={index}>
+                        {obj[column] ? "activo" : "inactivo"}
+                      </TableCell>
+                    ) : typeof obj[column] === "number" ? (
+                      <TableCell key={index} sx={{ textAlign: "right" }}>
+                        {formatNumber(obj[column])}
+                      </TableCell>
+                    ) : (
+                      <TableCell key={index}>{obj[column]}</TableCell>
+                    ))
+                )}
             <TableCell key="options" sx={{ textAlign: "center" }}>
               <div>
                 {dIndexKey && (

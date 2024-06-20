@@ -1,8 +1,8 @@
 export function validatePurchase(formData) {
   const newErrors = {};
 
-  if (formData.idpu.trim() === "") {
-    newErrors.idpu = "ID de la compra es requerida";
+  if (formData.cod.trim() === "") {
+    newErrors.cod = "Código es requerido";
   }
 
   if (formData.rutp.trim() === "") {
@@ -18,8 +18,8 @@ export function validatePurchaseItems(purchaseItems) {
   purchaseItems.forEach((item, index) => {
     const itemErrors = {};
 
-    if (item.idp.trim() === "" || item.idp === null || item.idp === undefined) {
-      itemErrors.idp = "ID de producto es requerido";
+    if (item.cod.trim() === "" || item.cod === null || item.cod === undefined) {
+      itemErrors.cod = "Código del producto es requerido";
     }
 
     if (typeof item.cit === "string") {
