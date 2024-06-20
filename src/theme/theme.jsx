@@ -116,7 +116,7 @@ const lightTheme = createTheme({
     },
   },
   typography: {
-    // fontFamily: "Poppins, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     h1: {
       fontSize: "clamp(1.5rem, 4vw, 3.5rem)", // 1.5rem mínimo, 4vw preferido, 3.5rem máximo
     },
