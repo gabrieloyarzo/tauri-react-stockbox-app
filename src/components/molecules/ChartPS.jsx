@@ -11,7 +11,7 @@ const data = [
   { name: 'Orden Cancelada', value: 1258 },
 ];
 
-const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#266763', '#FFBB28', '#D52A2A'];
 
 const EstadisticasProductos = () => (
   <div style={{ width: 'auto%', height: 'auto'}}>

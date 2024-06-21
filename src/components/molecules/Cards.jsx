@@ -7,13 +7,13 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
       sx={{ 
         textAlign: 'center',
         p: 1, 
-        border: '1px solid grey', 
         borderRadius: "15px",
         bgcolor: "#EFEFEF",
         display: 'flex', 
         flexDirection: 'column',
         justifyContent: 'space-between',
         height: '85%',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)',
       }}
     >
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
