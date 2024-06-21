@@ -43,7 +43,7 @@ const TopProductosVendidos = () => {
         layout="vertical"
         data={dataWithPercentage}
         margin={{ top: 5, bottom: 5}}
-        padding={{ top: 20 }}
+        padding={{ top: 20 }} 
         >
           <XAxis type="number" domain={[0, 100]} tick={false} axisLine={false} />
           <YAxis type="category" tick={false} axisLine={false}/>

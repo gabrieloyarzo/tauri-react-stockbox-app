@@ -6,6 +6,7 @@ import Cards from '../molecules/Cards';
 import ChartPS from '../molecules/ChartPS'; 
 import ChartSales from '../molecules/ChartSales'; 
 import ChartTT from '../molecules/ChartTT'; 
+import ChartST from '../molecules/ChartST'; 
 
 const Dashboard = ({ data }) => {
   return (
@@ -27,7 +28,7 @@ const Dashboard = ({ data }) => {
           <ChartPS style={{ width: "100%" }} />
         </Grid>
         <Grid item xs={6} marginTop="1.5em">
-          <ChartSales style={{ width: "100%" }} />
+          <ChartST style={{ width: "100%" }} />
         </Grid>
         <Grid item xs={6} marginTop="1.5em">
           <ChartTT style={{ width: "100%" }} />
