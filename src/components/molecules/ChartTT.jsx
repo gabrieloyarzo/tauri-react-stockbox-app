@@ -9,6 +9,10 @@ const data = [
   { name: 'Other', value: 13 },
   { name: 'Sensors', value: 12 },
   { name: 'Batteries', value: 9 },
+  { name: 'Sens12312ors', value: 12 },
+  { name: 'Batt2312eries', value: 9 },
+  { name: 'Sen23sors', value: 12 },
+  { name: 'Bat123teries', value: 9 },
 ];
 
 const totalValue = data.reduce((acc, item) => acc + item.value, 0);
@@ -21,15 +25,15 @@ const dataWithPercentage = data.map(item => ({
 
 const TopProductosVendidos = () => {
   return (
-    <Box sx={{ width: '100%', height: 400 }}>
-      <Typography variant="h6" padding="10px" gutterBottom>
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <Typography variant="h6" paddingLeft="30px" gutterBottom>
         Top 10 productos más vendidos
       </Typography>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          layout="vertical"
-          data={dataWithPercentage}
-          margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
+      <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        layout="vertical"
+        data={dataWithPercentage}
+        margin={{ top: 5, right: 0, bottom: 5, left: 0 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis type="number" tick={false} />

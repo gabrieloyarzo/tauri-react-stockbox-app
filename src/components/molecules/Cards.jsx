@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Typography, Box } from '@mui/material';
-// import ProductApi from "../../services/api/analytics.service";
 
 const CardFormat = ({ titulo, monto, incremento, periodo }) => {
   return (
@@ -11,29 +10,25 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
         border: '1px solid grey', 
         borderRadius: "15px",
         bgcolor: "#EFEFEF",
-        height: 100,
         display: 'flex', 
         flexDirection: 'column',
-        justifyContent: 'space-between' 
+        justifyContent: 'space-between',
+        height: '85%',
       }}
     >
-      <Typography variant="h7" component="div"
-        sx={{ textAlign: 'center', fontWeight: "bold"}}>
-        {titulo}
-      </Typography>
-      <Box 
-        sx={{
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            flexGrow: 1
-        }}
-      >
-        <Typography variant="h5" component="div">
-          {monto}
-        </Typography>
+      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+        <Grid item xs={12}>
+          <Typography variant="h7" component="div" sx={{ fontWeight: "bold", textAlign: 'center' }}>
+            {titulo}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h5" component="div">
+            {monto}
+          </Typography>
+        </Grid>
         {(incremento || periodo) && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginLeft: 1, marginTop: 5}}>
+          <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             {incremento && (
               <Typography fontSize="18px" color="text.secondary">
                 {incremento}
@@ -44,12 +39,14 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
                 {periodo}
               </Typography>
             )}
-          </Box>
+          </Grid>
         )}
-      </Box>
+      </Grid>
     </Box>
   );
 }
+
+
 
 // const CardGrid = () => {
 //   const [data, setData] = useState(null);

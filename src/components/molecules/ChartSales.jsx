@@ -43,7 +43,7 @@ const Ventas = () => {
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={300}>
             <LineChart
               data={data}
               margin={{ top: 5, right: 10, left: 7, bottom: 5 }}

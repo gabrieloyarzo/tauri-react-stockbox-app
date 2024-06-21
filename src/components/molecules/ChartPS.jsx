@@ -18,7 +18,7 @@ const EstadisticasProductos = () => (
     <Typography gutterBottom align="left" sx={{fontSize: "27px", fontWeight: "bold"}}>
       Estadísticas de Productos
     </Typography>
-    <ResponsiveContainer width="100%" height={290}>
+    <ResponsiveContainer width="100%" height={230}>
       <PieChart>
         <Pie
           data={data}

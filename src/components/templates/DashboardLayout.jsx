@@ -26,10 +26,10 @@ const Dashboard = ({ data }) => {
         <Grid item xs={6} marginTop="1em" paddingLeft=".5em">
           <ChartPS style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} paddingRight=".5em" marginTop="1.5em">
+        <Grid item xs={6} marginTop="1.5em">
           <ChartSales style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} paddingLeft=".5em" marginTop="1.5em">
+        <Grid item xs={6} marginTop="1.5em">
           <ChartTT style={{ width: "100%" }} />
         </Grid>
       </Grid>
