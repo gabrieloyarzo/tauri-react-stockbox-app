@@ -1,5 +1,9 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import LabelImportantRoundedIcon from '@mui/icons-material/LabelImportantRounded';
+import Typography from '@mui/material/Typography';
+
 
 const data = [
   { name: 'Orden Completa', value: 5636 },
@@ -10,9 +14,11 @@ const data = [
 const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
 
 const EstadisticasProductos = () => (
-  <div style={{ width: '100%', height: 'auto', paddingTop: '20px' }}>
-    <h3 style={{ textAlign: 'left'}}>Estadísticas de Productos</h3>
-    <ResponsiveContainer width="100%" height={200}>
+  <div style={{ width: 'auto%', height: 'auto'}}>
+    <Typography gutterBottom align="left" sx={{fontSize: "27px", fontWeight: "bold"}}>
+      Estadísticas de Productos
+    </Typography>
+    <ResponsiveContainer width="100%" height={290}>
       <PieChart>
         <Pie
           data={data}
@@ -32,10 +38,13 @@ const EstadisticasProductos = () => (
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
-    <div>
+    <div style={{paddingTop: '0px' }}>
       {data.map((entry, index) => (
-        <div key={`item-${index}`} style={{ color: COLORS[index % COLORS.length] }}>
-          {entry.name}: {entry.value}
+        <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center' }}>
+          <ListItemIcon>
+            <LabelImportantRoundedIcon style={{ color: COLORS[index % COLORS.length] }} /> 
+          </ListItemIcon>
+          <span style={{ color: 'black' }}>{entry.name}: {entry.value}</span>
         </div>
       ))}
     </div>

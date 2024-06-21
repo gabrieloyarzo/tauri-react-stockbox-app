@@ -17,19 +17,19 @@ const Dashboard = ({ data }) => {
             <Profile />
           </Stack>
         </Grid>
-        <Grid item xs={12} marginTop="1em" width="95%">
+        <Grid item xs={12} marginTop="1.5em" width="95%">
           <Cards />
         </Grid>
-        <Grid item xs={6} marginTop="1em" paddingRight=".5em">
+        <Grid item xs={6} marginTop="1.5em" paddingRight=".5em">
           <ChartSales style={{ width: "100%" }} />
         </Grid>
         <Grid item xs={6} marginTop="1em" paddingLeft=".5em">
           <ChartPS style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} paddingRight=".5em">
+        <Grid item xs={6} paddingRight=".5em" marginTop="1.5em">
           <ChartSales style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} paddingLeft=".5em">
+        <Grid item xs={6} paddingLeft=".5em" marginTop="1.5em">
           <ChartTT style={{ width: "100%" }} />
         </Grid>
       </Grid>
