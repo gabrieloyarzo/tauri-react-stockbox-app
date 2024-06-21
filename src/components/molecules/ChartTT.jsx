@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelL
 import { Typography, Box } from '@mui/material';
 
 const data = [
-  { name: 'Switches', value: 67 },
+  { name: 'Switches', value: 67000 },
   { name: 'Displays', value: 16 },
   { name: 'Transistors', value: 14 },
   { name: 'Other', value: 13 },
@@ -35,15 +35,14 @@ const renderCustomizedLabel = ({ x, y, width, value, index }) => {
 const TopProductosVendidos = () => {
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography gutterBottom align="left" sx={{fontSize: "27px", fontWeight: "bold", marginLeft: "50px"}}>
+      <Typography gutterBottom align="left" sx={{fontSize: "25px", fontWeight: "bold", marginLeft: "30px"}}>
         Top 10 productos más vendidos
       </Typography>
       <ResponsiveContainer width="100%" height={360}>
       <BarChart
         layout="vertical"
         data={dataWithPercentage}
-        margin={{ top: 5, bottom: 5}}
-        padding={{ top: 20 }} 
+        margin={{ top: 5, right: 5}}
         >
           <XAxis type="number" domain={[0, 100]} tick={false} axisLine={false} />
           <YAxis type="category" tick={false} axisLine={false}/>

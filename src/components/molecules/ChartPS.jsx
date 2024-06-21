@@ -15,10 +15,10 @@ const COLORS = ['#266763', '#FFBB28', '#D52A2A'];
 
 const EstadisticasProductos = () => (
   <div style={{ width: 'auto%', height: 'auto'}}>
-    <Typography gutterBottom align="left" sx={{fontSize: "27px", fontWeight: "bold"}}>
+    <Typography align="left" sx={{fontSize: "25px", fontWeight: "bold"}}>
       Estadísticas de Productos
     </Typography>
-    <ResponsiveContainer width="100%" height={230}>
+    <ResponsiveContainer width="100%" height={240}>
       <PieChart>
         <Pie
           data={data}
@@ -27,7 +27,7 @@ const EstadisticasProductos = () => (
           innerRadius={50}
           outerRadius={70}
           fill="#8884d8"
-          paddingAngle={5}
+          paddingAngle={4}
           dataKey="value"
           label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
         >
@@ -38,9 +38,9 @@ const EstadisticasProductos = () => (
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
-    <div style={{paddingTop: '0px' }}>
+    <div>
       {data.map((entry, index) => (
-        <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center' }}>
+        <div key={`item-${index}`} style={{ display: 'flex', alignItems: 'center', marginLeft:'15px'}}>
           <ListItemIcon>
             <LabelImportantRoundedIcon style={{ color: COLORS[index % COLORS.length] }} /> 
           </ListItemIcon>

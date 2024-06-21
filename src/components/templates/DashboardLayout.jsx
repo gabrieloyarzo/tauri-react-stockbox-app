@@ -21,16 +21,16 @@ const Dashboard = ({ data }) => {
         <Grid item xs={12} marginTop="1.5em" width="95%">
           <Cards />
         </Grid>
-        <Grid item xs={6} marginTop="1.5em" paddingRight=".5em">
+        <Grid item xs={6.5} marginTop="1.5em" paddingRight=".5em">
           <ChartSales style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} marginTop="1em" paddingLeft=".5em">
+        <Grid item xs={5.5} marginTop="1em" paddingLeft=".5em">
           <ChartPS style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} marginTop="1.5em">
+        <Grid item xs={7.1} marginTop="1.5em">
           <ChartST style={{ width: "100%" }} />
         </Grid>
-        <Grid item xs={6} marginTop="1.5em">
+        <Grid item xs={4.9} marginTop="1.5em">
           <ChartTT style={{ width: "100%" }} />
         </Grid>
       </Grid>

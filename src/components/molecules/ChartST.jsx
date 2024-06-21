@@ -22,7 +22,7 @@ const total2024 = data.reduce((sum, item) => sum + item.year2024, 0);
 
 const TendenciasVentas = () => (
   <Box sx={{ width: '100%', height: 'auto' }}>
-    <Typography gutterBottom align="left" sx={{ fontSize: "27px", fontWeight: "bold" }}>
+    <Typography gutterBottom align="left" sx={{ fontSize: "25px", fontWeight: "bold" }}>
       Tendencia de ventas
     </Typography>
     <Box sx={{ width: '100%', height: 325 }}>
