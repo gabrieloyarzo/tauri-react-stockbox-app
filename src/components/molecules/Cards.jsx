@@ -18,12 +18,12 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
     >
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         <Grid item xs={12}>
-          <Typography variant="h7" component="div" sx={{ fontWeight: "bold", textAlign: 'center' }}>
+          <Typography component="div" sx={{ fontWeight: "bold", textAlign: 'center', fontSize: '15px'}}>
             {titulo}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="h5" component="div">
+          <Typography component="div" sx={{ fontWeight: "bold", textAlign: 'center', fontSize: '22px', color: '#266763'}}>
             {monto}
           </Typography>
         </Grid>

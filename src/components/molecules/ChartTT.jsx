@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelL
 import { Typography, Box } from '@mui/material';
 
 const data = [
-  { name: 'Switches', value: 17 },
+  { name: 'Switches', value: 67 },
   { name: 'Displays', value: 16 },
   { name: 'Transistors', value: 14 },
   { name: 'Other', value: 13 },
@@ -17,30 +17,40 @@ const data = [
 
 const totalValue = data.reduce((acc, item) => acc + item.value, 0);
 
-
 const dataWithPercentage = data.map(item => ({
   name: item.name,
   value: ((item.value / totalValue) * 100).toFixed(2) 
 }));
 
+const renderCustomizedLabel = ({ x, y, width, value, index }) => {
+    const item = dataWithPercentage[index];
+  
+    return (
+      <text x={x} y={y} dy={-4} textAnchor="start" fill="#666" fontSize={12} fontWeight="bold" >
+        {`${item.name} (${item.value}%)`}
+      </text>
+    );
+  };
+
 const TopProductosVendidos = () => {
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography variant="h6" paddingLeft="30px" gutterBottom>
+      <Typography gutterBottom align="left" sx={{fontSize: "27px", fontWeight: "bold", marginLeft: "50px"}}>
         Top 10 productos más vendidos
       </Typography>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={360}>
       <BarChart
         layout="vertical"
         data={dataWithPercentage}
-        margin={{ top: 5, right: 0, bottom: 5, left: 0 }}
+        margin={{ top: 5, bottom: 5}}
+        padding={{ top: 20 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" tick={false} />
-          <YAxis type="category" tick={false} />
-          <Bar dataKey="value" fill="#8884d8" barSize={30}>
-            <LabelList dataKey={(entry) => `${entry.name} (${entry.value}%)`} position="insideRight" style={{ fill: 'white' }} />
+          <XAxis type="number" domain={[0, 100]} tick={false} axisLine={false} />
+          <YAxis type="category" tick={false} axisLine={false}/>
+          <Bar dataKey="value" fill="#266763" barSize={7} >
+            <LabelList dataKey="name" content={renderCustomizedLabel} />
           </Bar>
+          
         </BarChart>
       </ResponsiveContainer>
     </Box>
