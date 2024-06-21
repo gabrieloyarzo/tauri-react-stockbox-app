@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Typography, Box } from '@mui/material';
+import AnalyticApi from '../../services/api/analytic.service';
 
 const CardFormat = ({ titulo, monto, incremento, periodo }) => {
   return (
@@ -46,88 +47,43 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
   );
 }
 
-
-
-// const CardGrid = () => {
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await ProductApi.getAnalyticsData();
-//         setData(response.data);
-//       } catch (error) {
-//         console.error("Error fetching data: ", error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   if (!data) {
-//     return <div>Loading...</div>;
-//   }
-
-//   return (
-//     <Grid container spacing={2}>
-//       <Grid item xs={2.4}>
-//         <CardFormat 
-//           titulo={data.ingresosTotales.titulo} 
-//           monto={data.ingresosTotales.monto} 
-//           incremento={data.ingresosTotales.incremento} 
-//           periodo={data.ingresosTotales.periodo} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.4}>
-//         <CardFormat 
-//           titulo={data.numeroDeVentas.titulo} 
-//           monto={data.numeroDeVentas.monto} 
-//           incremento={data.numeroDeVentas.incremento} 
-//           periodo={data.numeroDeVentas.periodo} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.4}>
-//         <CardFormat 
-//           titulo={data.numeroDeCompras.titulo} 
-//           monto={data.numeroDeCompras.monto} 
-//           incremento={data.numeroDeCompras.incremento} 
-//           periodo={data.numeroDeCompras.periodo} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.3}>
-//         <CardFormat 
-//           titulo={data.alertasDeBajoStock.titulo} 
-//           monto={data.alertasDeBajoStock.monto} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.5}>
-//         <CardFormat 
-//           titulo={data.inventarioActualDeProductos.titulo} 
-//           monto={data.inventarioActualDeProductos.monto}
-//         />
-//       </Grid>
-//     </Grid>
-//   );
-// }
-
-
 const CardGrid = () => {
+  const [analyticData, setAnalyticData] = useState({
+    countP: 0,
+    countS: 0,
+    sumaPrice: 0,
+    countC: 0,
+  });
+
+  useEffect(() => {
+    const fetchAnalyticData = async () => {
+      try {
+        const data = await AnalyticApi.getAnalytic();
+        setAnalyticData(data);
+      } catch (error) {
+        console.error("Error al obtener datos analíticos:", error);
+      }
+    };
+
+    fetchAnalyticData();
+  }, []);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={2.4}>
-        <CardFormat titulo="Ingresos totales" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="Ingresos totales" monto={`$${analyticData.sumaPrice}`} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de ventas" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de ventas" monto={analyticData.countS} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de compras" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de compras" monto={analyticData.countC} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.3}>
         <CardFormat titulo="Alertas de bajo stock" monto="400" />
       </Grid>
       <Grid item xs={2.5}>
-        <CardFormat titulo="Inventario actual de productos" monto="4000"/>
+        <CardFormat titulo=" N° de inventario actual" monto={analyticData.countP} />
       </Grid>
     </Grid>
   );
