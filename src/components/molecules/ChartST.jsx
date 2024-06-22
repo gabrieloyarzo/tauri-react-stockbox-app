@@ -3,18 +3,18 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Box, Typography } from '@mui/material';
 
 const data = [
-  { month: 'Enero', year2023: 4000, year2024: 2400 },
-  { month: 'Febrero', year2023: 3000, year2024: 1398 },
-  { month: 'Marzo', year2023: 2000, year2024: 9800 },
-  { month: 'Abril', year2023: 2780, year2024: 3908 },
-  { month: 'Mayo', year2023: 1890, year2024: 4800 },
-  { month: 'Junio', year2023: 2390, year2024: 3800 },
-  { month: 'Julio', year2023: 3490, year2024: 4300 },
-  { month: 'Agosto', year2023: 3490, year2024: 4300 },
-  { month: 'Septiembre', year2023: 3490, year2024: 4300 },
-  { month: 'Octubre', year2023: 3490, year2024: 4300 },
-  { month: 'Noviembre', year2023: 3490, year2024: 4300 },
-  { month: 'Diciembre', year2023: 3490, year2024: 4300 },
+  { month: 'Ene', year2023: 4000, year2024: 2400 },
+  { month: 'Feb', year2023: 3000, year2024: 1398 },
+  { month: 'Mar', year2023: 2000, year2024: 9800 },
+  { month: 'Abr', year2023: 2780, year2024: 3908 },
+  { month: 'May', year2023: 1890, year2024: 4800 },
+  { month: 'Jun', year2023: 2390, year2024: 3800 },
+  { month: 'Jul', year2023: 3490, year2024: 4300 },
+  { month: 'Ago', year2023: 3490, year2024: 4300 },
+  { month: 'Sep', year2023: 3490, year2024: 4300 },
+  { month: 'Oct', year2023: 3490, year2024: 4300 },
+  { month: 'Nov', year2023: 3490, year2024: 4300 },
+  { month: 'Dic', year2023: 3490, year2024: 4300 },
 ];
 
 const total2023 = data.reduce((sum, item) => sum + item.year2023, 0);

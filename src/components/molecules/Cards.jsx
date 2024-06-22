@@ -48,29 +48,26 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
 }
 
 const CardGrid = () => {
+  
   const [analyticsData, setAnalyticsData] = useState({
-    // sumTotalSales: 0,
-    productsCount: 0,
-    purchasesCount: 0,
-    sumTotalSales: 0,
-    // notificationCount: 0
+    IngresosTotales: 0,
+    NVentas: 0,
+    NCompras: 0,
+    NAlertas: 0,
+    NProductos: 0
   });
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
       try {
-        // const analyticsResponse = await AnalyticApi.getAnalyticData();
-        const productsCount = await AnalyticApi.getProductsCount();
-        const purchasesCount = await AnalyticApi.getPurchasesCount();
-        const salesCount = await AnalyticApi.getSalesCount();
-        // const notificationCount = await AnalyticApi.getnotificationCount();
+        const AnalyticData = await AnalyticApi.getAnalyticData();
         
         setAnalyticsData({
-          // sumTotalSales: analyticsResponse.sumTotalSales,
-          productsCount: productsCount,
-          purchasesCount: purchasesCount,
-          salesCount: salesCount
-          // notificationCount: notificationCount
+          IngresosTotales: AnalyticData.data.sumTotalSales,
+          NVentas: AnalyticData.data.countSales,
+          NCompras: AnalyticData.data.countPurchases,
+          NAlertas: AnalyticData.data.countNotifications,
+          NProductos: AnalyticData.data.catProducts,
         });
       } catch (error) {
         console.error("Error al obtener datos de analytics:", error);
@@ -83,19 +80,19 @@ const CardGrid = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={2.4}>
-        <CardFormat titulo="Ingresos totales" monto={`$${analyticsData.purchasesCount}`} incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="Ingresos totales" monto={`$${analyticsData.IngresosTotales}`} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de ventas" monto={analyticsData.salesCount} incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de ventas" monto={analyticsData.NVentas} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de compras" monto={analyticsData.purchasesCount} incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de compras" monto={analyticsData.NCompras} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.3}>
-        <CardFormat titulo="Alertas de bajo stock" monto={analyticsData.purchasesCount} />
+        <CardFormat titulo="Alertas de bajo stock" monto={analyticsData.NAlertas} />
       </Grid>
       <Grid item xs={2.5}>
-        <CardFormat titulo="N° de inventario actual" monto={analyticsData.productsCount} />
+        <CardFormat titulo="N° de inventario actual" monto={analyticsData.NProductos} />
       </Grid>
     </Grid>
   );
