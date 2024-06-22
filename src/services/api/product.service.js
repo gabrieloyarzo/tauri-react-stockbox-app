@@ -3,9 +3,9 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 const ProductApi = {
-  async getAllProducts() {
+  async getAllProducts({ dato, orden, offset, limit }) {
     try {
-      const response = await axios.get(`${API_URL}`);
+      const response = await axios.get(`${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`);
       return response.data;
     } catch (error) {
       console.error("Error al obtener productos:", error);
@@ -38,8 +38,6 @@ const ProductApi = {
   },
 
   async updateProduct(productId, updatedProductData) {
-
-
     try {
       const response = await axios.put(
         `${API_URL}/${productId}/edit`,

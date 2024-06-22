@@ -91,7 +91,7 @@ const ProductForm = ({
         open: true,
         confirmAction: () => confirmModify(),
         title: "Modificar producto",
-        text: `¿Está seguro que desea modificar el producto con ID: ${initialData.idp}?`,
+        text: `¿Está seguro que desea modificar el producto con código: ${initialData.cod}?`,
         closeDialog: () =>
           setModifyDialogProps((prevProps) => ({
             ...prevProps,

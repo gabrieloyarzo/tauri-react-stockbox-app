@@ -9,6 +9,10 @@ export function validatePurchase(formData) {
     newErrors.rutp = "RUT de la empresa es requerido";
   }
 
+  if (formData.fecha.trim() === "") {
+    newErrors.fecha = "Fecha es requerida";
+  }
+
   return newErrors;
 }
 

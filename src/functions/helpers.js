@@ -28,4 +28,4 @@ export const formatNumber = (num) => {
   }
   // Usa toLocaleString para formatear el número de acuerdo a la moneda del país y retorna con los puntos.
   return num.toLocaleString('es-CL');
-}     
+}

@@ -5,11 +5,15 @@ import FeedbackLayout from "../templates/FeedbackLayout";
 import ProductForm from "../organisms/forms/ProductForm";
 
 const Products = () => {
+  // Data table and related forms
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
+  
+  // Filters
+  const [filterProps, setFilterProps] = useState({});
 
-  const fetchData = async () => {
-    const products = await ProductApi.getAllProducts();
+  const fetchData = async (props) => {
+    const products = await ProductApi.getAllProducts(props);
     setTableData(
       products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
     );
@@ -17,8 +21,9 @@ const Products = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(filterProps);
+  }, [filterProps]);
+
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
@@ -38,6 +43,7 @@ const Products = () => {
         currentTable="products"
         data={tableData}
         fetchData={fetchData}
+        setFilterProps={setFilterProps}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
       />

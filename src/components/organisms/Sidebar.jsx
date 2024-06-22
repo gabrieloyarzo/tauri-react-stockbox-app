@@ -7,7 +7,7 @@ import {
   Contacts,
   Inventory,
   Leaderboard,
-  LocalShipping,
+  LocalMall,
   Loop,
   Help,
   Settings,
@@ -152,7 +152,7 @@ const Sidebar = () => {
                   <StyledTab
                     value="purchases"
                     label={!isSmallScreen && "Compras"}
-                    icon={<LocalShipping />}
+                    icon={<LocalMall />}
                     iconPosition="start"
                   />
                   <StyledTab

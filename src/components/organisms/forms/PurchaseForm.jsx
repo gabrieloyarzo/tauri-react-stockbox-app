@@ -28,33 +28,13 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
   width: "100%",
   "& .MuiInputBase-input": {
-    fontSize: "16px",
-    height: "15px",
-  },
-  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main,
-  },
-  "& .MuiInputLabel-outlined.Mui-focused": {
-    color: theme.palette.primary.main,
-  },
-  "& .MuiInputLabel-root": {
-    fontSize: "16px",
+    height: "1rem",
   },
 }));
 
 const ItemTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
-    fontSize: "14px",
-    height: "4px",
-  },
-  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main,
-  },
-  "& .MuiInputLabel-outlined.Mui-focused": {
-    color: theme.palette.primary.main,
-  },
-  "& .MuiInputLabel-root": {
-    fontSize: "14px",
+    height: ".25em",
   },
 }));
 
@@ -97,7 +77,7 @@ const PurchaseForm = ({
           cod: "",
           rutp: "",
           rutu: "17545058-0",
-          fecha: new Date().toISOString().slice(0, 10),
+          fecha: "",
           total: "",
           detalles: [initialRow],
         }
@@ -190,6 +170,8 @@ const PurchaseForm = ({
       }),
     };
 
+    console.log(submitData)
+
     if (mode === "modify") {
       setModifyDialogProps({
         open: true,
@@ -204,7 +186,7 @@ const PurchaseForm = ({
       });
     } else {
       try {
-        console.log(submitData)
+        console.log(submitData);
         setLoading(true);
 
         const response = await PurchaseApi.createPurchase(submitData);
@@ -301,11 +283,12 @@ const PurchaseForm = ({
         overflow: "hidden",
         bgcolor: "#ffffff",
         border: "1.5px solid #266763",
-        borderRadius: "15px",
+        borderRadius: "1rem",
       }}
     >
       <Box
         sx={{
+          display: "flex",
           bgcolor: theme.palette.primary.main,
           width: "100%",
           p: 1,
@@ -381,6 +364,17 @@ const PurchaseForm = ({
                   }}
                 />
               )}
+            />
+            <StyledTextField
+              label="Fecha"
+              name="fecha"
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={formData.fecha}
+              error={!!errors.fecha}
+              onChange={handleChange}
             />
           </Stack>
 
@@ -626,18 +620,22 @@ const PurchaseForm = ({
               }}
               onClick={
                 mode === "modify" ||
-                isEmptyObject(
-                  Object.keys(formData).filter(
-                    (key) =>
-                      !key.includes("rutu") ||
-                      !key.includes("fecha") ||
-                      !key.includes("total") ||
-                      !key.includes("detalles")
-                  )
-                ) ||
-                isEmptyArrayWithObjects(
-                  purchaseItems.map(({ suma, ...rest }) => rest)
-                )
+                (isEmptyObject(
+                  Object.keys(formData)
+                    .filter(
+                      (key) =>
+                        key.includes("cod") ||
+                        key.includes("rutp") ||
+                        key.includes("fecha")
+                    )
+                    .reduce((obj, key) => {
+                      obj[key] = formData[key];
+                      return obj;
+                    }, {})
+                ) &&
+                  isEmptyArrayWithObjects(
+                    purchaseItems.map(({ suma, ...rest }) => rest)
+                  ))
                   ? closeForm
                   : () =>
                       setDiscardDialogProps({

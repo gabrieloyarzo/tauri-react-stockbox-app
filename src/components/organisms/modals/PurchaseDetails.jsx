@@ -77,7 +77,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
           <tbody>
             {data.detalles.map((item, index) => (
               <tr key={index}>
-                <td style={{ textAlign: "center", width: "20%" }}>{item.cod}</td>
+                <td style={{ textAlign: "center", width: "20%" }}>{item.idp}</td>
                 <td style={{ textAlign: "center", width: "20%" }}>{item.cit}</td>
                 <td style={{ textAlign: "center", width: "1%"}}>x</td>
                 <td style={{ textAlign: "center", width: "25%" }}>${item.precio}</td>
