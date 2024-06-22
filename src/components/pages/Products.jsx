@@ -8,12 +8,15 @@ const Products = () => {
   // Data table and related forms
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [count, setCount] = useState(0);
   
   // Filters
   const [filterProps, setFilterProps] = useState({});
 
   const fetchData = async (props) => {
     const products = await ProductApi.getAllProducts(props);
+    console.log(products);
+    setCount(products.largo);
     setTableData(
       products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
     );
@@ -23,7 +26,6 @@ const Products = () => {
   useEffect(() => {
     fetchData(filterProps);
   }, [filterProps]);
-
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
@@ -46,6 +48,7 @@ const Products = () => {
         setFilterProps={setFilterProps}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
+        count={count}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}

@@ -14,6 +14,8 @@ const MainLayout = ({
   fetchData,
   setFormProps,
   toggleForm,
+  setFilterProps,
+  count,
 }) => {
   return (
     <>
@@ -64,7 +66,7 @@ const MainLayout = ({
                 minHeight: "100%", // Ensure it takes up the remaining space
               }}
             >
-              <Pagination />
+              <Pagination setFilterProps={setFilterProps} count={count} />
             </Box>
           </Grid>
         </Grid>

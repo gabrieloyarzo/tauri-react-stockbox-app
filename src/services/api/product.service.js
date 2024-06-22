@@ -3,9 +3,18 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 const ProductApi = {
-  async getAllProducts({ dato, orden, offset, limit }) {
+  async getAllProducts({
+    dato = "product_id",
+    orden = "asc",
+    offset = 0,
+    limit = 10,
+  }) 
+  {
+    console.log(dato, orden, offset, limit);
     try {
-      const response = await axios.get(`${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`);
+      const response = await axios.get(
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error al obtener productos:", error);

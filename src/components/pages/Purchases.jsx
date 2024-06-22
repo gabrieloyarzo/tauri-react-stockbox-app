@@ -1,40 +1,24 @@
 import React, { useState, useEffect } from "react";
 import PurchaseApi from "../../services/api/purchase.service";
-import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
 import FeedbackLayout from "../templates/FeedbackLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
-import ProviderApi from "../../services/api/provider.service";
-import mockPurchases from "../../../mock/purchaseMocks";
 
 const Purchases = () => {
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
   const [providers, setProviders] = useState([]);
+  const [count, setCount] = useState(0);
+  
+  // Filters
+  const [filterProps, setFilterProps] = useState({});
 
-  const fetchData = async () => {
-    const purchases = await PurchaseApi.getAllPurchases();
-    const providers = await ProviderApi.getAllProviders();
-    const products = await ProductApi.getAllProducts();
-    
+  const fetchData = async (props) => {
+    const purchases = await PurchaseApi.getAllPurchases(props);
+    console.log(purchases.data);
     setTableData(purchases.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));
-    setProviders([
-      ...new Set(
-        providers.data.map((item) => ({
-          rutp: item.rutp,
-          nombre: item.nombre,
-        }))
-      ),
-    ]);
-    setProducts([
-      ...new Set(
-        products.data.map((item) => ({
-          idp: item.idp,
-          cod: item.cod,
-          nombre: item.nombre,
-        }))
-      ),
-    ]);
+    setProviders(purchases.providers);
+    setProducts(purchases.products);
   };
 
   useEffect(() => {
@@ -61,6 +45,8 @@ const Purchases = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
+        count={count}
+        setFilterProps={setFilterProps}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}

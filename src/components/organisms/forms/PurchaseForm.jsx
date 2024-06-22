@@ -269,6 +269,7 @@ const PurchaseForm = ({
   return (
     <Box
       sx={{
+        zIndex: 1,
         position: "absolute",
         width: "50vw",
         minWidth: "440px",
@@ -288,7 +289,6 @@ const PurchaseForm = ({
     >
       <Box
         sx={{
-          display: "flex",
           bgcolor: theme.palette.primary.main,
           width: "100%",
           p: 1,

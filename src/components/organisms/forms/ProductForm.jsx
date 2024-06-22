@@ -103,7 +103,7 @@ const ProductForm = ({
         setLoading(true);
 
         const response = await ProductApi.createProduct(formData);
-        await fetchData();
+        // await fetchData();
 
         setSnackProps({
           open: true,
@@ -115,6 +115,7 @@ const ProductForm = ({
         setLoading(false);
         closeForm();
       } catch (error) {
+        console.log(error);
         setSnackProps({
           open: true,
           closeSnack: handleCloseSnack,

@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material/styles";
-import { Stack } from "@mui/material"
 import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { formatNumber } from "../../../functions/helpers";
 
 const PurchaseDetails = ({ data, closeModal }) => {
   const theme = useTheme();
@@ -9,6 +9,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
   return (
     <Box
       sx={{
+        zIndex: 1,
         position: "absolute",
         top: "50%",
         left: "50%",
@@ -38,12 +39,12 @@ const PurchaseDetails = ({ data, closeModal }) => {
             Total compra:
           </Typography>
           <Typography variant="h4" sx={{ mb: 0, pl: 3, pb: 3 }}>
-            ${data.total}
+            {`$ ${formatNumber(data.total)}`}
           </Typography>
         </Box>
         <Box>
           <Typography sx={{ textAlign: "right", pr: 3}}>
-            ID venta: {data.idpu}
+            Código: {data.cod}
           </Typography>
           <Typography sx={{ textAlign: "right", pr: 3 }}>
             Fecha: {data.fecha}
@@ -59,12 +60,12 @@ const PurchaseDetails = ({ data, closeModal }) => {
           <strong>RUT del usuario:</strong> {data.rutu}
         </Typography>
 
-        <hr style={{ borderTop: "1px solid black", marginBottom: "10px", marginTop: "15px" }} /> {/* LINEA */}
+        <hr style={{ borderTop: "1px solid grey", marginBottom: "10px", marginTop: "15px" }} /> {/* LINEA */}
 
         <Box sx={{ py: 1, fontWeight: "bold", textAlign: "center"}}>
         <Typography component="div">
           <Box>
-            <span style={{ width: "20%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>ID</span>
+            <span style={{ width: "20%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Código del producto</span>
             <span style={{ width: "27%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Cantidad</span>
             <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Precio c/u</span>
             <span style={{ width: "25%", display: "inline-block", fontWeight: "bold", textAlign: "center" }}>Subtotal</span>
@@ -77,21 +78,21 @@ const PurchaseDetails = ({ data, closeModal }) => {
           <tbody>
             {data.detalles.map((item, index) => (
               <tr key={index}>
-                <td style={{ textAlign: "center", width: "20%" }}>{item.idp}</td>
-                <td style={{ textAlign: "center", width: "20%" }}>{item.cit}</td>
+                <td style={{ textAlign: "center", width: "20%" }}>{item.cod}</td>
+                <td style={{ textAlign: "center", width: "20%" }}>{formatNumber(item.cit)}</td>
                 <td style={{ textAlign: "center", width: "1%"}}>x</td>
-                <td style={{ textAlign: "center", width: "25%" }}>${item.precio}</td>
-                <td style={{ textAlign: "center", width: "20%" }}>${item.suma}</td>
+                <td style={{ textAlign: "center", width: "25%" }}> {`$ ${formatNumber(item.precio)}`}</td>
+                <td style={{ textAlign: "center", width: "20%" }}> {`$ ${formatNumber(item.suma)}`}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </Box>
 
-        <hr style={{ borderTop: "1px solid black", marginBottom: "15px",  marginTop: "20px" }} /> {/* LINEA */}
+        <hr style={{ borderTop: "1px solid grey", marginBottom: "15px",  marginTop: "20px" }} /> {/* LINEA */}
 
         <Typography variant="h6" sx={{ mt: 1, textAlign: "Right", marginRight: "25px", fontSize: "17px" }}>
-          Monto total: ${data.total}
+          {`Total: $ ${formatNumber(data.total)}`}
         </Typography>
       </Box>
 
