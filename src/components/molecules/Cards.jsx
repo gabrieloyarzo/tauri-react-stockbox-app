@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Typography, Box } from '@mui/material';
-// import ProductApi from "../../services/api/analytics.service";
+import AnalyticApi from '../../services/api/analytic.service';
 
 const CardFormat = ({ titulo, monto, incremento, periodo }) => {
   return (
@@ -8,32 +8,28 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
       sx={{ 
         textAlign: 'center',
         p: 1, 
-        border: '1px solid grey', 
         borderRadius: "15px",
         bgcolor: "#EFEFEF",
-        height: 100,
         display: 'flex', 
         flexDirection: 'column',
-        justifyContent: 'space-between' 
+        justifyContent: 'space-between',
+        height: '85%',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)',
       }}
     >
-      <Typography variant="h7" component="div"
-        sx={{ textAlign: 'center', fontWeight: "bold"}}>
-        {titulo}
-      </Typography>
-      <Box 
-        sx={{
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            flexGrow: 1
-        }}
-      >
-        <Typography variant="h5" component="div">
-          {monto}
-        </Typography>
+      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+        <Grid item xs={12}>
+          <Typography component="div" sx={{ fontWeight: "bold", textAlign: 'center', fontSize: '15px'}}>
+            {titulo}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Typography component="div" sx={{ fontWeight: "bold", textAlign: 'center', fontSize: '22px', color: '#266763'}}>
+            {monto}
+          </Typography>
+        </Grid>
         {(incremento || periodo) && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginLeft: 1, marginTop: 5}}>
+          <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             {incremento && (
               <Typography fontSize="18px" color="text.secondary">
                 {incremento}
@@ -44,93 +40,62 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
                 {periodo}
               </Typography>
             )}
-          </Box>
+          </Grid>
         )}
-      </Box>
+      </Grid>
     </Box>
   );
 }
 
-// const CardGrid = () => {
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await ProductApi.getAnalyticsData();
-//         setData(response.data);
-//       } catch (error) {
-//         console.error("Error fetching data: ", error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   if (!data) {
-//     return <div>Loading...</div>;
-//   }
-
-//   return (
-//     <Grid container spacing={2}>
-//       <Grid item xs={2.4}>
-//         <CardFormat 
-//           titulo={data.ingresosTotales.titulo} 
-//           monto={data.ingresosTotales.monto} 
-//           incremento={data.ingresosTotales.incremento} 
-//           periodo={data.ingresosTotales.periodo} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.4}>
-//         <CardFormat 
-//           titulo={data.numeroDeVentas.titulo} 
-//           monto={data.numeroDeVentas.monto} 
-//           incremento={data.numeroDeVentas.incremento} 
-//           periodo={data.numeroDeVentas.periodo} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.4}>
-//         <CardFormat 
-//           titulo={data.numeroDeCompras.titulo} 
-//           monto={data.numeroDeCompras.monto} 
-//           incremento={data.numeroDeCompras.incremento} 
-//           periodo={data.numeroDeCompras.periodo} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.3}>
-//         <CardFormat 
-//           titulo={data.alertasDeBajoStock.titulo} 
-//           monto={data.alertasDeBajoStock.monto} 
-//         />
-//       </Grid>
-//       <Grid item xs={2.5}>
-//         <CardFormat 
-//           titulo={data.inventarioActualDeProductos.titulo} 
-//           monto={data.inventarioActualDeProductos.monto}
-//         />
-//       </Grid>
-//     </Grid>
-//   );
-// }
-
-
 const CardGrid = () => {
+  const [analyticsData, setAnalyticsData] = useState({
+    // sumTotalSales: 0,
+    productsCount: 0,
+    purchasesCount: 0,
+    sumTotalSales: 0,
+    // notificationCount: 0
+  });
+
+  useEffect(() => {
+    const fetchAnalyticsData = async () => {
+      try {
+        // const analyticsResponse = await AnalyticApi.getAnalyticData();
+        const productsCount = await AnalyticApi.getProductsCount();
+        const purchasesCount = await AnalyticApi.getPurchasesCount();
+        const salesCount = await AnalyticApi.getSalesCount();
+        // const notificationCount = await AnalyticApi.getnotificationCount();
+        
+        setAnalyticsData({
+          // sumTotalSales: analyticsResponse.sumTotalSales,
+          productsCount: productsCount,
+          purchasesCount: purchasesCount,
+          salesCount: salesCount
+          // notificationCount: notificationCount
+        });
+      } catch (error) {
+        console.error("Error al obtener datos de analytics:", error);
+      }
+    };
+
+    fetchAnalyticsData();
+  }, []);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={2.4}>
-        <CardFormat titulo="Ingresos totales" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="Ingresos totales" monto={`$${analyticsData.purchasesCount}`} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de ventas" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de ventas" monto={analyticsData.salesCount} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.4}>
-        <CardFormat titulo="N° de compras" monto="$40.000" incremento="10% ↑" periodo="Último mes" />
+        <CardFormat titulo="N° de compras" monto={analyticsData.purchasesCount} incremento="10% ↑" periodo="Último mes" />
       </Grid>
       <Grid item xs={2.3}>
-        <CardFormat titulo="Alertas de bajo stock" monto="400" />
+        <CardFormat titulo="Alertas de bajo stock" monto={analyticsData.purchasesCount} />
       </Grid>
       <Grid item xs={2.5}>
-        <CardFormat titulo="Inventario actual de productos" monto="4000"/>
+        <CardFormat titulo="N° de inventario actual" monto={analyticsData.productsCount} />
       </Grid>
     </Grid>
   );
