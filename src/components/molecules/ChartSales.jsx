@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography, Grid } from '@mui/material';
+import AnalyticApi from '../../services/api/analytic.service';
 
 const data = [
   { month: 'Ene', amount: 100000 },
@@ -34,7 +35,7 @@ const Ventas = () => {
 
   return (
     <div style={{ width: '100%', height: 'auto'}}>
-      <Typography gutterBottom align="left" sx={{fontSize: "25px", fontWeight: "bold"}}>
+      <Typography gutterBottom align="left" sx={{fontSize: "24px", fontWeight: "bold"}}>
         Balance de ventas -
         <Typography component="span" color="textSecondary"sx={{fontSize: "30px", fontWeight: "bold", marginLeft: "5px"}}>
           $150.000

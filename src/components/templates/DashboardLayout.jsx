@@ -3,7 +3,7 @@ import { Grid, Stack } from "@mui/material";
 import Profile from "../molecules/Profile";
 import NotificationsPanel from "../organisms/NotificationPanel";
 import Cards from '../molecules/Cards';
-import ChartPS from '../molecules/ChartPS'; 
+import ChartPS from '../molecules/ChartCO'; 
 import ChartSales from '../molecules/ChartSales'; 
 import ChartTT from '../molecules/ChartTT'; 
 import ChartST from '../molecules/ChartST'; 
