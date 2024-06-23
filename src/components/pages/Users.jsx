@@ -53,6 +53,7 @@ const Users = () => {
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         loading={loading}
+        setLoading={setLoading}
         count={count}
         setFilterProps={setFilterProps}
         filterProps={filterProps}

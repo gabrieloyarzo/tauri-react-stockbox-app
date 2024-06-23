@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material";
-import { IconButton, Tooltip, CircularProgress, Box, TableBody, TableCell, TableRow } from "@mui/material";
+import {
+  IconButton,
+  Tooltip,
+  CircularProgress,
+  Box,
+  TableBody,
+  TableCell,
+  TableRow,
+  Switch,
+} from "@mui/material";
+import CustomSwitch from "../atoms/custom-ui/Android12Switch";
 import { auxDelete } from "../../functions/auxDelete";
+import { auxUpdate } from "../../functions/auxUpdate";
 import { formatNumber } from "../../functions/helpers";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -36,6 +47,7 @@ const TableRows = ({
   toggleForm,
   setFormProps,
   loadingState,
+  setLoadingState,
 }) => {
   const theme = useTheme();
 
@@ -79,6 +91,32 @@ const TableRows = ({
     setOpenDeleteDialog(true);
   };
 
+  const handleSwitchChange = async (event, id) => {
+    setLoadingState(true);
+    try {
+      const response = await auxUpdate(currentTable, id, {
+        [event.target.name]: event.target.value,
+      });
+      await fetchData(filterProps);
+      setSnackProps({
+        open: true,
+        closeSnack: handleCloseSnack,
+        message: response.message,
+        severity: "success",
+      });
+    } catch (error) {
+      setSnackProps({
+        open: true,
+        message: error.response.data.message,
+        closeSnack: handleCloseSnack,
+        severity: "error",
+      });
+    }
+    finally {
+      setLoadingState(false);
+    }
+  };
+
   const handleCloseSnack = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -119,7 +157,7 @@ const TableRows = ({
     <>
       <TableBody
         sx={{
-          position: 'relative',
+          position: "relative",
           backgroundColor: loadingState
             ? theme.palette.background.paper
             : theme.palette.background.default,
@@ -129,14 +167,14 @@ const TableRows = ({
         {loadingState && (
           <Box
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               left: 0,
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               zIndex: 1,
             }}
           >
@@ -162,8 +200,22 @@ const TableRows = ({
                   (column, index) =>
                     !Array.isArray(obj[column]) &&
                     (typeof obj[column] === "boolean" ? (
-                      <TableCell key={index}>
-                        {obj[column] ? "activo" : "inactivo"}
+                      <TableCell key={index} sx={{ textAlign: "center" }}>
+                        <CustomSwitch
+                          checked={obj[column]}
+                          onChange={(event, newValue) =>
+                            handleSwitchChange(
+                              {
+                                target: {
+                                  name: column,
+                                  value: newValue,
+                                },
+                              },
+                              obj[columns[0]]
+                            )
+                          }
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
                       </TableCell>
                     ) : typeof obj[column] === "number" ? (
                       <TableCell key={index} sx={{ textAlign: "right" }}>

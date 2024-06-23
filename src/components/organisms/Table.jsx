@@ -26,6 +26,7 @@ const Table = ({
   setFormProps,
   filterProps,
   loading,
+  setLoading,
 }) => {
   const columns = useTableColumns({ data });
 
@@ -45,6 +46,7 @@ const Table = ({
           toggleForm={toggleForm}
           setFormProps={setFormProps}
           loadingState={loading}
+          setLoadingState={setLoading}
         />
       </TableMUI>
     </TableContainer>

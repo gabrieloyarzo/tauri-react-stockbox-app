@@ -5,7 +5,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
 import { useTheme } from "@mui/material/styles";
 import Login from "./components/organisms/forms/Login";
-import MyForm from "./components/organisms/forms/test";
 
 const App = () => {
   useEffect(() => {
@@ -50,7 +49,6 @@ const App = () => {
         }}
       >
         <Login />
-        {/* <MyForm /> */}
       </Grid>
     </ThemeProvider>
   );

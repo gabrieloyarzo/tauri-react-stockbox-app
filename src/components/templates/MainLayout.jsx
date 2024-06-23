@@ -18,6 +18,7 @@ const MainLayout = ({
   setFilterProps,
   count,
   loading,
+  setLoading,
 }) => {
   return (
     <>
@@ -56,6 +57,7 @@ const MainLayout = ({
                     toggleForm={toggleForm}
                     setFormProps={setFormProps}
                     loading={loading}
+                    setLoading={setLoading}
                   />
                 </>
               )}

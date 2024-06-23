@@ -154,6 +154,7 @@ const ProviderForm = ({
     <>
       <Box
         sx={{
+          zIndex: 1,
           position: "absolute",
           width: "80vw",
           maxWidth: "600px",
