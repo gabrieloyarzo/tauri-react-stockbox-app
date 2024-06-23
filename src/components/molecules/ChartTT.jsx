@@ -56,7 +56,7 @@ const TopSoldProducts = () => {
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography gutterBottom align="left" sx={{ fontSize: '25px', fontWeight: 'bold', marginLeft: '30px' }}>
+      <Typography gutterBottom align="left" sx={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '30px' }}>
         Productos más vendidos
       </Typography>
       <ResponsiveContainer width="100%" height={360}>
