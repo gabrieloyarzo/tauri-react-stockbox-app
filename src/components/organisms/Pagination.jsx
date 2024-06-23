@@ -8,6 +8,9 @@ const Pagination = ({ setFilterProps, count }) => {
   const [page, setPage] = useState(1);
 
   const handleChange = (event, value) => {
+    if (value === page) {
+      return;
+    }
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: (value - 1) * 10,

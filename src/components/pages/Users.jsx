@@ -17,7 +17,7 @@ const Users = () => {
   const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const users = await UserApi.getAllUsers();
+      const users = await UserApi.getAllUsers(props);
       setTableData(
         users.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
       );
@@ -30,8 +30,8 @@ const Users = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(filterProps);
+  }, [filterProps]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);

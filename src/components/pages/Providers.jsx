@@ -14,10 +14,10 @@ const Providers = () => {
   // Loading state for table
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const providers = await ProviderApi.getAllProviders();
+      const providers = await ProviderApi.getAllProviders(props);
       setTableData(
         providers.data.map(
           ({ createdAt, updatedAt, undefined, ...rest }) => rest
@@ -32,8 +32,8 @@ const Providers = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(filterProps);
+  }, [filterProps]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);

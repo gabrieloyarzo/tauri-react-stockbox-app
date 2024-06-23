@@ -36,8 +36,8 @@ const Purchases = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(filterProps);
+  }, [filterProps]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
