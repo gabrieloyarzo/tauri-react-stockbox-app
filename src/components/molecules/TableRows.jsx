@@ -188,12 +188,12 @@ const TableRows = ({
                   (column, index) =>
                     index !== 0 &&
                     !Array.isArray(obj[column]) &&
-                    (isNaN(obj[column]) ? (
-                      <TableCell key={index}>{obj[column]}</TableCell>
-                    ) : (
+                    (typeof obj[column] === "number" ? (
                       <TableCell key={index} sx={{ textAlign: "right" }}>
                         {formatNumber(obj[column])}
                       </TableCell>
+                    ) : (
+                      <TableCell key={index}>{obj[column]}</TableCell>
                     ))
                 )
               : columns.map(
