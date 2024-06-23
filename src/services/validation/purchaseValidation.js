@@ -36,7 +36,7 @@ export function validatePurchaseItems(purchaseItems) {
         if (
           !Number.isInteger(parseFloat(item.cit.trim())) ||
           !Number.isInteger(Number(item.cit.trim())) ||
-          Number(item.cit < 0)
+          Number(item.cit < 1)
         ) {
           itemErrors.cit = "Cantidad debe ser un número entero positivo";
         }
@@ -54,7 +54,7 @@ export function validatePurchaseItems(purchaseItems) {
         if (
           !Number.isInteger(parseFloat(item.precio.trim())) ||
           !Number.isInteger(Number(item.precio.trim())) ||
-          Number(item.precio < 0)
+          Number(item.precio < 1)
         ) {
           itemErrors.precio = "Precio debe ser un número entero positivo";
         }

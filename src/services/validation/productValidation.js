@@ -20,7 +20,7 @@ export function validateProduct(formData) {
       if (
         !Number.isInteger(parseFloat(formData.cit.trim())) ||
         !Number.isInteger(Number(formData.cit.trim())) ||
-        Number(formData.cit < 0)
+        Number(formData.cit < 1)
       ) {
         newErrors.cit = "Cantidad debe ser un número entero positivo";
       }
@@ -38,7 +38,7 @@ export function validateProduct(formData) {
     } else {
       if (
         !Number.isInteger(parseFloat(formData.mCit.trim())) ||
-        Number(formData.mCit < 0) ||
+        Number(formData.mCit < 1) ||
         !Number.isInteger(Number(formData.mCit.trim()))
       ) {
         newErrors.mCit = "Cantidad mínima debe ser un número entero positivo";
@@ -57,7 +57,7 @@ export function validateProduct(formData) {
     } else {
       if (
         !Number.isInteger(parseFloat(formData.precio.trim())) ||
-        Number(formData.precio < 0) ||
+        Number(formData.precio < 1) ||
         !Number.isInteger(Number(formData.precio.trim()))
       ) {
         newErrors.precio = "Precio de venta debe ser un número entero positivo";
