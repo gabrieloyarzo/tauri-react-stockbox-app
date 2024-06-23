@@ -18,20 +18,24 @@ const useTableColumns = ({ data }) => {
   return columns;
 };
 
-const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps, filterProps }) => {
+const Table = ({
+  data,
+  fetchData,
+  currentTable,
+  toggleForm,
+  setFormProps,
+  filterProps,
+  loading,
+}) => {
   const columns = useTableColumns({ data });
 
   return (
-    <TableContainer
-      component={Paper}
-    >
+    <TableContainer component={Paper}>
       <TableMUI
         className="tabla-datos"
         aria-label="content table"
       >
-        <TableHeader 
-          currentTable={currentTable}
-        />
+        <TableHeader currentTable={currentTable} />
         <TableRows
           currentTable={currentTable}
           data={data}
@@ -40,6 +44,7 @@ const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps, filter
           fetchData={fetchData}
           toggleForm={toggleForm}
           setFormProps={setFormProps}
+          loadingState={loading}
         />
       </TableMUI>
     </TableContainer>

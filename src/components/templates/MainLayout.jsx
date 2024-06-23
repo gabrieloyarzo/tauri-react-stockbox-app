@@ -17,6 +17,7 @@ const MainLayout = ({
   filterProps,
   setFilterProps,
   count,
+  loading,
 }) => {
   return (
     <>
@@ -54,6 +55,7 @@ const MainLayout = ({
                     fetchData={fetchData}
                     toggleForm={toggleForm}
                     setFormProps={setFormProps}
+                    loading={loading}
                   />
                 </>
               )}

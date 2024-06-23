@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material";
-import { IconButton, Tooltip } from "@mui/material";
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { IconButton, Tooltip, CircularProgress, Box, TableBody, TableCell, TableRow } from "@mui/material";
 import { auxDelete } from "../../functions/auxDelete";
 import { formatNumber } from "../../functions/helpers";
 import EditIcon from "@mui/icons-material/Edit";
@@ -36,6 +35,7 @@ const TableRows = ({
   fetchData,
   toggleForm,
   setFormProps,
+  loadingState,
 }) => {
   const theme = useTheme();
 
@@ -117,13 +117,38 @@ const TableRows = ({
 
   return (
     <>
-      <TableBody>
+      <TableBody
+        sx={{
+          position: 'relative',
+          backgroundColor: loadingState
+            ? theme.palette.background.paper
+            : theme.palette.background.default,
+          opacity: loadingState ? 0.5 : 1,
+        }}
+      >
+        {loadingState && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1,
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
         {data.map((obj, index) => (
           <TableRow key={index}>
             {isIdTable(currentTable)
               ? columns.map(
                   (column, index) =>
-                    index != 0 &&
+                    index !== 0 &&
                     !Array.isArray(obj[column]) &&
                     (isNaN(obj[column]) ? (
                       <TableCell key={index}>{obj[column]}</TableCell>

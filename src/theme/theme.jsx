@@ -79,7 +79,6 @@ const lightTheme = createTheme({
           height: "3.25rem",
         },
         head: {
-          boxShadow: baseLightTheme.shadows[5],
           position: "relative",
           height: "2.5rem",
         }
@@ -95,7 +94,6 @@ const lightTheme = createTheme({
           fontWeight: "bold",
         },
         body: {
-          backgroundColor: "#ffffff",
           border: "1px solid #ebebeb",
           paddingRight: 10,
           paddingLeft: 10,

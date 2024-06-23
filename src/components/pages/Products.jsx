@@ -13,14 +13,25 @@ const Products = () => {
   // Filters
   const [filterProps, setFilterProps] = useState({});
 
+  // Loading state for table
+  const [loading, setLoading] = useState(false);
+
   const fetchData = async (props) => {
-    const products = await ProductApi.getAllProducts(props);
-    setCount(products.largo);
-    setTableData(
-      products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
-    );
-    setCategories(products.categorias);
+    setLoading(true); // Establecer el estado de carga a verdadero
+    try {
+      const products = await ProductApi.getAllProducts(props);
+      setCount(products.largo);
+      setTableData(
+        products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
+      );
+      setCategories(products.categorias);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // Establecer el estado de carga a falso
+    }
   };
+  
 
   useEffect(() => {
     fetchData(filterProps);
@@ -49,6 +60,7 @@ const Products = () => {
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
+        loading={loading}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}
