@@ -4,17 +4,31 @@ import MainLayout from "../templates/MainLayout";
 import FeedbackLayout from "../templates/FeedbackLayout";
 import ProviderForm from "../organisms/forms/ProviderForm";
 
-
 const Providers = () => {
   const [tableData, setTableData] = useState(null);
   const [count, setCount] = useState(0);
-  
+
   // Filters
   const [filterProps, setFilterProps] = useState({});
 
+  // Loading state for table
+  const [loading, setLoading] = useState(false);
+
   const fetchData = async () => {
-    const providers = await ProviderApi.getAllProviders();
-    setTableData(providers.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));   
+    setLoading(true); // Establecer el estado de carga a verdadero
+    try {
+      const providers = await ProviderApi.getAllProviders();
+      setTableData(
+        providers.data.map(
+          ({ createdAt, updatedAt, undefined, ...rest }) => rest
+        )
+      );
+      setCount(providers.largo);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // Establecer el estado de carga a falso
+    }
   };
 
   useEffect(() => {
@@ -30,7 +44,6 @@ const Providers = () => {
   const [discardDialogProps, setDiscardDialogProps] = useState({});
 
   // Snackbar
-  const [openSnack, setOpenSnack] = useState(false);
   const [snackProps, setSnackProps] = useState({});
 
   return (
@@ -42,6 +55,9 @@ const Providers = () => {
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
+        filterProps={filterProps}
+        setFilterProps={setFilterProps}
+        loading={loading}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}

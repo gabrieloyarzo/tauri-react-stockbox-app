@@ -46,7 +46,6 @@ const Products = () => {
   const [discardDialogProps, setDiscardDialogProps] = useState({});
 
   // Snackbar
-  const [openSnack, setOpenSnack] = useState(false);
   const [snackProps, setSnackProps] = useState({});
 
   return (

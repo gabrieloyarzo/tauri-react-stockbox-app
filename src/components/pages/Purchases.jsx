@@ -9,16 +9,30 @@ const Purchases = () => {
   const [products, setProducts] = useState([]);
   const [providers, setProviders] = useState([]);
   const [count, setCount] = useState(0);
-  
+
   // Filters
   const [filterProps, setFilterProps] = useState({});
 
+  // Loading state for table
+  const [loading, setLoading] = useState(false);
+
   const fetchData = async (props) => {
-    const purchases = await PurchaseApi.getAllPurchases(props);
-    console.log(purchases.data);
-    setTableData(purchases.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));
-    setProviders(purchases.providers);
-    setProducts(purchases.products);
+    setLoading(true); // Establecer el estado de carga a verdadero
+    try {
+      const purchases = await PurchaseApi.getAllPurchases(props);
+      setTableData(
+        purchases.data.map(
+          ({ createdAt, updatedAt, undefined, ...rest }) => rest
+        )
+      );
+      setProviders(purchases.providers);
+      setProducts(purchases.products);
+      setCount(purchases.largo);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // Establecer el estado de carga a falso
+    }
   };
 
   useEffect(() => {
@@ -34,7 +48,6 @@ const Purchases = () => {
   const [discardDialogProps, setDiscardDialogProps] = useState({});
 
   // Snackbar
-  const [openSnack, setOpenSnack] = useState(false);
   const [snackProps, setSnackProps] = useState({});
 
   return (
@@ -47,6 +60,8 @@ const Purchases = () => {
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
         setFilterProps={setFilterProps}
+        filterProps={filterProps}
+        loading={loading}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}

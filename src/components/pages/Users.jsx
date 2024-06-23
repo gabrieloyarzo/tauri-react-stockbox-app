@@ -4,13 +4,29 @@ import MainLayout from "../templates/MainLayout";
 import FeedbackLayout from "../templates/FeedbackLayout";
 import UserForm from "../organisms/forms/UserForm";
 
-
 const Users = () => {
   const [tableData, setTableData] = useState(null);
+  const [count, setCount] = useState(0);
 
-  const fetchData = async () => {
-    const users = await UserApi.getAllUsers();
-    setTableData(users.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest));
+  // Filters
+  const [filterProps, setFilterProps] = useState({});
+
+  // Loading state for table
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async (props) => {
+    setLoading(true); // Establecer el estado de carga a verdadero
+    try {
+      const users = await UserApi.getAllUsers();
+      setTableData(
+        users.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
+      );
+      setCount(users.largo);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // Establecer el estado de carga a falso
+    }
   };
 
   useEffect(() => {
@@ -26,7 +42,6 @@ const Users = () => {
   const [discardDialogProps, setDiscardDialogProps] = useState({});
 
   // Snackbar
-  const [openSnack, setOpenSnack] = useState(false);
   const [snackProps, setSnackProps] = useState({});
 
   return (
@@ -37,6 +52,10 @@ const Users = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
+        loading={loading}
+        count={count}
+        setFilterProps={setFilterProps}
+        filterProps={filterProps}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}
@@ -46,6 +65,7 @@ const Users = () => {
       {openForm && (
         <UserForm
           {...formProps}
+          filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}

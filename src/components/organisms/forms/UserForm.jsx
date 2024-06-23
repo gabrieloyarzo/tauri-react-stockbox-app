@@ -18,6 +18,7 @@ const UserForm = ({
   mode,
   initialData,
   closeForm,
+  filterProps,
   fetchData,
   setDiscardDialogProps,
   setModifyDialogProps,
@@ -91,7 +92,7 @@ const UserForm = ({
         setLoading(true);
 
         const response = await UserApi.createUser(formData);
-        await fetchData();
+        await fetchData(filterProps);
 
         setSnackProps({
           open: true,
@@ -124,7 +125,7 @@ const UserForm = ({
       }));
 
       const response = await UserApi.updateUser(initialData.rutu, formData);
-      await fetchData();
+      await fetchData(filterProps);
 
       setSnackProps({
         open: true,
