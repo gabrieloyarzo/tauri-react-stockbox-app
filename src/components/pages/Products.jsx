@@ -45,6 +45,7 @@ const Products = () => {
         currentTable="products"
         data={tableData}
         fetchData={fetchData}
+        filterProps={filterProps}
         setFilterProps={setFilterProps}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
@@ -58,6 +59,7 @@ const Products = () => {
       {openForm && (
         <ProductForm
           {...formProps}
+          filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
           categories={categories}
           setModifyDialogProps={setModifyDialogProps}

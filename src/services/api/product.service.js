@@ -8,8 +8,7 @@ const ProductApi = {
     orden = "asc",
     offset = 0,
     limit = 10,
-  }) 
-  {
+  } = {}) {
     console.log(dato, orden, offset, limit);
     try {
       const response = await axios.get(

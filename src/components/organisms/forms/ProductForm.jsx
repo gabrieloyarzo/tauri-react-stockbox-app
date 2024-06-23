@@ -26,6 +26,7 @@ const ProductForm = ({
   closeForm,
   fetchData,
   categories,
+  filterProps,
   setDiscardDialogProps,
   setModifyDialogProps,
   setSnackProps,
@@ -103,7 +104,7 @@ const ProductForm = ({
         setLoading(true);
 
         const response = await ProductApi.createProduct(formData);
-        // await fetchData();
+        await fetchData(filterProps);
 
         setSnackProps({
           open: true,
@@ -139,7 +140,7 @@ const ProductForm = ({
         initialData.idp,
         formData
       );
-      await fetchData();
+      await fetchData(filterProps);
 
       setSnackProps({
         open: true,

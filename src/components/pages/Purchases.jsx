@@ -56,6 +56,7 @@ const Purchases = () => {
       {openForm && (
         <PurchaseForm
           {...formProps}
+          filterProps={filterProps}
           products={products}
           providers={providers}
           closeForm={() => setOpenForm(false)}

@@ -18,6 +18,7 @@ const ProviderForm = ({
   mode,
   initialData,
   closeForm,
+  filterProps,
   fetchData,
   setDiscardDialogProps,
   setModifyDialogProps,
@@ -90,7 +91,7 @@ const ProviderForm = ({
         setLoading(true);
 
         const response = await ProviderApi.createProvider(formData);
-        await fetchData();
+        await fetchData(filterProps);
 
         setSnackProps({
           open: true,
@@ -123,7 +124,7 @@ const ProviderForm = ({
       }));
 
       const response = await ProviderApi.updateProvider(initialData.rutp, formData);
-      await fetchData();
+      await fetchData(filterProps);
 
       setSnackProps({
         open: true,

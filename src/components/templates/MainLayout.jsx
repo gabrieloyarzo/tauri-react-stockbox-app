@@ -14,6 +14,7 @@ const MainLayout = ({
   fetchData,
   setFormProps,
   toggleForm,
+  filterProps,
   setFilterProps,
   count,
 }) => {
@@ -49,6 +50,7 @@ const MainLayout = ({
                   <Table
                     currentTable={currentTable}
                     data={data}
+                    filterProps={filterProps}
                     fetchData={fetchData}
                     toggleForm={toggleForm}
                     setFormProps={setFormProps}

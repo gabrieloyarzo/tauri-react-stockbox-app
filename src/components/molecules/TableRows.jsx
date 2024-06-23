@@ -32,6 +32,7 @@ const TableRows = ({
   currentTable,
   data,
   columns,
+  filterProps,
   fetchData,
   toggleForm,
   setFormProps,
@@ -93,7 +94,7 @@ const TableRows = ({
 
     try {
       const response = await auxDelete({ currentTable, id });
-      await fetchData();
+      await fetchData(filterProps);
 
       setSnackProps({
         open: true,

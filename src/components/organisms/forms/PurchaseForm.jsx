@@ -51,6 +51,7 @@ const PurchaseForm = ({
   initialData,
   products,
   providers,
+  filterProps,
   setDiscardDialogProps,
   setModifyDialogProps,
   setSnackProps,
@@ -186,11 +187,10 @@ const PurchaseForm = ({
       });
     } else {
       try {
-        console.log(submitData);
         setLoading(true);
 
         const response = await PurchaseApi.createPurchase(submitData);
-        await fetchData();
+        await fetchData(filterProps);
 
         setSnackProps({
           open: true,
@@ -225,7 +225,7 @@ const PurchaseForm = ({
         initialData.idpu,
         submitData
       );
-      await fetchData();
+      await fetchData(filterProps);
 
       setSnackProps({
         open: true,
@@ -345,7 +345,7 @@ const PurchaseForm = ({
               }
               renderOption={(props, option) => (
                 <Box component="li" {...props}>
-                  <div>
+                  <div key={option.rutp}>
                     <Typography fontSize="14px">{option.rutp}</Typography>
                     <Typography fontSize="12px" color="textSecondary">
                       {option.nombre}
@@ -469,7 +469,7 @@ const PurchaseForm = ({
                   }}
                   renderOption={(props, option) => (
                     <Box component="li" {...props}>
-                      <div>
+                      <div key={option.idp}>
                         <Typography fontSize="14px">{option.cod}</Typography>
                         <Typography fontSize="12px" color="textSecondary">
                           {option.nombre}

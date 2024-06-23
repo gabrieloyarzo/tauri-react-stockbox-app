@@ -18,7 +18,7 @@ const useTableColumns = ({ data }) => {
   return columns;
 };
 
-const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps }) => {
+const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps, filterProps }) => {
   const columns = useTableColumns({ data });
 
   return (
@@ -36,6 +36,7 @@ const Table = ({ data, fetchData, currentTable, toggleForm, setFormProps }) => {
           currentTable={currentTable}
           data={data}
           columns={columns}
+          filterProps={filterProps}
           fetchData={fetchData}
           toggleForm={toggleForm}
           setFormProps={setFormProps}

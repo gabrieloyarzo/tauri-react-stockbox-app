@@ -7,6 +7,10 @@ import ProviderForm from "../organisms/forms/ProviderForm";
 
 const Providers = () => {
   const [tableData, setTableData] = useState(null);
+  const [count, setCount] = useState(0);
+  
+  // Filters
+  const [filterProps, setFilterProps] = useState({});
 
   const fetchData = async () => {
     const providers = await ProviderApi.getAllProviders();
@@ -37,6 +41,7 @@ const Providers = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
+        count={count}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}
@@ -46,6 +51,7 @@ const Providers = () => {
       {openForm && (
         <ProviderForm
           {...formProps}
+          filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}
