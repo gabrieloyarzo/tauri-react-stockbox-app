@@ -78,7 +78,7 @@ const PurchaseForm = ({
           cod: "",
           rutp: "",
           rutu: "17545058-0",
-          fecha: "",
+          fecha: new Date().toISOString().split("T")[0],
           total: "",
           detalles: [initialRow],
         }
@@ -372,7 +372,7 @@ const PurchaseForm = ({
               InputLabelProps={{
                 shrink: true,
               }}
-              value={formData.fecha || new Date().toISOString().split("T")[0]}
+              value={formData.fecha}
               error={!!errors.fecha}
               onChange={handleChange}
             />
@@ -622,12 +622,16 @@ const PurchaseForm = ({
                 mode === "modify" ||
                 (isEmptyObject(
                   Object.keys(formData)
-                    .filter(
-                      (key) =>
+                    .filter((key) => {
+                      if (key.includes("fecha") && formData[key] === new Date().toISOString().split("T")[0]) {
+                        return false;
+                      }
+                      return (
                         key.includes("cod") ||
                         key.includes("rutp") ||
                         key.includes("fecha")
-                    )
+                      );
+                    })
                     .reduce((obj, key) => {
                       obj[key] = formData[key];
                       return obj;

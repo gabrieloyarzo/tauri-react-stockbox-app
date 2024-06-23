@@ -19,7 +19,7 @@ const Products = () => {
     setTableData(
       products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
     );
-    setCategories([...new Set(products.data.map((item) => item.cat))]);
+    setCategories(products.categorias);
   };
 
   useEffect(() => {

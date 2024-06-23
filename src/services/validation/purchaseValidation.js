@@ -12,6 +12,9 @@ export function validatePurchase(formData) {
   if (formData.fecha.trim() === "") {
     newErrors.fecha = "Fecha es requerida";
   }
+  else if (formData.fecha.length !== 10) {
+    newErrors.fecha = "Fecha debe ser válida";
+  }
 
   return newErrors;
 }

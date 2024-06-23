@@ -107,7 +107,6 @@ const Sidebar = () => {
                     },
                     "& .MuiTab-root": {
                       minWidth: 0,
-                      width: isSmallScreen ? "50%" : "auto",
                       "&:not(.Mui-selected)": {
                         "&:hover": {
                           backgroundColor: theme.palette.primary.light,
@@ -125,9 +124,6 @@ const Sidebar = () => {
                       minHeight: 50,
                       alignItems: isSmallScreen ? "center" : "left",
                       justifyContent: isSmallScreen ? "center" : "left",
-                      // "@media (max-width: 899px)": {
-                      //   width: "57px",
-                      // },
                     },
                   }}
                 >
