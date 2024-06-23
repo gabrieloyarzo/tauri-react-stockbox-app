@@ -171,7 +171,7 @@ const PurchaseForm = ({
       }),
     };
 
-    console.log(submitData)
+    console.log(submitData);
 
     if (mode === "modify") {
       setModifyDialogProps({
@@ -372,7 +372,7 @@ const PurchaseForm = ({
               InputLabelProps={{
                 shrink: true,
               }}
-              value={formData.fecha}
+              value={formData.fecha || new Date().toISOString().split("T")[0]}
               error={!!errors.fecha}
               onChange={handleChange}
             />

@@ -18,6 +18,7 @@ const Pagination = ({ setFilterProps, count }) => {
   return (
     <Stack spacing={2}>
       <MuiPagination
+        size="large"
         count={Math.ceil(count / 10)}
         variant="outlined"
         color="primary"

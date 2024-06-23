@@ -15,7 +15,6 @@ const Products = () => {
 
   const fetchData = async (props) => {
     const products = await ProductApi.getAllProducts(props);
-    console.log(products);
     setCount(products.largo);
     setTableData(
       products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)

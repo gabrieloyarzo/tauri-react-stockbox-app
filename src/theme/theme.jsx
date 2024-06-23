@@ -76,7 +76,7 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           border: "1px solid #d3d3d3",
-          height: "3rem",
+          height: "3.25rem",
         },
         head: {
           boxShadow: baseLightTheme.shadows[5],
