@@ -53,7 +53,7 @@ const CardGrid = () => {
     IngresosTotales: 0,
     NVentas: 0,
     NCompras: 0,
-    NAlertas: 0,
+    NProveedores: 0,
     NProductos: 0
   });
 
@@ -66,7 +66,7 @@ const CardGrid = () => {
           IngresosTotales: AnalyticData.data.sumTotalSales,
           NVentas: AnalyticData.data.countSales,
           NCompras: AnalyticData.data.countPurchases,
-          NAlertas: AnalyticData.data.countNotifications,
+          NProveedores: AnalyticData.data.countProviders,
           NProductos: AnalyticData.data.catProducts,
         });
       } catch (error) {
@@ -88,10 +88,10 @@ const CardGrid = () => {
       <Grid item xs={2.4}>
         <CardFormat titulo="N° de compras" monto={analyticsData.NCompras} incremento="10% ↑" periodo="Último mes" />
       </Grid>
-      <Grid item xs={2.3}>
-        <CardFormat titulo="Alertas de bajo stock" monto={analyticsData.NAlertas} />
+      <Grid item xs={2.4}>
+        <CardFormat titulo="N° de proveedores" monto={analyticsData.NProveedores} />
       </Grid>
-      <Grid item xs={2.5}>
+      <Grid item xs={2.4}>
         <CardFormat titulo="N° de inventario actual" monto={analyticsData.NProductos} />
       </Grid>
     </Grid>

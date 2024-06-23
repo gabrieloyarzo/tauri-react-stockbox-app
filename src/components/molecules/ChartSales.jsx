@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography, Grid } from '@mui/material';
+import AnalyticApi from '../../services/api/analytic.service';
 
 const data = [
   { month: 'Ene', amount: 100000 },
