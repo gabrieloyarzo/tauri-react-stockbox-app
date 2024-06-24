@@ -203,17 +203,26 @@ const UserForm = ({
               p: 5,
             }}
           >
-            <StyledTextField
-              label="RUT del usuario"
-              name="rutu"
-              value={formData.rutu}
-              onChange={handleChange}
-              error={!!errors.rutu}
-              helperText={errors.rutu}
-              inputProps={{
-                maxLength: 20,
-              }}
-            />
+            {mode === "modify" ? (
+              <StyledTextField
+                label="RUT del usuario"
+                name="rutu"
+                value={formData.rutu}
+                disabled
+              />
+            ) : (
+              <StyledTextField
+                label="RUT del usuario"
+                name="rutu"
+                value={formData.rutu}
+                onChange={handleChange}
+                error={!!errors.rutu}
+                helperText={errors.rutu}
+                inputProps={{
+                  maxLength: 20,
+                }}
+              />
+            )}
             <StyledTextField
               label="Correo"
               name="email"

@@ -123,7 +123,10 @@ const ProviderForm = ({
         loading: true,
       }));
 
-      const response = await ProviderApi.updateProvider(initialData.rutp, formData);
+      const response = await ProviderApi.updateProvider(
+        initialData.rutp,
+        formData
+      );
       await fetchData(filterProps);
 
       setSnackProps({
@@ -202,17 +205,26 @@ const ProviderForm = ({
               p: 5,
             }}
           >
-            <StyledTextField
-              label="RUT del proveedor"
-              name="rutp"
-              value={formData.rutp}
-              onChange={handleChange}
-              error={!!errors.rutp}
-              helperText={errors.rutp}
-              inputProps={{
-                maxLength: 20,
-              }}
-            />
+            {mode === "modify" ? (
+              <StyledTextField
+                label="RUT del proveedor"
+                name="rutp"
+                value={formData.rutp}
+                disabled
+              />
+            ) : (
+              <StyledTextField
+                label="RUT del proveedor"
+                name="rutp"
+                value={formData.rutp}
+                onChange={handleChange}
+                error={!!errors.rutp}
+                helperText={errors.rutp}
+                inputProps={{
+                  maxLength: 20,
+                }}
+              />
+            )}
             <StyledTextField
               label="Nombre"
               name="nombre"
