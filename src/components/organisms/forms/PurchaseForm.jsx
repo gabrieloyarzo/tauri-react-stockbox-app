@@ -194,9 +194,8 @@ const PurchaseForm = ({
           })),
       });
     } else {
+      setLoading(true);
       try {
-        setLoading(true);
-
         const response = await PurchaseApi.createPurchase(submitData);
         await fetchData(filterProps);
 
@@ -207,7 +206,6 @@ const PurchaseForm = ({
           severity: "success",
         });
 
-        setLoading(false);
         closeForm();
       } catch (error) {
         setSnackProps({
@@ -216,19 +214,18 @@ const PurchaseForm = ({
           message: error.response.data.message,
           severity: "error",
         });
-
+      } finally {
         setLoading(false);
       }
     }
   };
 
   const confirmModify = async (submitData) => {
+    setModifyDialogProps((prevProps) => ({
+      ...prevProps,
+      loading: true,
+    }));
     try {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        loading: true,
-      }));
-
       const response = await PurchaseApi.updatePurchase(
         initialData.idpu,
         submitData
@@ -250,13 +247,13 @@ const PurchaseForm = ({
         message: error.response.data.message,
         severity: "error",
       });
+    } finally {
+      setModifyDialogProps((prevProps) => ({
+        ...prevProps,
+        open: false,
+        loading: false,
+      }));
     }
-
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-      loading: false,
-    }));
   };
 
   const addPurchaseItem = () => {
@@ -351,9 +348,8 @@ const PurchaseForm = ({
               options={providers}
               name="rutp"
               value={
-                providers.find(
-                  (provider) => provider.rutp === formData.rutp
-                ) || null
+                providers.find((provider) => provider.rutp === formData.rutp) ||
+                null
               }
               getOptionLabel={(option) => option.rutp}
               noOptionsText="Sin opciones"
@@ -472,8 +468,7 @@ const PurchaseForm = ({
                   filterOptions={filterOptions}
                   name="cod"
                   value={
-                    products.find((product) => product.cod === row.cod) ||
-                    null
+                    products.find((product) => product.cod === row.cod) || null
                   }
                   getOptionLabel={(option) => option.cod}
                   noOptionsText="Sin opciones"

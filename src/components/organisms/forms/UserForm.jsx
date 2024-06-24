@@ -88,9 +88,8 @@ const UserForm = ({
           })),
       });
     } else {
+      setLoading(true);
       try {
-        setLoading(true);
-
         const response = await UserApi.createUser(formData);
         await fetchData(filterProps);
 
@@ -101,8 +100,6 @@ const UserForm = ({
           severity: "success",
         });
 
-        setLoading(false);
-
         closeForm();
       } catch (error) {
         setSnackProps({
@@ -111,19 +108,18 @@ const UserForm = ({
           message: error.response.data.message,
           severity: "error",
         });
-
+      } finally {
         setLoading(false);
       }
     }
   };
 
   const confirmModify = async () => {
+    setModifyDialogProps((prevProps) => ({
+      ...prevProps,
+      loading: true,
+    }));
     try {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        loading: true,
-      }));
-
       const response = await UserApi.updateUser(initialData.rutu, formData);
       await fetchData(filterProps);
 
@@ -142,13 +138,13 @@ const UserForm = ({
         message: error.response.data.message,
         severity: "error",
       });
+    } finally {
+      setModifyDialogProps((prevProps) => ({
+        ...prevProps,
+        open: false,
+        loading: false,
+      }));
     }
-
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-      loading: false,
-    }));
   };
 
   return (

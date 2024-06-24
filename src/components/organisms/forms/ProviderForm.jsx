@@ -87,9 +87,8 @@ const ProviderForm = ({
           })),
       });
     } else {
+      setLoading(true);
       try {
-        setLoading(true);
-
         const response = await ProviderApi.createProvider(formData);
         await fetchData(filterProps);
 
@@ -100,8 +99,6 @@ const ProviderForm = ({
           severity: "success",
         });
 
-        setLoading(false);
-
         closeForm();
       } catch (error) {
         setSnackProps({
@@ -110,19 +107,18 @@ const ProviderForm = ({
           message: error.response.data.message,
           severity: "error",
         });
-
+      } finally {
         setLoading(false);
       }
     }
   };
 
   const confirmModify = async () => {
+    setModifyDialogProps((prevProps) => ({
+      ...prevProps,
+      loading: true,
+    }));
     try {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        loading: true,
-      }));
-
       const response = await ProviderApi.updateProvider(
         initialData.rutp,
         formData
@@ -144,13 +140,13 @@ const ProviderForm = ({
         message: error.response.data.message,
         severity: "error",
       });
+    } finally {
+      setModifyDialogProps((prevProps) => ({
+        ...prevProps,
+        open: false,
+        loading: false,
+      }));
     }
-
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-      loading: false,
-    }));
   };
 
   return (

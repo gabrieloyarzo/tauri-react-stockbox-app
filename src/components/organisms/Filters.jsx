@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
-const Filters = ({ fetchData, setFilterProps }) => {
+const Filters = ({ setFilterProps }) => {
   const theme = useTheme();
 
   return (

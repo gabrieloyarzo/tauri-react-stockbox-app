@@ -67,7 +67,10 @@ const ProductForm = ({
     const { value } = e.target;
 
     if (codes.includes(value) && value !== initialData?.cod) {
-      setErrors((prevErrors) => ({ ...prevErrors, cod: "El código ya existe" }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        cod: "El código ya existe",
+      }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, cod: false }));
     }
@@ -111,9 +114,8 @@ const ProductForm = ({
           })),
       });
     } else {
+      setLoading(true);
       try {
-        setLoading(true);
-
         const response = await ProductApi.createProduct(formData);
         await fetchData(filterProps);
 
@@ -124,7 +126,6 @@ const ProductForm = ({
           severity: "success",
         });
 
-        setLoading(false);
         closeForm();
       } catch (error) {
         console.log(error);
@@ -134,19 +135,18 @@ const ProductForm = ({
           message: error.response.data.message,
           severity: "error",
         });
-
+      } finally {
         setLoading(false);
       }
     }
   };
 
   const confirmModify = async () => {
+    setModifyDialogProps((prevProps) => ({
+      ...prevProps,
+      loading: true,
+    }));
     try {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        loading: true,
-      }));
-
       const response = await ProductApi.updateProduct(
         initialData.idp,
         formData
@@ -168,13 +168,13 @@ const ProductForm = ({
         message: error.response.data.message,
         severity: "error",
       });
+    } finally {
+      setModifyDialogProps((prevProps) => ({
+        ...prevProps,
+        open: false,
+        loading: false,
+      }));
     }
-
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-      loading: false,
-    }));
   };
 
   return (
