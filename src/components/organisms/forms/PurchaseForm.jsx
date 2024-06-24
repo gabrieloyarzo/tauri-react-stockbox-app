@@ -181,8 +181,6 @@ const PurchaseForm = ({
       }),
     };
 
-    console.log(submitData);
-
     if (mode === "modify") {
       setModifyDialogProps({
         open: true,

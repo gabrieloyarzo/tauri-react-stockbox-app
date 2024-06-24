@@ -8,6 +8,7 @@ const Products = () => {
   // Data table and related forms
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [codes, setCodes] = useState([]);
   const [count, setCount] = useState(0);
   
   // Filters
@@ -25,6 +26,7 @@ const Products = () => {
         products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
       );
       setCategories(products.categorias);
+      setCodes(products.codes);
     } catch (error) {
       console.error(error);
     } finally {
@@ -75,6 +77,7 @@ const Products = () => {
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}
           setSnackProps={setSnackProps}
+          codes={codes}
         />
       )}
     </>

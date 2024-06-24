@@ -26,6 +26,7 @@ const ProductForm = ({
   closeForm,
   fetchData,
   categories,
+  codes,
   filterProps,
   setDiscardDialogProps,
   setModifyDialogProps,
@@ -60,6 +61,16 @@ const ProductForm = ({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleValidateCode = (e) => {
+    const { value } = e.target;
+
+    if (codes.includes(value) && value !== initialData?.cod) {
+      setErrors((prevErrors) => ({ ...prevErrors, cod: "El código ya existe" }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, cod: false }));
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -222,7 +233,10 @@ const ProductForm = ({
               label="Código"
               name="cod"
               value={formData.cod}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                handleValidateCode(e);
+              }}
               error={!!errors.cod}
               helperText={errors.cod}
               inputProps={{
