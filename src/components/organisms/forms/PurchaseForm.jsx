@@ -51,6 +51,7 @@ const PurchaseForm = ({
   initialData,
   products,
   providers,
+  codes,
   filterProps,
   setDiscardDialogProps,
   setModifyDialogProps,
@@ -104,6 +105,15 @@ const PurchaseForm = ({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleValidateCode = (e) => {
+    const { value } = e.target;
+    if (codes.includes(value) && value !== initialData?.cod) {
+      setErrors((prevErrors) => ({ ...prevErrors, cod: true }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, cod: false }));
+    }
   };
 
   const handleChangeItem = (index, e) => {
@@ -170,8 +180,6 @@ const PurchaseForm = ({
         return newItem;
       }),
     };
-
-    console.log(submitData);
 
     if (mode === "modify") {
       setModifyDialogProps({
@@ -266,6 +274,16 @@ const PurchaseForm = ({
     0
   );
 
+  const filterOptions = (options, state) => {
+    const existingCodes = purchaseItems.map((item) => item.cod.toLowerCase());
+    const filteredOptions = options.filter(
+      (option) =>
+        option.cod.toLowerCase().includes(state.inputValue.toLowerCase()) &&
+        !existingCodes.includes(option.cod.toLowerCase())
+    );
+    return filteredOptions.slice(0, 10);
+  };
+
   return (
     <Box
       sx={{
@@ -316,7 +334,10 @@ const PurchaseForm = ({
               name="cod"
               value={formData.cod}
               error={!!errors.cod}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                handleValidateCode(e);
+              }}
             />
             <Autocomplete
               sx={{
@@ -330,8 +351,9 @@ const PurchaseForm = ({
               options={providers}
               name="rutp"
               value={
-                providers.find((provider) => provider.rutp === formData.rutp) ||
-                null
+                providers.find(
+                  (provider) => provider.rutp === formData.rutp
+                ) || null
               }
               getOptionLabel={(option) => option.rutp}
               noOptionsText="Sin opciones"
@@ -447,9 +469,11 @@ const PurchaseForm = ({
                     },
                   }}
                   options={products}
+                  filterOptions={filterOptions}
                   name="cod"
                   value={
-                    products.find((product) => product.cod === row.cod) || null
+                    products.find((product) => product.cod === row.cod) ||
+                    null
                   }
                   getOptionLabel={(option) => option.cod}
                   noOptionsText="Sin opciones"
@@ -623,7 +647,10 @@ const PurchaseForm = ({
                 (isEmptyObject(
                   Object.keys(formData)
                     .filter((key) => {
-                      if (key.includes("fecha") && formData[key] === new Date().toISOString().split("T")[0]) {
+                      if (
+                        key.includes("fecha") &&
+                        formData[key] === new Date().toISOString().split("T")[0]
+                      ) {
                         return false;
                       }
                       return (

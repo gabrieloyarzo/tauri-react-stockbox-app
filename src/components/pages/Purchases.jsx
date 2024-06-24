@@ -8,6 +8,7 @@ const Purchases = () => {
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
   const [providers, setProviders] = useState([]);
+  const [codes, setCodes] = useState([]);
   const [count, setCount] = useState(0);
 
   // Filters
@@ -27,6 +28,7 @@ const Purchases = () => {
       );
       setProviders(purchases.providers);
       setProducts(purchases.products);
+      setCodes(purchases.codes);
       setCount(purchases.largo);
     } catch (error) {
       console.error(error);
@@ -74,6 +76,7 @@ const Purchases = () => {
           filterProps={filterProps}
           products={products}
           providers={providers}
+          codes={codes}
           closeForm={() => setOpenForm(false)}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}
