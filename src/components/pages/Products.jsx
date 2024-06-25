@@ -10,7 +10,7 @@ const Products = () => {
   const [categories, setCategories] = useState([]);
   const [codes, setCodes] = useState([]);
   const [count, setCount] = useState(0);
-  
+
   // Filters
   const [filterProps, setFilterProps] = useState({});
 
@@ -20,11 +20,9 @@ const Products = () => {
   const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const products = await ProductApi.getAllProducts(props);
+      const products = await ProductApi.getAllProducts(props);    
       setCount(products.largo);
-      setTableData(
-        products.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
-      );
+      setTableData(products.data);
       setCategories(products.categorias);
       setCodes(products.codes);
     } catch (error) {
@@ -33,7 +31,6 @@ const Products = () => {
       setLoading(false); // Establecer el estado de carga a falso
     }
   };
-  
 
   useEffect(() => {
     fetchData(filterProps);

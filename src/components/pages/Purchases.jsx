@@ -21,11 +21,7 @@ const Purchases = () => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
       const purchases = await PurchaseApi.getAllPurchases(props);
-      setTableData(
-        purchases.data.map(
-          ({ createdAt, updatedAt, undefined, ...rest }) => rest
-        )
-      );
+      setTableData(purchases.data);
       setProviders(purchases.providers);
       setProducts(purchases.products);
       setCodes(purchases.codes);

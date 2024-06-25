@@ -18,9 +18,7 @@ const Users = () => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
       const users = await UserApi.getAllUsers(props);
-      setTableData(
-        users.data.map(({ createdAt, updatedAt, undefined, ...rest }) => rest)
-      );
+      setTableData(users.data);
       setCount(users.largo);
     } catch (error) {
       console.error(error);

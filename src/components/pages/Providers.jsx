@@ -18,11 +18,7 @@ const Providers = () => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
       const providers = await ProviderApi.getAllProviders(props);
-      setTableData(
-        providers.data.map(
-          ({ createdAt, updatedAt, undefined, ...rest }) => rest
-        )
-      );
+      setTableData(providers.data);
       setCount(providers.largo);
     } catch (error) {
       console.error(error);
