@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import UserApi from "../../../services/api/user.service";
+import LoginApi from "../../../services/api/login.service";
 import Sidebar from "../Sidebar";
 import {
   Box,
@@ -98,14 +98,14 @@ const T2 = ({ handleChange, handleSubmit }) => {
                 <Box>
                   <StyledTextField
                     label="RUT"
-                    name="rut"
+                    name="rutu"
                     fullWidth
                     onChange={handleChange}
                   />
                   <StyledTextField
                     label="Contraseña"
                     type="password"
-                    name="password"
+                    name="pwd"
                     onChange={handleChange}
                     fullWidth
                   />
@@ -145,8 +145,8 @@ const Login = () => {
   const [logged, setLogged] = useState("Login");
 
   const [credentials, setCredentials] = useState({
-    rut: "",
-    password: "",
+    rutu: "",
+    pwd: "",
   });
 
   const handleChange = (e) => {
@@ -159,10 +159,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLogged("Dashboard");
-      const token = await UserApi.logUsers(credentials);
-      console.log(token);
-      //credentials -> {rut, password}
+
+     const token = await LoginApi.logUsers(credentials);
+	if(token){
+	          setLogged("Dashboard");
+	}
+	
     } catch (error) {
       console.error("Error al setear datos");
     }

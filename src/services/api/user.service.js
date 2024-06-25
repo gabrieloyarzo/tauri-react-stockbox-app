@@ -11,7 +11,7 @@ const UserApi = {
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`
+          `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`, {withCredentials : true,}
       );
       return response.data;
     } catch (error) {
@@ -22,7 +22,7 @@ const UserApi = {
 
   async getUser(userId) {
     try {
-      const response = await axios.get(`${API_URL}/${userId}`);
+	const response = await axios.get(`${API_URL}/${userId}`,{withCredentials : true,});
       return response.data;
     } catch (error) {
       console.error("Error al obtener usuario:", error);
@@ -32,7 +32,7 @@ const UserApi = {
 
   async createUser(userData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, userData, {
+	const response = await axios.post(`${API_URL}/create`, userData,{withCredentials : true,}, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -48,7 +48,7 @@ const UserApi = {
     try {
       const response = await axios.put(
         `${API_URL}/${userId}/edit`,
-        updatedUserData,
+          updatedUserData, {withCredentials : true,},
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const UserApi = {
 
   async deleteUser(userId) {
     try {
-      const response = await axios.delete(`${API_URL}/${userId}/delete`, {
+	const response = await axios.delete(`${API_URL}/${userId}/delete`, {withCredentials : true,},{
         headers: {
           "Content-Type": "application/json",
         },
