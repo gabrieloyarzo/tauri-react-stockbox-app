@@ -11,7 +11,8 @@ const PurchaseApi = {
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
+        { withCredentials: true }
       );
       return response.data;
     } catch (error) {
@@ -22,7 +23,9 @@ const PurchaseApi = {
 
   async getPurchase(purchaseId) {
     try {
-      const response = await axios.get(`${API_URL}/${purchaseId}`);
+      const response = await axios.get(`${API_URL}/${purchaseId}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener compra:", error);
@@ -32,11 +35,16 @@ const PurchaseApi = {
 
   async createPurchase(purchaseData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, purchaseData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/create`,
+        purchaseData,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al crear compra:", error);
@@ -49,6 +57,7 @@ const PurchaseApi = {
       const response = await axios.put(
         `${API_URL}/${purchaseId}/edit`,
         updatedPurchaseData,
+        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,11 +73,15 @@ const PurchaseApi = {
 
   async deletePurchase(purchaseId) {
     try {
-      const response = await axios.delete(`${API_URL}/${purchaseId}/delete`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.delete(
+        `${API_URL}/${purchaseId}/delete`,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al eliminar compra:", error);

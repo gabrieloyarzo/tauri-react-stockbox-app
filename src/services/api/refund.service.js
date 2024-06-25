@@ -5,7 +5,7 @@ const API_URL = `${import.meta.env.VITE_API_URL}/refunds`;
 const RefundApi = {
   async getAllRefunds() {
     try {
-      const response = await axios.get(`${API_URL}`);
+      const response = await axios.get(`${API_URL}`, { withCredentials: true });
       return response.data;
     } catch (error) {
       console.error("Error al obtener devoluciones:", error);
@@ -15,7 +15,9 @@ const RefundApi = {
 
   async getRefund(refundId) {
     try {
-      const response = await axios.get(`${API_URL}/${refundId}`);
+      const response = await axios.get(`${API_URL}/${refundId}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener devolucion:", error);
@@ -25,11 +27,16 @@ const RefundApi = {
 
   async createProvider(providerData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, providerData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/create`,
+        providerData,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al crear proveedor:", error);
@@ -42,6 +49,7 @@ const RefundApi = {
       const response = await axios.put(
         `${API_URL}/${providerId}/edit`,
         updatedProviderData,
+        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
@@ -57,11 +65,15 @@ const RefundApi = {
 
   async deleteProvider(providerId) {
     try {
-      const response = await axios.delete(`${API_URL}/${providerId}/delete`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.delete(
+        `${API_URL}/${providerId}/delete`,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al eliminar proveedor:", error);

@@ -15,7 +15,9 @@ const SaleApi = {
 
   async getSale(saleId) {
     try {
-      const response = await axios.get(`${API_URL}/${saleId}`);
+      const response = await axios.get(`${API_URL}/${saleId}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener venta:", error);
@@ -25,11 +27,16 @@ const SaleApi = {
 
   async createSale(saleData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, saleData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/create`,
+        saleData,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al crear venta:", error);
@@ -42,6 +49,7 @@ const SaleApi = {
       const response = await axios.put(
         `${API_URL}/${saleId}/edit`,
         updatedSaleData,
+        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
@@ -57,11 +65,15 @@ const SaleApi = {
 
   async deleteSale(saleId) {
     try {
-      const response = await axios.delete(`${API_URL}/${saleId}/delete`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.delete(
+        `${API_URL}/${saleId}/delete`,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al eliminar venta:", error);

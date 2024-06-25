@@ -11,18 +11,22 @@ const ProviderApi = {
   } = {}) {
     try {
       const response = await axios.get(
-          `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`, {withCredentials : true,}
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
+        { withCredentials: true }
       );
       return response.data;
     } catch (error) {
       console.error("Error al obtener proveedores:", error);
+      s;
       throw error;
     }
   },
 
   async getProvider(providerId) {
     try {
-      const response = await axios.get(`${API_URL}/${providerId}`, {withCredentials : true,});
+      const response = await axios.get(`${API_URL}/${providerId}`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener proveedor:", error);
@@ -32,11 +36,16 @@ const ProviderApi = {
 
   async createProvider(providerData) {
     try {
-	const response = await axios.post(`${API_URL}/create`, providerData, {withCredentials : true,},{
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/create`,
+        providerData,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al crear proveedor:", error);
@@ -48,7 +57,8 @@ const ProviderApi = {
     try {
       const response = await axios.put(
         `${API_URL}/${providerId}/edit`,
-          updatedProviderData,{withCredentials : true,},
+        updatedProviderData,
+        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,11 +74,15 @@ const ProviderApi = {
 
   async deleteProvider(providerId) {
     try {
-	const response = await axios.delete(`${API_URL}/${providerId}/delete`, {withCredentials : true,},{
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.delete(
+        `${API_URL}/${providerId}/delete`,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al eliminar proveedor:", error);
