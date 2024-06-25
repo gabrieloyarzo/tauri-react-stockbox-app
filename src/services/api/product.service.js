@@ -11,7 +11,7 @@ const ProductApi = {
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`
+          `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,{withCredentials : true,}
       );
       return response.data;
     } catch (error) {
@@ -22,7 +22,7 @@ const ProductApi = {
 
   async getProduct(productId) {
     try {
-      const response = await axios.get(`${API_URL}/${productId}`);
+	const response = await axios.get(`${API_URL}/${productId}`,{withCredentials : true,});
       return response.data;
     } catch (error) {
       console.error("Error al obtener producto:", error);
@@ -32,7 +32,7 @@ const ProductApi = {
 
   async createProduct(productData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, productData, {
+	const response = await axios.post(`${API_URL}/create`, productData, {withCredentials : true,},{
         headers: {
           "Content-Type": "application/json",
         },
@@ -48,7 +48,7 @@ const ProductApi = {
     try {
       const response = await axios.put(
         `${API_URL}/${productId}/edit`,
-        updatedProductData,
+          updatedProductData, {withCredentials : true,},
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const ProductApi = {
 
   async deleteProduct(productId) {
     try {
-      const response = await axios.delete(`${API_URL}/${productId}/delete`, {
+	const response = await axios.delete(`${API_URL}/${productId}/delete`,{withCredentials : true,}, {
         headers: {
           "Content-Type": "application/json",
         },
