@@ -1,6 +1,6 @@
 export function formatRut(rut) {
-  const cleanRUT = rut.replace(/\D/g, "");
-
+  const cleanRUT = rut.replace(/[^0-9kK]/g, "");
+  
   if (cleanRUT.length < 2) {
     return cleanRUT;
   }
