@@ -16,6 +16,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { validateLogin } from "../../../services/validation/loginValidation";
 import { formatRut } from "../../../functions/formatRut";
+import CustomSnackbar from "../../atoms/custom-ui/snackbars/CustomSnackbar";
 
 const Login = () => {
   const theme = useTheme();
@@ -25,10 +26,23 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // snackbar
+  const [snackProps, setSnackProps] = useState({});
+
   const [credentials, setCredentials] = useState({
     rutu: localStorage.getItem("usuario") || "",
     pwd: "",
   });
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackProps((prevProps) => ({
+      ...prevProps,
+      open: false,
+    }));
+  };
 
   const handleChange = (e) => {
     if (e.target.name === "rutu") {
@@ -64,8 +78,19 @@ const Login = () => {
       if (token) {
         setLogged("Dashboard");
       }
+      setSnackProps({
+        open: true,
+        closeSnack: handleCloseSnack,
+        severity: "success",
+        message: token.message,
+      });
     } catch (error) {
-      console.error("Error al setear datos");
+      setSnackProps({
+        open: true,
+        closeSnack: handleCloseSnack,
+        severity: "error",
+        message: error.response.data.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -208,6 +233,7 @@ const Login = () => {
         </>
       )}
       {logged === "Dashboard" && <Sidebar />}
+      <CustomSnackbar {...snackProps} />
     </>
   );
 };
