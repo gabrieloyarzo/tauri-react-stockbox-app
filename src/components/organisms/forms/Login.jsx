@@ -78,11 +78,12 @@ const Login = () => {
       if (token) {
         setLogged("Dashboard");
       }
+
       setSnackProps({
         open: true,
         closeSnack: handleCloseSnack,
         severity: "success",
-        message: token.message,
+        message: token.data.message,
       });
     } catch (error) {
       setSnackProps({
