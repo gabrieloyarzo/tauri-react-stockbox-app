@@ -4,7 +4,7 @@ import LoginApi from "../../../services/api/login.service";
 import Sidebar from "../Sidebar";
 import {
   Box,
-  Button,
+  Stack,
   Card,
   CardMedia,
   Typography,
@@ -13,167 +13,199 @@ import {
   Checkbox,
   Grid,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  marginBottom: "2vh",
-  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main,
-  },
-  "& .MuiInputLabel-outlined.Mui-focused": {
-    color: theme.palette.primary.main,
-  },
-}));
-
-const T2 = ({ handleChange, handleSubmit }) => {
-  const theme = useTheme();
-
-  return (
-    <>
-      <Grid item xs={6} md={6}>
-        <Box
-          sx={{
-            height: "100%",
-            width: "100%",
-            backgroundColor: "#266763",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)",
-            borderRadius: "1em",
-          }}
-        >
-          <CardMedia
-            component="img"
-            alt="StockBox"
-            image="/src/images/logo_2.png"
-            sx={{
-              width: "45%",
-              height: "auto",
-            }}
-          />
-        </Box>
-      </Grid>
-      <Grid item xs={6} md={6}>
-        <Box
-          sx={{
-            backgroundColor: theme.palette.background.default,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-          }}
-        >
-          <Card
-            sx={{
-              width: "65%",
-              borderRadius: "1em",
-              bgcolor: theme.palette.background.default,
-              boxShadow: theme.shadows[2],
-            }}
-          >
-            <Box sx={{ padding: "2rem", margin: 2 }}>
-              <Typography
-                variant="h4"
-                sx={{ fontWeight: "bold", textAlign: "center" }}
-              >
-                ¡BIENVENIDO A STOCKBOX!
-              </Typography>
-              <Typography variant="h5" sx={{ textAlign: "center" }}>
-                Accede a tu cuenta
-              </Typography>
-            </Box>
-            <form onSubmit={handleSubmit}>
-              <Box
-                sx={{
-                  width: "65%",
-                  margin: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Box>
-                  <StyledTextField
-                    label="RUT"
-                    name="rutu"
-                    fullWidth
-                    onChange={handleChange}
-                  />
-                  <StyledTextField
-                    label="Contraseña"
-                    type="password"
-                    name="pwd"
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        sx={{
-                          color: "#348d87",
-                          "&.Mui-checked": {
-                            color: "#348d87",
-                          },
-                        }}
-                      />
-                    }
-                    label="Recordar usuario"
-                  />
-                </Box>
-                <Box width="100%" display="flex" justifyContent="center" padding="2em">
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{ width: "50%" }}
-                  >
-                    INGRESAR
-                  </Button>
-                </Box>
-              </Box>
-            </form>
-          </Card>
-        </Box>
-      </Grid>
-    </>
-  );
-};
+import LoadingButton from "@mui/lab/LoadingButton";
+import { validateLogin } from "../../../services/validation/loginValidation";
+import { formatRut } from "../../../functions/formatRut";
 
 const Login = () => {
+  const theme = useTheme();
+
+  const [checked, setChecked] = useState(false);
   const [logged, setLogged] = useState("Login");
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [credentials, setCredentials] = useState({
-    rutu: "",
+    rutu: localStorage.getItem("usuario") || "",
     pwd: "",
   });
 
   const handleChange = (e) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "rutu") {
+      setCredentials({
+        ...credentials,
+        [e.target.name]: formatRut(e.target.value),
+      });
+    } else {
+      setCredentials({
+        ...credentials,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
 
-     const token = await LoginApi.logUsers(credentials);
-	if(token){
-	          setLogged("Dashboard");
-	}
-	
+    const newErrors = validateLogin(credentials);
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    if (checked) {
+      localStorage.setItem("usuario", credentials.rutu);
+    }
+
+    setLoading(true);
+    try {
+      const token = await LoginApi.logUsers(credentials);
+      if (token) {
+        setLogged("Dashboard");
+      }
     } catch (error) {
       console.error("Error al setear datos");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       {logged === "Login" && (
-        <T2 handleChange={handleChange} handleSubmit={handleSubmit} />
+        <>
+          <Grid item xs={6} md={6}>
+            <Box
+              sx={{
+                height: "100%",
+                width: "100%",
+                backgroundColor: "#266763",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: theme.shadows[10],
+                borderRadius: "1em",
+              }}
+            >
+              <CardMedia
+                component="img"
+                alt="StockBox"
+                image="/src/images/logo_2.png"
+                sx={{
+                  width: "45%",
+                  height: "auto",
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={6} md={6}>
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <Card
+                sx={{
+                  width: "65%",
+                  borderRadius: "1em",
+                  bgcolor: theme.palette.background.default,
+                  boxShadow: theme.shadows[2],
+                }}
+              >
+                <Box sx={{ padding: "2rem", margin: 2 }}>
+                  <Typography
+                    variant="h4"
+                    sx={{ fontWeight: "bold", textAlign: "center" }}
+                  >
+                    ¡BIENVENIDO A STOCKBOX!
+                  </Typography>
+                  <Typography variant="h5" sx={{ textAlign: "center" }}>
+                    Accede a tu cuenta
+                  </Typography>
+                </Box>
+                <form onSubmit={handleSubmit}>
+                  <Box
+                    sx={{
+                      width: "65%",
+                      margin: "auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Stack width="90%" direction="column" spacing={2}>
+                      <TextField
+                        label="RUT"
+                        name="rutu"
+                        value={credentials.rutu}
+                        fullWidth
+                        onChange={handleChange}
+                        error={!!errors.rutu}
+                        helperText={errors.rutu || ""}
+                        inputProps={{
+                          maxLength: 12,
+                        }}
+                        formHelperTextOptions={{
+                          sx: {
+                            minHeight: "1.5em",
+                          },
+                        }}
+                      />
+                      <TextField
+                        label="Contraseña"
+                        type="password"
+                        name="pwd"
+                        onChange={handleChange}
+                        error={!!errors.pwd}
+                        helperText={errors.pwd || ""}
+                        fullWidth
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            sx={{
+                              color: "#348d87",
+                              "&.Mui-checked": {
+                                color: "#348d87",
+                              },
+                            }}
+                          />
+                        }
+                        label="Recordar usuario"
+                        checked={checked}
+                        onChange={(e) => setChecked(e.target.checked)}
+                      />
+                    </Stack>
+                    <Box
+                      width="100%"
+                      display="flex"
+                      justifyContent="center"
+                      padding="2em"
+                    >
+                      <LoadingButton
+                        variant="contained"
+                        loading={loading}
+                        loadingPosition="end"
+                        type="submit"
+                        sx={{ width: "50%" }}
+                        autoFocus
+                      >
+                        INGRESAR
+                      </LoadingButton>
+                    </Box>
+                  </Box>
+                </form>
+              </Card>
+            </Box>
+          </Grid>
+        </>
       )}
       {logged === "Dashboard" && <Sidebar />}
     </>
