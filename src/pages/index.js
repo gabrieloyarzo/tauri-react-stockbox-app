@@ -4,6 +4,7 @@ import Products from "./Products";
 import Providers from "./Providers";
 import Users from "./Users";
 import ErrorScreen from "./ErrorScreen";
+import Help from "./Help";
 
 export {
   Dashboard,
@@ -12,4 +13,5 @@ export {
   Providers,
   Users,
   ErrorScreen,
+  Help,
 };

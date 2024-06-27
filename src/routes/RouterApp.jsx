@@ -7,6 +7,7 @@ import {
   Providers,
   Users,
   ErrorScreen,
+  Help,
 } from "../pages";
 import Sidebar from "../components/organisms/Sidebar";
 import { Grid } from "@mui/material";
@@ -26,6 +27,7 @@ const RouterApp = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/providers" element={<Providers />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/help" element={<Help />} />
             <Route path="/*" element={<ErrorScreen />} />
           </Routes>
         </Grid>

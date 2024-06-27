@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-const HelpPage = () => {
+const Help = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [selectedFaq, setSelectedFaq] = useState(null);
@@ -165,4 +165,4 @@ const HelpPage = () => {
   );
 };
 
-export default HelpPage;
+export default Help;
