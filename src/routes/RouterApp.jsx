@@ -26,7 +26,8 @@ const RouterApp = () => {
             container
             direction="column"
             justifyContent="center"
-            padding={2}
+            paddingRight={1}
+            paddingLeft={2}
           >
             <Grid item xs={12} md={12}>
               <Stack
@@ -40,16 +41,18 @@ const RouterApp = () => {
               </Stack>
             </Grid>
             <Grid item xs={12} md={12}>
-              <Routes>
-                <Route path="/" element={<Navigate to="/analytics" />} />
-                <Route path="/analytics" element={<Dashboard />} />
-                <Route path="/purchases" element={<Purchases />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/providers" element={<Providers />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/help" element={<Help />} />
-                <Route path="/*" element={<ErrorScreen />} />
-              </Routes>
+              <Grid container direction="column" marginTop=".5rem">
+                <Routes>
+                  <Route path="/" element={<Navigate to="/analytics" />} />
+                  <Route path="/analytics" element={<Dashboard />} />
+                  <Route path="/purchases" element={<Purchases />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/providers" element={<Providers />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/help" element={<Help />} />
+                  <Route path="/*" element={<ErrorScreen />} />
+                </Routes>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

@@ -1,7 +1,5 @@
 import React from "react";
-import { Grid, Stack } from "@mui/material";
-import Profile from "../molecules/Profile";
-import NotificationsPanel from "../organisms/NotificationPanel";
+import { Grid } from "@mui/material";
 import Cards from "../molecules/Cards";
 import ChartPS from "../molecules/ChartCO";
 import ChartSales from "../molecules/ChartSales";
@@ -10,7 +8,7 @@ import ChartST from "../molecules/ChartST";
 
 const Dashboard = ({ data }) => {
   return (
-    <Grid container marginTop=".5em" justifyContent="center">
+    <Grid container justifyContent="center">
       <Grid item xs={12} marginTop="1.5em" width="95%">
         <Cards />
       </Grid>
