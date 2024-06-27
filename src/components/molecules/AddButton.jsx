@@ -10,12 +10,16 @@ const AddButton = ({ fetchData, toggleForm, setFormProps }) => {
         position: "fixed",
         bottom: "20px",
         right: "20px",
-        width: "50px",
+        width: "3vw",
+        height: "3vw",
         backgroundColor: "#000",
         color: "#fff",
         '&:hover': {
           backgroundColor: '#c3fa7b',
           color: "#7e7e7e",
+          width: "3.25vw",
+          height: "3.25vw",
+          transition: "width 0.3s, height 0.3s", // Transición suave de tamaño
         },
       }}
       onClick={() => {
@@ -26,7 +30,7 @@ const AddButton = ({ fetchData, toggleForm, setFormProps }) => {
         toggleForm();
       }}
     >
-      <AddIcon fontSize="large" />
+      <AddIcon sx={{ fontSize: "2.5vw" }} />
     </IconButton>
   );
 };
