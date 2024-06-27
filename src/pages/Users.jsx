@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ProviderApi from "../../services/api/provider.service";
-import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
-import ProviderForm from "../organisms/forms/ProviderForm";
+import UserApi from "../services/api/user.service";
+import MainLayout from "../components/templates/MainLayout";
+import FeedbackLayout from "../components/templates/FeedbackLayout";
+import UserForm from "../components/organisms/forms/UserForm";
+import Sidebar from "../components/organisms/Sidebar";
 
-const Providers = () => {
+const Users = () => {
   const [tableData, setTableData] = useState(null);
   const [count, setCount] = useState(0);
 
@@ -17,9 +18,9 @@ const Providers = () => {
   const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const providers = await ProviderApi.getAllProviders(props);
-      setTableData(providers.data);
-      setCount(providers.largo);
+      const users = await UserApi.getAllUsers(props);
+      setTableData(users.data);
+      setCount(users.largo);
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,15 +46,16 @@ const Providers = () => {
   return (
     <>
       <MainLayout
-        currentTable="providers"
+        currentTable="users"
         data={tableData}
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        count={count}
-        filterProps={filterProps}
-        setFilterProps={setFilterProps}
         loading={loading}
+        setLoading={setLoading}
+        count={count}
+        setFilterProps={setFilterProps}
+        filterProps={filterProps}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}
@@ -61,7 +63,7 @@ const Providers = () => {
         snackProps={snackProps}
       />
       {openForm && (
-        <ProviderForm
+        <UserForm
           {...formProps}
           filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
@@ -74,4 +76,4 @@ const Providers = () => {
   );
 };
 
-export default Providers;
+export default Users;

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import UserApi from "../../services/api/user.service";
-import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
-import UserForm from "../organisms/forms/UserForm";
+import ProductApi from "../services/api/product.service";
+import MainLayout from "../components/templates/MainLayout";
+import FeedbackLayout from "../components/templates/FeedbackLayout";
+import ProductForm from "../components/organisms/forms/ProductForm";
+import Sidebar from "../components/organisms/Sidebar";
 
-const Users = () => {
+const Products = () => {
+  // Data table and related forms
   const [tableData, setTableData] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [codes, setCodes] = useState([]);
   const [count, setCount] = useState(0);
 
   // Filters
@@ -17,9 +21,11 @@ const Users = () => {
   const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const users = await UserApi.getAllUsers(props);
-      setTableData(users.data);
-      setCount(users.largo);
+      const products = await ProductApi.getAllProducts(props);    
+      setCount(products.largo);
+      setTableData(products.data);
+      setCategories(products.categorias);
+      setCodes(products.codes);
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,16 +51,15 @@ const Users = () => {
   return (
     <>
       <MainLayout
-        currentTable="users"
+        currentTable="products"
         data={tableData}
         fetchData={fetchData}
+        filterProps={filterProps}
+        setFilterProps={setFilterProps}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        loading={loading}
-        setLoading={setLoading}
         count={count}
-        setFilterProps={setFilterProps}
-        filterProps={filterProps}
+        loading={loading}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}
@@ -62,17 +67,19 @@ const Users = () => {
         snackProps={snackProps}
       />
       {openForm && (
-        <UserForm
+        <ProductForm
           {...formProps}
           filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
+          categories={categories}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}
           setSnackProps={setSnackProps}
+          codes={codes}
         />
       )}
     </>
   );
 };
 
-export default Users;
+export default Products;
