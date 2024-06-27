@@ -5,6 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
 import { useTheme } from "@mui/material/styles";
 import Login from "./components/organisms/forms/Login";
+import HelpPage from "./components/templates/HelpPage";
 
 const App = () => {
   useEffect(() => {
