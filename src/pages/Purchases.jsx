@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PurchaseApi from "../../services/api/purchase.service";
-import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
-import PurchaseForm from "../organisms/forms/PurchaseForm";
+import { Grid } from "@mui/material";
+import PurchaseApi from "../services/api/purchase.service";
+import MainLayout from "../components/templates/MainLayout";
+import FeedbackLayout from "../components/templates/FeedbackLayout";
+import PurchaseForm from "../components/organisms/forms/PurchaseForm";
+import Sidebar from "../components/organisms/Sidebar";
 
 const Purchases = () => {
   const [tableData, setTableData] = useState(null);
