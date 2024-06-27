@@ -1,10 +1,36 @@
 import React, { useState } from "react";
-import {Typography, Grid, Box, Card, CardContent, Dialog, DialogTitle, DialogContent, DialogActions, Button} from "@mui/material";
+import { useTheme, styled } from "@mui/material/styles";
+import {
+  Typography,
+  Grid,
+  Box,
+  Card,
+  CardContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
+const StyledCard = styled(Card)(({ theme }) => ({
+  textAlign: "center",
+  padding: theme.spacing(1),
+  borderRadius: ".2em",
+  backgroundColor: "#EFEFEF",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  height: "85%",
+  boxShadow: theme.shadows[2],
+}));
+
 const Help = () => {
+  const theme = useTheme();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [selectedFaq, setSelectedFaq] = useState(null);
@@ -87,16 +113,15 @@ const Help = () => {
   return (
     <Grid
       container
-      style={{ marginTop: "50px", justifyContent: "center" }}
+      style={{
+        marginTop: ".5em",
+        justifyContent: "center",
+        marginBottom: "50px",
+      }}
       spacing={2}
     >
       <Grid item xs={12}>
-        <Typography
-          variant="h3"
-          align="center"
-          style={{ marginBottom: "10px" }}
-          gutterBottom
-        >
+        <Typography variant="h3" align="center" gutterBottom>
           Preguntas frecuentes
         </Typography>
       </Grid>
@@ -107,25 +132,26 @@ const Help = () => {
             placeholder="Buscar..."
             onChange={(e) => handleSearch(e.target.value)}
             fullWidth
-            style={{ maxWidth: "600px" }}
+            style={{ maxWidth: "65%" }}
             InputProps={{
               endAdornment: <SearchIcon />,
             }}
           />
         </Box>
       </Grid>
-      <Grid item xs={12} style={{ marginTop: "20px" }}>
-        {filteredFaqs.length === 0 ? (    /* En caso de que no haya coincidencias. */
+      <Grid item xs={12} style={{ marginTop: ".5em" }}>
+        {filteredFaqs.length ===
+        0 /* En caso de que no haya coincidencias. */ ? (
           <Typography variant="body1" align="center">
             No se encontraron resultados.
           </Typography>
         ) : (
           <Grid container spacing={2} justifyContent="center">
             {filteredFaqs.map((faq) => (
-              <Grid item key={faq.id} lg={3} style={{ margin: "10px" }}>
-                <Card
+              <Grid item key={faq.id} lg={3} style={{ margin: ".8em" }}>
+                <StyledCard
                   style={{
-                    border: "1px solid #266763",
+                    border: "1px solid theme.palette.primary.main",
                     borderRadius: "10px",
                     cursor: "pointer",
                   }}
@@ -142,13 +168,21 @@ const Help = () => {
                       {faq.shortText}
                     </Typography>
                   </CardContent>
-                </Card>
+                </StyledCard>
               </Grid>
             ))}
           </Grid>
         )}
       </Grid>
-      <Dialog open={openModal} onClose={handleCloseModal}>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        PaperProps={{
+          sx: {
+            transform: "translateX(25%)",
+          },
+        }}
+      >
         <DialogTitle>{selectedFaq && selectedFaq.title}</DialogTitle>
         <DialogContent>
           <Typography variant="body1">

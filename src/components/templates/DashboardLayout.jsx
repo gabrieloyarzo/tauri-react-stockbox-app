@@ -11,12 +11,6 @@ import ChartST from "../molecules/ChartST";
 const Dashboard = ({ data }) => {
   return (
     <Grid container marginTop=".5em" justifyContent="center">
-      <Grid item xs={12} width="95%">
-        <Stack direction="row" spacing={5} justifyContent="flex-end">
-          <NotificationsPanel />
-          <Profile />
-        </Stack>
-      </Grid>
       <Grid item xs={12} marginTop="1.5em" width="95%">
         <Cards />
       </Grid>

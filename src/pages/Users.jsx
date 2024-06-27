@@ -3,7 +3,6 @@ import UserApi from "../services/api/user.service";
 import MainLayout from "../components/templates/MainLayout";
 import FeedbackLayout from "../components/templates/FeedbackLayout";
 import UserForm from "../components/organisms/forms/UserForm";
-import Sidebar from "../components/organisms/Sidebar";
 
 const Users = () => {
   const [tableData, setTableData] = useState(null);

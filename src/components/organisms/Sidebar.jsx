@@ -14,7 +14,7 @@ import {
   Groups,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom"; // Importa estos hooks
+import { useNavigate, useLocation } from "react-router-dom"; // Importa estos hooks
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   height: "100%",
@@ -30,7 +30,8 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 const Sidebar = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [value, setValue] = useState("analytics");
+  const location = useLocation();
+  const [value, setValue] = useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
@@ -44,10 +45,19 @@ const Sidebar = () => {
     };
   }, [theme.breakpoints.values.md]);
 
+  useEffect(() => {
+    const path = location.pathname.split("/")[1];
+    setValue(path || "analytics");
+  }, [location]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     navigate(`/${newValue}`);
   };
+
+  if (value === "") {
+    return null; // Para que renderice el componente solamente cuando se esté en la ruta /
+  }
 
   return (
     <Box
