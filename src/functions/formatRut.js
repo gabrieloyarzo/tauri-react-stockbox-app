@@ -1,5 +1,5 @@
 export function formatRut(rut) {
-  const cleanRUT = rut.replace(/[^0-9kK]/g, "");
+  const cleanRUT = rut.replace(/[^0-9kK]/g, "").toUpperCase();
   
   if (cleanRUT.length < 2) {
     return cleanRUT;
