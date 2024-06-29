@@ -17,14 +17,17 @@ import { styled } from "@mui/material/styles";
 import { useNavigate, useLocation } from "react-router-dom"; // Importa estos hooks
 
 const StyledTab = styled(Tab)(({ theme }) => ({
-  height: "100%",
+  height: "2vw",
   maxWidth: "80%",
   fontSize: theme.typography.subtitle1.fontSize,
   color: theme.palette.primary.contrastText,
   textTransform: "none",
   marginBottom: ".5em",
-  minHeight: "2.75em",
   justifyContent: "flex-start",
+  "& .MuiSvgIcon-root": {
+    width: "1.5vw",
+    height: "auto",
+  },
 }));
 
 const Sidebar = () => {
@@ -79,7 +82,7 @@ const Sidebar = () => {
             image="/src/images/logo_2.png"
             style={{
               padding: "5%",
-              width: "4em",
+              width: "4vw",
               height: "auto",
               borderRadius: "50%",
             }}

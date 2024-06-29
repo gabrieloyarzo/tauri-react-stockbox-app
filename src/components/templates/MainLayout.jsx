@@ -24,7 +24,7 @@ const MainLayout = ({
         container
         direction="column"
         spacing="1rem"
-        style={{ minHeight: "100vh" }}
+        sx={{ minHeight: "100vh" }}
       >
         <Grid item xs={12} md={12}>
           <Filters />
