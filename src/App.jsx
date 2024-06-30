@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import "./App.css";
+import GlobalContextProvider from "./context/GlobalContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
 import { useTheme } from "@mui/material/styles";
-import { Grid } from "@mui/material";
 import Login from "./pages/Login";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import RouterApp from "./routes/RouterApp";
@@ -42,19 +42,21 @@ const App = () => {
 
   return (
     <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
-      <Router>
-        <Routes>
-          <Route
-            path="/*"
-            element={
-              <ProtectedRoutes>
-                <RouterApp />
-              </ProtectedRoutes>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </Router>
+      <GlobalContextProvider>
+        <Router>
+          <Routes>
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoutes>
+                  <RouterApp />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </Router>
+      </GlobalContextProvider>
     </ThemeProvider>
   );
 };

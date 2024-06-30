@@ -4,7 +4,6 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import TableHeader from "../molecules/TableHeader";
 import TableRows from "../molecules/TableRows";
-import { Grid } from "@mui/material";
 
 const useTableColumns = ({ data }) => {
   const [columns, setColumns] = useState([]);
@@ -24,7 +23,6 @@ const Table = ({
   currentTable,
   toggleForm,
   setFormProps,
-  filterProps,
   loading,
   setLoading,
 }) => {
@@ -36,12 +34,10 @@ const Table = ({
         className="tabla-datos"
         aria-label="content table"
       >
-        <TableHeader currentTable={currentTable} />
+        <TableHeader />
         <TableRows
-          currentTable={currentTable}
           data={data}
           columns={columns}
-          filterProps={filterProps}
           fetchData={fetchData}
           toggleForm={toggleForm}
           setFormProps={setFormProps}

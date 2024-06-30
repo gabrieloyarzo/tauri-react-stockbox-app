@@ -7,13 +7,10 @@ import Filters from "../organisms/Filters";
 import Pagination from "../organisms/Pagination";
 
 const MainLayout = ({
-  currentTable,
   data,
   fetchData,
   setFormProps,
   toggleForm,
-  filterProps,
-  setFilterProps,
   count,
   loading,
   setLoading,
@@ -36,9 +33,7 @@ const MainLayout = ({
             ) : (
               <>
                 <Table
-                  currentTable={currentTable}
                   data={data}
-                  filterProps={filterProps}
                   fetchData={fetchData}
                   toggleForm={toggleForm}
                   setFormProps={setFormProps}
@@ -58,13 +53,12 @@ const MainLayout = ({
               height: "100%",
             }}
           >
-            <Pagination setFilterProps={setFilterProps} count={count} />
+            <Pagination count={count} />
           </Box>
         </Grid>
       </Grid>
       {data && (
         <AddButton
-          currentTable={currentTable}
           fetchData={fetchData}
           toggleForm={toggleForm}
           setFormProps={setFormProps}

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { TableContext } from "../../context/TableContext";
 import { useTheme } from "@mui/material";
 import {
   IconButton,
@@ -8,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Switch,
 } from "@mui/material";
 import CustomSwitch from "../atoms/custom-ui/Android12Switch";
 import { auxDelete } from "../../functions/auxDelete";
@@ -39,10 +39,8 @@ const isIdTable = (currentTable) => {
 };
 
 const TableRows = ({
-  currentTable,
   data,
   columns,
-  filterProps,
   fetchData,
   toggleForm,
   setFormProps,
@@ -50,6 +48,7 @@ const TableRows = ({
   setLoadingState,
 }) => {
   const theme = useTheme();
+  const { currentTable, isLoading, setIsLoading } = useContext(TableContext);
 
   // index key which would contain the array of details if it exists
   const dIndexKey =
@@ -92,7 +91,7 @@ const TableRows = ({
   };
 
   const handleSwitchChange = async (event, id) => {
-    setLoadingState(true);
+    setIsLoading(true);
     try {
       const response = await auxUpdate(currentTable, id, {
         [event.target.name]: event.target.value,
@@ -113,7 +112,7 @@ const TableRows = ({
       });
     }
     finally {
-      setLoadingState(false);
+      setIsLoading(false);
     }
   };
 
@@ -164,7 +163,7 @@ const TableRows = ({
           opacity: loadingState ? 0.5 : 1,
         }}
       >
-        {loadingState && (
+        {isLoading && (
           <Box
             sx={{
               position: "absolute",

@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { TableContext } from "../context/TableContext";
+import { FilterContext } from "../context/FilterContext";
 import ProductApi from "../services/api/product.service";
 import MainLayout from "../components/templates/MainLayout";
 import FeedbackLayout from "../components/templates/FeedbackLayout";
 import ProductForm from "../components/organisms/forms/ProductForm";
-import Sidebar from "../components/organisms/Sidebar";
 
 const Products = () => {
+  const { currentTable, setCurrentTable } = useContext(TableContext);
+  const { filterProps } = useContext(FilterContext);
+
+  useEffect(() => {
+    setCurrentTable("products");
+  }, []);
+
   // Data table and related forms
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [codes, setCodes] = useState([]);
   const [count, setCount] = useState(0);
-
-  // Filters
-  const [filterProps, setFilterProps] = useState({});
 
   // Loading state for table
   const [loading, setLoading] = useState(false);
@@ -48,14 +53,15 @@ const Products = () => {
   // Snackbar
   const [snackProps, setSnackProps] = useState({});
 
+  if (currentTable !== "products") {
+    return null;
+  }
+
   return (
     <>
       <MainLayout
-        currentTable="products"
         data={tableData}
         fetchData={fetchData}
-        filterProps={filterProps}
-        setFilterProps={setFilterProps}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
@@ -69,7 +75,6 @@ const Products = () => {
       {openForm && (
         <ProductForm
           {...formProps}
-          filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
           categories={categories}
           setModifyDialogProps={setModifyDialogProps}

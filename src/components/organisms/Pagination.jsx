@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { FilterContext } from "../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import MuiPagination from "@mui/material/Pagination";
 import { Stack } from "@mui/material";
 
-const Pagination = ({ setFilterProps, count }) => {
+const Pagination = ({ count }) => {
   const theme = useTheme;
+  const { setFilterProps } = useContext(FilterContext);
+
   const [page, setPage] = useState(1);
 
   const handleChange = (event, value) => {

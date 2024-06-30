@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { TableContext } from "../context/TableContext";
+import { FilterContext } from "../context/FilterContext";
 import ProviderApi from "../services/api/provider.service";
 import MainLayout from "../components/templates/MainLayout";
 import FeedbackLayout from "../components/templates/FeedbackLayout";
 import ProviderForm from "../components/organisms/forms/ProviderForm";
-import Sidebar from "../components/organisms/Sidebar";
 
 const Providers = () => {
+  const { currentTable, setCurrentTable } = useContext(TableContext);
+  const { filterProps } = useContext(FilterContext);
+
   const [tableData, setTableData] = useState(null);
   const [count, setCount] = useState(0);
 
-  // Filters
-  const [filterProps, setFilterProps] = useState({});
+  useEffect(() => {
+    setCurrentTable("providers");
+  }, []);
 
   // Loading state for table
   const [loading, setLoading] = useState(false);
@@ -43,17 +48,18 @@ const Providers = () => {
   // Snackbar
   const [snackProps, setSnackProps] = useState({});
 
+  if (currentTable !== "providers") {
+    return null;
+  }
+
   return (
     <>
       <MainLayout
-        currentTable="providers"
         data={tableData}
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
-        filterProps={filterProps}
-        setFilterProps={setFilterProps}
         loading={loading}
       />
       <FeedbackLayout
@@ -64,7 +70,6 @@ const Providers = () => {
       {openForm && (
         <ProviderForm
           {...formProps}
-          filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}

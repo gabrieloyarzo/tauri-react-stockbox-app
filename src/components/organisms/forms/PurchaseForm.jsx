@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import {
   Button,
@@ -52,12 +53,12 @@ const PurchaseForm = ({
   products,
   providers,
   codes,
-  filterProps,
   setDiscardDialogProps,
   setModifyDialogProps,
   setSnackProps,
 }) => {
   const theme = useTheme();
+  const { filterProps } = useContext(FilterContext);
 
   const initialRow = {
     idp: "",

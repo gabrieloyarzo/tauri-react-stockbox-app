@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import UserApi from "../../../services/api/user.service";
 import { Button, TextField, Box, Typography } from "@mui/material";
@@ -18,13 +19,13 @@ const UserForm = ({
   mode,
   initialData,
   closeForm,
-  filterProps,
   fetchData,
   setDiscardDialogProps,
   setModifyDialogProps,
   setSnackProps,
 }) => {
   const theme = useTheme();
+  const { filterProps } = useContext(FilterContext);
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});

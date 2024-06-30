@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { TableContext } from "../../context/TableContext";
 import { TableHead, TableRow, TableCell } from "@mui/material";
 
 const tableColumns = ({ currentTable }) => {
@@ -19,7 +20,8 @@ const tableColumns = ({ currentTable }) => {
 }
 
 
-const TableHeader = ({ currentTable }) => {
+const TableHeader = () => {
+  const { currentTable } = useContext(TableContext);
   const columns = tableColumns({ currentTable });
 
   return (
