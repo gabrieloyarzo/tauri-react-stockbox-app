@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import LoginApi from "../services/api/login.service";
+import LoginApi from "../../services/api/login.service";
 import {
   Box,
   Stack,
@@ -14,9 +14,9 @@ import {
   Grid,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { validateLogin } from "../services/validation/loginValidation";
-import { formatRut } from "../functions/formatRut";
-import CustomSnackbar from "../components/atoms/custom-ui/snackbars/CustomSnackbar";
+import { validateLogin } from "../../services/validation/loginValidation";
+import { formatRut } from "../../functions/formatRut";
+import CustomSnackbar from "../atoms/custom-ui/snackbars/CustomSnackbar";
 
 const Login = () => {
   const theme = useTheme();

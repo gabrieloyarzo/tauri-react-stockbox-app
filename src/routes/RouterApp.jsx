@@ -8,7 +8,7 @@ import {
   Users,
   ErrorScreen,
   Help,
-} from "../pages";
+} from "../components/pages";
 import Sidebar from "../components/organisms/Sidebar";
 import { Grid, Stack } from "@mui/material";
 import NotificationsPanel from "../components/organisms/NotificationPanel";

@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from "react";
-import UserApi from "../services/api/user.service";
-import MainLayout from "../components/templates/MainLayout";
-import FeedbackLayout from "../components/templates/FeedbackLayout";
-import UserForm from "../components/organisms/forms/UserForm";
+import React, { useState, useEffect, useContext } from "react";
+import { TableContext } from "../../context/TableContext";
+import { FilterContext } from "../../context/FilterContext";
+import ProviderApi from "../../services/api/provider.service";
+import MainLayout from "../templates/MainLayout";
+import FeedbackLayout from "../templates/FeedbackLayout";
+import ProviderForm from "../organisms/forms/ProviderForm";
 
-const Users = () => {
+const Providers = () => {
+  const { currentTable, setCurrentTable } = useContext(TableContext);
+  const { filterProps } = useContext(FilterContext);
+
   const [tableData, setTableData] = useState(null);
   const [count, setCount] = useState(0);
 
-  // Filters
-  const [filterProps, setFilterProps] = useState({});
+  useEffect(() => {
+    setCurrentTable("providers");
+  }, []);
 
   // Loading state for table
   const [loading, setLoading] = useState(false);
@@ -17,9 +23,9 @@ const Users = () => {
   const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const users = await UserApi.getAllUsers(props);
-      setTableData(users.data);
-      setCount(users.largo);
+      const providers = await ProviderApi.getAllProviders(props);
+      setTableData(providers.data);
+      setCount(providers.largo);
     } catch (error) {
       console.error(error);
     } finally {
@@ -42,19 +48,19 @@ const Users = () => {
   // Snackbar
   const [snackProps, setSnackProps] = useState({});
 
+  if (currentTable !== "providers") {
+    return null;
+  }
+
   return (
     <>
       <MainLayout
-        currentTable="users"
         data={tableData}
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        loading={loading}
-        setLoading={setLoading}
         count={count}
-        setFilterProps={setFilterProps}
-        filterProps={filterProps}
+        loading={loading}
       />
       <FeedbackLayout
         modifyDialogProps={modifyDialogProps}
@@ -62,9 +68,8 @@ const Users = () => {
         snackProps={snackProps}
       />
       {openForm && (
-        <UserForm
+        <ProviderForm
           {...formProps}
-          filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}
@@ -75,4 +80,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Providers;

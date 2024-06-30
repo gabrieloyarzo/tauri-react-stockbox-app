@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
 import { useTheme } from "@mui/material/styles";
-import Login from "./pages/Login";
+import Login from "./components/pages/Login";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import RouterApp from "./routes/RouterApp";
 

@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
-import { TableContext } from "../context/TableContext";
-import { FilterContext } from "../context/FilterContext";
-import PurchaseApi from "../services/api/purchase.service";
-import MainLayout from "../components/templates/MainLayout";
-import FeedbackLayout from "../components/templates/FeedbackLayout";
-import PurchaseForm from "../components/organisms/forms/PurchaseForm";
+import { TableContext } from "../../context/TableContext";
+import { FilterContext } from "../../context/FilterContext";
+import ProductApi from "../../services/api/product.service";
+import MainLayout from "../templates/MainLayout";
+import FeedbackLayout from "../templates/FeedbackLayout";
+import ProductForm from "../organisms/forms/ProductForm";
 
-const Purchases = () => {
+const Products = () => {
   const { currentTable, setCurrentTable } = useContext(TableContext);
   const { filterProps } = useContext(FilterContext);
 
   useEffect(() => {
-    setCurrentTable("purchases");
-  }, [setCurrentTable]);
+    setCurrentTable("products");
+  }, []);
 
-  // Table related
+  // Data table and related forms
   const [tableData, setTableData] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [providers, setProviders] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [codes, setCodes] = useState([]);
-
-  // Pagination
   const [count, setCount] = useState(0);
 
   // Loading state for table
@@ -29,14 +26,11 @@ const Purchases = () => {
   const fetchData = async (props) => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
-      const purchases = await PurchaseApi.getAllPurchases(props);
-
-      setTableData(purchases.data);
-      setProviders(purchases.providers);
-      setProducts(purchases.products);
-      setCodes(purchases.codes);
-      setCount(purchases.largo);
-
+      const products = await ProductApi.getAllProducts(props);    
+      setCount(products.largo);
+      setTableData(products.data);
+      setCategories(products.categorias);
+      setCodes(products.codes);
     } catch (error) {
       console.error(error);
     } finally {
@@ -59,8 +53,8 @@ const Purchases = () => {
   // Snackbar
   const [snackProps, setSnackProps] = useState({});
 
-  if (currentTable !== "purchases") {
-    return null; // O algún mensaje de espera como <p>Loading...</p>
+  if (currentTable !== "products") {
+    return null;
   }
 
   return (
@@ -79,19 +73,18 @@ const Purchases = () => {
         snackProps={snackProps}
       />
       {openForm && (
-        <PurchaseForm
+        <ProductForm
           {...formProps}
-          products={products}
-          providers={providers}
-          codes={codes}
           closeForm={() => setOpenForm(false)}
+          categories={categories}
           setModifyDialogProps={setModifyDialogProps}
           setDiscardDialogProps={setDiscardDialogProps}
           setSnackProps={setSnackProps}
+          codes={codes}
         />
       )}
     </>
   );
 };
 
-export default Purchases;
+export default Products;
