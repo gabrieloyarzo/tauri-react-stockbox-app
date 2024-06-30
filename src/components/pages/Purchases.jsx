@@ -27,8 +27,6 @@ const Purchases = () => {
     try {
       const purchases = await PurchaseApi.getAllPurchases(props);
 
-      console.log(purchases);
-
       setTableData(purchases.data);
       setProviders(purchases.providers);
       setProducts(purchases.products);
@@ -43,6 +41,7 @@ const Purchases = () => {
   };
 
   useEffect(() => {
+    console.log(filterProps);
     fetchData(filterProps);
   }, [filterProps]);
 

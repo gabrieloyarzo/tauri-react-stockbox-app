@@ -12,7 +12,11 @@ const ProductApi = {
     try {
       const response = await axios.get(
         `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       return response.data;
     } catch (error) {

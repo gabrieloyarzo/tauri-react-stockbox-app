@@ -15,12 +15,21 @@ const SkeletonTable = () => {
 
   return (
     <Stack>
-      <LinearProgress color="primary" />
       <TableContainer component={Paper}>
+      <LinearProgress
+        color="primary"
+        sx={{
+          width: "100%",
+          zIndex: 1,
+        }}
+      />
         <Table>
           <TableHead sx={{ borderRadius: "0px" }}>
             <TableRow>
-              <TableCell sx={{ paddingRight: "1.25em", paddingLeft: "1.25em" }} colSpan={columns.length}>
+              <TableCell
+                sx={{ paddingRight: "1.25em", paddingLeft: "1.25em" }}
+                colSpan={columns.length}
+              >
                 <Skeleton variant="rectangular" />
               </TableCell>
             </TableRow>

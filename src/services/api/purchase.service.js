@@ -8,10 +8,13 @@ const PurchaseApi = {
     orden = "asc",
     offset = 0,
     limit = 10,
+    desde = "",
+    hasta = "",
+    texto = "",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}`,
         { withCredentials: true }
       );
       return response.data;

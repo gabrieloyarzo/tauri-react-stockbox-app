@@ -15,37 +15,33 @@ import { Search } from "@mui/icons-material";
 
 const Filters = () => {
   const theme = useTheme();
-  const { filterProps, setFilterProps } = useContext(FilterContext);
+  const { setFilterProps } = useContext(FilterContext);
 
   const [desde, setDesde] = useState(new Date());
   const [hasta, setHasta] = useState(new Date());
-  const [busqueda, setBusqueda] = useState('');
+  const [busqueda, setBusqueda] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
 
-
-  const handleChangeDesde = (e, date) => {
-    console.log("Desde", date);
-
+  const handleChangeDesde = (e) => {
+    const date = e.target.value;
     setDesde(date);
     setFilterProps((prevProps) => ({
       ...prevProps,
-      desde: date.toISOString().split('T')[0],
+      desde: date,
     }));
   };
 
-  const handleChangeHasta = (e, date) => {
-    console.log("Hasta", date);
-
+  const handleChangeHasta = (e) => {
+    const date = e.target.value;
     setHasta(date);
     setFilterProps((prevProps) => ({
       ...prevProps,
-      hasta: date.toISOString().split('T')[0],
+      hasta: date,
     }));
   };
 
-  const handleSearchChange = (e, search) => {
-    console.log("Busqueda", search);
-    
+  const handleSearchChange = (e) => {
+    const search = e.target.value;
     setBusqueda(search);
 
     if (timeoutId) {
@@ -116,10 +112,14 @@ const Filters = () => {
           </Select>
         </FormControl>
       </Stack>
+
+      {/* Desde y hasta */}
       <Stack direction="row" flex={0.3} alignItems={"center"}>
         <TextField
           label="Desde"
           type="date"
+          value={desde}
+          onChange={handleChangeDesde}
           InputLabelProps={{
             shrink: true,
           }}
@@ -145,6 +145,8 @@ const Filters = () => {
         <TextField
           label="Hasta"
           type="date"
+          value={hasta}
+          onChange={handleChangeHasta}
           InputLabelProps={{
             shrink: true,
           }}
@@ -160,9 +162,12 @@ const Filters = () => {
           }}
         />
       </Stack>
+
+      {/* Búsqueda */}
       <Stack direction="column" flex={0.4}>
         <TextField
           label="Búsqueda"
+          placeholder="Buscar..."
           value={busqueda}
           onChange={handleSearchChange}
           InputProps={{
@@ -175,6 +180,7 @@ const Filters = () => {
               </InputAdornment>
             ),
             sx: {
+              fontSize: ".75vw",
               boxShadow: theme.shadows[3],
               height: "2.5rem",
               borderRadius: "1rem",
