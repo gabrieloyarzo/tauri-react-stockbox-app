@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import { useSnackbar } from "../../../context/SnackbarContext";
+import { useDialog } from "../../../context/DialogContext";
 import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import ProductApi from "../../../services/api/product.service";
@@ -15,6 +17,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateProduct } from "../../../services/validation/productValidation";
 import { isEmptyObject } from "../../../functions/helpers";
+import { formatRut } from "../../../functions/formatRut";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -28,12 +31,11 @@ const ProductForm = ({
   fetchData,
   categories,
   codes,
-  setDiscardDialogProps,
-  setModifyDialogProps,
-  setSnackProps,
 }) => {
   const theme = useTheme();
   const { filterProps } = useContext(FilterContext);
+  const { showSnackbar } = useSnackbar();
+  const { showDialog } = useDialog();
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -46,16 +48,6 @@ const ProductForm = ({
     mCit: initialData?.mCit || "",
     precio: initialData?.precio || "",
   });
-
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-    }));
-  };
 
   const handleChange = (e) => {
     setFormData({
@@ -103,78 +95,49 @@ const ProductForm = ({
     });
 
     if (mode === "modify") {
-      setModifyDialogProps({
-        open: true,
-        confirmAction: () => confirmModify(),
-        title: "Modificar producto",
-        text: `¿Está seguro que desea modificar el producto con código: ${initialData.cod}?`,
-        closeDialog: () =>
-          setModifyDialogProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          })),
-      });
+      showDialog(
+        "Modificar producto",
+        `¿Está seguro que desea modificar el producto con código: ${initialData.cod}?`,
+        "Modificar",
+        () => confirmModify()
+      );
     } else {
       setLoading(true);
       try {
         const response = await ProductApi.createProduct(formData);
         await fetchData(filterProps);
-
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: response.message,
-          severity: "success",
-        });
-
+        showSnackbar(response.message, "success");
         closeForm();
       } catch (error) {
-        console.log(error);
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: error.response.data.message,
-          severity: "error",
-        });
+        showSnackbar(error.response.data.message, "error");
       } finally {
         setLoading(false);
       }
     }
   };
 
+  const handleClose = () => {
+    mode === "modify" || isEmptyObject(formData)
+      ? closeForm()
+      : showDialog(
+          "Descartar registro",
+          "¿Está seguro que desea descartar el registro?",
+          "Descartar",
+          () => closeForm()
+        );
+  };
+
   const confirmModify = async () => {
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      loading: true,
-    }));
     try {
       const response = await ProductApi.updateProduct(
         initialData.idp,
         formData
       );
       await fetchData(filterProps);
-
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: response.message,
-        severity: "success",
-      });
-
+      showSnackbar(response.message, "success");
       closeForm();
     } catch (error) {
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: error.response.data.message,
-        severity: "error",
-      });
-    } finally {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        open: false,
-        loading: false,
-      }));
+      showSnackbar(error.response.data.message, "error");
     }
   };
 
@@ -346,26 +309,7 @@ const ProductForm = ({
                     color: "#7e7e7e",
                   },
                 }}
-                onClick={
-                  mode === "modify" || isEmptyObject(formData)
-                    ? closeForm
-                    : () =>
-                        setDiscardDialogProps({
-                          open: true,
-                          confirmAction: () => {
-                            closeForm();
-                            setDiscardDialogProps((prevProps) => ({
-                              ...prevProps,
-                              open: false,
-                            }));
-                          },
-                          closeDialog: () =>
-                            setDiscardDialogProps((prevProps) => ({
-                              ...prevProps,
-                              open: false,
-                            })),
-                        })
-                }
+                onClick={handleClose}
               >
                 Cerrar
               </Button>

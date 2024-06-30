@@ -17,7 +17,6 @@ const ProviderApi = {
       return response.data;
     } catch (error) {
       console.error("Error al obtener proveedores:", error);
-      s;
       throw error;
     }
   },

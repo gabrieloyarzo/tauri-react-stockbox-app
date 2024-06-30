@@ -1,31 +1,28 @@
 import React, { useState, useContext } from "react";
-import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
-import ProviderApi from "../../../services/api/provider.service";
+import { useDialog } from "../../../context/DialogContext";
+import { useSnackbar } from "../../../context/SnackbarContext";
+import { FilterContext } from "../../../context/FilterContext";
+import { styled } from "@mui/material/styles";
 import { Button, TextField, Box, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { styled } from "@mui/material/styles";
 import { validateProvider } from "../../../services/validation/providerValidation";
 import { isEmptyObject } from "../../../functions/helpers";
+import { formatRut } from "../../../functions/formatRut";
+import ProviderApi from "../../../services/api/provider.service";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
   width: "75%",
 }));
 
-const ProviderForm = ({
-  mode,
-  initialData,
-  closeForm,
-  fetchData,
-  setDiscardDialogProps,
-  setModifyDialogProps,
-  setSnackProps,
-}) => {
+const ProviderForm = ({ mode, initialData, closeForm, fetchData }) => {
   const theme = useTheme();
   const { filterProps } = useContext(FilterContext);
+  const { showDialog } = useDialog();
+  const { showSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -38,17 +35,15 @@ const ProviderForm = ({
     tipo: initialData?.tipo || "",
   });
 
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
+  const handleChange = (e) => {
+    if (e.target.name === "rutp") {
+      setFormData({
+        ...formData,
+        [e.target.name]: formatRut(e.target.value),
+      });
       return;
     }
-    setSnackProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-    }));
-  };
 
-  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -76,77 +71,49 @@ const ProviderForm = ({
     });
 
     if (mode === "modify") {
-      setModifyDialogProps({
-        open: true,
-        confirmAction: () => confirmModify(),
-        title: "Modificar proveedor",
-        text: `¿Está seguro que desea modificar el proveedor con RUT: ${initialData.rutp}?`,
-        closeDialog: () =>
-          setModifyDialogProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          })),
-      });
+      showDialog(
+        "Modificar proveedor",
+        `¿Está seguro que desea modificar el proveedor con RUT: ${initialData.rutp}?`,
+        "Modificar",
+        () => confirmModify()
+      );
     } else {
       setLoading(true);
       try {
         const response = await ProviderApi.createProvider(formData);
         await fetchData(filterProps);
-
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: response.message,
-          severity: "success",
-        });
-
+        showSnackbar(response.message, "success");
         closeForm();
       } catch (error) {
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: error.response.data.message,
-          severity: "error",
-        });
+        showSnackbar(error.response.data.message, "error");
       } finally {
         setLoading(false);
       }
     }
   };
 
+  const handleClose = () => {
+    mode === "modify" || isEmptyObject(formData)
+      ? closeForm()
+      : showDialog(
+          "Descartar registro",
+          "¿Está seguro que desea descartar el registro?",
+          "Descartar",
+          () => closeForm()
+        );
+  };
+
   const confirmModify = async () => {
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      loading: true,
-    }));
     try {
       const response = await ProviderApi.updateProvider(
         initialData.rutp,
         formData
       );
       await fetchData(filterProps);
-
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: response.message,
-        severity: "success",
-      });
-
+      showSnackbar(response.message, "success");
       closeForm();
     } catch (error) {
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: error.response.data.message,
-        severity: "error",
-      });
-    } finally {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        open: false,
-        loading: false,
-      }));
+      showSnackbar(error.response.data.message, "error");
     }
   };
 
@@ -218,7 +185,7 @@ const ProviderForm = ({
                 error={!!errors.rutp}
                 helperText={errors.rutp}
                 inputProps={{
-                  maxLength: 20,
+                  maxLength: 12,
                 }}
               />
             )}
@@ -289,26 +256,7 @@ const ProviderForm = ({
                     color: "#7e7e7e",
                   },
                 }}
-                onClick={
-                  mode === "modify" || isEmptyObject(formData)
-                    ? closeForm
-                    : () =>
-                        setDiscardDialogProps({
-                          open: true,
-                          confirmAction: () => {
-                            closeForm();
-                            setDiscardDialogProps((prevProps) => ({
-                              ...prevProps,
-                              open: false,
-                            }));
-                          },
-                          closeDialog: () =>
-                            setDiscardDialogProps((prevProps) => ({
-                              ...prevProps,
-                              open: false,
-                            })),
-                        })
-                }
+                onClick={handleClose}
               >
                 Cerrar
               </Button>

@@ -3,7 +3,6 @@ import { TableContext } from "../../context/TableContext";
 import { FilterContext } from "../../context/FilterContext";
 import ProviderApi from "../../services/api/provider.service";
 import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
 import ProviderForm from "../organisms/forms/ProviderForm";
 
 const Providers = () => {
@@ -41,13 +40,6 @@ const Providers = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  // Dialogs
-  const [modifyDialogProps, setModifyDialogProps] = useState({});
-  const [discardDialogProps, setDiscardDialogProps] = useState({});
-
-  // Snackbar
-  const [snackProps, setSnackProps] = useState({});
-
   if (currentTable !== "providers") {
     return null;
   }
@@ -62,18 +54,10 @@ const Providers = () => {
         count={count}
         loading={loading}
       />
-      <FeedbackLayout
-        modifyDialogProps={modifyDialogProps}
-        discardDialogProps={discardDialogProps}
-        snackProps={snackProps}
-      />
       {openForm && (
         <ProviderForm
           {...formProps}
           closeForm={() => setOpenForm(false)}
-          setModifyDialogProps={setModifyDialogProps}
-          setDiscardDialogProps={setDiscardDialogProps}
-          setSnackProps={setSnackProps}
         />
       )}
     </>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSnackbar } from "../../context/SnackbarContext";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import LoginApi from "../../services/api/login.service";
@@ -16,32 +17,20 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import { validateLogin } from "../../services/validation/loginValidation";
 import { formatRut } from "../../functions/formatRut";
-import CustomSnackbar from "../atoms/custom-ui/snackbars/CustomSnackbar";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(localStorage.getItem("usuario") !== null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
-  const [snackProps, setSnackProps] = useState({});
 
   const [credentials, setCredentials] = useState({
     rutu: localStorage.getItem("usuario") || "",
     pwd: "",
   });
-
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-    }));
-  };
 
   const handleChange = (e) => {
     if (e.target.name === "rutu") {
@@ -70,21 +59,20 @@ const Login = () => {
     if (checked) {
       localStorage.setItem("usuario", credentials.rutu);
     }
+    else {
+      localStorage.removeItem("usuario");
+    }
 
     setLoading(true);
     try {
       const token = await LoginApi.logUsers(credentials);
       if (token) {
         localStorage.setItem("token", token.data.token);
+        showSnackbar(token.data.message, "success");
         navigate("/");
       }
     } catch (error) {
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        severity: "error",
-        message: error.response.data.message,
-      });
+      showSnackbar(error.response.data.message, "error");
     } finally {
       setLoading(false);
     }
@@ -224,7 +212,6 @@ const Login = () => {
           </Box>
         </Grid>
       </Grid>
-      <CustomSnackbar {...snackProps} />
     </>
   );
 };

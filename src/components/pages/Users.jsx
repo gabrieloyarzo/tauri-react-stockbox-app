@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { TableContext } from "../../context/TableContext";
+import { FilterContext } from "../../context/FilterContext";
 import UserApi from "../../services/api/user.service";
 import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
 import UserForm from "../organisms/forms/UserForm";
 
 const Users = () => {
+  const { currentTable, setCurrentTable } = useContext(TableContext);
+  const { filterProps } = useContext(FilterContext);
+
+  useEffect(() => {
+    setCurrentTable("users");
+  }, []);
+
   const [tableData, setTableData] = useState(null);
   const [count, setCount] = useState(0);
-
-  // Filters
-  const [filterProps, setFilterProps] = useState({});
 
   // Loading state for table
   const [loading, setLoading] = useState(false);
@@ -35,12 +40,9 @@ const Users = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  // Dialogs
-  const [modifyDialogProps, setModifyDialogProps] = useState({});
-  const [discardDialogProps, setDiscardDialogProps] = useState({});
-
-  // Snackbar
-  const [snackProps, setSnackProps] = useState({});
+  if (currentTable !== "users") {
+    return null;
+  }
 
   return (
     <>
@@ -53,22 +55,12 @@ const Users = () => {
         loading={loading}
         setLoading={setLoading}
         count={count}
-        setFilterProps={setFilterProps}
-        filterProps={filterProps}
-      />
-      <FeedbackLayout
-        modifyDialogProps={modifyDialogProps}
-        discardDialogProps={discardDialogProps}
-        snackProps={snackProps}
       />
       {openForm && (
         <UserForm
           {...formProps}
           filterProps={filterProps}
           closeForm={() => setOpenForm(false)}
-          setModifyDialogProps={setModifyDialogProps}
-          setDiscardDialogProps={setDiscardDialogProps}
-          setSnackProps={setSnackProps}
         />
       )}
     </>

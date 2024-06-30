@@ -3,7 +3,6 @@ import { TableContext } from "../../context/TableContext";
 import { FilterContext } from "../../context/FilterContext";
 import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
 import ProductForm from "../organisms/forms/ProductForm";
 
 const Products = () => {
@@ -46,13 +45,6 @@ const Products = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  // Dialogs
-  const [modifyDialogProps, setModifyDialogProps] = useState({});
-  const [discardDialogProps, setDiscardDialogProps] = useState({});
-
-  // Snackbar
-  const [snackProps, setSnackProps] = useState({});
-
   if (currentTable !== "products") {
     return null;
   }
@@ -67,19 +59,11 @@ const Products = () => {
         count={count}
         loading={loading}
       />
-      <FeedbackLayout
-        modifyDialogProps={modifyDialogProps}
-        discardDialogProps={discardDialogProps}
-        snackProps={snackProps}
-      />
       {openForm && (
         <ProductForm
           {...formProps}
           closeForm={() => setOpenForm(false)}
           categories={categories}
-          setModifyDialogProps={setModifyDialogProps}
-          setDiscardDialogProps={setDiscardDialogProps}
-          setSnackProps={setSnackProps}
           codes={codes}
         />
       )}

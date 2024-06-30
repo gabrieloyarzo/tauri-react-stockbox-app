@@ -16,5 +16,5 @@ export function formatRut(rut) {
     }
   }
 
-  return formattedBody + "-" + dv;
+  return (formattedBody + "-" + dv);
 }

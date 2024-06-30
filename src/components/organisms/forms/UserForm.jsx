@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import { useSnackbar } from "../../../context/SnackbarContext";
+import { useDialog } from "../../../context/DialogContext";
 import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import UserApi from "../../../services/api/user.service";
@@ -9,22 +11,17 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateUser } from "../../../services/validation/userValidation";
 import { isEmptyObject } from "../../../functions/helpers";
+import { formatRut } from "../../../functions/formatRut";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
   width: "75%",
 }));
 
-const UserForm = ({
-  mode,
-  initialData,
-  closeForm,
-  fetchData,
-  setDiscardDialogProps,
-  setModifyDialogProps,
-  setSnackProps,
-}) => {
+const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
   const theme = useTheme();
+  const { showSnackbar } = useSnackbar();
+  const { showDialog } = useDialog();
   const { filterProps } = useContext(FilterContext);
 
   const [loading, setLoading] = useState(false);
@@ -39,17 +36,16 @@ const UserForm = ({
     rol: initialData?.rol || "",
   });
 
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
+  const handleChange = (e) => {
+    if (e.target.name === "rutu") {
+      setFormData({
+        ...formData,
+        [e.target.name]: formatRut(e.target.value),
+      });
+
       return;
     }
-    setSnackProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-    }));
-  };
 
-  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -77,74 +73,46 @@ const UserForm = ({
     });
 
     if (mode === "modify") {
-      setModifyDialogProps({
-        open: true,
-        confirmAction: () => confirmModify(),
-        title: "Modificar usuario",
-        text: `¿Está seguro que desea modificar el usuario con RUT: ${initialData.rutu}?`,
-        closeDialog: () =>
-          setModifyDialogProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          })),
-      });
+      showDialog(
+        "Modificar usuario",
+        `¿Está seguro que desea modificar el usuario con RUT: ${initialData.rutu}?`,
+        "Modificar",
+        () => confirmModify()
+      );
     } else {
       setLoading(true);
       try {
         const response = await UserApi.createUser(formData);
         await fetchData(filterProps);
-
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: response.message,
-          severity: "success",
-        });
-
+        showSnackbar(response.message, "success");
         closeForm();
       } catch (error) {
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: error.response.data.message,
-          severity: "error",
-        });
+        showSnackbar(error.response.data.message, "error");
       } finally {
         setLoading(false);
       }
     }
   };
 
+  const handleClose = () => {
+    mode === "modify" || isEmptyObject(formData)
+      ? closeForm()
+      : showDialog(
+          "Descartar registro",
+          "¿Está seguro que desea descartar el registro?",
+          "Descartar",
+          () => closeForm()
+        );
+  };
+
   const confirmModify = async () => {
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      loading: true,
-    }));
     try {
       const response = await UserApi.updateUser(initialData.rutu, formData);
       await fetchData(filterProps);
-
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: response.message,
-        severity: "success",
-      });
-
+      showSnackbar(response.message, "success");
       closeForm();
     } catch (error) {
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: error.response.data.message,
-        severity: "error",
-      });
-    } finally {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        open: false,
-        loading: false,
-      }));
+      showSnackbar(error.response.data.message, "error");
     }
   };
 
@@ -216,7 +184,7 @@ const UserForm = ({
                 error={!!errors.rutu}
                 helperText={errors.rutu}
                 inputProps={{
-                  maxLength: 20,
+                  maxLength: 12,
                 }}
               />
             )}
@@ -299,26 +267,7 @@ const UserForm = ({
                     color: "#7e7e7e",
                   },
                 }}
-                onClick={
-                  mode === "modify" || isEmptyObject(formData)
-                    ? closeForm
-                    : () =>
-                        setDiscardDialogProps({
-                          open: true,
-                          confirmAction: () => {
-                            closeForm();
-                            setDiscardDialogProps((prevProps) => ({
-                              ...prevProps,
-                              open: false,
-                            }));
-                          },
-                          closeDialog: () =>
-                            setDiscardDialogProps((prevProps) => ({
-                              ...prevProps,
-                              open: false,
-                            })),
-                        })
-                }
+                onClick={handleClose}
               >
                 Cerrar
               </Button>

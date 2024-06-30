@@ -20,7 +20,6 @@ const useTableColumns = ({ data }) => {
 const Table = ({
   data,
   fetchData,
-  currentTable,
   toggleForm,
   setFormProps,
   loading,
@@ -30,11 +29,8 @@ const Table = ({
 
   return (
     <TableContainer component={Paper}>
-      <TableMUI
-        className="tabla-datos"
-        aria-label="content table"
-      >
-        <TableHeader />
+      <TableMUI className="tabla-datos" aria-label="content table">
+        <TableHeader defaultColumns={columns} />
         <TableRows
           data={data}
           columns={columns}

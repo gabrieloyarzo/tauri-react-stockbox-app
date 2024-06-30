@@ -3,7 +3,6 @@ import { TableContext } from "../../context/TableContext";
 import { FilterContext } from "../../context/FilterContext";
 import PurchaseApi from "../../services/api/purchase.service";
 import MainLayout from "../templates/MainLayout";
-import FeedbackLayout from "../templates/FeedbackLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
 
 const Purchases = () => {
@@ -30,6 +29,8 @@ const Purchases = () => {
     setLoading(true); // Establecer el estado de carga a verdadero
     try {
       const purchases = await PurchaseApi.getAllPurchases(props);
+
+      console.log(purchases);
 
       setTableData(purchases.data);
       setProviders(purchases.providers);
@@ -72,11 +73,6 @@ const Purchases = () => {
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
         loading={loading}
-      />
-      <FeedbackLayout
-        modifyDialogProps={modifyDialogProps}
-        discardDialogProps={discardDialogProps}
-        snackProps={snackProps}
       />
       {openForm && (
         <PurchaseForm

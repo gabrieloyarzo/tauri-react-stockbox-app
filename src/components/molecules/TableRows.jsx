@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
 import { TableContext } from "../../context/TableContext";
+import { FilterContext } from "../../context/FilterContext";
+import { useSnackbar } from "../../context/SnackbarContext";
+import { useDialog } from "../../context/DialogContext";
 import { useTheme } from "@mui/material";
 import {
   IconButton,
@@ -10,16 +13,13 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
-import CustomSwitch from "../atoms/custom-ui/Android12Switch";
 import { auxDelete } from "../../functions/auxDelete";
-import { auxUpdate } from "../../functions/auxUpdate";
+import { deleteDialogTitleAndContext } from "../../functions/dialogTitleAndContext";
 import { formatNumber } from "../../functions/helpers";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RenderModal from "../../functions/renderModal";
-import DeleteDialog from "../atoms/custom-ui/dialogs/DeleteDialog";
-import CustomSnackbar from "../atoms/custom-ui/snackbars/CustomSnackbar";
 
 const isDetailTable = (currentTable) => {
   return (
@@ -49,20 +49,15 @@ const TableRows = ({
 }) => {
   const theme = useTheme();
   const { currentTable, isLoading, setIsLoading } = useContext(TableContext);
+  const { filterProps } = useContext(FilterContext);
+  const { showSnackbar } = useSnackbar();
+  const { showDialog } = useDialog();
 
   // index key which would contain the array of details if it exists
   const dIndexKey =
     isDetailTable(currentTable) && data.length > 0
       ? Object.keys(data[0]).length - 1
       : null;
-
-  // Delete Dialog
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [idToDelete, setIdToDelete] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  // Delete Snackbar
-  const [snackProps, setSnackProps] = useState({});
 
   // Detail Modal
   const [activeModal, setActiveModal] = useState(false);
@@ -86,70 +81,22 @@ const TableRows = ({
   };
 
   const handleDelete = (id) => {
-    setIdToDelete(id);
-    setOpenDeleteDialog(true);
-  };
-
-  const handleSwitchChange = async (event, id) => {
-    setIsLoading(true);
-    try {
-      const response = await auxUpdate(currentTable, id, {
-        [event.target.name]: event.target.value,
-      });
-      await fetchData(filterProps);
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: response.message,
-        severity: "success",
-      });
-    } catch (error) {
-      setSnackProps({
-        open: true,
-        message: error.response.data.message,
-        closeSnack: handleCloseSnack,
-        severity: "error",
-      });
-    }
-    finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-    }));
+    showDialog(
+      deleteDialogTitleAndContext(currentTable).title,
+      deleteDialogTitleAndContext(currentTable).content,
+      "Eliminar",
+      () => confirmDelete(id)
+    );
   };
 
   const confirmDelete = async (id) => {
-    setLoading(true);
-
     try {
       const response = await auxDelete({ currentTable, id });
       await fetchData(filterProps);
-
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: response.message,
-        severity: "success",
-      });
+      showSnackbar(response.message, "success");
     } catch (error) {
-      setSnackProps({
-        open: true,
-        message: error.response.data.message,
-        closeSnack: handleCloseSnack,
-        severity: "error",
-      });
+      showSnackbar(error.response.data.message, "error");
     }
-    setLoading(false);
-
-    setOpenDeleteDialog(false);
   };
 
   return (
@@ -198,25 +145,7 @@ const TableRows = ({
               : columns.map(
                   (column, index) =>
                     !Array.isArray(obj[column]) &&
-                    (typeof obj[column] === "boolean" ? (
-                      <TableCell key={index} sx={{ textAlign: "center" }}>
-                        <CustomSwitch
-                          checked={obj[column]}
-                          onChange={(event, newValue) =>
-                            handleSwitchChange(
-                              {
-                                target: {
-                                  name: column,
-                                  value: newValue,
-                                },
-                              },
-                              obj[columns[0]]
-                            )
-                          }
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      </TableCell>
-                    ) : typeof obj[column] === "number" ? (
+                    (typeof obj[column] === "number" ? (
                       <TableCell key={index} sx={{ textAlign: "right" }}>
                         {formatNumber(obj[column])}
                       </TableCell>
@@ -299,15 +228,6 @@ const TableRows = ({
       {activeModal && (
         <RenderModal currentTable={currentTable} modalProps={modalProps} />
       )}
-      <DeleteDialog
-        currentTable={currentTable}
-        loading={loading}
-        open={openDeleteDialog}
-        closeDialog={() => setOpenDeleteDialog(false)}
-        id={idToDelete}
-        confirmAction={() => confirmDelete(idToDelete)}
-      />
-      <CustomSnackbar {...snackProps} />
     </>
   );
 };

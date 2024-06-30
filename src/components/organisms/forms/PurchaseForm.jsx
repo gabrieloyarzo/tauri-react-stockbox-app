@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
+import { TableContext } from "../../../context/TableContext";
 import { FilterContext } from "../../../context/FilterContext";
+import { useSnackbar } from "../../../context/SnackbarContext";
+import { useDialog } from "../../../context/DialogContext";
 import { useTheme } from "@mui/material/styles";
 import {
   Button,
@@ -53,12 +56,12 @@ const PurchaseForm = ({
   products,
   providers,
   codes,
-  setDiscardDialogProps,
-  setModifyDialogProps,
-  setSnackProps,
 }) => {
   const theme = useTheme();
+  const { showSnackbar } = useSnackbar();
+  const { showDialog } = useDialog();
   const { filterProps } = useContext(FilterContext);
+  const { currentTable } = useContext(TableContext);
 
   const initialRow = {
     idp: "",
@@ -90,16 +93,6 @@ const PurchaseForm = ({
   const [purchaseItems, setPurchaseItems] = useState(formData.detalles);
   const [errors, setErrors] = useState({});
   const [itemErrors, setItemErrors] = useState([{}]);
-
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackProps((prevProps) => ({
-      ...prevProps,
-      open: false,
-    }));
-  };
 
   const handleChange = (e) => {
     setFormData({
@@ -183,77 +176,68 @@ const PurchaseForm = ({
     };
 
     if (mode === "modify") {
-      setModifyDialogProps({
-        open: true,
-        confirmAction: () => confirmModify(submitData),
-        title: "Modificar compra",
-        text: `¿Está seguro que desea modificar la compra con código: ${initialData.cod}?`,
-        closeDialog: () =>
-          setModifyDialogProps((prevProps) => ({
-            ...prevProps,
-            open: false,
-          })),
-      });
+      showDialog(
+        modifyDialogTitleAndContext(currentTable).title,
+        modifyDialogTitleAndContext(currentTable).content,
+        "Modificar",
+        () => confirmModify(submitData)
+      );
     } else {
       setLoading(true);
       try {
         const response = await PurchaseApi.createPurchase(submitData);
         await fetchData(filterProps);
-
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: response.message,
-          severity: "success",
-        });
-
+        showSnackbar(response.message, "success");
         closeForm();
       } catch (error) {
-        setSnackProps({
-          open: true,
-          closeSnack: handleCloseSnack,
-          message: error.response.data.message,
-          severity: "error",
-        });
+        showSnackbar(error.response.data.message, "error");
       } finally {
         setLoading(false);
       }
     }
   };
 
+  const handleClose = () => {
+    mode === "modify" ||
+    (isEmptyObject(
+      Object.keys(formData)
+        .filter((key) => {
+          if (
+            key.includes("fecha") &&
+            formData[key] === new Date().toISOString().split("T")[0]
+          ) {
+            return false;
+          }
+          return (
+            key.includes("cod") || key.includes("rutp") || key.includes("fecha")
+          );
+        })
+        .reduce((obj, key) => {
+          obj[key] = formData[key];
+          return obj;
+        }, {})
+    ) &&
+      isEmptyArrayWithObjects(purchaseItems.map(({ suma, ...rest }) => rest)))
+      ? closeForm()
+      : showDialog(
+          "Descartar registro",
+          "¿Está seguro que desea descartar el registro?",
+          "Descartar",
+          () => closeForm()
+        );
+  };
+
   const confirmModify = async (submitData) => {
-    setModifyDialogProps((prevProps) => ({
-      ...prevProps,
-      loading: true,
-    }));
     try {
       const response = await PurchaseApi.updatePurchase(
         initialData.idpu,
         submitData
       );
       await fetchData(filterProps);
-
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: response.message,
-        severity: "success",
-      });
-
+      showSnackbar(response.message, "success");
       closeForm();
     } catch (error) {
-      setSnackProps({
-        open: true,
-        closeSnack: handleCloseSnack,
-        message: error.response.data.message,
-        severity: "error",
-      });
-    } finally {
-      setModifyDialogProps((prevProps) => ({
-        ...prevProps,
-        open: false,
-        loading: false,
-      }));
+      showSnackbar(error.response.data.message, "error");
     }
   };
 
@@ -364,7 +348,7 @@ const PurchaseForm = ({
               }
               renderOption={(props, option) => (
                 <Box component="li" {...props}>
-                  <div key={option.rutp}>
+                  <div>
                     <Typography fontSize="14px">{option.rutp}</Typography>
                     <Typography fontSize="12px" color="textSecondary">
                       {option.nombre}
@@ -638,49 +622,7 @@ const PurchaseForm = ({
                   color: "#7e7e7e",
                 },
               }}
-              onClick={
-                mode === "modify" ||
-                (isEmptyObject(
-                  Object.keys(formData)
-                    .filter((key) => {
-                      if (
-                        key.includes("fecha") &&
-                        formData[key] === new Date().toISOString().split("T")[0]
-                      ) {
-                        return false;
-                      }
-                      return (
-                        key.includes("cod") ||
-                        key.includes("rutp") ||
-                        key.includes("fecha")
-                      );
-                    })
-                    .reduce((obj, key) => {
-                      obj[key] = formData[key];
-                      return obj;
-                    }, {})
-                ) &&
-                  isEmptyArrayWithObjects(
-                    purchaseItems.map(({ suma, ...rest }) => rest)
-                  ))
-                  ? closeForm
-                  : () =>
-                      setDiscardDialogProps({
-                        open: true,
-                        confirmAction: () => {
-                          closeForm();
-                          setDiscardDialogProps((prevProps) => ({
-                            ...prevProps,
-                            open: false,
-                          }));
-                        },
-                        closeDialog: () =>
-                          setDiscardDialogProps((prevProps) => ({
-                            ...prevProps,
-                            open: false,
-                          })),
-                      })
-              }
+              onClick={handleClose}
             >
               Cerrar
             </Button>

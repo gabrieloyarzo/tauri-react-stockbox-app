@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Dialog,
@@ -10,66 +10,31 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-const texts = ({ currentTable, id }) => {
-  switch (currentTable) {
-    case "products":
-      return {
-        title: "Eliminar producto",
-        text: `Se perderán todos los registros de ventas, compras y devoluciones asociados.`,
-      };
-    case "purchases":
-      return {
-        title: "Eliminar compra",
-        text: `¿Está seguro que desea eliminar la compra?`,
-      };
-    case "sales":
-      return {
-        title: "Eliminar venta",
-        text: `¿Está seguro que desea eliminar la venta?`,
-      };
-    case "providers":
-      return {
-        title: "Eliminar proveedor",
-        text: `Se perderán todos los registros de ventas, compras y devoluciones asociados.`,
-      };
-    case "users":
-      return {
-        title: "Eliminar usuario",
-        text: `Se perderán todos los registros de ventas, compras y devoluciones asociados.`,
-      };
-    case "refunds":
-      return {
-        title: "Eliminar devolución",
-        text: `¿Está seguro que desea eliminar la devolución?`,
-      };
-    default:
-      return {
-        title: "Acción no reconocida",
-        text: "El tipo de tabla o acción no coincide con ninguno especificado.",
-      };
-  }
-};
-
-const DeleteDialog = ({
-  currentTable,
+const CustomDialog = ({
   open,
   closeDialog,
-  id,
+  action,
   confirmAction,
-  loading,
+  title,
+  text,
 }) => {
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
 
-  const { title, text } = texts({ currentTable, id });
+  const handleConfirmAction = async () => {
+    setLoading(true);
+    await confirmAction();
+    setLoading(false);
+    closeDialog();
+  };
 
   return (
     <Dialog
-      open={open ?? false}
-      onClose={closeDialog ?? false}
-      maxWidth="sm"
+      open={open}
+      onClose={closeDialog}
       PaperProps={{
         sx: {
-          transform: "translate(35%, -10%)",
+          transform: "translateX(27.5%)",
         },
       }}
     >
@@ -81,7 +46,7 @@ const DeleteDialog = ({
           height: "5px",
           bgcolor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText,
-          fontSize: "16px",
+          fontSize: theme.typography.subtitle1.fontSize,
           fontWeight: "bold",
         }}
       >
@@ -99,10 +64,14 @@ const DeleteDialog = ({
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center" }}>
         <Button
-          onClick={closeDialog}
+          onClick={() => {
+            setLoading(false);
+            closeDialog();
+          }}
           variant="contained"
           size="small"
           sx={{
+            fontSize: theme.typography.body2.fontSize,
             bgcolor: theme.palette.grey[400],
             color: theme.palette.common.black,
             "&:hover": {
@@ -114,25 +83,26 @@ const DeleteDialog = ({
           Cancelar
         </Button>
         <LoadingButton
-          onClick={confirmAction}
+          onClick={handleConfirmAction}
           variant="contained"
           size="small"
           loading={loading}
           sx={{
-            bgcolor: theme.palette.error.main,
+            fontSize: theme.typography.body2.fontSize,
+            bgcolor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
             "&:hover": {
-              bgcolor: theme.palette.error.dark,
-              color: theme.palette.primary.contrastText,
+              bgcolor: theme.palette.action.hover,
+              color: theme.palette.secondary.contrastText,
             },
           }}
           autoFocus
         >
-          <span>Eliminar</span>
+          <span>{action}</span>
         </LoadingButton>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default DeleteDialog;
+export default CustomDialog;
