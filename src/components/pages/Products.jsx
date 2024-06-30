@@ -6,7 +6,7 @@ import MainLayout from "../templates/MainLayout";
 import ProductForm from "../organisms/forms/ProductForm";
 
 const Products = () => {
-  const { currentTable, setCurrentTable } = useContext(TableContext);
+  const { currentTable, setCurrentTable, setIsLoading } = useContext(TableContext);
   const { filterProps } = useContext(FilterContext);
 
   useEffect(() => {
@@ -19,11 +19,8 @@ const Products = () => {
   const [codes, setCodes] = useState([]);
   const [count, setCount] = useState(0);
 
-  // Loading state for table
-  const [loading, setLoading] = useState(false);
-
   const fetchData = async (props) => {
-    setLoading(true); // Establecer el estado de carga a verdadero
+    setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const products = await ProductApi.getAllProducts(props);    
       setCount(products.largo);
@@ -33,7 +30,7 @@ const Products = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false); // Establecer el estado de carga a falso
+      setIsLoading(false); // Establecer el estado de carga a falso
     }
   };
 
@@ -57,7 +54,6 @@ const Products = () => {
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
-        loading={loading}
       />
       {openForm && (
         <ProductForm

@@ -6,7 +6,7 @@ import MainLayout from "../templates/MainLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
 
 const Purchases = () => {
-  const { currentTable, setCurrentTable } = useContext(TableContext);
+  const { currentTable, setCurrentTable, setIsLoading } = useContext(TableContext);
   const { filterProps } = useContext(FilterContext);
 
   useEffect(() => {
@@ -22,11 +22,8 @@ const Purchases = () => {
   // Pagination
   const [count, setCount] = useState(0);
 
-  // Loading state for table
-  const [loading, setLoading] = useState(false);
-
   const fetchData = async (props) => {
-    setLoading(true); // Establecer el estado de carga a verdadero
+    setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const purchases = await PurchaseApi.getAllPurchases(props);
 
@@ -41,7 +38,7 @@ const Purchases = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false); // Establecer el estado de carga a falso
+      setIsLoading(false); // Establecer el estado de carga a falso
     }
   };
 
@@ -52,13 +49,6 @@ const Purchases = () => {
   // Forms
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
-
-  // Dialogs
-  const [modifyDialogProps, setModifyDialogProps] = useState({});
-  const [discardDialogProps, setDiscardDialogProps] = useState({});
-
-  // Snackbar
-  const [snackProps, setSnackProps] = useState({});
 
   if (currentTable !== "purchases") {
     return null; // O algún mensaje de espera como <p>Loading...</p>
@@ -72,7 +62,6 @@ const Purchases = () => {
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
         count={count}
-        loading={loading}
       />
       {openForm && (
         <PurchaseForm
@@ -81,9 +70,6 @@ const Purchases = () => {
           providers={providers}
           codes={codes}
           closeForm={() => setOpenForm(false)}
-          setModifyDialogProps={setModifyDialogProps}
-          setDiscardDialogProps={setDiscardDialogProps}
-          setSnackProps={setSnackProps}
         />
       )}
     </>

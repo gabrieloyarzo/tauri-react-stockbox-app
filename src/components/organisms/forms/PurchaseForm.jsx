@@ -82,7 +82,7 @@ const PurchaseForm = ({
       : {
           cod: "",
           rutp: "",
-          rutu: "15869017-9",
+          rutu: "20.939.766-8",
           fecha: new Date().toISOString().split("T")[0],
           total: "",
           detalles: [initialRow],

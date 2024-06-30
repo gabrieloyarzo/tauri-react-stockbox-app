@@ -16,6 +16,7 @@ import {
 import { auxDelete } from "../../functions/auxDelete";
 import { deleteDialogTitleAndContext } from "../../functions/dialogTitleAndContext";
 import { formatNumber } from "../../functions/helpers";
+import { formatDateToSpanish } from "../../functions/formatDate";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -44,11 +45,9 @@ const TableRows = ({
   fetchData,
   toggleForm,
   setFormProps,
-  loadingState,
-  setLoadingState,
 }) => {
   const theme = useTheme();
-  const { currentTable, isLoading, setIsLoading } = useContext(TableContext);
+  const { currentTable, isLoading } = useContext(TableContext);
   const { filterProps } = useContext(FilterContext);
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
@@ -104,10 +103,10 @@ const TableRows = ({
       <TableBody
         sx={{
           position: "relative",
-          backgroundColor: loadingState
+          backgroundColor: isLoading
             ? theme.palette.background.paper
             : theme.palette.background.default,
-          opacity: loadingState ? 0.5 : 1,
+          opacity: isLoading ? 0.5 : 1,
         }}
       >
         {isLoading && (
@@ -139,7 +138,7 @@ const TableRows = ({
                         {formatNumber(obj[column])}
                       </TableCell>
                     ) : (
-                      <TableCell key={index}>{obj[column]}</TableCell>
+                      <TableCell key={index}>{formatDateToSpanish(obj[column])}</TableCell>
                     ))
                 )
               : columns.map(
@@ -150,7 +149,7 @@ const TableRows = ({
                         {formatNumber(obj[column])}
                       </TableCell>
                     ) : (
-                      <TableCell key={index}>{obj[column]}</TableCell>
+                      <TableCell key={index}>{formatDateToSpanish(obj[column])}</TableCell>
                     ))
                 )}
             <TableCell key="options" sx={{ textAlign: "center" }}>
