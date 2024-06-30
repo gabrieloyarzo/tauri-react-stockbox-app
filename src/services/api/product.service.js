@@ -28,8 +28,11 @@ const ProductApi = {
   async getProduct(productId) {
     try {
       const response = await axios.get(`${API_URL}/${productId}`, {
-        withCredentials: true,
-      });
+          headers: {
+	      Authorization: `Bearer ${localStorage.getItem("token")}`,
+	  }
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al obtener producto:", error);
@@ -42,10 +45,10 @@ const ProductApi = {
       const response = await axios.post(
         `${API_URL}/create`,
         productData,
-        { withCredentials: true },
         {
           headers: {
-            "Content-Type": "application/json",
+              "Content-Type": "application/json",
+      	      Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -61,10 +64,10 @@ const ProductApi = {
       const response = await axios.put(
         `${API_URL}/${productId}/edit`,
         updatedProductData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+    	     Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -79,10 +82,10 @@ const ProductApi = {
     try {
       const response = await axios.delete(
         `${API_URL}/${productId}/delete`,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+    	     Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

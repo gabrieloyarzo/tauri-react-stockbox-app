@@ -15,7 +15,12 @@ const PurchaseApi = {
     try {
       const response = await axios.get(
         `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}`,
-        { withCredentials: true }
+          {
+            headers: {
+	       Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+	  }
+        }
       );
       return response.data;
     } catch (error) {
@@ -27,7 +32,9 @@ const PurchaseApi = {
   async getPurchase(purchaseId) {
     try {
       const response = await axios.get(`${API_URL}/${purchaseId}`, {
-        withCredentials: true,
+          headers: {
+	       Authorization: `Bearer ${localStorage.getItem("token")}`,
+	  },
       });
       return response.data;
     } catch (error) {
@@ -41,10 +48,10 @@ const PurchaseApi = {
       const response = await axios.post(
         `${API_URL}/create`,
         purchaseData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+     	    Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -64,7 +71,9 @@ const PurchaseApi = {
         {
           headers: {
             "Content-Type": "application/json",
-          },
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          
+	  },
         }
       );
       return response.data;
@@ -78,10 +87,10 @@ const PurchaseApi = {
     try {
       const response = await axios.delete(
         `${API_URL}/${purchaseId}/delete`,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

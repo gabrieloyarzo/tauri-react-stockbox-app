@@ -12,7 +12,11 @@ const ProviderApi = {
     try {
       const response = await axios.get(
         `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
-        { withCredentials: true }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+	  }
+	}
       );
       return response.data;
     } catch (error) {
@@ -24,7 +28,9 @@ const ProviderApi = {
   async getProvider(providerId) {
     try {
       const response = await axios.get(`${API_URL}/${providerId}`, {
-        withCredentials: true,
+	  headers: {
+	      Authorization: `Bearer ${localStorage.getItem("token")}`,
+	  }
       });
       return response.data;
     } catch (error) {
@@ -38,10 +44,10 @@ const ProviderApi = {
       const response = await axios.post(
         `${API_URL}/create`,
         providerData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+   	    Authorization: `Bearer ${localStorage.getItem("token")}`, 
           },
         }
       );
@@ -57,10 +63,10 @@ const ProviderApi = {
       const response = await axios.put(
         `${API_URL}/${providerId}/edit`,
         updatedProviderData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+      	    Authorization: `Bearer ${localStorage.getItem("token")}`, 
           },
         }
       );
@@ -74,11 +80,11 @@ const ProviderApi = {
   async deleteProvider(providerId) {
     try {
       const response = await axios.delete(
-        `${API_URL}/${providerId}/delete`,
-        { withCredentials: true },
+        `${API_URL}/${providerId}/delete`,    
         {
           headers: {
             "Content-Type": "application/json",
+      	    Authorization: `Bearer ${localStorage.getItem("token")}`, 
           },
         }
       );
