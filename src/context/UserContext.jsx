@@ -1,30 +1,32 @@
-import { useState, useEffect, createContext } from "react";
-// import UserApi from "../../services/api/user.service";
+import { useState, useEffect, createContext, useContext } from "react";
 
 export const UserContext = createContext();
 
+export const useUser = () => useContext(UserContext);
+
 const UserContextProvider = ({ children }) => {
-  // const [user, setUser] = useState({
-  //   rut: "",
-  //   nombre: "",
-  //   cargo: "",
-  // });
+  const [user, setUser] = useState({
+    rut: "",
+    rol: "",
+  });
 
-  // const [login, setLogin] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const rut = localStorage.getItem("usuario");
+    if (token && rut) {
+      const rol = JSON.parse(atob(token.split(".")[1])).role;
+      setUser({
+        rut,
+        rol,
+      })
+    }
+  }, []);
 
-  // const loginUser = async (rut) => {
-  //   try {
-  //     const response = await UserApi.getUser(rut);
-  //     setUser({
-  //       rut: rut,
-  //       nombre: response.data.nombre,
-  //       cargo: response.data.rol,
-  //     });
-  //     setLogin(true);
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // };
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  )
 };
 
 export default UserContextProvider;

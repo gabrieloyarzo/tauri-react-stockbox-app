@@ -1,7 +1,10 @@
 import React from "react";
+import { useUser } from "../../context/UserContext";
 import { Typography, Stack } from "@mui/material";
 
 const Profile = () => {
+  const { user } = useUser();
+
   return (
     <Stack 
       position="relative"
@@ -9,10 +12,10 @@ const Profile = () => {
       spacing="-.25em"
     >   
       <Typography variant="body1" fontWeight="bold">
-        DABOR MARTINEZ
+        {user?.rut ?? ""}
       </Typography>
       <Typography variant="body2" color="textSecondary">
-        Administrador
+        {user?.rol ?? ""}
       </Typography>
     </Stack>
   );
