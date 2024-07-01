@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from "../organisms/Table";
 import AddButton from "../molecules/AddButton";
 import SkeletonTable from "../../components/molecules/SkeletonTable";
@@ -6,15 +6,7 @@ import { Grid, Box } from "@mui/material";
 import Filters from "../organisms/Filters";
 import Pagination from "../organisms/Pagination";
 
-const MainLayout = ({
-  data,
-  fetchData,
-  setFormProps,
-  toggleForm,
-  count,
-  loading,
-  setLoading,
-}) => {
+const MainLayout = ({ data, fetchData, setFormProps, toggleForm, isFirstLoad }) => {
   return (
     <>
       <Grid
@@ -37,8 +29,6 @@ const MainLayout = ({
                   fetchData={fetchData}
                   toggleForm={toggleForm}
                   setFormProps={setFormProps}
-                  loading={loading}
-                  setLoading={setLoading}
                 />
               </>
             )}
@@ -53,7 +43,7 @@ const MainLayout = ({
               height: "100%",
             }}
           >
-            <Pagination count={count} />
+            {!isFirstLoad && <Pagination />}
           </Box>
         </Grid>
       </Grid>
