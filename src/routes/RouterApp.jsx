@@ -41,18 +41,16 @@ const RouterApp = () => {
               </Stack>
             </Grid>
             <Grid item xs={12} md={12}>
-              <Grid container direction="column" marginTop=".5rem">
-                <Routes>
-                  <Route path="/" element={<Navigate to="/analytics" />} />
-                  <Route path="/analytics" element={<Dashboard />} />
-                  <Route path="/purchases" element={<Purchases />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/providers" element={<Providers />} />
-                  <Route path="/users" element={<Users />} />
-                  <Route path="/help" element={<Help />} />
-                  <Route path="/*" element={<ErrorScreen />} />
-                </Routes>
-              </Grid>
+              <Routes>
+                <Route path="/" element={<Navigate to="/analytics" />} />
+                <Route path="/analytics" element={<Dashboard />} />
+                <Route path="/purchases" element={<Purchases />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/providers" element={<Providers />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/*" element={<ErrorScreen />} />
+              </Routes>
             </Grid>
           </Grid>
         </Grid>
