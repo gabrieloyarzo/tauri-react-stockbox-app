@@ -16,8 +16,8 @@ const NotificationPanel = () => {
         position: "relative",
         color: theme.palette.common.black,
         bgcolor: theme.palette.grey[300],
-        width: "3vw",
-        height: "3vw",
+        width: "2.5vw",
+        height: "2.5vw",
         borderRadius: ".5rem",
         "&:hover": {
           bgcolor: theme.palette.action.hover,
@@ -27,9 +27,9 @@ const NotificationPanel = () => {
     >
       <Badge badgeContent={number} color="primary">
         {number === 0 ? (
-          <NotificationsNoneIcon sx={{ width: "2.25vw", height: "auto" }} />
+          <NotificationsNoneIcon sx={{ width: "2vw", height: "auto" }} />
         ) : (
-          <NotificationsIcon sx={{ width: "2.25vw", height: "auto" }} />
+          <NotificationsIcon sx={{ width: "2vw", height: "auto" }} />
         )}
       </Badge>
     </IconButton>
