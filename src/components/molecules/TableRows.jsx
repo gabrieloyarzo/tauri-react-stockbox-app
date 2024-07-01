@@ -158,9 +158,7 @@ const TableRows = ({
                   <IconButton
                     onClick={() => handleDetails(obj)}
                     sx={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: 1,
+                      borderRadius: ".25em",
                       color: "secondary.contrastText",
                       "&:hover": {
                         backgroundColor: "#C3FA7B",
@@ -180,9 +178,7 @@ const TableRows = ({
                 <IconButton
                   onClick={() => handleEdit(obj)}
                   sx={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 1,
+                    borderRadius: ".25em",
                     color: "secondary.contrastText",
                     "&:hover": {
                       backgroundColor: "#C3FA7B",
@@ -195,15 +191,13 @@ const TableRows = ({
                     arrow
                     enterDelay={500}
                   >
-                    <EditIcon />
+                    <EditIcon/>
                   </Tooltip>
                 </IconButton>
                 <IconButton
                   onClick={() => handleDelete(obj[columns[0]])}
                   sx={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 1,
+                    borderRadius: ".25em",
                     color: "secondary.contrastText",
                     "&:hover": {
                       backgroundColor: "#C3FA7B",

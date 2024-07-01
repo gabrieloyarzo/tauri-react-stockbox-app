@@ -84,6 +84,25 @@ const lightTheme = createTheme({
         }
       },
     },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          width: "2vw",
+          height: "2vw",
+          "&:hover": {
+            backgroundColor: "#C3FA7B",
+          },
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          width: "1.5vw",
+          height: "1.5vw",
+        },
+      },
+    },
     MuiTableCell: {
       styleOverrides: {
         root: {
