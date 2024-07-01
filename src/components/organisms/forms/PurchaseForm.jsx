@@ -177,8 +177,8 @@ const PurchaseForm = ({
 
     if (mode === "modify") {
       showDialog(
-        modifyDialogTitleAndContext(currentTable).title,
-        modifyDialogTitleAndContext(currentTable).content,
+        "Modificar compra",
+        "¿Está seguro que desea modificar la compra?",
         "Modificar",
         () => confirmModify(submitData)
       );

@@ -7,9 +7,7 @@ import ProductForm from "../organisms/forms/ProductForm";
 
 const Products = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, isInitialized, setCount, page, setPage } = useFilter();
-  
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const { filterProps, setCount } = useFilter();
 
   useEffect(() => {
     setCurrentTable("products");
@@ -37,13 +35,7 @@ const Products = () => {
   };
 
   useEffect(() => {
-    if (isInitialized) {
-      fetchData(filterProps);
-      if (isFirstLoad) {
-        setIsFirstLoad(false);
-      }
-    }
-
+    fetchData(filterProps);
   }, [filterProps]);
 
   // Forms
@@ -61,7 +53,6 @@ const Products = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        isFirstLoad={isFirstLoad}
       />
       {openForm && (
         <ProductForm

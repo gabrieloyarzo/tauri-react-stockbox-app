@@ -67,7 +67,6 @@ const PurchaseApi = {
       const response = await axios.put(
         `${API_URL}/${purchaseId}/edit`,
         updatedPurchaseData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",

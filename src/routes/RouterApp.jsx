@@ -32,7 +32,7 @@ const RouterApp = () => {
             <Grid item xs={12} md={12}>
               <Stack
                 direction="row"
-                spacing={5}
+                spacing="2vw"
                 justifyContent="right"
                 marginBottom=".5rem"
               >

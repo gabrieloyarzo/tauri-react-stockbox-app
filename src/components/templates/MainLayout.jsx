@@ -2,11 +2,18 @@ import React from "react";
 import Table from "../organisms/Table";
 import AddButton from "../molecules/AddButton";
 import SkeletonTable from "../../components/molecules/SkeletonTable";
+import SkeletonFilters from "../atoms/custom-ui/SkeletonFilters";
 import { Grid, Box } from "@mui/material";
 import Filters from "../organisms/Filters";
 import Pagination from "../organisms/Pagination";
 
-const MainLayout = ({ data, fetchData, setFormProps, toggleForm, isFirstLoad }) => {
+const MainLayout = ({
+  data,
+  fetchData,
+  setFormProps,
+  toggleForm,
+  isFirstLoad,
+}) => {
   return (
     <>
       <Grid
@@ -16,7 +23,7 @@ const MainLayout = ({ data, fetchData, setFormProps, toggleForm, isFirstLoad }) 
         sx={{ minHeight: "93vh" }}
       >
         <Grid item xs={12} md={12}>
-          <Filters />
+          {!data ? <SkeletonFilters /> : <Filters />}
         </Grid>
         <Grid item xs={12} md={12} style={{ flexGrow: 1 }}>
           <Box>
@@ -43,7 +50,7 @@ const MainLayout = ({ data, fetchData, setFormProps, toggleForm, isFirstLoad }) 
               height: "100%",
             }}
           >
-            {!isFirstLoad && <Pagination />}
+            {data && <Pagination />}
           </Box>
         </Grid>
       </Grid>

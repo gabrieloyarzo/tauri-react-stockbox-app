@@ -7,9 +7,7 @@ import UserForm from "../organisms/forms/UserForm";
 
 const Users = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, isInitialized, setCount, page, setPage } = useFilter();
-
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const { filterProps, setCount } = useFilter();
 
   useEffect(() => {
     setCurrentTable("users");
@@ -32,12 +30,7 @@ const Users = () => {
   };
 
   useEffect(() => {
-    if (isInitialized) {
-      fetchData(filterProps);
-      if (isFirstLoad) {
-        setIsFirstLoad(false);
-      }
-    }
+    fetchData(filterProps);
   }, [filterProps]);
 
   // Forms
@@ -56,7 +49,6 @@ const Users = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        isFirstLoad={isFirstLoad}
       />
       {openForm && (
         <UserForm

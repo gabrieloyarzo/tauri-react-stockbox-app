@@ -7,9 +7,7 @@ import ProviderForm from "../organisms/forms/ProviderForm";
 
 const Providers = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, isInitialized, setCount, page, setPage } = useFilter();
-
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const { filterProps, setCount } = useFilter();
 
   const [tableData, setTableData] = useState(null);
 
@@ -32,12 +30,7 @@ const Providers = () => {
   };
 
   useEffect(() => {
-    if (isInitialized) {
-      fetchData(filterProps);
-      if (isFirstLoad) {
-        setIsFirstLoad(false);
-      }
-    }
+    fetchData(filterProps);
   }, [filterProps]);
 
   // Forms
@@ -55,13 +48,9 @@ const Providers = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        isFirstLoad={isFirstLoad}
       />
       {openForm && (
-        <ProviderForm
-          {...formProps}
-          closeForm={() => setOpenForm(false)}
-        />
+        <ProviderForm {...formProps} closeForm={() => setOpenForm(false)} />
       )}
     </>
   );

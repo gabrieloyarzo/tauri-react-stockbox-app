@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useSnackbar } from "../../context/SnackbarContext";
+import { useDialog } from "../../context/DialogContext";
 import { useTheme } from "@mui/material/styles";
 import { TabContext, TabList } from "@mui/lab";
-import { Box, CardMedia, Typography, Tab } from "@mui/material";
+import { Box, CardMedia, Typography, Tab, Button } from "@mui/material";
 import {
   AttachMoney,
-  Contacts,
+  PersonSearch,
   Inventory,
   Leaderboard,
   LocalMall,
   Loop,
   Help,
-  Settings,
   Groups,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import { useNavigate, useLocation } from "react-router-dom"; // Importa estos hooks
+import { useNavigate, useLocation } from "react-router-dom";
+import LogoutMenu from "../molecules/LogoutMenu";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   height: "2vw",
@@ -59,13 +61,13 @@ const Sidebar = () => {
   };
 
   if (value === "") {
-    return null; // Para que renderice el componente solamente cuando se esté en la ruta /
+    return null;
   }
 
   return (
     <Box
+      height="98%"
       sx={{
-        minHeight: "98vh",
         bgcolor: theme.palette.primary.main,
         borderRadius: "2em",
       }}
@@ -171,13 +173,13 @@ const Sidebar = () => {
               <StyledTab
                 value="providers"
                 label={!isSmallScreen && "Proveedores"}
-                icon={<Contacts />}
+                icon={<Groups />}
                 iconPosition="start"
               />
               <StyledTab
                 value="users"
                 label={!isSmallScreen && "Usuarios"}
-                icon={<Groups />}
+                icon={<PersonSearch />}
                 iconPosition="start"
               />
               <StyledTab
@@ -186,15 +188,17 @@ const Sidebar = () => {
                 icon={<Help />}
                 iconPosition="start"
               />
-              <StyledTab
-                value="settings"
-                label={!isSmallScreen && "Configuración"}
-                icon={<Settings />}
-                iconPosition="start"
-              />
             </TabList>
           </Box>
         </TabContext>
+      </Box>
+      <Box
+        position="relative"
+        p="4%"
+        bottom={0}
+        justifyContent={isSmallScreen ? "center" : "left"}
+      >
+        <LogoutMenu isSmallScreen={isSmallScreen} />
       </Box>
     </Box>
   );

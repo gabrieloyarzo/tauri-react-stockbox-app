@@ -7,9 +7,7 @@ import PurchaseForm from "../organisms/forms/PurchaseForm";
 
 const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, isInitialized, setCount, page, setPage } = useFilter();
-
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const { filterProps, setCount } = useFilter();
 
   useEffect(() => {
     setCurrentTable("purchases");
@@ -31,7 +29,6 @@ const Purchases = () => {
       setProducts(purchases.products);
       setCodes(purchases.codes);
       setCount(purchases.largo);
-
     } catch (error) {
       console.error(error);
     } finally {
@@ -40,12 +37,7 @@ const Purchases = () => {
   };
 
   useEffect(() => {
-    if (isInitialized) {
-      fetchData(filterProps);
-      if (isFirstLoad) {
-        setIsFirstLoad(false);
-      }
-    }
+    fetchData(filterProps);
   }, [filterProps]);
 
   // Forms
@@ -63,7 +55,6 @@ const Purchases = () => {
         fetchData={fetchData}
         setFormProps={setFormProps}
         toggleForm={() => setOpenForm(!openForm)}
-        isFirstLoad={isFirstLoad}
       />
       {openForm && (
         <PurchaseForm

@@ -8,24 +8,10 @@ export const useFilter = () => {
 
 const FilterContextProvider = ({ children }) => {
   const [filterProps, setFilterProps] = useState({});
-  const [page, setPage] = useState(localStorage.getItem("page") ?? 1);
+  const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const savedPage = localStorage.getItem("page");
-    if (savedPage) {
-      setPage(Number(savedPage));
-      setFilterProps((prevProps) => ({
-        ...prevProps,
-        offset: (savedPage - 1) * 10,
-      }));
-      setIsInitialized(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("page", page);
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: (page - 1) * 10,
@@ -47,7 +33,6 @@ const FilterContextProvider = ({ children }) => {
         setCount,
         page,
         setPage,
-        isInitialized,
       }}
     >
       {children}
