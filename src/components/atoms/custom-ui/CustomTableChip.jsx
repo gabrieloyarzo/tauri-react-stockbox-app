@@ -13,7 +13,7 @@ const getChipColor = (role) => {
 };
 
 const CustomTableChip = ({ role }) => {
-  return <Chip label={role} color={getChipColor(role)} size="small" />;
+  return <Chip label={role} color={getChipColor(role)} size="small" sx={{ fontSize: ".8vw" }} />;
 };
 
 export default CustomTableChip;
