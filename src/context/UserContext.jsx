@@ -10,6 +10,7 @@ const UserContextProvider = ({ children }) => {
     rut: "",
     rol: "",
     nombre: "",
+    apellido: "",
   });
 
   const setUserData = () => {
@@ -19,11 +20,13 @@ const UserContextProvider = ({ children }) => {
     if (tokenData) {
       const rut = tokenData.rut;
       const rol = tokenData.role;
-      const nombre = tokenData.name.concat(" ", tokenData.lastname);
+      const nombre = tokenData.name;
+      const apellido = tokenData.lastname;
       setUser((user) => ({
         rut: rut ?? user.rut,
         rol: rol ?? user.rol,
-        nombre: nombre.toUpperCase() ?? user.nombre,
+        nombre: nombre ?? user.nombre,
+        apellido: apellido ?? user.apellido,
       }));
     }
   };
