@@ -15,6 +15,11 @@ import {
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import GroupsIcon from '@mui/icons-material/Groups';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import EngineeringIcon from '@mui/icons-material/Engineering';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   textAlign: "center",
@@ -38,8 +43,8 @@ const Help = () => {
   const faqs = [
     {
       id: 1,
-      icon: <HelpOutlineIcon fontSize="large" />,
-      title: "¿Pregunta 1?",
+      icon: <Inventory2OutlinedIcon fontSize="large" />,
+      title: "¿Cómo ingresar un nuevo producto?",
       shortText:
         "Texto breve para la pregunta 1, ojalá de dos líneas porque sí.",
       longText:
@@ -47,8 +52,8 @@ const Help = () => {
     },
     {
       id: 2,
-      icon: <SearchIcon fontSize="large" />,
-      title: "¿Pregunta 2?",
+      icon: <AttachMoneyOutlinedIcon fontSize="large" />,
+      title: "¿Cómo registrar una venta?",
       shortText:
         "Texto breve para la pregunta 2, ojalá de dos líneas porque sí.",
       longText:
@@ -56,8 +61,8 @@ const Help = () => {
     },
     {
       id: 3,
-      icon: <HelpOutlineIcon fontSize="large" />,
-      title: "¿Pregunta 3?",
+      icon: <SearchIcon fontSize="large" />,
+      title: "¿Cómo buscar un producto?",
       shortText:
         "Texto breve para la pregunta 3, ojalá de dos líneas porque sí.",
       longText:
@@ -65,8 +70,8 @@ const Help = () => {
     },
     {
       id: 4,
-      icon: <SearchIcon fontSize="large" />,
-      title: "¿Pregunta 4?",
+      icon: <GroupsIcon fontSize="large" />,
+      title: "¿Cómo añadir proveedores?",
       shortText:
         "Texto breve para la pregunta 4, ojalá de dos líneas porque sí.",
       longText:
@@ -74,8 +79,8 @@ const Help = () => {
     },
     {
       id: 5,
-      icon: <HelpOutlineIcon fontSize="large" />,
-      title: "¿Pregunta 5?",
+      icon: <EngineeringIcon fontSize="large" />,
+      title: "¿En construcción de momento?",
       shortText:
         "Texto breve para la pregunta 5, ojalá de dos líneas porque sí.",
       longText:
@@ -83,8 +88,8 @@ const Help = () => {
     },
     {
       id: 6,
-      icon: <SearchIcon fontSize="large" />,
-      title: "¿Pregunta 6?",
+      icon: <SupportAgentIcon fontSize="large" />,
+      title: "Contacto de soporte",
       shortText:
         "Texto breve para la pregunta 6, ojalá de dos líneas porque sí.",
       longText:
