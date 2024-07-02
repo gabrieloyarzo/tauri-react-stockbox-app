@@ -138,7 +138,7 @@ const TableRows = ({
                         {formatNumber(obj[column])}
                       </TableCell>
                     ) : (
-                      <TableCell key={index}>{formatDateToSpanish(obj[column])}</TableCell>
+                      <TableCell key={index}>{obj[column]}</TableCell>
                     ))
                 )
               : columns.map(
@@ -149,7 +149,7 @@ const TableRows = ({
                         {formatNumber(obj[column])}
                       </TableCell>
                     ) : (
-                      <TableCell key={index}>{formatDateToSpanish(obj[column])}</TableCell>
+                      <TableCell key={index}>{obj[column]}</TableCell>
                     ))
                 )}
             <TableCell key="options" sx={{ textAlign: "center" }}>

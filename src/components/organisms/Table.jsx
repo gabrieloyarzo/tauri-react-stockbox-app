@@ -22,8 +22,6 @@ const Table = ({
   fetchData,
   toggleForm,
   setFormProps,
-  loading,
-  setLoading,
 }) => {
   const columns = useTableColumns({ data });
 
@@ -37,8 +35,6 @@ const Table = ({
           fetchData={fetchData}
           toggleForm={toggleForm}
           setFormProps={setFormProps}
-          loadingState={loading}
-          setLoadingState={setLoading}
         />
       </TableMUI>
     </TableContainer>

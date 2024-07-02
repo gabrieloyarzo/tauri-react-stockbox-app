@@ -1,30 +1,42 @@
-import { useState, useEffect, createContext } from "react";
-// import UserApi from "../../services/api/user.service";
+import { useState, useEffect, createContext, useContext } from "react";
 
 export const UserContext = createContext();
 
+export const useUser = () => useContext(UserContext);
+
 const UserContextProvider = ({ children }) => {
-  // const [user, setUser] = useState({
-  //   rut: "",
-  //   nombre: "",
-  //   cargo: "",
-  // });
+  const [user, setUser] = useState({
+    rut: "",
+    rol: "",
+    nombre: "",
+  });
 
-  // const [login, setLogin] = useState(false);
+  const setUserData = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const rut = JSON.parse(atob(token.split(".")[1])).rut;
+      const rol = JSON.parse(atob(token.split(".")[1])).role;
+      const nombre = JSON.parse(atob(token.split(".")[1])).name.concat(
+        " ",
+        JSON.parse(atob(token.split(".")[1])).lastname
+      );
+      setUser((user) => ({
+        rut: rut ?? user.rut,
+        rol: rol ?? user.rol,
+        nombre: nombre ?? user.nombre,
+      }));
+    }
+  };
 
-  // const loginUser = async (rut) => {
-  //   try {
-  //     const response = await UserApi.getUser(rut);
-  //     setUser({
-  //       rut: rut,
-  //       nombre: response.data.nombre,
-  //       cargo: response.data.rol,
-  //     });
-  //     setLogin(true);
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // };
+  useEffect(() => {
+    setUserData();
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ user, setUser, setUserData }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export default UserContextProvider;
