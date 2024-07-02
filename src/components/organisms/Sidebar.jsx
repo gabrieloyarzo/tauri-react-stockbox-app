@@ -193,6 +193,7 @@ const Sidebar = () => {
         </TabContext>
       </Box>
       <Box
+        display="flex"
         position="relative"
         p="4%"
         bottom={0}
