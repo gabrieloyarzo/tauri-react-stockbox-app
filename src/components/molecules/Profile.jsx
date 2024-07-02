@@ -12,10 +12,10 @@ const Profile = () => {
       spacing="-.25em"
     >   
       <Typography variant="body1" fontWeight="bold">
-        {user?.rut ?? ""}
+        {user?.nombre}
       </Typography>
       <Typography variant="body2" color="textSecondary">
-        {user?.rol ?? ""}
+        {user?.rol}
       </Typography>
     </Stack>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useUser } from "../../context/UserContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +23,11 @@ const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
+  const { setUserData } = useUser();
 
-  const [checked, setChecked] = useState(localStorage.getItem("usuario") !== null);
+  const [checked, setChecked] = useState(
+    localStorage.getItem("usuario") !== null
+  );
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -58,8 +62,7 @@ const Login = () => {
 
     if (checked) {
       localStorage.setItem("usuario", credentials.rutu);
-    }
-    else {
+    } else {
       localStorage.removeItem("usuario");
     }
 
@@ -68,6 +71,7 @@ const Login = () => {
       const token = await LoginApi.logUsers(credentials);
       if (token) {
         localStorage.setItem("token", token.data.token);
+        setUserData();
         showSnackbar(token.data.message, "success");
         navigate("/");
       }
