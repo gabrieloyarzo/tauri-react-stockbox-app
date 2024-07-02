@@ -42,12 +42,12 @@ const Login = () => {
         ...credentials,
         [e.target.name]: formatRut(e.target.value),
       });
-    } else {
-      setCredentials({
-        ...credentials,
-        [e.target.name]: e.target.value,
-      });
+      return;
     }
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
