@@ -4,7 +4,16 @@ import { useDialog } from "../../../context/DialogContext";
 import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import UserApi from "../../../services/api/user.service";
-import { Button, TextField, Box, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -33,7 +42,7 @@ const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
     pwd: initialData?.pwd || "",
     nombre: initialData?.nombre || "",
     apellido: initialData?.apellido || "",
-    rol: initialData?.rol || "",
+    rol: initialData?.rol || "USER",
   });
 
   const handleChange = (e) => {
@@ -233,7 +242,32 @@ const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
                 maxLength: 20,
               }}
             />
-            <StyledTextField
+            <FormControl
+              sx={{ width: "75%", marginBottom: "2vh" }}
+            >
+              <InputLabel id="rol">Rol</InputLabel>
+              <Select
+                labelId="rol"
+                label="Rol"
+                value={formData.rol}
+                name="rol"
+                onChange={handleChange}
+                error={!!errors.rol}
+                helperText={errors.rol}
+                sx={{
+                  boxShadow: 0,
+                  height: "3.6em",
+                  borderRadius: ".25rem",
+                  "& .MuiSvgIcon-root": {
+                    color: theme.palette.secondary.contrastText,
+                  },
+                }}
+              >
+                <MenuItem value="ADMIN">ADMIN</MenuItem>
+                <MenuItem value="USER">USER</MenuItem>
+              </Select>
+            </FormControl>
+            {/* <StyledTextField
               label="Rol"
               name="rol"
               value={formData.rol}
@@ -243,7 +277,7 @@ const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
               inputProps={{
                 maxLength: 20,
               }}
-            />
+            /> */}
             <Box
               sx={{
                 display: "flex",

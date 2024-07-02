@@ -68,7 +68,7 @@ const Filters = () => {
         bgcolor: theme.palette.background.default,
       }}
     >
-      <Stack direction="column" flex={0.3}>
+      <Stack direction="column" flex={0.2}>
         <FormControl>
           <InputLabel id="categoria">Categoría</InputLabel>
           <Select
@@ -91,7 +91,7 @@ const Filters = () => {
           </Select>
         </FormControl>
       </Stack>
-      <Stack direction="column" flex={0.3}>
+      <Stack direction="column" flex={0.2}>
         <FormControl>
           <InputLabel id="ordenar">Ordenar por</InputLabel>
           <Select
@@ -114,7 +114,7 @@ const Filters = () => {
       </Stack>
 
       {/* Desde y hasta */}
-      <Stack direction="row" flex={0.3} alignItems={"center"}>
+      <Stack direction="row" flex={0.2} alignItems={"center"}>
         <TextField
           label="Desde"
           type="date"
@@ -180,7 +180,7 @@ const Filters = () => {
               </InputAdornment>
             ),
             sx: {
-              fontSize: ".75vw",
+              fontSize: "1vw",
               boxShadow: theme.shadows[3],
               height: "2.5rem",
               borderRadius: "1rem",

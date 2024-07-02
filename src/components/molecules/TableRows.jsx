@@ -21,6 +21,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RenderModal from "../../functions/renderModal";
+import CustomTableChip from "../atoms/custom-ui/CustomTableChip";
 
 const isDetailTable = (currentTable) => {
   return (
@@ -39,13 +40,7 @@ const isIdTable = (currentTable) => {
   );
 };
 
-const TableRows = ({
-  data,
-  columns,
-  fetchData,
-  toggleForm,
-  setFormProps,
-}) => {
+const TableRows = ({ data, columns, fetchData, toggleForm, setFormProps }) => {
   const theme = useTheme();
   const { currentTable, isLoading } = useContext(TableContext);
   const { filterProps } = useContext(FilterContext);
@@ -141,17 +136,26 @@ const TableRows = ({
                       <TableCell key={index}>{obj[column]}</TableCell>
                     ))
                 )
-              : columns.map(
-                  (column, index) =>
-                    !Array.isArray(obj[column]) &&
-                    (typeof obj[column] === "number" ? (
+              : columns.map((column, index) => {
+                  if (column === "rol") {
+                    return (
+                      <TableCell key={index} sx={{ textAlign: "center" }}>
+                        <CustomTableChip role={obj[column]} />
+                      </TableCell>
+                    );
+                  }
+                  if (!Array.isArray(obj[column])) {
+                    return typeof obj[column] === "number" ? (
                       <TableCell key={index} sx={{ textAlign: "right" }}>
                         {formatNumber(obj[column])}
                       </TableCell>
                     ) : (
                       <TableCell key={index}>{obj[column]}</TableCell>
-                    ))
-                )}
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
             <TableCell key="options" sx={{ textAlign: "center" }}>
               <div>
                 {dIndexKey && (
@@ -191,7 +195,7 @@ const TableRows = ({
                     arrow
                     enterDelay={500}
                   >
-                    <EditIcon/>
+                    <EditIcon />
                   </Tooltip>
                 </IconButton>
                 <IconButton

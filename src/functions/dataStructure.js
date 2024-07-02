@@ -1,7 +1,7 @@
 export const iProduct = {
 	cod: "Código",
 	nombre: "Nombre",
-	cat: "Cateogoría",
+	cat: "Categoría",
 	cit: "Cantidad",
 	mCit: "Cantidad mínima",
 	precio: "Precio",
