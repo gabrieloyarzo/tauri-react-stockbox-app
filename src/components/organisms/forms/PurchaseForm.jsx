@@ -3,6 +3,7 @@ import { TableContext } from "../../../context/TableContext";
 import { FilterContext } from "../../../context/FilterContext";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
+import { useUser } from "../../../context/UserContext";
 import { useTheme } from "@mui/material/styles";
 import {
   Button,
@@ -61,7 +62,7 @@ const PurchaseForm = ({
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
   const { filterProps } = useContext(FilterContext);
-  const { currentTable } = useContext(TableContext);
+  const { user } = useUser();
 
   const initialRow = {
     idp: "",
@@ -82,7 +83,7 @@ const PurchaseForm = ({
       : {
           cod: "",
           rutp: "",
-          rutu: "20.939.766-8",
+          rutu: user?.rut,
           fecha: new Date().toISOString().split("T")[0],
           total: "",
           detalles: [initialRow],
@@ -265,6 +266,11 @@ const PurchaseForm = ({
     );
     return filteredOptions.slice(0, 10);
   };
+
+  if (user?.rut === "") {
+    console.log("no rut:", user);
+    return null;
+  }
 
   return (
     <Box

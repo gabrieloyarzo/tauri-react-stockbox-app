@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
+import { capitalizeFirstLetter } from "../functions/helpers";
 
 export const UserContext = createContext();
 
@@ -12,13 +13,15 @@ const UserContextProvider = ({ children }) => {
   });
 
   const setUserData = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const rut = JSON.parse(atob(token.split(".")[1])).rut;
-      const rol = JSON.parse(atob(token.split(".")[1])).role;
-      const nombre = JSON.parse(atob(token.split(".")[1])).name.concat(
+    const tokenData = localStorage.getItem("token")
+      ? JSON.parse(atob(localStorage.getItem("token").split(".")[1]))
+      : null;
+    if (tokenData) {
+      const rut = tokenData.rut;
+      const rol = tokenData.role;
+      const nombre = capitalizeFirstLetter(tokenData.name).concat(
         " ",
-        JSON.parse(atob(token.split(".")[1])).lastname
+        capitalizeFirstLetter(tokenData.lastname)
       );
       setUser((user) => ({
         rut: rut ?? user.rut,
