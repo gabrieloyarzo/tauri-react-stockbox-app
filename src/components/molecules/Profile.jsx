@@ -12,7 +12,7 @@ const Profile = () => {
       spacing="-.25em"
     >   
       <Typography variant="body1" fontWeight="bold">
-        {user?.nombre}
+        {`${user?.nombre.toUpperCase()} ${user?.apellido.toUpperCase()}`}
       </Typography>
       <Typography variant="body2" color="textSecondary">
         {user?.rol}
