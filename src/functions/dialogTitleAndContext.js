@@ -18,12 +18,12 @@ const deleteDialogTitleAndContext = (currentTable) => {
     case "providers":
       return {
         title: "Eliminar proveedor",
-        content: `Se perderán todos los registros de ventas, compras y devoluciones asociados.`,
+        content: `¿Está seguro que desea eliminar el proveedor?`,
       };
     case "users":
       return {
         title: "Eliminar usuario",
-        content: `Se perderán todos los registros de ventas, compras y devoluciones asociados.`,
+        content: `¿Está seguro que desea eliminar el usuario?`,
       };
     case "refunds":
       return {
