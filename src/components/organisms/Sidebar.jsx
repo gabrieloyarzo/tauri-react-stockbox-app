@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSnackbar } from "../../context/SnackbarContext";
-import { useDialog } from "../../context/DialogContext";
 import { useTheme } from "@mui/material/styles";
 import { TabContext, TabList } from "@mui/lab";
 import { Box, CardMedia, Typography, Tab, Button } from "@mui/material";
