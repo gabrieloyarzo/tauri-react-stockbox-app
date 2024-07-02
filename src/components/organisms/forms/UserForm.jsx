@@ -104,7 +104,7 @@ const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
   };
 
   const handleClose = () => {
-    mode === "modify" || isEmptyObject(formData)
+    mode === "modify" || isEmptyObject((({ rol, ...rest }) => rest)(formData))
       ? closeForm()
       : showDialog(
           "Descartar registro",
@@ -267,17 +267,6 @@ const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
                 <MenuItem value="USER">USER</MenuItem>
               </Select>
             </FormControl>
-            {/* <StyledTextField
-              label="Rol"
-              name="rol"
-              value={formData.rol}
-              onChange={handleChange}
-              error={!!errors.rol}
-              helperText={errors.rol}
-              inputProps={{
-                maxLength: 20,
-              }}
-            /> */}
             <Box
               sx={{
                 display: "flex",
