@@ -1,3 +1,5 @@
+import { validateEmail } from "../../functions/validateEmail";
+
 export function validateUser(formData) {
   const newErrors = {};
 
@@ -7,6 +9,9 @@ export function validateUser(formData) {
 
   if (formData.email.trim() === "") {
     newErrors.email = "Correo es requerido";
+  }
+  if (!validateEmail(formData.email)) {
+    newErrors.email = "Formato de correo no válido";
   }
 
   if (formData.pwd.trim() === "") {
