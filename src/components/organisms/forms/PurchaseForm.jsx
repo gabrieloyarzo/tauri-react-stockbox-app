@@ -410,8 +410,8 @@ const PurchaseForm = ({
                     right: "-2.25vw",
                     transform: "translateY(-50%)",
                     borderRadius: ".25em",
-                    bgcolor: theme.palette.grey[500],
-                    color: theme.palette.common.white,
+                    bgcolor: theme.palette.grey[200],
+                    color: theme.palette.grey[500],
                     "&:hover": {
                       backgroundColor: theme.palette.secondary.main,
                       color: theme.palette.secondary.contrastText,
