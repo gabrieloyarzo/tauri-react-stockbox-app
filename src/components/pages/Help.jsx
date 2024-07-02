@@ -21,6 +21,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 
+// Styled component for the Card
 const StyledCard = styled(Card)(({ theme }) => ({
   textAlign: "center",
   padding: theme.spacing(1),
@@ -46,7 +47,7 @@ const Help = () => {
       icon: <Inventory2OutlinedIcon fontSize="large" />,
       title: "¿Cómo ingresar un nuevo producto?",
       shortText:
-        "Texto breve para la pregunta 1, ojalá de dos líneas porque sí.",
+        "Obtén instrucciones sobre cómo añadir un producto al sistema.",
       longText:
         "Texto más extenso para la pregunta 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
     },
@@ -55,7 +56,7 @@ const Help = () => {
       icon: <AttachMoneyOutlinedIcon fontSize="large" />,
       title: "¿Cómo registrar una venta?",
       shortText:
-        "Texto breve para la pregunta 2, ojalá de dos líneas porque sí.",
+        "Obtén instrucciones sobre cómo registrar una nueva venta.",
       longText:
         "Texto más extenso para la pregunta 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
     },
@@ -64,7 +65,7 @@ const Help = () => {
       icon: <SearchIcon fontSize="large" />,
       title: "¿Cómo buscar un producto?",
       shortText:
-        "Texto breve para la pregunta 3, ojalá de dos líneas porque sí.",
+        "Descubre cómo buscar un producto en el inventario.",
       longText:
         "Texto más extenso para la pregunta 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
     },
@@ -73,7 +74,7 @@ const Help = () => {
       icon: <GroupsIcon fontSize="large" />,
       title: "¿Cómo añadir proveedores?",
       shortText:
-        "Texto breve para la pregunta 4, ojalá de dos líneas porque sí.",
+        "Aprende a añadir nuevos proveedores al sistema.",
       longText:
         "Texto más extenso para la pregunta 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
     },
@@ -85,13 +86,18 @@ const Help = () => {
         "Texto breve para la pregunta 5, ojalá de dos líneas porque sí.",
       longText:
         "Texto más extenso para la pregunta 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+      steps: [
+        "Hacer una cosa llamada 1.",
+        "Hacer una cosa llamada 2.",
+        "Hacer una cosa llamada 3.",
+      ],
     },
     {
       id: 6,
       icon: <SupportAgentIcon fontSize="large" />,
       title: "Contacto de soporte",
       shortText:
-        "Texto breve para la pregunta 6, ojalá de dos líneas porque sí.",
+        "Encuentra la información de contacto de soporte técnico.",
       longText:
         "Texto más extenso para la pregunta 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
     },
@@ -134,7 +140,7 @@ const Help = () => {
         <Box display="flex" justifyContent="center" mb={1}>
           <TextField
             variant="outlined"
-            placeholder="Buscar..."
+            placeholder="Utiliza términos clave para buscar"
             onChange={(e) => handleSearch(e.target.value)}
             fullWidth
             style={{ maxWidth: "65%" }}
@@ -145,8 +151,7 @@ const Help = () => {
         </Box>
       </Grid>
       <Grid item xs={12} style={{ marginTop: ".5em" }}>
-        {filteredFaqs.length ===
-        0 /* En caso de que no haya coincidencias. */ ? (
+        {filteredFaqs.length === 0 ? (
           <Typography variant="body1" align="center">
             No se encontraron resultados.
           </Typography>
@@ -190,9 +195,21 @@ const Help = () => {
       >
         <DialogTitle>{selectedFaq && selectedFaq.title}</DialogTitle>
         <DialogContent>
-          <Typography variant="body1">
+          <Typography variant="body1" gutterBottom>
             {selectedFaq && selectedFaq.longText}
           </Typography>
+          {selectedFaq && selectedFaq.steps && (
+            <div>
+              <Typography variant="h6" gutterBottom>
+                Pasos:
+              </Typography>
+              {selectedFaq.steps.map((step, index) => (
+                <Typography key={index} variant="body1">
+                  {index + 1}. {step}
+                </Typography>
+              ))}
+            </div>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal} color="primary">
