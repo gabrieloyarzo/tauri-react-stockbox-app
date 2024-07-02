@@ -4,18 +4,21 @@ import TableContextProvider from "./TableContext";
 import FilterContextProvider from "./FilterContext";
 import SnackbarContextProvider from "./SnackbarContext";
 import DialogContextProvider from "./DialogContext";
+import VariablesContextProvider from "./VariablesContext";
 
 const GlobalContextProvider = ({ children }) => {
   return (
-    <UserContextProvider>
-      <TableContextProvider>
-        <FilterContextProvider>
-          <DialogContextProvider>
-            <SnackbarContextProvider>{children}</SnackbarContextProvider>
-          </DialogContextProvider>
-        </FilterContextProvider>
-      </TableContextProvider>
-    </UserContextProvider>
+    <VariablesContextProvider>
+      <UserContextProvider>
+        <TableContextProvider>
+          <FilterContextProvider>
+            <DialogContextProvider>
+              <SnackbarContextProvider>{children}</SnackbarContextProvider>
+            </DialogContextProvider>
+          </FilterContextProvider>
+        </TableContextProvider>
+      </UserContextProvider>
+    </VariablesContextProvider>
   );
 };
 

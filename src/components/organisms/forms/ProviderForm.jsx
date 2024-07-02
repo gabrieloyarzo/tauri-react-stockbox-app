@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useVariables } from "../../../context/VariablesContext";
 import { useTheme } from "@mui/material/styles";
 import { useDialog } from "../../../context/DialogContext";
 import { useSnackbar } from "../../../context/SnackbarContext";
@@ -20,6 +21,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 
 const ProviderForm = ({ mode, initialData, closeForm, fetchData }) => {
   const theme = useTheme();
+  const { setProviders } = useVariables();
   const { filterProps } = useContext(FilterContext);
   const { showDialog } = useDialog();
   const { showSnackbar } = useSnackbar();
@@ -81,6 +83,10 @@ const ProviderForm = ({ mode, initialData, closeForm, fetchData }) => {
       setLoading(true);
       try {
         const response = await ProviderApi.createProvider(formData);
+        setProviders((prevProps) => [
+          ...prevProps,
+          { rutp: formData.rutp, nombre: formData.nombre },
+        ]);
         await fetchData(filterProps);
         showSnackbar(response.message, "success");
         closeForm();

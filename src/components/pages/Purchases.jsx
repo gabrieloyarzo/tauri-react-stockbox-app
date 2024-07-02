@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
+import { useVariables } from "../../context/VariablesContext";
 import { useFilter } from "../../context/FilterContext";
 import PurchaseApi from "../../services/api/purchase.service";
 import MainLayout from "../templates/MainLayout";
@@ -8,6 +9,7 @@ import PurchaseForm from "../organisms/forms/PurchaseForm";
 const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
   const { filterProps, setCount } = useFilter();
+  const { setProviders } = useVariables();
 
   useEffect(() => {
     setCurrentTable("purchases");
@@ -16,7 +18,6 @@ const Purchases = () => {
   // Table related
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
-  const [providers, setProviders] = useState([]);
   const [codes, setCodes] = useState([]);
 
   const fetchData = async (props) => {
@@ -60,7 +61,6 @@ const Purchases = () => {
         <PurchaseForm
           {...formProps}
           products={products}
-          providers={providers}
           codes={codes}
           closeForm={() => setOpenForm(false)}
         />
