@@ -38,7 +38,7 @@ export const iSales = {
 	rutc: "RUT del cliente",
 	rutu: "RUT del usuario",
 	fecha: "Fecha",
-	precio: "Precio",
+	total: "Precio",
 };
 
 export const iRefund = {

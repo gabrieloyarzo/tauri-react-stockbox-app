@@ -13,12 +13,10 @@ import {
   IconButton,
   Stack,
   Autocomplete,
-  Tooltip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
-import AddIcon from "@mui/icons-material/Add";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import {
@@ -188,8 +186,8 @@ const SaleForm = ({
 
     if (mode === "modify") {
       showDialog(
-        "Modificar compra",
-        "¿Está seguro que desea modificar la compra?",
+        "Modificar venta",
+        "¿Está seguro que desea modificar la venta?",
         "Modificar",
         () => confirmModify(submitData)
       );
@@ -317,7 +315,7 @@ const SaleForm = ({
             variant="h5"
             sx={{ color: "#ffffff", fontWeight: "bold" }}
           >
-            {mode === "modify" ? "Modificar compra" : "Registrar compra"}
+            {mode === "modify" ? "Modificar venta" : "Registrar venta"}
           </Typography>
         </Box>
 
