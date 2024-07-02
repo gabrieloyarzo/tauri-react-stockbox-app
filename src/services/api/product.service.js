@@ -28,11 +28,10 @@ const ProductApi = {
   async getProduct(productId) {
     try {
       const response = await axios.get(`${API_URL}/${productId}`, {
-          headers: {
-	      Authorization: `Bearer ${localStorage.getItem("token")}`,
-	  }
-        }
-      );
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener producto:", error);
@@ -42,16 +41,12 @@ const ProductApi = {
 
   async createProduct(productData) {
     try {
-      const response = await axios.post(
-        `${API_URL}/create`,
-        productData,
-        {
-          headers: {
-              "Content-Type": "application/json",
-      	      Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/create`, productData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al crear producto:", error);
@@ -67,7 +62,7 @@ const ProductApi = {
         {
           headers: {
             "Content-Type": "application/json",
-    	     Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -80,15 +75,12 @@ const ProductApi = {
 
   async deleteProduct(productId) {
     try {
-      const response = await axios.delete(
-        `${API_URL}/${productId}/delete`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-    	     Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${API_URL}/${productId}/delete`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al eliminar producto:", error);

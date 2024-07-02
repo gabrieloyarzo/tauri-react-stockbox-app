@@ -5,7 +5,9 @@ const API_URL = `${import.meta.env.VITE_API_URL}/notifications`;
 const NotificationApi = {
   async getAllNotifications() {
     try {
-      const response = await axios.get(`${API_URL}`, { withCredentials: true });
+      const response = await axios.get(`${API_URL}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener notificaciones:", error);
@@ -16,7 +18,9 @@ const NotificationApi = {
   async getNotification(notificationId) {
     try {
       const response = await axios.get(`${API_URL}/${notificationId}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -27,16 +31,12 @@ const NotificationApi = {
 
   async createNotification(notificationData) {
     try {
-      const response = await axios.post(
-        `${API_URL}/create`,
-        notificationData,
-        { withCredentials: true },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/create`, notificationData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al crear notificacion:", error);
@@ -49,10 +49,10 @@ const NotificationApi = {
       const response = await axios.put(
         `${API_URL}/${notificationId}/edit`,
         updatedNotificationData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -67,10 +67,10 @@ const NotificationApi = {
     try {
       const response = await axios.delete(
         `${API_URL}/${notificationId}/delete`,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

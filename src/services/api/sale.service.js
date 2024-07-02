@@ -3,9 +3,24 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/sales`;
 
 const SaleApi = {
-  async getAllSales() {
+  async getAllSales({
+    dato = "idpu",
+    orden = "asc",
+    offset = 0,
+    limit = 10,
+    desde = "",
+    hasta = "",
+    texto = "",
+  } = {}) {
     try {
-      const response = await axios.get(`${API_URL}`);
+      const response = await axios.get(
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error("Error al obtener ventas:", error);
@@ -16,7 +31,9 @@ const SaleApi = {
   async getSale(saleId) {
     try {
       const response = await axios.get(`${API_URL}/${saleId}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -27,16 +44,12 @@ const SaleApi = {
 
   async createSale(saleData) {
     try {
-      const response = await axios.post(
-        `${API_URL}/create`,
-        saleData,
-        { withCredentials: true },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/create`, saleData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al crear venta:", error);
@@ -49,10 +62,10 @@ const SaleApi = {
       const response = await axios.put(
         `${API_URL}/${saleId}/edit`,
         updatedSaleData,
-        { withCredentials: true },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -65,15 +78,12 @@ const SaleApi = {
 
   async deleteSale(saleId) {
     try {
-      const response = await axios.delete(
-        `${API_URL}/${saleId}/delete`,
-        { withCredentials: true },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.delete(`${API_URL}/${saleId}/delete`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al eliminar venta:", error);

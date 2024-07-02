@@ -15,11 +15,10 @@ const PurchaseApi = {
     try {
       const response = await axios.get(
         `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}`,
-          {
-            headers: {
-	       Authorization: `Bearer ${localStorage.getItem("token")}`,
-
-	  }
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       return response.data;
@@ -32,9 +31,9 @@ const PurchaseApi = {
   async getPurchase(purchaseId) {
     try {
       const response = await axios.get(`${API_URL}/${purchaseId}`, {
-          headers: {
-	       Authorization: `Bearer ${localStorage.getItem("token")}`,
-	  },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -45,16 +44,12 @@ const PurchaseApi = {
 
   async createPurchase(purchaseData) {
     try {
-      const response = await axios.post(
-        `${API_URL}/create`,
-        purchaseData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-     	    Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/create`, purchaseData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al crear compra:", error);
@@ -71,8 +66,7 @@ const PurchaseApi = {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-          
-	  },
+          },
         }
       );
       return response.data;
@@ -84,15 +78,12 @@ const PurchaseApi = {
 
   async deletePurchase(purchaseId) {
     try {
-      const response = await axios.delete(
-        `${API_URL}/${purchaseId}/delete`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${API_URL}/${purchaseId}/delete`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al eliminar compra:", error);

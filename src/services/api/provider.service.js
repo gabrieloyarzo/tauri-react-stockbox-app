@@ -12,11 +12,11 @@ const ProviderApi = {
     try {
       const response = await axios.get(
         `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-	  }
-	}
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       return response.data;
     } catch (error) {
@@ -28,9 +28,9 @@ const ProviderApi = {
   async getProvider(providerId) {
     try {
       const response = await axios.get(`${API_URL}/${providerId}`, {
-	  headers: {
-	      Authorization: `Bearer ${localStorage.getItem("token")}`,
-	  }
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -41,16 +41,12 @@ const ProviderApi = {
 
   async createProvider(providerData) {
     try {
-      const response = await axios.post(
-        `${API_URL}/create`,
-        providerData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-   	    Authorization: `Bearer ${localStorage.getItem("token")}`, 
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/create`, providerData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al crear proveedor:", error);
@@ -66,7 +62,7 @@ const ProviderApi = {
         {
           headers: {
             "Content-Type": "application/json",
-      	    Authorization: `Bearer ${localStorage.getItem("token")}`, 
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -79,15 +75,12 @@ const ProviderApi = {
 
   async deleteProvider(providerId) {
     try {
-      const response = await axios.delete(
-        `${API_URL}/${providerId}/delete`,    
-        {
-          headers: {
-            "Content-Type": "application/json",
-      	    Authorization: `Bearer ${localStorage.getItem("token")}`, 
-          },
-        }
-      );
+      const response = await axios.delete(`${API_URL}/${providerId}/delete`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al eliminar proveedor:", error);

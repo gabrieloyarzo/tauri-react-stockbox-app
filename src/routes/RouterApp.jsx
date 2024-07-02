@@ -5,6 +5,7 @@ import {
   Purchases,
   Products,
   Providers,
+  Sales,
   Users,
   ErrorScreen,
   Help,
@@ -47,6 +48,7 @@ const RouterApp = () => {
                 <Route path="/purchases" element={<Purchases />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/providers" element={<Providers />} />
+                <Route path="/sales" element={<Sales />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/help" element={<Help />} />
                 <Route path="/*" element={<ErrorScreen />} />
