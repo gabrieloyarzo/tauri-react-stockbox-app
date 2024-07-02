@@ -1,4 +1,3 @@
-import ClientApi from "../services/api/client.service"
 import NotificationApi from "../services/api/notification.service";
 import PurchaseApi from "../services/api/purchase.service";
 import ProductApi from "../services/api/product.service";
@@ -9,8 +8,6 @@ import UserApi from "../services/api/user.service";
 
 export const auxDelete = async ({ currentTable, id }) => {
   switch (currentTable) {
-    case 'clients':
-      return await ClientApi.deleteClient(id);
     case 'notifications':
       return await NotificationApi.deleteNotification(id);
     case 'purchases':
