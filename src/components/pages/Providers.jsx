@@ -6,10 +6,11 @@ import ProviderApi from "../../services/api/provider.service";
 import MainLayout from "../templates/MainLayout";
 import ProviderForm from "../organisms/forms/ProviderForm";
 import Reload from "../molecules/Reload";
+import { iProvider } from "../../functions/dataStructure";
 
 const Providers = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount } = useFilter();
+  const { filterProps, setCount, setFilterCategories } = useFilter();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -17,6 +18,7 @@ const Providers = () => {
 
   useEffect(() => {
     setCurrentTable("providers");
+    setFilterCategories(Object.values(iProvider));
   }, []);
 
   const [tableData, setTableData] = useState(null);

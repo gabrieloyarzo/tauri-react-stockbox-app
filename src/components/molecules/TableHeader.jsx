@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
-import { TableContext } from "../../context/TableContext";
+import React from "react";
+import { useFilter } from "../../context/FilterContext";
 import { TableHead, TableRow, TableCell } from "@mui/material";
-import { adapter } from "../../functions/adapter";
 
-const TableHeader = ({ defaultColumns }) => {
-  const { currentTable } = useContext(TableContext);
+const TableHeader = () => {
+  const { filterCategories } = useFilter();
 
-  const columns = adapter(defaultColumns, currentTable);
+  const columns = filterCategories;
 
   return (
     <TableHead>

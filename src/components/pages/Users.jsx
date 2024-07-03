@@ -6,10 +6,11 @@ import UserApi from "../../services/api/user.service";
 import MainLayout from "../templates/MainLayout";
 import UserForm from "../organisms/forms/UserForm";
 import Reload from "../molecules/Reload";
+import { iUser } from "../../functions/dataStructure";
 
 const Users = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount } = useFilter();
+  const { filterProps, setCount, setFilterCategories } = useFilter();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -17,6 +18,7 @@ const Users = () => {
 
   useEffect(() => {
     setCurrentTable("users");
+    setFilterCategories(Object.values(iUser));
   }, []);
 
   const [tableData, setTableData] = useState(null);

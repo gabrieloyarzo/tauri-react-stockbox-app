@@ -6,10 +6,11 @@ import SaleApi from "../../services/api/sale.service";
 import MainLayout from "../templates/MainLayout";
 import SaleForm from "../organisms/forms/SaleForm";
 import Reload from "../molecules/Reload";
+import { iSales } from "../../functions/dataStructure";
 
 const Sales = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount } = useFilter();
+  const { filterProps, setCount, setFilterCategories } = useFilter();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -17,6 +18,7 @@ const Sales = () => {
 
   useEffect(() => {
     setCurrentTable("sales");
+    setFilterCategories(Object.values(iSales));
   }, [setCurrentTable]);
 
   const [tableData, setTableData] = useState(null);

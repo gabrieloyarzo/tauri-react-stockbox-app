@@ -7,10 +7,11 @@ import PurchaseApi from "../../services/api/purchase.service";
 import MainLayout from "../templates/MainLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
 import Reload from "../molecules/Reload";
+import { iPurchase } from "../../functions/dataStructure";	
 
 const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount } = useFilter();
+  const { filterProps, setCount, setFilterCategories } = useFilter();
   const { setProviders } = useVariables();
   const { showSnackbar } = useSnackbar();
 
@@ -19,6 +20,7 @@ const Purchases = () => {
 
   useEffect(() => {
     setCurrentTable("purchases");
+    setFilterCategories(Object.values(iPurchase));
   }, [setCurrentTable]);
 
   // Table related

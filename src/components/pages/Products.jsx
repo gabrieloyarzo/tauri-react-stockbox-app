@@ -6,10 +6,11 @@ import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
 import ProductForm from "../organisms/forms/ProductForm";
 import Reload from "../molecules/Reload";
+import { iProduct } from "../../functions/dataStructure";
 
 const Products = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount } = useFilter();
+  const { filterProps, setCount, setFilterCategories } = useFilter();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -17,6 +18,7 @@ const Products = () => {
 
   useEffect(() => {
     setCurrentTable("products");
+    setFilterCategories(Object.values(iProduct));
   }, []);
 
   const [tableData, setTableData] = useState(null);

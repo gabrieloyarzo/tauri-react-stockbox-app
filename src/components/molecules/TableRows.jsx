@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
-import { TableContext } from "../../context/TableContext";
-import { FilterContext } from "../../context/FilterContext";
+import React, { useState } from "react";
+import { useTable } from "../../context/TableContext";
+import { useFilter } from "../../context/FilterContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useDialog } from "../../context/DialogContext";
 import { useTheme } from "@mui/material";
@@ -42,8 +42,8 @@ const isIdTable = (currentTable) => {
 
 const TableRows = ({ data, columns, fetchData, toggleForm, setFormProps }) => {
   const theme = useTheme();
-  const { currentTable, isLoading } = useContext(TableContext);
-  const { filterProps } = useContext(FilterContext);
+  const { currentTable, isLoading } = useTable();
+  const { filterProps } = useFilter();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
 

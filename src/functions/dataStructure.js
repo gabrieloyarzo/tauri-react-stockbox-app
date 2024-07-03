@@ -8,13 +8,11 @@ export const iProduct = {
 };
 
 export const iUser = {
-	rutu: "RUT del usuario",
+	rutu: "RUT",
 	email: "Correo",
-	pwd: "Contraseña",
 	nombre: "Nombre",
 	apellido: "Apellido",
 	rol: "Rol",
-	estado: "Estado",
 };
 
 export const iPurchase = {
@@ -26,7 +24,7 @@ export const iPurchase = {
 };
 
 export const iProvider = {
-	rutp: "RUT del proveedor",
+	rutp: "RUT",
 	nombre: "Nombre",
 	lugar: "Dirección",
 	numero: "Teléfono",

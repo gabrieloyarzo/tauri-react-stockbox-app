@@ -6,10 +6,11 @@ import RefundApi from "../../services/api/refund.service";
 import MainLayout from "../templates/MainLayout";
 import RefundForm from "../organisms/forms/RefundForm";
 import Reload from "../molecules/Reload";
+import { iRefund } from "../../functions/dataStructure";
 
 const Refunds = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount } = useFilter();
+  const { filterProps, setCount, setFilterCategories } = useFilter();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -17,6 +18,7 @@ const Refunds = () => {
 
   useEffect(() => {
     setCurrentTable("refunds");
+    setFilterCategories(Object.values(iRefund));
   }, [setCurrentTable]);
 
   // Table related
