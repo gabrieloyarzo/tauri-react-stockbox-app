@@ -1,9 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useVariables } from "../../../context/VariablesContext";
 import { useTheme } from "@mui/material/styles";
 import { useDialog } from "../../../context/DialogContext";
 import { useSnackbar } from "../../../context/SnackbarContext";
-import { FilterContext } from "../../../context/FilterContext";
 import { styled } from "@mui/material/styles";
 import { Button, TextField, Box, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,10 +18,15 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   width: "75%",
 }));
 
-const ProviderForm = ({ mode, initialData, closeForm, fetchData }) => {
+const ProviderForm = ({
+  mode,
+  initialData,
+  closeForm,
+  fetchData,
+  filterProps,
+}) => {
   const theme = useTheme();
   const { setProviders } = useVariables();
-  const { filterProps } = useContext(FilterContext);
   const { showDialog } = useDialog();
   const { showSnackbar } = useSnackbar();
 

@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useVariables } from "../../../context/VariablesContext";
-import { FilterContext } from "../../../context/FilterContext";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
 import { useUser } from "../../../context/UserContext";
@@ -60,12 +59,12 @@ const PurchaseForm = ({
   initialData,
   products,
   codes,
+  filterProps,
 }) => {
   const theme = useTheme();
   const { providers } = useVariables();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
-  const { filterProps } = useContext(FilterContext);
   const { user } = useUser();
 
   const [openProvider, setOpenProvider] = useState(false);

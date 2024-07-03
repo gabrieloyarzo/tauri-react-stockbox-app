@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
-import { useFilter } from "../../context/FilterContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import ProviderApi from "../../services/api/provider.service";
 import MainLayout from "../templates/MainLayout";
@@ -9,23 +8,54 @@ import Reload from "../molecules/Reload";
 import { iProvider } from "../../functions/dataStructure";
 
 const Providers = () => {
-  const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount, setFilterCategories } = useFilter();
+  const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
+    useTable();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(
+    localStorage.getItem("providers_page")
+      ? parseInt(localStorage.getItem("providers_page"))
+      : 1
+  );
+
+  // Filters
+  const [filterProps, setFilterProps] = useState(
+    JSON.parse(localStorage.getItem("providers_fprops")) ?? {
+      offset: (page - 1) * 10,
+    }
+  );
+
+  // Filters strings
+  const filterStrings = Object.values(iProvider)
+    .filter((item) => item[1] === "string")
+    .map((item) => item[0]);
+
+  // Filters numbers
+  const filterNumbers = Object.values(iProvider)
+    .filter((item) => item[1] === "number")
+    .map((item) => item[0]);
 
   useEffect(() => {
+    setTableColumns(Object.values(iProvider).map((item) => item[0]));
     setCurrentTable("providers");
-    setFilterCategories(Object.values(iProvider));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("providers_page", page);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: (page - 1) * 10,
+    }));
+  }, [page]);
 
   const [tableData, setTableData] = useState(null);
 
   const fetchData = async (props) => {
     setError(null);
-    setIsLoading(true); // Establecer el estado de carga a verdadero
+    setIsLoading(true);
     try {
       const providers = await ProviderApi.getAllProviders(props);
       isFirstLoad &&
@@ -36,24 +66,25 @@ const Providers = () => {
 
       setTableData(providers.data);
       setCount(providers.largo);
+
+      localStorage.setItem("providers_fprops", JSON.stringify(filterProps));
     } catch (error) {
       setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
     } finally {
-      setIsLoading(false); // Establecer el estado de carga a falso
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (isFirstLoad) {
-      if (JSON.stringify(filterProps) === "{}") {
-        fetchData(filterProps);
-      }
-    }
-    else {
-      fetchData(filterProps);
-    }
+    fetchData(filterProps);
   }, [filterProps]);
+
+  useEffect(() => {
+    if (page > Math.ceil(count / 10)) {
+      setPage(!(page <= 1) ? Math.ceil(count / 10) : 1);
+    }
+  }, [count]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
@@ -72,9 +103,20 @@ const Providers = () => {
             fetchData={fetchData}
             setFormProps={setFormProps}
             toggleForm={() => setOpenForm(!openForm)}
+            count={count}
+            page={page}
+            setPage={setPage}
+            filterProps={filterProps}
+            setFilterProps={setFilterProps}
+            filterStrings={filterStrings}
+            filterNumbers={filterNumbers}
           />
           {openForm && (
-            <ProviderForm {...formProps} closeForm={() => setOpenForm(false)} />
+            <ProviderForm
+              {...formProps}
+              closeForm={() => setOpenForm(false)}
+              filterProps={filterProps}
+            />
           )}
         </>
       ) : (

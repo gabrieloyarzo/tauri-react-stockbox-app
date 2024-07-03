@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import { useFilter } from "../../../context/FilterContext";
+import React, { useState } from "react";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
 import { useUser } from "../../../context/UserContext";
@@ -55,11 +54,11 @@ const RefundForm = ({
   closeForm,
   initialData,
   saleCodes,
+  filterProps,
 }) => {
   const theme = useTheme();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
-  const { filterProps } = useFilter();
   const { user } = useUser();
 
   const initialRow = {

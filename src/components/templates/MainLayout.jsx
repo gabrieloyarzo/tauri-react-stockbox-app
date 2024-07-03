@@ -12,6 +12,13 @@ const MainLayout = ({
   fetchData,
   setFormProps,
   toggleForm,
+  count,
+  page,
+  setPage,
+  filterProps,
+  setFilterProps,
+  filterStrings,
+  filterNumbers,
 }) => {
   return (
     <>
@@ -22,7 +29,15 @@ const MainLayout = ({
         sx={{ minHeight: "90vh" }}
       >
         <Grid item xs={12} md={12}>
-          {!data ? <SkeletonFilters /> : <Filters />}
+          {!data ? (
+            <SkeletonFilters />
+          ) : (
+            <Filters
+              setFilterProps={setFilterProps}
+              filterStrings={filterStrings}
+              filterNumbers={filterNumbers}
+            />
+          )}
         </Grid>
         <Grid item xs={12} md={12} style={{ flexGrow: 1 }}>
           <Box>
@@ -35,6 +50,7 @@ const MainLayout = ({
                   fetchData={fetchData}
                   toggleForm={toggleForm}
                   setFormProps={setFormProps}
+                  filterProps={filterProps}
                 />
               </>
             )}
@@ -49,7 +65,7 @@ const MainLayout = ({
               height: "100%",
             }}
           >
-            {data && <Pagination />}
+            {data && <Pagination count={count} page={page} setPage={setPage} />}
           </Box>
         </Grid>
       </Grid>

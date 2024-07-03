@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
-import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import ProductApi from "../../../services/api/product.service";
 import {
@@ -17,7 +16,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateProduct } from "../../../services/validation/productValidation";
 import { isEmptyObject } from "../../../functions/helpers";
-import { formatRut } from "../../../functions/formatRut";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -31,9 +29,9 @@ const ProductForm = ({
   fetchData,
   categories,
   codes,
+  filterProps,
 }) => {
   const theme = useTheme();
-  const { filterProps } = useContext(FilterContext);
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
 

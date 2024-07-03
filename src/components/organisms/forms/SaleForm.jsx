@@ -1,6 +1,4 @@
-import React, { useState, useContext } from "react";
-import { useVariables } from "../../../context/VariablesContext";
-import { FilterContext } from "../../../context/FilterContext";
+import React, { useState } from "react";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
 import { useUser } from "../../../context/UserContext";
@@ -57,11 +55,11 @@ const SaleForm = ({
   initialData,
   products,
   codes,
+  filterProps,
 }) => {
   const theme = useTheme();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
-  const { filterProps } = useContext(FilterContext);
   const { user } = useUser();
 
   const initialRow = {

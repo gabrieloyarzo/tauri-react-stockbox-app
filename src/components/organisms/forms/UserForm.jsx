@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
-import { FilterContext } from "../../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
 import UserApi from "../../../services/api/user.service";
 import {
@@ -27,11 +26,10 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   width: "75%",
 }));
 
-const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
+const UserForm = ({ mode, initialData, closeForm, fetchData, filterProps }) => {
   const theme = useTheme();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
-  const { filterProps } = useContext(FilterContext);
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -242,9 +240,7 @@ const UserForm = ({ mode, initialData, closeForm, fetchData }) => {
                 maxLength: 20,
               }}
             />
-            <FormControl
-              sx={{ width: "75%", marginBottom: "2vh" }}
-            >
+            <FormControl sx={{ width: "75%", marginBottom: "2vh" }}>
               <InputLabel id="rol">Rol</InputLabel>
               <Select
                 labelId="rol"

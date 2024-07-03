@@ -1,49 +1,50 @@
 export const iProduct = {
-	cod: "Código",
-	nombre: "Nombre",
-	cat: "Categoría",
-	cit: "Cantidad",
-	mCit: "Cantidad mínima",
-	precio: "Precio",
+	cod: ["Código", "string"],
+	nombre: ["Nombre", "string"],
+	cat: ["Categoría", "string"],
+	cit: ["Cantidad", "number"],
+	mCit: ["Cantidad mínima", "number"],
+	precio: ["Precio", "number"],
 };
 
 export const iUser = {
-	rutu: "RUT",
-	email: "Correo",
-	nombre: "Nombre",
-	apellido: "Apellido",
-	rol: "Rol",
+	rutu: ["RUT", "string"],
+	email: ["Correo", "string"],
+	nombre: ["Nombre", "string"],
+	apellido: ["Apellido", "string"],
+	rol: ["Rol", "string"],
 };
 
-export const iPurchase = {
-	cod: "Código",
-	rutp: "RUT del proveedor",
-	rutu: "RUT del usuario",
-	fecha: "Fecha",
-	total: "Total",
+export const iPurchase = {	
+	cod: ["Código", "string"],
+	rutp: ["RUT del proveedor", "string"],
+	rutu: ["RUT del usuario", "string"],
+	fecha: ["Fecha", "date"],
+	total: ["Total", "number"],
 };
 
 export const iProvider = {
-	rutp: "RUT",
-	nombre: "Nombre",
-	lugar: "Dirección",
-	numero: "Teléfono",
-	tipo: "Tipo",
+	rutp: ["RUT", "string"],
+	nombre: ["Nombre", "string"],
+	lugar: ["Dirección", "string"],
+	numero: ["Teléfono", "string"],
+	tipo: ["Tipo", "string"],
 };
 
 export const iSales = {
-	cod: "Código",
-	rutc: "RUT del cliente",
-	rutu: "RUT del usuario",
-	fecha: "Fecha",
-	total: "Precio",
+	cod: ["Código", "string"],
+	rutc: ["RUT del cliente", "string"],
+	rutu: ["RUT del usuario", "string"],
+	fecha: ["Fecha", "date"],
+	total: ["Precio", "number"],
 };
 
 export const iRefund = {
-	idr: "refund_id",
-	ids: "sale_id",
-	cod: "code",
-	fecha: "date",
-	desc: "description",
-	nota: "note_refund",
+	idr: ["refund_id", "string"],
+	ids: ["sale_id", "string"],
+	cod: ["code", "string"],
+	fecha: ["date", "date"],
+	desc: ["description", "string"],
+	nota: ["note_refund", "string"],
 };
+

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
-import { useFilter } from "../../context/FilterContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
@@ -9,17 +8,48 @@ import Reload from "../molecules/Reload";
 import { iProduct } from "../../functions/dataStructure";
 
 const Products = () => {
-  const { currentTable, setCurrentTable, setIsLoading } = useTable();
-  const { filterProps, setCount, setFilterCategories } = useFilter();
+  const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
+    useTable();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(
+    localStorage.getItem("products_page")
+      ? parseInt(localStorage.getItem("products_page"))
+      : 1
+  );
+
+  // Filters
+  const [filterProps, setFilterProps] = useState(
+    JSON.parse(localStorage.getItem("products_fprops")) ?? {
+      offset: (page - 1) * 10,
+    }
+  );
+
+  // Filters strings
+  const filterStrings = Object.values(iProduct)
+    .filter((item) => item[1] === "string")
+    .map((item) => item[0]);
+
+  // Filters numbers
+  const filterNumbers = Object.values(iProduct)
+    .filter((item) => item[1] === "number")
+    .map((item) => item[0]);
 
   useEffect(() => {
+    setTableColumns(Object.values(iProduct).map((item) => item[0]));
     setCurrentTable("products");
-    setFilterCategories(Object.values(iProduct));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("products_page", page);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: (page - 1) * 10,
+    }));
+  }, [page]);
 
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -40,6 +70,8 @@ const Products = () => {
       setTableData(products.data);
       setCategories(products.categorias);
       setCodes(products.codes);
+
+      localStorage.setItem("products_fprops", JSON.stringify(filterProps));
     } catch (error) {
       setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
@@ -49,15 +81,14 @@ const Products = () => {
   };
 
   useEffect(() => {
-    if (isFirstLoad) {
-      if (JSON.stringify(filterProps) === "{}") {
-        fetchData(filterProps);
-      }
-    }
-    else {
-      fetchData(filterProps);
-    }
+    fetchData(filterProps);
   }, [filterProps]);
+
+  useEffect(() => {
+    if (page > Math.ceil(count / 10)) {
+      setPage(!(page <= 1) ? Math.ceil(count / 10) : 1);
+    }
+  }, [count]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
@@ -76,6 +107,13 @@ const Products = () => {
             fetchData={fetchData}
             setFormProps={setFormProps}
             toggleForm={() => setOpenForm(!openForm)}
+            count={count}
+            page={page}
+            setPage={setPage}
+            filterProps={filterProps}
+            setFilterProps={setFilterProps}
+            filterStrings={filterStrings}
+            filterNumbers={filterNumbers}
           />
           {openForm && (
             <ProductForm
@@ -83,6 +121,7 @@ const Products = () => {
               closeForm={() => setOpenForm(false)}
               categories={categories}
               codes={codes}
+              filterProps={filterProps}
             />
           )}
         </>

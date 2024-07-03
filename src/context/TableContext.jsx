@@ -9,6 +9,7 @@ export const useTable = () => {
 const TableContextProvider = ({ children }) => {  
   const [currentTable, setCurrentTable] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [tableColumns, setTableColumns] = useState([]);
 
   return (
     <TableContext.Provider value={{
@@ -16,6 +17,8 @@ const TableContextProvider = ({ children }) => {
       setCurrentTable,
       isLoading,
       setIsLoading,
+      tableColumns,
+      setTableColumns,
     }}>
       {children}
     </TableContext.Provider>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useFilter } from "../../context/FilterContext";
 import { useTable } from "../../context/TableContext";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -23,16 +22,15 @@ const isDateTable = (currentTable) => {
   );
 };
 
-const Filters = () => {
+const Filters = ({ setFilterProps, filterStrings, filterNumbers }) => {
   const theme = useTheme();
-  const { setFilterProps, filterCategories } = useFilter();
   const { currentTable, isLoading } = useTable();
 
   const [desde, setDesde] = useState(new Date());
   const [hasta, setHasta] = useState(new Date());
   const [busqueda, setBusqueda] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
-  const [category, setCategory] = useState(filterCategories[0]);
+  const [category, setCategory] = useState(filterStrings[0]);
 
   const handleChangeCategory = (e) => {
     const category = e.target.value;
@@ -91,7 +89,7 @@ const Filters = () => {
           <InputLabel id="categoria">Categoría</InputLabel>
           <Select
             labelId="categoria"
-            defaultValue={adapter(filterCategories[0], currentTable)} 
+            defaultValue={adapter(filterStrings[0], currentTable)} 
             label="Categoría"
             onChange={handleChangeCategory}
             disabled={isLoading}
@@ -104,7 +102,10 @@ const Filters = () => {
               },
             }}
           >
-            {filterCategories.map((item) => (
+            {filterStrings.map((item) => (
+              <MenuItem value={adapter(item, currentTable)}>{item}</MenuItem>
+            ))}
+            {filterNumbers.map((item) => (
               <MenuItem value={adapter(item, currentTable)}>{item}</MenuItem>
             ))}
           </Select>

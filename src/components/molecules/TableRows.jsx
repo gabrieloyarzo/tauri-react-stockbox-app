@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTable } from "../../context/TableContext";
-import { useFilter } from "../../context/FilterContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useDialog } from "../../context/DialogContext";
 import { useTheme } from "@mui/material";
@@ -40,10 +39,16 @@ const isIdTable = (currentTable) => {
   );
 };
 
-const TableRows = ({ data, columns, fetchData, toggleForm, setFormProps }) => {
+const TableRows = ({
+  data,
+  columns,
+  fetchData,
+  toggleForm,
+  setFormProps,
+  filterProps,
+}) => {
   const theme = useTheme();
   const { currentTable, isLoading } = useTable();
-  const { filterProps } = useFilter();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
 
