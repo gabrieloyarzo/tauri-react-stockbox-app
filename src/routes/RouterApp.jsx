@@ -35,7 +35,7 @@ const RouterApp = () => {
                 direction="row"
                 spacing="2vw"
                 justifyContent="right"
-                marginBottom=".5rem"
+                marginBottom="2.5rem"
               >
                 <NotificationsPanel />
                 <Profile />

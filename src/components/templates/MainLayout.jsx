@@ -12,7 +12,6 @@ const MainLayout = ({
   fetchData,
   setFormProps,
   toggleForm,
-  isFirstLoad,
 }) => {
   return (
     <>
@@ -20,7 +19,7 @@ const MainLayout = ({
         container
         direction="column"
         spacing="1rem"
-        sx={{ minHeight: "93vh" }}
+        sx={{ minHeight: "90vh" }}
       >
         <Grid item xs={12} md={12}>
           {!data ? <SkeletonFilters /> : <Filters />}
