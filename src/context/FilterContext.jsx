@@ -10,6 +10,7 @@ const FilterContextProvider = ({ children }) => {
   const [filterProps, setFilterProps] = useState({});
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
+  const [filterCategories, setFilterCategories] = useState([]);
 
   useEffect(() => {
     setFilterProps((prevProps) => ({
@@ -33,6 +34,8 @@ const FilterContextProvider = ({ children }) => {
         setCount,
         page,
         setPage,
+        filterCategories,
+        setFilterCategories,
       }}
     >
       {children}

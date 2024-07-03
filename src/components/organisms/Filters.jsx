@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
-import { FilterContext } from "../../context/FilterContext";
+import React, { useState } from "react";
+import { useFilter } from "../../context/FilterContext";
+import { useTable } from "../../context/TableContext";
 import { useTheme } from "@mui/material/styles";
 import {
   Stack,
@@ -13,9 +14,18 @@ import {
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
+const isDateTable = (currentTable) => {
+  return (
+    currentTable === "purchases" ||
+    currentTable === "sales" ||
+    currentTable === "refunds"
+  );
+};
+
 const Filters = () => {
   const theme = useTheme();
-  const { setFilterProps } = useContext(FilterContext);
+  const { setFilterProps } = useFilter();
+  const { currentTable } = useTable();
 
   const [desde, setDesde] = useState(new Date());
   const [hasta, setHasta] = useState(new Date());
@@ -68,7 +78,7 @@ const Filters = () => {
         bgcolor: theme.palette.background.default,
       }}
     >
-      <Stack direction="column" flex={0.2}>
+      <Stack direction="column" flex={1}>
         <FormControl>
           <InputLabel id="categoria">Categoría</InputLabel>
           <Select
@@ -91,7 +101,7 @@ const Filters = () => {
           </Select>
         </FormControl>
       </Stack>
-      <Stack direction="column" flex={0.2}>
+      <Stack direction="column" flex={1}>
         <FormControl>
           <InputLabel id="ordenar">Ordenar por</InputLabel>
           <Select
@@ -113,58 +123,58 @@ const Filters = () => {
         </FormControl>
       </Stack>
 
-      {/* Desde y hasta */}
-      <Stack direction="row" flex={0.2} alignItems={"center"}>
-        <TextField
-          label="Desde"
-          type="date"
-          value={desde}
-          onChange={handleChangeDesde}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          InputProps={{
-            sx: {
-              boxShadow: theme.shadows[3],
-              height: "2.5rem",
-              borderRadius: ".5rem",
-              "& .MuiSvgIcon-root": {
-                color: theme.palette.secondary.contrastText,
+      {isDateTable(currentTable) && (
+        <Stack direction="row" flex={1} alignItems={"center"}>
+          <TextField
+            label="Desde"
+            type="date"
+            value={desde}
+            onChange={handleChangeDesde}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              sx: {
+                boxShadow: theme.shadows[3],
+                height: "2.5rem",
+                borderRadius: ".5rem",
+                "& .MuiSvgIcon-root": {
+                  color: theme.palette.secondary.contrastText,
+                },
               },
-            },
-          }}
-        />
-        <Typography
-          variant="body2"
-          paddingLeft=".5em"
-          paddingRight=".5em"
-          sx={{ color: theme.palette.secondary.contrastText }}
-        >
-          -
-        </Typography>
-        <TextField
-          label="Hasta"
-          type="date"
-          value={hasta}
-          onChange={handleChangeHasta}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          InputProps={{
-            sx: {
-              boxShadow: theme.shadows[3],
-              height: "2.5rem",
-              borderRadius: ".5rem",
-              "& .MuiSvgIcon-root": {
-                color: theme.palette.secondary.contrastText,
+            }}
+          />
+          <Typography
+            variant="body2"
+            paddingLeft=".5em"
+            paddingRight=".5em"
+            sx={{ color: theme.palette.secondary.contrastText }}
+          >
+            -
+          </Typography>
+          <TextField
+            label="Hasta"
+            type="date"
+            value={hasta}
+            onChange={handleChangeHasta}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              sx: {
+                boxShadow: theme.shadows[3],
+                height: "2.5rem",
+                borderRadius: ".5rem",
+                "& .MuiSvgIcon-root": {
+                  color: theme.palette.secondary.contrastText,
+                },
               },
-            },
-          }}
-        />
-      </Stack>
-
+            }}
+          />
+        </Stack>
+      )}
       {/* Búsqueda */}
-      <Stack direction="column" flex={0.4}>
+      <Stack direction="column" flex={1.5}>
         <TextField
           label="Búsqueda"
           placeholder="Buscar..."
