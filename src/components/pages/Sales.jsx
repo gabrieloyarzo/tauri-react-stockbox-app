@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
 import { useFilter } from "../../context/FilterContext";
+import { useSnackbar } from "../../context/SnackbarContext";
 import SaleApi from "../../services/api/sale.service";
 import MainLayout from "../templates/MainLayout";
 import SaleForm from "../organisms/forms/SaleForm";
@@ -8,6 +9,9 @@ import SaleForm from "../organisms/forms/SaleForm";
 const Sales = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
   const { filterProps, setCount } = useFilter();
+  const { showSnackbar } = useSnackbar();
+
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
     setCurrentTable("sales");
@@ -22,13 +26,18 @@ const Sales = () => {
     setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const sales = await SaleApi.getAllSales(props);
+      isFirstLoad &&
+      (() => {
+        showSnackbar(sales.message, "success");
+        setIsFirstLoad(false);
+      })();
 
       setTableData(sales.data);
       setProducts(sales.products);
       setCodes(sales.codes);
       setCount(sales.largo);
     } catch (error) {
-      console.error(error);
+      showSnackbar(error.response.data.message, "error");
     } finally {
       setIsLoading(false); // Establecer el estado de carga a falso
     }

@@ -10,7 +10,7 @@ export function validateUser(formData) {
   if (formData.email.trim() === "") {
     newErrors.email = "Correo es requerido";
   }
-  if (!validateEmail(formData.email)) {
+  else if (!validateEmail(formData.email)) {
     newErrors.email = "Formato de correo no válido";
   }
 

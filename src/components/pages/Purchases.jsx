@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
 import { useVariables } from "../../context/VariablesContext";
 import { useFilter } from "../../context/FilterContext";
+import { useSnackbar } from "../../context/SnackbarContext";
 import PurchaseApi from "../../services/api/purchase.service";
 import MainLayout from "../templates/MainLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
@@ -10,6 +11,9 @@ const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
   const { filterProps, setCount } = useFilter();
   const { setProviders } = useVariables();
+  const { showSnackbar } = useSnackbar();
+
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
     setCurrentTable("purchases");
@@ -24,6 +28,11 @@ const Purchases = () => {
     setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const purchases = await PurchaseApi.getAllPurchases(props);
+      isFirstLoad &&
+      (() => {
+        showSnackbar(purchases.message, "success");
+        setIsFirstLoad(false);
+      })();
 
       setTableData(purchases.data);
       setProviders(purchases.providers);
@@ -31,7 +40,7 @@ const Purchases = () => {
       setCodes(purchases.codes);
       setCount(purchases.largo);
     } catch (error) {
-      console.error(error);
+      showSnackbar(error.response.data.message, "error");
     } finally {
       setIsLoading(false); // Establecer el estado de carga a falso
     }
