@@ -12,6 +12,7 @@ const Users = () => {
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setCurrentTable("users");
@@ -20,21 +21,23 @@ const Users = () => {
   const [tableData, setTableData] = useState(null);
 
   const fetchData = async (props) => {
-    setIsLoading(true); // Establecer el estado de carga a verdadero
+    setError(null);
+    setIsLoading(true);
     try {
       const users = await UserApi.getAllUsers(props);
       isFirstLoad &&
-      (() => {
-        showSnackbar(users.message, "success");
-        setIsFirstLoad(false);
-      })();
+        (() => {
+          showSnackbar(users.message, "success");
+          setIsFirstLoad(false);
+        })();
 
       setTableData(users.data);
       setCount(users.largo);
     } catch (error) {
+      setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
     } finally {
-      setIsLoading(false); // Establecer el estado de carga a falso
+      setIsLoading(false);
     }
   };
 
@@ -42,7 +45,6 @@ const Users = () => {
     fetchData(filterProps);
   }, [filterProps]);
 
-  // Forms
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
@@ -52,19 +54,25 @@ const Users = () => {
 
   return (
     <>
-      <MainLayout
-        currentTable="users"
-        data={tableData}
-        fetchData={fetchData}
-        setFormProps={setFormProps}
-        toggleForm={() => setOpenForm(!openForm)}
-      />
-      {openForm && (
-        <UserForm
-          {...formProps}
-          filterProps={filterProps}
-          closeForm={() => setOpenForm(false)}
-        />
+      {!error ? (
+        <>
+          <MainLayout
+            currentTable="users"
+            data={tableData}
+            fetchData={fetchData}
+            setFormProps={setFormProps}
+            toggleForm={() => setOpenForm(!openForm)}
+          />
+          {openForm && (
+            <UserForm
+              {...formProps}
+              filterProps={filterProps}
+              closeForm={() => setOpenForm(false)}
+            />
+          )}
+        </>
+      ) : (
+        <Reload errorMessage={error} />
       )}
     </>
   );

@@ -14,6 +14,7 @@ const Purchases = () => {
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setCurrentTable("purchases");
@@ -25,14 +26,15 @@ const Purchases = () => {
   const [codes, setCodes] = useState([]);
 
   const fetchData = async (props) => {
+    setError(null);
     setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const purchases = await PurchaseApi.getAllPurchases(props);
       isFirstLoad &&
-      (() => {
-        showSnackbar(purchases.message, "success");
-        setIsFirstLoad(false);
-      })();
+        (() => {
+          showSnackbar(purchases.message, "success");
+          setIsFirstLoad(false);
+        })();
 
       setTableData(purchases.data);
       setProviders(purchases.providers);
@@ -40,6 +42,7 @@ const Purchases = () => {
       setCodes(purchases.codes);
       setCount(purchases.largo);
     } catch (error) {
+      setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
     } finally {
       setIsLoading(false); // Establecer el estado de carga a falso
@@ -60,19 +63,25 @@ const Purchases = () => {
 
   return (
     <>
-      <MainLayout
-        data={tableData}
-        fetchData={fetchData}
-        setFormProps={setFormProps}
-        toggleForm={() => setOpenForm(!openForm)}
-      />
-      {openForm && (
-        <PurchaseForm
-          {...formProps}
-          products={products}
-          codes={codes}
-          closeForm={() => setOpenForm(false)}
-        />
+      {!error ? (
+        <>
+          <MainLayout
+            data={tableData}
+            fetchData={fetchData}
+            setFormProps={setFormProps}
+            toggleForm={() => setOpenForm(!openForm)}
+          />
+          {openForm && (
+            <PurchaseForm
+              {...formProps}
+              products={products}
+              codes={codes}
+              closeForm={() => setOpenForm(false)}
+            />
+          )}
+        </>
+      ) : (
+        <Reload errorMessage={error} />
       )}
     </>
   );

@@ -5,7 +5,7 @@ import { useSnackbar } from "../../context/SnackbarContext";
 import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
 import ProductForm from "../organisms/forms/ProductForm";
-import { show } from "@tauri-apps/api/app";
+import Reload from "../molecules/Reload";
 
 const Products = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
@@ -13,34 +13,36 @@ const Products = () => {
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setCurrentTable("products");
   }, []);
 
-  // Data table and related forms
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [codes, setCodes] = useState([]);
 
   const fetchData = async (props) => {
-    setIsLoading(true); // Establecer el estado de carga a verdadero
+    setError(null);
+    setIsLoading(true);
     try {
       const products = await ProductApi.getAllProducts(props);
       isFirstLoad &&
-      (() => {
-        showSnackbar(products.message, "success");
-        setIsFirstLoad(false);
-      })();
+        (() => {
+          showSnackbar(products.message, "success");
+          setIsFirstLoad(false);
+        })();
 
       setCount(products.largo);
       setTableData(products.data);
       setCategories(products.categorias);
       setCodes(products.codes);
     } catch (error) {
+      setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
     } finally {
-      setIsLoading(false); // Establecer el estado de carga a falso
+      setIsLoading(false);
     }
   };
 
@@ -58,19 +60,25 @@ const Products = () => {
 
   return (
     <>
-      <MainLayout
-        data={tableData}
-        fetchData={fetchData}
-        setFormProps={setFormProps}
-        toggleForm={() => setOpenForm(!openForm)}
-      />
-      {openForm && (
-        <ProductForm
-          {...formProps}
-          closeForm={() => setOpenForm(false)}
-          categories={categories}
-          codes={codes}
-        />
+      {!error ? (
+        <>
+          <MainLayout
+            data={tableData}
+            fetchData={fetchData}
+            setFormProps={setFormProps}
+            toggleForm={() => setOpenForm(!openForm)}
+          />
+          {openForm && (
+            <ProductForm
+              {...formProps}
+              closeForm={() => setOpenForm(false)}
+              categories={categories}
+              codes={codes}
+            />
+          )}
+        </>
+      ) : (
+        <Reload errorMessage={error} />
       )}
     </>
   );

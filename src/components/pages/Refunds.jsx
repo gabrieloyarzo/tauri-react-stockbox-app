@@ -12,6 +12,7 @@ const Refunds = () => {
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setCurrentTable("refunds");
@@ -22,19 +23,21 @@ const Refunds = () => {
   const [saleCodes, setSaleCodes] = useState([]);
 
   const fetchData = async (props) => {
+    setError(null);
     setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const refunds = await RefundApi.getAllRefunds(props);
       isFirstLoad &&
-      (() => {
-        showSnackbar(refunds.message, "success");
-        setIsFirstLoad(false);
-      })();
+        (() => {
+          showSnackbar(refunds.message, "success");
+          setIsFirstLoad(false);
+        })();
 
       setTableData(refunds.data);
       setSaleCodes(refunds.saleCodes);
       setCount(refunds.largo);
     } catch (error) {
+      setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
     } finally {
       setIsLoading(false); // Establecer el estado de carga a falso
@@ -55,18 +58,24 @@ const Refunds = () => {
 
   return (
     <>
-      <MainLayout
-        data={tableData}
-        fetchData={fetchData}
-        setFormProps={setFormProps}
-        toggleForm={() => setOpenForm(!openForm)}
-      />
-      {openForm && (
-        <RefundForm
-          {...formProps}
-          closeForm={() => setOpenForm(false)}
-          saleCodes={saleCodes}
-        />
+      {!error ? (
+        <>
+          <MainLayout
+            data={tableData}
+            fetchData={fetchData}
+            setFormProps={setFormProps}
+            toggleForm={() => setOpenForm(!openForm)}
+          />
+          {openForm && (
+            <RefundForm
+              {...formProps}
+              closeForm={() => setOpenForm(false)}
+              saleCodes={saleCodes}
+            />
+          )}
+        </>
+      ) : (
+        <Reload errorMessage={error} />
       )}
     </>
   );

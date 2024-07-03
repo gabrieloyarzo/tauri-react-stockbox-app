@@ -5,6 +5,7 @@ import { useSnackbar } from "../../context/SnackbarContext";
 import ProviderApi from "../../services/api/provider.service";
 import MainLayout from "../templates/MainLayout";
 import ProviderForm from "../organisms/forms/ProviderForm";
+import Reload from "../molecules/Reload";
 
 const Providers = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
@@ -12,6 +13,7 @@ const Providers = () => {
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setCurrentTable("providers");
@@ -20,6 +22,7 @@ const Providers = () => {
   const [tableData, setTableData] = useState(null);
 
   const fetchData = async (props) => {
+    setError(null);
     setIsLoading(true); // Establecer el estado de carga a verdadero
     try {
       const providers = await ProviderApi.getAllProviders(props);
@@ -32,6 +35,7 @@ const Providers = () => {
       setTableData(providers.data);
       setCount(providers.largo);
     } catch (error) {
+      setError(error.response.data.message);
       showSnackbar(error.response.data.message, "error");
     } finally {
       setIsLoading(false); // Establecer el estado de carga a falso
@@ -52,14 +56,20 @@ const Providers = () => {
 
   return (
     <>
-      <MainLayout
-        data={tableData}
-        fetchData={fetchData}
-        setFormProps={setFormProps}
-        toggleForm={() => setOpenForm(!openForm)}
-      />
-      {openForm && (
-        <ProviderForm {...formProps} closeForm={() => setOpenForm(false)} />
+      {!error ? (
+        <>
+          <MainLayout
+            data={tableData}
+            fetchData={fetchData}
+            setFormProps={setFormProps}
+            toggleForm={() => setOpenForm(!openForm)}
+          />
+          {openForm && (
+            <ProviderForm {...formProps} closeForm={() => setOpenForm(false)} />
+          )}
+        </>
+      ) : (
+        <Reload errorMessage={error} />
       )}
     </>
   );
