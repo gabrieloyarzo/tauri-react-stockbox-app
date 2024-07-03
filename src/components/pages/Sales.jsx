@@ -19,7 +19,7 @@ const Sales = () => {
   useEffect(() => {
     setCurrentTable("sales");
     setFilterCategories(Object.values(iSales));
-  }, [setCurrentTable]);
+  }, []);
 
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
@@ -49,7 +49,14 @@ const Sales = () => {
   };
 
   useEffect(() => {
-    fetchData(filterProps);
+    if (isFirstLoad) {
+      if (JSON.stringify(filterProps) === "{}") {
+        fetchData(filterProps);
+      }
+    }
+    else {
+      fetchData(filterProps);
+    }
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);

@@ -4,7 +4,7 @@ const API_URL = `${import.meta.env.VITE_API_URL}/refunds`;
 
 const RefundApi = {
   async getAllRefunds({
-    dato = "idr",
+    dato = "cod",
     orden = "asc",
     offset = 0,
     limit = 10,

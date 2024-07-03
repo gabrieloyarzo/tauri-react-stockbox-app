@@ -49,7 +49,14 @@ const Products = () => {
   };
 
   useEffect(() => {
-    fetchData(filterProps);
+    if (isFirstLoad) {
+      if (JSON.stringify(filterProps) === "{}") {
+        fetchData(filterProps);
+      }
+    }
+    else {
+      fetchData(filterProps);
+    }
   }, [filterProps]);
 
   // Forms

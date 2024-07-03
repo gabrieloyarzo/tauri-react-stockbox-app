@@ -21,7 +21,7 @@ const Purchases = () => {
   useEffect(() => {
     setCurrentTable("purchases");
     setFilterCategories(Object.values(iPurchase));
-  }, [setCurrentTable]);
+  }, []);
 
   // Table related
   const [tableData, setTableData] = useState(null);
@@ -53,7 +53,14 @@ const Purchases = () => {
   };
 
   useEffect(() => {
-    fetchData(filterProps);
+    if (isFirstLoad) {
+      if (JSON.stringify(filterProps) === "{}") {
+        fetchData(filterProps);
+      }
+    }
+    else {
+      fetchData(filterProps);
+    }
   }, [filterProps]);
 
   // Forms

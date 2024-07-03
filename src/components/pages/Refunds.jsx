@@ -19,7 +19,7 @@ const Refunds = () => {
   useEffect(() => {
     setCurrentTable("refunds");
     setFilterCategories(Object.values(iRefund));
-  }, [setCurrentTable]);
+  }, []);
 
   // Table related
   const [tableData, setTableData] = useState(null);
@@ -48,7 +48,14 @@ const Refunds = () => {
   };
 
   useEffect(() => {
-    fetchData(filterProps);
+    if (isFirstLoad) {
+      if (JSON.stringify(filterProps) === "{}") {
+        fetchData(filterProps);
+      }
+    }
+    else {
+      fetchData(filterProps);
+    }
   }, [filterProps]);
 
   // Forms

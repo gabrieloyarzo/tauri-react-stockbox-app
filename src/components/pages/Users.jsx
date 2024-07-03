@@ -45,7 +45,14 @@ const Users = () => {
   };
 
   useEffect(() => {
-    fetchData(filterProps);
+    if (isFirstLoad) {
+      if (JSON.stringify(filterProps) === "{}") {
+        fetchData(filterProps);
+      }
+    }
+    else {
+      fetchData(filterProps);
+    }
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);

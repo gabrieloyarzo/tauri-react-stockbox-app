@@ -4,7 +4,7 @@ const API_URL = `${import.meta.env.VITE_API_URL}/purchases`;
 
 const PurchaseApi = {
   async getAllPurchases({
-    dato = "idpu",
+    dato = "cod",
     orden = "asc",
     offset = 0,
     limit = 10,

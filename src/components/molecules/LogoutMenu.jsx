@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import { Input } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   minHeight: "50px",
@@ -91,7 +91,7 @@ const LogoutMenu = ({ isSmallScreen }) => {
         sx={{ justifyContent: isSmallScreen ? "center" : "left" }}
       >
         <Box display="flex" alignItems="center">
-          <Input />
+          <Logout />
           {!isSmallScreen && <Box ml={1}>Cerrar sesión</Box>}
         </Box>
       </StyledButton>

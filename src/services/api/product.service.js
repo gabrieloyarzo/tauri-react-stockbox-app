@@ -4,14 +4,15 @@ const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 const ProductApi = {
   async getAllProducts({
-    dato = "idp",
+    dato = "cod",
     orden = "asc",
     offset = 0,
     limit = 10,
+    texto = "",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&texto=${texto}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

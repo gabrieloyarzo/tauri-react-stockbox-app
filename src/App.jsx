@@ -42,8 +42,8 @@ const App = () => {
 
   return (
     <ThemeProvider theme={themeMode === "dark" ? darkTheme : lightTheme}>
-      <GlobalContextProvider>
-        <Router>
+      <Router>
+        <GlobalContextProvider>
           <Routes>
             <Route
               path="/*"
@@ -55,8 +55,8 @@ const App = () => {
             />
             <Route path="/login" element={<Login />} />
           </Routes>
-        </Router>
-      </GlobalContextProvider>
+        </GlobalContextProvider>
+      </Router>
     </ThemeProvider>
   );
 };

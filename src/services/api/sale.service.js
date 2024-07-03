@@ -4,7 +4,7 @@ const API_URL = `${import.meta.env.VITE_API_URL}/sales`;
 
 const SaleApi = {
   async getAllSales({
-    dato = "ids",
+    dato = "cod",
     orden = "asc",
     offset = 0,
     limit = 10,

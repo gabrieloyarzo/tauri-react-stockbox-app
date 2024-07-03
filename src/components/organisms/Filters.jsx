@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
+import { adapter } from "../../functions/adapter";
 
 const isDateTable = (currentTable) => {
   return (
@@ -24,13 +25,19 @@ const isDateTable = (currentTable) => {
 
 const Filters = () => {
   const theme = useTheme();
-  const { setFilterProps } = useFilter();
-  const { currentTable } = useTable();
+  const { setFilterProps, filterCategories } = useFilter();
+  const { currentTable, isLoading } = useTable();
 
   const [desde, setDesde] = useState(new Date());
   const [hasta, setHasta] = useState(new Date());
   const [busqueda, setBusqueda] = useState("");
   const [timeoutId, setTimeoutId] = useState(null);
+  const [category, setCategory] = useState(filterCategories[0]);
+
+  const handleChangeCategory = (e) => {
+    const category = e.target.value;
+    setCategory(category);
+  };
 
   const handleChangeDesde = (e) => {
     const date = e.target.value;
@@ -61,6 +68,7 @@ const Filters = () => {
     const newTimeoutId = setTimeout(() => {
       setFilterProps((prevProps) => ({
         ...prevProps,
+        dato: category,
         texto: search,
       }));
     }, 500);
@@ -83,8 +91,10 @@ const Filters = () => {
           <InputLabel id="categoria">Categoría</InputLabel>
           <Select
             labelId="categoria"
-            defaultValue="all"
+            defaultValue={adapter(filterCategories[0], currentTable)} 
             label="Categoría"
+            onChange={handleChangeCategory}
+            disabled={isLoading}
             sx={{
               boxShadow: theme.shadows[3],
               height: "2.5rem",
@@ -94,10 +104,9 @@ const Filters = () => {
               },
             }}
           >
-            <MenuItem value="all">Todas</MenuItem>
-            <MenuItem value={10}>Mueble</MenuItem>
-            <MenuItem value={20}>Eléctrico</MenuItem>
-            <MenuItem value={30}>Electrónico</MenuItem>
+            {filterCategories.map((item) => (
+              <MenuItem value={adapter(item, currentTable)}>{item}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Stack>
@@ -108,6 +117,7 @@ const Filters = () => {
             labelId="ordenar"
             defaultValue="recent"
             label="Ordenar por"
+            disabled={isLoading}
             sx={{
               boxShadow: theme.shadows[3],
               height: "2.5rem",
@@ -130,6 +140,7 @@ const Filters = () => {
             type="date"
             value={desde}
             onChange={handleChangeDesde}
+            disabled={isLoading}
             InputLabelProps={{
               shrink: true,
             }}
@@ -157,6 +168,7 @@ const Filters = () => {
             type="date"
             value={hasta}
             onChange={handleChangeHasta}
+            disabled={isLoading}
             InputLabelProps={{
               shrink: true,
             }}

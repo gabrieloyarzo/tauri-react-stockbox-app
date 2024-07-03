@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
+import { useLocation } from "react-router-dom";
 
 export const FilterContext = createContext();
 
@@ -12,6 +13,8 @@ const FilterContextProvider = ({ children }) => {
   const [count, setCount] = useState(0);
   const [filterCategories, setFilterCategories] = useState([]);
 
+  const location = useLocation();
+
   useEffect(() => {
     setFilterProps((prevProps) => ({
       ...prevProps,
@@ -24,6 +27,13 @@ const FilterContextProvider = ({ children }) => {
       setPage(!(page <= 1) ? Math.ceil(count / 10) : 1);
     }
   }, [count]);
+
+  useEffect(() => {
+    setFilterProps({});
+    setPage(1);
+    setCount(0);
+    setFilterCategories([]);
+  }, [location.pathname]);
 
   return (
     <FilterContext.Provider

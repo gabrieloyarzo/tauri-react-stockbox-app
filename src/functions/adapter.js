@@ -7,21 +7,21 @@ import {
   iRefund,
 } from "./dataStructure";
 
-export const adapter = (columns, currentTable) => {
+export const adapter = (value, currentTable) => {
   switch (currentTable) {
     case "products":
-      return columns.map((item) => iProduct[item]).filter(Boolean);
+      return Object.keys(iProduct).find((key) => iProduct[key] === value);
     case "users":
-      return columns.map((item) => iUser[item]).filter(Boolean);
+      return Object.keys(iUser).find((key) => iUser[key] === value);
     case "purchases":
-      return columns.map((item) => iPurchase[item]).filter(Boolean);
+      return Object.keys(iPurchase).find((key) => iPurchase[key] === value);
     case "providers":
-      return columns.map((item) => iProvider[item]).filter(Boolean);
+      return Object.keys(iProvider).find((key) => iProvider[key] === value);
     case "sales":
-      return columns.map((item) => iSales[item]).filter(Boolean);
+      return Object.keys(iSales).find((key) => iSales[key] === value);
     case "refunds":
-      return columns.map((item) => iRefund[item]).filter(Boolean);
+      return Object.keys(iRefund).find((key) => iRefund[key] === value);
     default:
-      return columns;
+      return value;
   }
 };
