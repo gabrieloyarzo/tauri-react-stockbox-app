@@ -5,6 +5,7 @@ import { useSnackbar } from "../../context/SnackbarContext";
 import RefundApi from "../../services/api/refund.service";
 import MainLayout from "../templates/MainLayout";
 import RefundForm from "../organisms/forms/RefundForm";
+import Reload from "../molecules/Reload";
 
 const Refunds = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();

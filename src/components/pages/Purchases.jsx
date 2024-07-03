@@ -6,6 +6,7 @@ import { useSnackbar } from "../../context/SnackbarContext";
 import PurchaseApi from "../../services/api/purchase.service";
 import MainLayout from "../templates/MainLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
+import Reload from "../molecules/Reload";
 
 const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();

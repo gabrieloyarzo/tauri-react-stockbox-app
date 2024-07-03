@@ -5,6 +5,7 @@ import { useSnackbar } from "../../context/SnackbarContext";
 import SaleApi from "../../services/api/sale.service";
 import MainLayout from "../templates/MainLayout";
 import SaleForm from "../organisms/forms/SaleForm";
+import Reload from "../molecules/Reload";
 
 const Sales = () => {
   const { currentTable, setCurrentTable, setIsLoading } = useTable();
