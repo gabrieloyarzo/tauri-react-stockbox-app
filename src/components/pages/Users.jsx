@@ -17,7 +17,7 @@ const Users = () => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(
     localStorage.getItem("users_page")
-      ? parseInt(localStorage.getItem("users_page"))
+      ? Number(localStorage.getItem("users_page"))
       : 1
   );
 
@@ -79,12 +79,6 @@ const Users = () => {
   useEffect(() => {
     fetchData(filterProps);
   }, [filterProps]);
-
-  useEffect(() => {
-    if (page > Math.ceil(count / 10)) {
-      setPage(!(page <= 1) ? Math.ceil(count / 10) : 1);
-    }
-  }, [count]);
 
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});

@@ -17,7 +17,7 @@ const Providers = () => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(
     localStorage.getItem("providers_page")
-      ? parseInt(localStorage.getItem("providers_page"))
+      ? Number(localStorage.getItem("providers_page"))
       : 1
   );
 
@@ -79,12 +79,6 @@ const Providers = () => {
   useEffect(() => {
     fetchData(filterProps);
   }, [filterProps]);
-
-  useEffect(() => {
-    if (page > Math.ceil(count / 10)) {
-      setPage(!(page <= 1) ? Math.ceil(count / 10) : 1);
-    }
-  }, [count]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);

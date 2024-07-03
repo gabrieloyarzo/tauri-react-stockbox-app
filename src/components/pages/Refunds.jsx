@@ -17,7 +17,7 @@ const Refunds = () => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(
     localStorage.getItem("refunds_page")
-      ? parseInt(localStorage.getItem("refunds_page"))
+      ? Number(localStorage.getItem("refunds_page"))
       : 1
   );
 
@@ -82,12 +82,6 @@ const Refunds = () => {
   useEffect(() => {
     fetchData(filterProps);
   }, [filterProps]);
-
-  useEffect(() => {
-    if (page > Math.ceil(count / 10)) {
-      setPage(!(page <= 1) ? Math.ceil(count / 10) : 1);
-    }
-  }, [count]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
