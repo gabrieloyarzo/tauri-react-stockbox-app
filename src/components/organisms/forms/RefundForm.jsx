@@ -26,7 +26,7 @@ import {
   isEmptyArrayWithObjects,
 } from "../../../functions/helpers";
 import SaleApi from "../../../services/api/sale.service";
-import { formatRut } from "../../../functions/formatRut";
+import { formatRut } from "../../../functions/format";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",

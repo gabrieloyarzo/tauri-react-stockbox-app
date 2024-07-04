@@ -30,7 +30,8 @@ import {
 } from "../../../functions/helpers";
 import PurchaseApi from "../../../services/api/purchase.service";
 import ProviderForm from "./ProviderForm";
-import { formatRut } from "../../../functions/formatRut";
+import { formatRut, formatNumber } from "../../../functions/format";
+import { isNumberField, isRutField } from "../../../functions/typeFields";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -101,17 +102,11 @@ const PurchaseForm = ({
   const [itemErrors, setItemErrors] = useState([{}]);
 
   const handleChange = (e) => {
-    if (e.target.name === "rutp") {
-      setFormData({
-        ...formData,
-        [e.target.name]: formatRut(e.target.value),
-      });
-      return;
-    }
-
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: isRutField(e.target.name)
+        ? formatRut(e.target.value)
+        : e.target.value,
     });
   };
 
@@ -125,7 +120,10 @@ const PurchaseForm = ({
   };
 
   const handleChangeItem = (index, e) => {
-    const { name, value } = e.target;
+    const name = e.target.name;
+    const value = isNumberField(name)
+      ? formatNumber(e.target.value)
+      : e.target.value;
 
     setPurchaseItems((prevItems) =>
       prevItems.map((row, i) =>
@@ -559,7 +557,6 @@ const PurchaseForm = ({
                     name="cit"
                     value={row.cit}
                     onChange={(e) => handleChangeItem(index, e)}
-                    type="number"
                     error={!!itemErrors[index]?.cit}
                     sx={{ alignItems: "center", flex: 1 }}
                     InputProps={{
@@ -577,7 +574,6 @@ const PurchaseForm = ({
                       name="precio"
                       value={row.precio}
                       onChange={(e) => handleChangeItem(index, e)}
-                      type="number"
                       error={!!itemErrors[index]?.precio}
                       sx={{ alignItems: "left" }}
                       InputProps={{

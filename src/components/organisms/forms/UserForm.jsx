@@ -19,7 +19,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateUser } from "../../../services/validation/userValidation";
 import { isEmptyObject } from "../../../functions/helpers";
-import { formatRut } from "../../../functions/formatRut";
+import { formatRut } from "../../../functions/format";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",

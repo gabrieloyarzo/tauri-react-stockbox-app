@@ -9,7 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import { validateProvider } from "../../../services/validation/providerValidation";
 import { isEmptyObject } from "../../../functions/helpers";
-import { formatRut } from "../../../functions/formatRut";
+import { formatRut } from "../../../functions/format";
 import ProviderApi from "../../../services/api/provider.service";
 import LoadingButton from "@mui/lab/LoadingButton";
 

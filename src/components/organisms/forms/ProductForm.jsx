@@ -16,6 +16,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateProduct } from "../../../services/validation/productValidation";
 import { isEmptyObject } from "../../../functions/helpers";
+import { formatNumber } from "../../../functions/format";
+import { isNumberField } from "../../../functions/typeFields";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -50,7 +52,9 @@ const ProductForm = ({
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: isNumberField(e.target.name)
+        ? formatNumber(e.target.value)
+        : e.target.value,
     });
   };
 

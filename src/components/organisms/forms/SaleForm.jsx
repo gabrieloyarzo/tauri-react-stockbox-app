@@ -26,7 +26,8 @@ import {
   isEmptyArrayWithObjects,
 } from "../../../functions/helpers";
 import SaleApi from "../../../services/api/sale.service";
-import { formatRut } from "../../../functions/formatRut";
+import { formatRut, formatNumber } from "../../../functions/format";
+import { isNumberField } from "../../../functions/typeFields";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -118,7 +119,8 @@ const SaleForm = ({
   };
 
   const handleChangeItem = (index, e) => {
-    const { name, value } = e.target;
+    const name = e.target.name;
+    const value = isNumberField(name) ? formatNumber(e.target.value) : e.target.value;
 
     setSaleItems((prevItems) =>
       prevItems.map((row, i) =>
@@ -479,7 +481,6 @@ const SaleForm = ({
                     name="cit"
                     value={row.cit}
                     onChange={(e) => handleChangeItem(index, e)}
-                    type="number"
                     error={!!itemErrors[index]?.cit}
                     sx={{ alignItems: "center", flex: 1 }}
                     InputProps={{
@@ -497,7 +498,6 @@ const SaleForm = ({
                       name="precio"
                       value={row.precio}
                       onChange={(e) => handleChangeItem(index, e)}
-                      type="number"
                       error={!!itemErrors[index]?.precio}
                       sx={{ alignItems: "left" }}
                       InputProps={{

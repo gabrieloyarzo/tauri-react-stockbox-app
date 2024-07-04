@@ -14,6 +14,8 @@ import {
 import { Search } from "@mui/icons-material";
 import { adapter } from "../../functions/adapter";
 import { invAdapterType } from "../../functions/invAdapterType";
+import { isRutField } from "../../functions/typeFields";
+import { formatRut } from "../../functions/format";
 
 const isDateTable = (currentTable) => {
   return (
@@ -54,6 +56,12 @@ const Filters = ({
   const handleChangeCategory = (e) => {
     const category = e.target.value;
     setCategory(category);
+    if (search !== "") {
+      setFilterProps((prevProps) => ({
+        ...prevProps,
+        dato: category,
+      }));
+    }
   };
 
   const handleChangeDesde = (e) => {
@@ -75,7 +83,7 @@ const Filters = ({
   };
 
   const handleSearchChange = (e) => {
-    const search = e.target.value;
+    const search = isRutField(category) ? formatRut(e.target.value) : e.target.value;
     setBusqueda(search);
 
     let number = "";
@@ -222,6 +230,9 @@ const Filters = ({
           placeholder="Buscar..."
           value={busqueda}
           onChange={handleSearchChange}
+          inputProps={{
+            maxLength: isRutField(category) && 12,
+          }}
           InputProps={{
             startAdornment: (
               <InputAdornment

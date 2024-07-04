@@ -15,7 +15,8 @@ import {
 import { auxDelete } from "../../functions/auxDelete";
 import { deleteDialogTitleAndContext } from "../../functions/dialogTitleAndContext";
 import { formatNumber } from "../../functions/helpers";
-import { formatDateToSpanish } from "../../functions/formatDate";
+import { formatDateToSpanish } from "../../functions/format";
+import { isMoneyField } from "../../functions/typeFields";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -142,7 +143,7 @@ const TableRows = ({
                       !Array.isArray(obj[column]) &&
                       (typeof obj[column] === "number" ? (
                         <TableCell key={index} sx={{ textAlign: "right" }}>
-                          {formatNumber(obj[column])}
+                          {isMoneyField(column) ? `$ ${formatNumber(obj[column])}` : formatNumber(obj[column])}
                         </TableCell>
                       ) : (
                         <TableCell key={index}>{obj[column]}</TableCell>

@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { validateLogin } from "../../services/validation/loginValidation";
-import { formatRut } from "../../functions/formatRut";
+import { formatRut } from "../../functions/format";
 
 const Login = () => {
   const theme = useTheme();
