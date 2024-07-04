@@ -15,7 +15,7 @@ const Purchases = () => {
   const { setProviders } = useVariables();
   const { showSnackbar } = useSnackbar();
 
-  const purchasesPage = localStorage.getItem("products_page");
+  const purchasesPage = localStorage.getItem("purchases_page");
   const parsedPurchasesPage = purchasesPage !== null ? Number(purchasesPage) : 1;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);

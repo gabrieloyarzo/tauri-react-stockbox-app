@@ -12,7 +12,7 @@ const Providers = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
-  const providersPage = localStorage.getItem("products_page");
+  const providersPage = localStorage.getItem("providers_page");
   const parsedProvidersPage = providersPage !== null ? Number(providersPage) : 1;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);

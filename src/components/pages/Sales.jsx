@@ -12,7 +12,7 @@ const Sales = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
-  const salesPage = localStorage.getItem("products_page");
+  const salesPage = localStorage.getItem("sales_page");
   const parsedSalesPage = salesPage !== null ? Number(salesPage) : 1;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);

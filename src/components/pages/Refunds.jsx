@@ -12,7 +12,7 @@ const Refunds = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
-  const refundsPage = localStorage.getItem("products_page");
+  const refundsPage = localStorage.getItem("refunds_page");
   const parsedRefundsPage = refundsPage !== null ? Number(refundsPage) : 1;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
