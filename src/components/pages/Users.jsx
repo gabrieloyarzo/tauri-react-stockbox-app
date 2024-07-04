@@ -12,14 +12,13 @@ const Users = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
+  const usersPage = localStorage.getItem("products_page");
+  const parsedUsersPage = usersPage !== null ? Number(usersPage) : 1;
+
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(
-    localStorage.getItem("users_page")
-      ? Number(localStorage.getItem("users_page"))
-      : 1
-  );
+  const [page, setPage] = useState(parsedUsersPage);
 
   // Filters
   const [filterProps, setFilterProps] = useState(
@@ -83,7 +82,7 @@ const Users = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (currentTable !== "users") {
+  if (isFirstLoad && (currentTable !== "users" || page !== parsedUsersPage)) {
     return null;
   }
 

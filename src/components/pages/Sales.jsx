@@ -12,14 +12,13 @@ const Sales = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
+  const salesPage = localStorage.getItem("products_page");
+  const parsedSalesPage = salesPage !== null ? Number(salesPage) : 1;
+
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(
-    localStorage.getItem("sales_page")
-      ? Number(localStorage.getItem("sales_page"))
-      : 1
-  );
+  const [page, setPage] = useState(parsedSalesPage);
 
   // Filters
   const [filterProps, setFilterProps] = useState(
@@ -87,7 +86,7 @@ const Sales = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (currentTable !== "sales") {
+  if (isFirstLoad && (currentTable !== "sales" || page !== parsedSalesPage)) {
     return null;
   }
 

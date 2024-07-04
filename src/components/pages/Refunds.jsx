@@ -12,14 +12,13 @@ const Refunds = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
+  const refundsPage = localStorage.getItem("products_page");
+  const parsedRefundsPage = refundsPage !== null ? Number(refundsPage) : 1;
+
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(
-    localStorage.getItem("refunds_page")
-      ? Number(localStorage.getItem("refunds_page"))
-      : 1
-  );
+  const [page, setPage] = useState(parsedRefundsPage);
 
   // Filters
   const [filterProps, setFilterProps] = useState(
@@ -87,7 +86,7 @@ const Refunds = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (currentTable !== "refunds") {
+  if (isFirstLoad && (currentTable !== "refunds" || page !== parsedRefundsPage)) {
     return null;
   }
 
