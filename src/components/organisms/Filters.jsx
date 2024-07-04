@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { adapter } from "../../functions/adapter";
+import { invAdapterType } from "../../functions/invAdapterType";
 
 const isDateTable = (currentTable) => {
   return (
@@ -59,6 +60,15 @@ const Filters = ({ setFilterProps, filterStrings, filterNumbers }) => {
     const search = e.target.value;
     setBusqueda(search);
 
+    let number = "";
+    let texto = "";
+
+    if (invAdapterType(category, currentTable) === "number") {
+      number = search;
+    } else {
+      texto = search;
+    }
+
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
@@ -67,7 +77,8 @@ const Filters = ({ setFilterProps, filterStrings, filterNumbers }) => {
       setFilterProps((prevProps) => ({
         ...prevProps,
         dato: category,
-        texto: search,
+        texto,
+        number,
       }));
     }, 500);
 
@@ -89,7 +100,7 @@ const Filters = ({ setFilterProps, filterStrings, filterNumbers }) => {
           <InputLabel id="categoria">Categoría</InputLabel>
           <Select
             labelId="categoria"
-            defaultValue={adapter(filterStrings[0], currentTable)} 
+            defaultValue={adapter(filterStrings[0], currentTable)}
             label="Categoría"
             onChange={handleChangeCategory}
             disabled={isLoading}

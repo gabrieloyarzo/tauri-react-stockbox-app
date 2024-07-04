@@ -9,10 +9,11 @@ const ProductApi = {
     offset = 0,
     limit = 10,
     texto = "",
+    number = "",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&texto=${texto}`,
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&texto=${texto}&number=${number}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

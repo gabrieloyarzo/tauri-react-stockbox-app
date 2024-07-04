@@ -4,18 +4,19 @@ const API_URL = `${import.meta.env.VITE_API_URL}/users`;
 
 const UserApi = {
   async getAllUsers({
-    dato = "rutp",
+    dato = "rutu",
     orden = "asc",
     offset = 0,
     limit = 10,
+    texto = "",
   } = {}) {
     try {
       const response = await axios.get(
-          `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}`,
-	  {
-	      headers : {
-                   Authorization: `Bearer ${localStorage.getItem("token")}`,
-	      }
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&texto=${texto}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       return response.data;
@@ -27,12 +28,11 @@ const UserApi = {
 
   async getUser(userId) {
     try {
-	const response = await axios.get(`${API_URL}/${userId}`,
-	 {
-	     headers : {
-    		 Authorization: `Bearer ${localStorage.getItem("token")}`,
-	     }
-     });
+      const response = await axios.get(`${API_URL}/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener usuario:", error);
@@ -42,10 +42,10 @@ const UserApi = {
 
   async createUser(userData) {
     try {
-	const response = await axios.post(`${API_URL}/create`, userData, {
+      const response = await axios.post(`${API_URL}/create`, userData, {
         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       return response.data;
@@ -59,11 +59,11 @@ const UserApi = {
     try {
       const response = await axios.put(
         `${API_URL}/${userId}/edit`,
-          updatedUserData,
+        updatedUserData,
         {
           headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -76,7 +76,7 @@ const UserApi = {
 
   async deleteUser(userId) {
     try {
-	const response = await axios.delete(`${API_URL}/${userId}/delete`, {
+      const response = await axios.delete(`${API_URL}/${userId}/delete`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

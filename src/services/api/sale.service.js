@@ -11,10 +11,11 @@ const SaleApi = {
     desde = "",
     hasta = "",
     texto = "",
+    number = "",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}`,
+        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}&number=${number}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
