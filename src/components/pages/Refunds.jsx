@@ -20,13 +20,6 @@ const Refunds = () => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(parsedRefundsPage);
 
-  // Filters
-  const [filterProps, setFilterProps] = useState(
-    JSON.parse(localStorage.getItem("refunds_fprops")) ?? {
-      offset: (page - 1) * 10,
-    }
-  );
-
   // Filters strings
   const filterStrings = Object.values(iRefund)
     .filter((item) => item[1] === "string")
@@ -36,6 +29,14 @@ const Refunds = () => {
   const filterNumbers = Object.values(iRefund)
     .filter((item) => item[1] === "number")
     .map((item) => item[0]);
+
+  // Filters
+  const [filterProps, setFilterProps] = useState(
+    JSON.parse(localStorage.getItem("refunds_fprops")) ?? {
+      offset: (page - 1) * 10,
+      dato: "cod",
+    }
+  );
 
   useEffect(() => {
     setTableColumns(Object.values(iRefund).map((item) => item[0]));
@@ -86,7 +87,10 @@ const Refunds = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (isFirstLoad && (currentTable !== "refunds" || page !== parsedRefundsPage)) {
+  if (
+    isFirstLoad &&
+    (currentTable !== "refunds" || page !== parsedRefundsPage)
+  ) {
     return null;
   }
 

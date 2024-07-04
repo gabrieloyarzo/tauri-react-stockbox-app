@@ -16,19 +16,13 @@ const Purchases = () => {
   const { showSnackbar } = useSnackbar();
 
   const purchasesPage = localStorage.getItem("purchases_page");
-  const parsedPurchasesPage = purchasesPage !== null ? Number(purchasesPage) : 1;
+  const parsedPurchasesPage =
+    purchasesPage !== null ? Number(purchasesPage) : 1;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(parsedPurchasesPage);
-
-  // Filters
-  const [filterProps, setFilterProps] = useState(
-    JSON.parse(localStorage.getItem("purchases_fprops")) ?? {
-      offset: (page - 1) * 10,
-    }
-  );
 
   // Filters strings
   const filterStrings = Object.values(iPurchase)
@@ -39,6 +33,14 @@ const Purchases = () => {
   const filterNumbers = Object.values(iPurchase)
     .filter((item) => item[1] === "number")
     .map((item) => item[0]);
+
+  // Filters
+  const [filterProps, setFilterProps] = useState(
+    JSON.parse(localStorage.getItem("purchases_fprops")) ?? {
+      offset: (page - 1) * 10,
+      dato: "cod",
+    }
+  );
 
   useEffect(() => {
     setTableColumns(Object.values(iPurchase).map((item) => item[0]));
@@ -92,7 +94,10 @@ const Purchases = () => {
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (isFirstLoad && (currentTable !== "purchases" || page !== parsedPurchasesPage)) {
+  if (
+    isFirstLoad &&
+    (currentTable !== "purchases" || page !== parsedPurchasesPage)
+  ) {
     return null;
   }
 

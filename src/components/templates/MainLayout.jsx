@@ -33,6 +33,7 @@ const MainLayout = ({
             <SkeletonFilters />
           ) : (
             <Filters
+              filterProps={filterProps}
               setFilterProps={setFilterProps}
               filterStrings={filterStrings}
               filterNumbers={filterNumbers}

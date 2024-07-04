@@ -20,13 +20,6 @@ const Providers = () => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(parsedProvidersPage);
 
-  // Filters
-  const [filterProps, setFilterProps] = useState(
-    JSON.parse(localStorage.getItem("providers_fprops")) ?? {
-      offset: (page - 1) * 10,
-    }
-  );
-
   // Filters strings
   const filterStrings = Object.values(iProvider)
     .filter((item) => item[1] === "string")
@@ -36,6 +29,14 @@ const Providers = () => {
   const filterNumbers = Object.values(iProvider)
     .filter((item) => item[1] === "number")
     .map((item) => item[0]);
+
+  // Filters
+  const [filterProps, setFilterProps] = useState(
+    JSON.parse(localStorage.getItem("providers_fprops")) ?? {
+      offset: (page - 1) * 10,
+      dato: "rutp",
+    }
+  );
 
   useEffect(() => {
     setTableColumns(Object.values(iProvider).map((item) => item[0]));

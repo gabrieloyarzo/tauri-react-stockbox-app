@@ -23,15 +23,33 @@ const isDateTable = (currentTable) => {
   );
 };
 
-const Filters = ({ setFilterProps, filterStrings, filterNumbers }) => {
+const Filters = ({
+  filterProps,
+  setFilterProps,
+  filterStrings,
+  filterNumbers,
+}) => {
   const theme = useTheme();
   const { currentTable, isLoading } = useTable();
 
-  const [desde, setDesde] = useState(new Date());
-  const [hasta, setHasta] = useState(new Date());
-  const [busqueda, setBusqueda] = useState("");
+  const search =
+    filterProps?.texto !== "" ||
+    filterProps?.texto !== null ||
+    filterProps?.texto !== undefined
+      ? filterProps?.texto
+      : filterProps?.number !== "" ||
+        filterProps?.number !== null ||
+        filterProps?.number !== undefined
+      ? filterProps?.number
+      : "";
+
+  const [desde, setDesde] = useState(filterProps?.desde ?? new Date());
+  const [hasta, setHasta] = useState(filterProps?.hasta ?? new Date());
+  const [busqueda, setBusqueda] = useState(search);
   const [timeoutId, setTimeoutId] = useState(null);
-  const [category, setCategory] = useState(filterStrings[0]);
+  const [category, setCategory] = useState(filterProps?.dato);
+
+  console.log(filterProps?.dato);
 
   const handleChangeCategory = (e) => {
     const category = e.target.value;
@@ -100,7 +118,7 @@ const Filters = ({ setFilterProps, filterStrings, filterNumbers }) => {
           <InputLabel id="categoria">Categoría</InputLabel>
           <Select
             labelId="categoria"
-            defaultValue={adapter(filterStrings[0], currentTable)}
+            defaultValue={category}
             label="Categoría"
             onChange={handleChangeCategory}
             disabled={isLoading}

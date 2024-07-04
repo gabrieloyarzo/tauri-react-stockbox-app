@@ -20,13 +20,6 @@ const Users = () => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(parsedUsersPage);
 
-  // Filters
-  const [filterProps, setFilterProps] = useState(
-    JSON.parse(localStorage.getItem("users_fprops")) ?? {
-      offset: (page - 1) * 10,
-    }
-  );
-
   // Filters strings
   const filterStrings = Object.values(iUser)
     .filter((item) => item[1] === "string")
@@ -36,6 +29,14 @@ const Users = () => {
   const filterNumbers = Object.values(iUser)
     .filter((item) => item[1] === "number")
     .map((item) => item[0]);
+
+  // Filters
+  const [filterProps, setFilterProps] = useState(
+    JSON.parse(localStorage.getItem("users_fprops")) ?? {
+      offset: (page - 1) * 10,
+      dato: "rutu",
+    }
+  );
 
   useEffect(() => {
     setTableColumns(Object.values(iUser).map((item) => item[0]));
