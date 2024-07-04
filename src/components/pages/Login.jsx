@@ -16,6 +16,7 @@ import {
   Grid,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import LoginIcon from "@mui/icons-material/Login";
 import { validateLogin } from "../../services/validation/loginValidation";
 import { formatRut } from "../../functions/format";
 
@@ -203,6 +204,7 @@ const Login = () => {
                       variant="contained"
                       loading={loading}
                       loadingPosition="end"
+                      endIcon={<LoginIcon />}
                       type="submit"
                       sx={{ width: "50%" }}
                       autoFocus

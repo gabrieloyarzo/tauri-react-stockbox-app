@@ -45,3 +45,17 @@ export function formatRut(rut) {
 
   return (formattedBody + "-" + dv);
 }
+
+export const formatNumberWithMax = (number, max) => {
+  let cleanNumber = number.replace(/[^0-9]/g, "");
+
+  if (cleanNumber.startsWith("0")) {
+    cleanNumber = cleanNumber.slice(1);
+  }
+
+  if (cleanNumber > max) {
+    cleanNumber = max;
+  }
+
+  return cleanNumber;
+};
