@@ -19,6 +19,7 @@ import { formatDateToSpanish } from "../../functions/format";
 import { isMoneyField } from "../../functions/typeFields";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoopIcon from "@mui/icons-material/Loop";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RenderModal from "../../functions/renderModal";
 import CustomTableChip from "../atoms/custom-ui/CustomTableChip";
@@ -69,6 +70,11 @@ const TableRows = ({
       closeModal: () => setActiveModal(false),
     });
     setActiveModal(true);
+  };
+
+  const handleRefund = (sale) => {
+    // TODO: Create refund
+    console.log(sale);
   };
 
   const handleEdit = (obj) => {
@@ -171,6 +177,27 @@ const TableRows = ({
                   })}
               <TableCell key="options" sx={{ textAlign: "center" }}>
                 <div>
+                {currentTable === "sales" && (
+                    <IconButton
+                      onClick={() => handleRefund(obj)}
+                      sx={{
+                        borderRadius: ".25em",
+                        color: "secondary.contrastText",
+                        "&:hover": {
+                          backgroundColor: "#C3FA7B",
+                        },
+                      }}
+                    >
+                      <Tooltip
+                        title="Crear devolución"
+                        placement="bottom"
+                        arrow
+                        enterDelay={500}
+                      >
+                        <LoopIcon />
+                      </Tooltip>
+                    </IconButton>
+                  )}
                   {dIndexKey && (
                     <IconButton
                       onClick={() => handleDetails(obj)}
