@@ -48,7 +48,7 @@ const TableRows = ({
   filterProps,
 }) => {
   const theme = useTheme();
-  const { currentTable, isLoading } = useTable();
+  const { currentTable, isLoading, tableColumns } = useTable();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
 
@@ -126,46 +126,73 @@ const TableRows = ({
             <CircularProgress />
           </Box>
         )}
-        {data.map((obj, index) => (
-          <TableRow key={index}>
-            {isIdTable(currentTable)
-              ? columns.map(
-                  (column, index) =>
-                    index !== 0 &&
-                    !Array.isArray(obj[column]) &&
-                    (typeof obj[column] === "number" ? (
-                      <TableCell key={index} sx={{ textAlign: "right" }}>
-                        {formatNumber(obj[column])}
-                      </TableCell>
-                    ) : (
-                      <TableCell key={index}>{obj[column]}</TableCell>
-                    ))
-                )
-              : columns.map((column, index) => {
-                  if (column === "rol") {
-                    return (
-                      <TableCell key={index} sx={{ textAlign: "center" }}>
-                        <CustomTableChip role={obj[column]} />
-                      </TableCell>
-                    );
-                  }
-                  if (!Array.isArray(obj[column])) {
-                    return typeof obj[column] === "number" ? (
-                      <TableCell key={index} sx={{ textAlign: "right" }}>
-                        {formatNumber(obj[column])}
-                      </TableCell>
-                    ) : (
-                      <TableCell key={index}>{obj[column]}</TableCell>
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
-            <TableCell key="options" sx={{ textAlign: "center" }}>
-              <div>
-                {dIndexKey && (
+        {data.length === 0 ? (
+          <TableRow>
+            <TableCell colSpan={tableColumns.length + 1} sx={{ textAlign: "center", fontStyle: "italic" }}>
+              Sin resultados
+            </TableCell>
+          </TableRow>
+        ) : (
+          data.map((obj, index) => (
+            <TableRow key={index}>
+              {isIdTable(currentTable)
+                ? columns.map(
+                    (column, index) =>
+                      index !== 0 &&
+                      !Array.isArray(obj[column]) &&
+                      (typeof obj[column] === "number" ? (
+                        <TableCell key={index} sx={{ textAlign: "right" }}>
+                          {formatNumber(obj[column])}
+                        </TableCell>
+                      ) : (
+                        <TableCell key={index}>{obj[column]}</TableCell>
+                      ))
+                  )
+                : columns.map((column, index) => {
+                    if (column === "rol") {
+                      return (
+                        <TableCell key={index} sx={{ textAlign: "center" }}>
+                          <CustomTableChip role={obj[column]} />
+                        </TableCell>
+                      );
+                    }
+                    if (!Array.isArray(obj[column])) {
+                      return typeof obj[column] === "number" ? (
+                        <TableCell key={index} sx={{ textAlign: "right" }}>
+                          {formatNumber(obj[column])}
+                        </TableCell>
+                      ) : (
+                        <TableCell key={index}>{obj[column]}</TableCell>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+              <TableCell key="options" sx={{ textAlign: "center" }}>
+                <div>
+                  {dIndexKey && (
+                    <IconButton
+                      onClick={() => handleDetails(obj)}
+                      sx={{
+                        borderRadius: ".25em",
+                        color: "secondary.contrastText",
+                        "&:hover": {
+                          backgroundColor: "#C3FA7B",
+                        },
+                      }}
+                    >
+                      <Tooltip
+                        title="Ver detalles"
+                        placement="bottom"
+                        arrow
+                        enterDelay={500}
+                      >
+                        <VisibilityIcon />
+                      </Tooltip>
+                    </IconButton>
+                  )}
                   <IconButton
-                    onClick={() => handleDetails(obj)}
+                    onClick={() => handleEdit(obj)}
                     sx={{
                       borderRadius: ".25em",
                       color: "secondary.contrastText",
@@ -175,57 +202,38 @@ const TableRows = ({
                     }}
                   >
                     <Tooltip
-                      title="Ver detalles"
+                      title="Editar"
                       placement="bottom"
                       arrow
                       enterDelay={500}
                     >
-                      <VisibilityIcon />
+                      <EditIcon />
                     </Tooltip>
                   </IconButton>
-                )}
-                <IconButton
-                  onClick={() => handleEdit(obj)}
-                  sx={{
-                    borderRadius: ".25em",
-                    color: "secondary.contrastText",
-                    "&:hover": {
-                      backgroundColor: "#C3FA7B",
-                    },
-                  }}
-                >
-                  <Tooltip
-                    title="Editar"
-                    placement="bottom"
-                    arrow
-                    enterDelay={500}
+                  <IconButton
+                    onClick={() => handleDelete(obj[columns[0]])}
+                    sx={{
+                      borderRadius: ".25em",
+                      color: "secondary.contrastText",
+                      "&:hover": {
+                        backgroundColor: "#C3FA7B",
+                      },
+                    }}
                   >
-                    <EditIcon />
-                  </Tooltip>
-                </IconButton>
-                <IconButton
-                  onClick={() => handleDelete(obj[columns[0]])}
-                  sx={{
-                    borderRadius: ".25em",
-                    color: "secondary.contrastText",
-                    "&:hover": {
-                      backgroundColor: "#C3FA7B",
-                    },
-                  }}
-                >
-                  <Tooltip
-                    title="Borrar"
-                    placement="bottom"
-                    arrow
-                    enterDelay={500}
-                  >
-                    <DeleteIcon />
-                  </Tooltip>
-                </IconButton>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
+                    <Tooltip
+                      title="Borrar"
+                      placement="bottom"
+                      arrow
+                      enterDelay={500}
+                    >
+                      <DeleteIcon />
+                    </Tooltip>
+                  </IconButton>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))
+        )}
       </TableBody>
       {activeModal && (
         <RenderModal currentTable={currentTable} modalProps={modalProps} />
