@@ -6,7 +6,7 @@ const SkeletonFilters = () => {
   const theme = useTheme();
 
   return (
-    <Stack>
+    <Stack spacing="calc(.5vw + .5vh)">
       <Stack height="3vh" direction="row" />
       <Stack direction="row" width="100%" spacing={3} alignItems="center">
         <Box

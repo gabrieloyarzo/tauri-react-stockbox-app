@@ -2,15 +2,19 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useTheme, styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import { Logout } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  Grow,
+  Paper,
+  Popper,
+  MenuItem,
+  MenuList,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { Logout, CheckCircle, Cancel } from "@mui/icons-material";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   minHeight: "50px",
@@ -79,6 +83,11 @@ const LogoutMenu = ({ isSmallScreen }) => {
     prevOpen.current = open;
   }, [open]);
 
+  // Calculate relative offset
+  const relativeOffset = anchorRef.current
+    ? anchorRef.current.getBoundingClientRect().width * 0.1 // 10% of the anchor width
+    : 0;
+
   return (
     <>
       <StyledButton
@@ -88,27 +97,39 @@ const LogoutMenu = ({ isSmallScreen }) => {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
-        sx={{ justifyContent: isSmallScreen ? "center" : "left" }}
+        sx={{ justifyContent: isSmallScreen ? "center" : "left", width: "85%" }}
       >
         <Box display="flex" alignItems="center">
           <Logout />
-          {!isSmallScreen && <Box ml={1}>Cerrar sesión</Box>}
+          {!isSmallScreen && <Box ml={".25em"}>Cerrar sesión</Box>}
         </Box>
       </StyledButton>
       <Popper
         open={open}
         anchorEl={anchorRef.current}
         role={undefined}
-        placement="bottom-start"
+        placement={isSmallScreen ? "right-start" : "bottom-start"}
         transition
         disablePortal
+        modifiers={[
+          {
+            name: "offset",
+            options: {
+              offset: !isSmallScreen && [relativeOffset, 0],
+            },
+          },
+        ]}
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
               transformOrigin:
-                placement === "bottom-start" ? "left top" : "left bottom",
+                placement === "bottom-start"
+                  ? "left top"
+                  : placement === "right-start"
+                  ? "left top"
+                  : "left bottom",
             }}
           >
             <Paper>
@@ -128,6 +149,22 @@ const LogoutMenu = ({ isSmallScreen }) => {
                 >
                   <MenuItem
                     sx={{
+                      color: theme.palette.common.white,
+                      bgcolor: theme.palette.primary.dark,
+                      "&:hover": {
+                        color: theme.palette.common.white,
+                        bgcolor: theme.palette.primary.light,
+                      },
+                    }}
+                    onClick={handleLogout}
+                  >
+                    <ListItemIcon>
+                      <CheckCircle sx={{ color: theme.palette.success.main }} />
+                    </ListItemIcon>
+                    <ListItemText>Confirmar</ListItemText>
+                  </MenuItem>
+                  <MenuItem
+                    sx={{
                       bgcolor: theme.palette.primary.dark,
                       "&:hover": {
                         bgcolor: theme.palette.primary.light,
@@ -136,20 +173,10 @@ const LogoutMenu = ({ isSmallScreen }) => {
                     }}
                     onClick={handleClose}
                   >
-                    Cancelar
-                  </MenuItem>
-                  <MenuItem
-                    sx={{
-                      color: theme.palette.secondary.main,
-                      bgcolor: theme.palette.primary.dark,
-                      "&:hover": {
-                        color: theme.palette.secondary.light,
-                        bgcolor: theme.palette.primary.light,
-                      },
-                    }}
-                    onClick={handleLogout}
-                  >
-                    Confirmar
+                    <ListItemIcon>
+                      <Cancel sx={{ color: theme.palette.error.main }} />
+                    </ListItemIcon>
+                    <ListItemText>Cancelar</ListItemText>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>
