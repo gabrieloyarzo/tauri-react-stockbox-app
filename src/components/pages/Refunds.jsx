@@ -14,6 +14,10 @@ const Refunds = () => {
 
   const refundsPage = localStorage.getItem("refunds_page");
   const parsedRefundsPage = refundsPage !== null ? Number(refundsPage) : 1;
+  const defaultFilterProps = {
+    offset: 0,
+    dato: "cod",
+  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -110,6 +114,7 @@ const Refunds = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
+            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <RefundForm

@@ -14,6 +14,10 @@ const Providers = () => {
 
   const providersPage = localStorage.getItem("providers_page");
   const parsedProvidersPage = providersPage !== null ? Number(providersPage) : 1;
+  const defaultFilterProps = {
+    offset: 0,
+    dato: "rutp",
+  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -104,6 +108,7 @@ const Providers = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
+            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <ProviderForm

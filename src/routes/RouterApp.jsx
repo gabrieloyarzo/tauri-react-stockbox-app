@@ -18,7 +18,7 @@ import Profile from "../components/molecules/Profile";
 const RouterApp = () => {
   return (
     <>
-      <Grid container sx={{ minHeight: "100vh" }}>
+      <Grid container sx={{ minHeight: "98vh" }}>
         <Grid item xs={1} md={2.5}>
           <Sidebar />
         </Grid>
@@ -35,7 +35,6 @@ const RouterApp = () => {
                 direction="row"
                 spacing="2vw"
                 justifyContent="right"
-                marginBottom="2.5rem"
               >
                 <NotificationsPanel />
                 <Profile />

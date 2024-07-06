@@ -65,7 +65,7 @@ const Sidebar = () => {
   return (
     <>
       <Box
-        height="98%"
+        height="100%"
         display="flex"
         flexDirection="column"
         alignItems="center"

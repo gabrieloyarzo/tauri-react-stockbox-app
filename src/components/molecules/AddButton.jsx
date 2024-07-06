@@ -8,8 +8,8 @@ const AddButton = ({ fetchData, toggleForm, setFormProps }) => {
       aria-label="add"
       sx={{
         position: "fixed",
-        bottom: "20px",
-        right: "20px",
+        bottom: ".5rem",
+        right: ".5rem",
         width: "3vw",
         height: "3vw",
         backgroundColor: "#000",

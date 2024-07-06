@@ -14,6 +14,10 @@ const Sales = () => {
 
   const salesPage = localStorage.getItem("sales_page");
   const parsedSalesPage = salesPage !== null ? Number(salesPage) : 1;
+  const defaultFilterProps = {
+    offset: 0,
+    dato: "cod",
+  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -107,6 +111,7 @@ const Sales = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
+            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <SaleForm

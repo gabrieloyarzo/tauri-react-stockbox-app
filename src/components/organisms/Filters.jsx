@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Search } from "@mui/icons-material";
-import { adapter } from "../../core/adapter";
-import { invAdapterType } from "../../core/invAdapterType";
-import { isRutField } from "../../core/typeFields";
-import { formatRut } from "../../core/format";
+import { adapter } from "../../functions/adapter";
+import { invAdapterType } from "../../functions/invAdapterType";
+import { isRutField } from "../../functions/typeFields";
+import { formatRut } from "../../functions/format";
 
 const isDateTable = (currentTable) => {
   return (
@@ -38,27 +38,25 @@ const Filters = ({
   const theme = useTheme();
   const { currentTable, isLoading } = useTable();
 
+  const [desde, setDesde] = useState(new Date());
+  const [hasta, setHasta] = useState(filterProps?.hasta ?? new Date());
+  const [busqueda, setBusqueda] = useState("");
+  const [category, setCategory] = useState(filterProps?.dato);
+
   const { isChanged } = usePropsChanged({
     currentProps: filterProps,
     initialProps: defaultFilterProps,
   });
 
-  const search =
-    filterProps?.texto !== "" ||
-    filterProps?.texto !== null ||
-    filterProps?.texto !== undefined
-      ? filterProps?.texto
-      : filterProps?.number !== "" ||
-        filterProps?.number !== null ||
-        filterProps?.number !== undefined
-      ? filterProps?.number
-      : "";
+  useEffect(() => {
+    filterProps?.texto ? setBusqueda(filterProps?.texto) : "";
+    filterProps?.number ? setBusqueda(filterProps?.number) : "";
+    filterProps?.desde ? setDesde(filterProps?.desde) : setDesde(new Date());
+    filterProps?.hasta ? setHasta(filterProps?.hasta) : setHasta(new Date());
+    filterProps?.dato ? setCategory(filterProps?.dato) : "";
+  }, [filterProps]);
 
-  const [desde, setDesde] = useState(filterProps?.desde ?? new Date());
-  const [hasta, setHasta] = useState(filterProps?.hasta ?? new Date());
-  const [busqueda, setBusqueda] = useState(search);
   const [timeoutId, setTimeoutId] = useState(null);
-  const [category, setCategory] = useState(filterProps?.dato);
 
   const handleChangeCategory = (e) => {
     const category = e.target.value;
@@ -118,15 +116,12 @@ const Filters = ({
   };
 
   const handleClearFilters = () => {
-    setFilterProps({});
-    setBusqueda("");
+    setFilterProps({ ...defaultFilterProps });
   };
 
   return (
     <Stack spacing="calc(.5vw + .5vh)">
-      <Stack
-        direction="row"
-      >
+      <Stack height="3vh"direction="row">
         {isChanged && (
           <Button
             variant="contained"
@@ -136,7 +131,7 @@ const Filters = ({
               fontSize: "calc(.5vw + .5vh)",
               bgcolor: theme.palette.grey[200],
               color: theme.palette.grey[700],
-              boxShadow: theme.shadows[3],
+              boxShadow: theme.shadows[1],
               textTransform: "none",
               ".MuiButton-icon": {
                 width: "calc(1vw + 1vh)",
@@ -152,6 +147,7 @@ const Filters = ({
               "&:hover": {
                 bgcolor: theme.palette.grey[300],
                 color: theme.palette.grey[900],
+                boxShadow: theme.shadows[1],
               },
             }}
             onClick={handleClearFilters}

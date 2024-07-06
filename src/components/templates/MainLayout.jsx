@@ -19,6 +19,7 @@ const MainLayout = ({
   setFilterProps,
   filterStrings,
   filterNumbers,
+  defaultFilterProps,
 }) => {
   return (
     <>
@@ -26,7 +27,7 @@ const MainLayout = ({
         container
         direction="column"
         spacing="1rem"
-        sx={{ minHeight: "90vh" }}
+        sx = {{ minHeight: "95vh" }}
       >
         <Grid item xs={12} md={12}>
           {!data ? (
@@ -37,6 +38,7 @@ const MainLayout = ({
               setFilterProps={setFilterProps}
               filterStrings={filterStrings}
               filterNumbers={filterNumbers}
+              defaultFilterProps={defaultFilterProps}
             />
           )}
         </Grid>
@@ -52,6 +54,7 @@ const MainLayout = ({
                   toggleForm={toggleForm}
                   setFormProps={setFormProps}
                   filterProps={filterProps}
+                  defaultFilterProps={defaultFilterProps}
                 />
               </>
             )}

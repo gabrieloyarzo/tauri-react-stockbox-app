@@ -14,6 +14,10 @@ const Users = () => {
 
   const usersPage = localStorage.getItem("users_page");
   const parsedUsersPage = usersPage !== null ? Number(usersPage) : 1;
+  const defaultFilterProps = {
+    offset: 0,
+    dato: "rutu",
+  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -104,6 +108,7 @@ const Users = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
+            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <UserForm

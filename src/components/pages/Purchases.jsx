@@ -18,6 +18,10 @@ const Purchases = () => {
   const purchasesPage = localStorage.getItem("purchases_page");
   const parsedPurchasesPage =
     purchasesPage !== null ? Number(purchasesPage) : 1;
+  const defaultFilterProps = {
+    offset: 0,
+    dato: "cod",
+  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -117,6 +121,7 @@ const Purchases = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
+            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <PurchaseForm

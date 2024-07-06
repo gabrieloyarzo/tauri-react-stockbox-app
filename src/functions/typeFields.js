@@ -10,7 +10,6 @@ export const isNumberField = (field) => {
   return (
     field === "precio" ||
     field === "total" ||
-    field === "cat" ||
     field === "cit" ||
     field === "mCit" ||
     field === "suma"
