@@ -19,10 +19,10 @@ const RouterApp = () => {
   return (
     <>
       <Grid container sx={{ minHeight: "98vh" }}>
-        <Grid item xs={1} md={2.5}>
+        <Grid item xs={1} md={2.25}>
           <Sidebar />
         </Grid>
-        <Grid item xs={11} md={9.5}>
+        <Grid item xs={11} md={9.75}>
           <Grid
             container
             direction="column"
