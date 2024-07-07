@@ -123,97 +123,114 @@ const Login = () => {
           >
             <Card
               sx={{
-                width: "65%",
+                width: "60%",
+                height: "60%",
                 borderRadius: "1em",
                 bgcolor: theme.palette.background.default,
                 boxShadow: theme.shadows[2],
               }}
             >
-              <Box sx={{ padding: "2rem", margin: 2 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: "bold", textAlign: "center" }}
+              <Stack
+                height="100%"
+                width="100%"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Stack
+                  width="85%"
+                  spacing="calc(1vw + 1vh)"
+                  alignItems="center"
+                  justifyContent="center"
                 >
-                  ¡BIENVENIDO A STOCKBOX!
-                </Typography>
-                <Typography variant="h5" sx={{ textAlign: "center" }}>
-                  Accede a tu cuenta
-                </Typography>
-              </Box>
-              <form onSubmit={handleSubmit}>
-                <Box
-                  sx={{
-                    width: "65%",
-                    margin: "auto",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Stack width="90%" direction="column" spacing={2}>
-                    <TextField
-                      label="RUT"
-                      name="rutu"
-                      value={credentials.rutu}
-                      fullWidth
-                      onChange={handleChange}
-                      error={!!errors.rutu}
-                      helperText={errors.rutu || ""}
-                      inputProps={{
-                        maxLength: 12,
-                      }}
-                      formHelperTextOptions={{
-                        sx: {
-                          minHeight: "1.5em",
-                        },
-                      }}
-                    />
-                    <TextField
-                      label="Contraseña"
-                      type="password"
-                      name="pwd"
-                      onChange={handleChange}
-                      error={!!errors.pwd}
-                      helperText={errors.pwd || ""}
-                      fullWidth
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{
-                            color: "#348d87",
-                            "&.Mui-checked": {
-                              color: "#348d87",
-                            },
-                          }}
-                        />
-                      }
-                      label="Recordar usuario"
-                      checked={checked}
-                      onChange={(e) => setChecked(e.target.checked)}
-                    />
+                  <Stack
+                    sx={{
+                      width: "95%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="h4"
+                      sx={{ fontWeight: "bold", textAlign: "center" }}
+                    >
+                      ¡BIENVENIDO A STOCKBOX!
+                    </Typography>
+                    <Typography variant="h5" sx={{ textAlign: "center" }}>
+                      Accede a tu cuenta
+                    </Typography>
                   </Stack>
                   <Box
+                    component="form"
                     width="100%"
                     display="flex"
+                    flexDirection="column"
+                    alignItems="center"
                     justifyContent="center"
-                    padding="2em"
+                    onSubmit={handleSubmit}
                   >
-                    <LoadingButton
-                      variant="contained"
-                      loading={loading}
-                      loadingPosition="end"
-                      endIcon={<LoginIcon />}
-                      type="submit"
-                      sx={{ width: "50%" }}
-                      autoFocus
+                    <Stack
+                      sx={{
+                        width: "75%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
                     >
-                      INGRESAR
-                    </LoadingButton>
+                      <Stack
+                        width="90%"
+                        direction="column"
+                        spacing="calc(.75vw + .75vh)"
+                      >
+                        <TextField
+                          label="RUT"
+                          name="rutu"
+                          value={credentials.rutu}
+                          fullWidth
+                          onChange={handleChange}
+                          error={!!errors.rutu}
+                          helperText={errors.rutu || ""}
+                          inputProps={{
+                            maxLength: 12,
+                          }}
+                        />
+                        <TextField
+                          label="Contraseña"
+                          type="password"
+                          name="pwd"
+                          onChange={handleChange}
+                          error={!!errors.pwd}
+                          helperText={errors.pwd || ""}
+                          fullWidth
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              sx={{
+                                color: "#348d87",
+                                "&.Mui-checked": {
+                                  color: "#348d87",
+                                },
+                              }}
+                            />
+                          }
+                          label="Recordar usuario"
+                          checked={checked}
+                          onChange={(e) => setChecked(e.target.checked)}
+                        />
+                      </Stack>
+                      <LoadingButton
+                        variant="contained"
+                        loading={loading}
+                        loadingPosition="end"
+                        endIcon={<LoginIcon />}
+                        type="submit"
+                        autoFocus
+                      >
+                        INGRESAR
+                      </LoadingButton>
+                    </Stack>
                   </Box>
-                </Box>
-              </form>
+                </Stack>
+              </Stack>
             </Card>
           </Box>
         </Grid>

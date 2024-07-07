@@ -12,8 +12,7 @@ import {
 } from "../components/pages";
 import Sidebar from "../components/organisms/Sidebar";
 import { Grid, Stack } from "@mui/material";
-import NotificationsPanel from "../components/organisms/NotificationPanel";
-import Profile from "../components/molecules/Profile";
+import HeaderLayout from "../components/templates/HeaderLayout";
 
 const RouterApp = () => {
   return (
@@ -31,14 +30,7 @@ const RouterApp = () => {
             paddingLeft={2}
           >
             <Grid item xs={12} md={12}>
-              <Stack
-                direction="row"
-                spacing="2vw"
-                justifyContent="right"
-              >
-                <NotificationsPanel />
-                <Profile />
-              </Stack>
+              <HeaderLayout />
             </Grid>
             <Grid item xs={12} md={12}>
               <Routes>

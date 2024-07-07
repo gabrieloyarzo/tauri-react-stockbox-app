@@ -76,19 +76,19 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           border: "1px solid #d3d3d3",
-          height: "3.25rem",
+          height: "calc(2.25rem + 2.25vh)",
         },
         head: {
           position: "relative",
-          height: "2.5rem",
-        }
+          height: "calc(1.75rem + 1.75vh)",
+        },
       },
     },
     MuiIconButton: {
       styleOverrides: {
         root: {
-          width: "2vw",
-          height: "2vw",
+          width: "calc(2vw + 2vh)",
+          height: "calc(2vw + 2vh)",
           "&:hover": {
             backgroundColor: "#C3FA7B",
           },
@@ -123,7 +123,7 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           // fontSize: "1em", // Tamaño de letra relativo en rem o em
-          padding: "0.5em 1em", // Padding relativo en em
+          padding: "0.5em 1em",
           "&:hover": {
             backgroundColor: "#c3fa7b",
             color: "#8c8c8c",
@@ -131,65 +131,93 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        h1: {
+          fontSize: "calc(2.05vw + 2.05vh)",
+        },
+        h2: {
+          fontSize: "calc(1.8vw + 1.8vh)",
+        },
+        h3: {
+          fontSize: "calc(1.55vw + 1.55vh)",
+        },
+        h4: {
+          fontSize: "calc(1.3vw + 1.3vh)",
+        },
+        h5: {
+          fontSize: "calc(1.05vw + 1.05vh)",
+        },
+        h6: {
+          fontSize: "calc(0.925vw + 0.925vh)",
+        },
+        subtitle1: {
+          fontSize: "calc(0.8vw + 0.8vh)",
+        },
+        subtitle2: {
+          fontSize: "calc(0.675vw + 0.675vh)",
+        },
+        body1: {
+          fontSize: "calc(0.675vw + 0.675vh)",
+        },
+        body2: {
+          fontSize: "calc(0.55vw + 0.55vh)",
+        },
+        caption: {
+          fontSize: "calc(0.55vw + 0.55vh)",
+        },
+        overline: {
+          fontSize: "calc(0.55vw + 0.55vh)",
+        },
+        button: {
+          fontSize: "calc(0.675vw + 0.675vh)",
+        },
+      },
+    },
   },
   typography: {
     fontFamily: "Poppins, sans-serif",
     h1: {
-      fontSize: "clamp(1.5rem, 4vw, 3.5rem)", // 1.5rem mínimo, 4vw preferido, 3.5rem máximo
+      fontSize: "calc(2.05vw + 2.05vh)",
     },
     h2: {
-      fontSize: "clamp(1.25rem, 3vw, 3rem)", // 1.25rem mínimo, 3vw preferido, 3rem máximo
+      fontSize: "calc(1.8vw + 1.8vh)",
     },
     h3: {
-      fontSize: "clamp(1rem, 2.5vw, 2.5rem)", // 1rem mínimo, 2.5vw preferido, 2.5rem máximo
+      fontSize: "calc(1.55vw + 1.55vh)",
     },
     h4: {
-      fontSize: "clamp(0.875rem, 2vw, 2rem)", // 0.875rem mínimo, 2vw preferido, 2rem máximo
+      fontSize: "calc(1.3vw + 1.3vh)",
     },
     h5: {
-      fontSize: "clamp(0.75rem, 1.75vw, 1.75rem)", // 0.75rem mínimo, 1.75vw preferido, 1.75rem máximo
+      fontSize: "calc(1.05vw + 1.05vh)",
     },
     h6: {
-      fontSize: "clamp(0.625rem, 1.5vw, 1.5rem)", // 0.625rem mínimo, 1.5vw preferido, 1.5rem máximo
+      fontSize: "calc(0.925vw + 0.925vh)",
     },
     subtitle1: {
-      fontSize: "clamp(0.5rem, 1.25vw, 1.25rem)", // 0.5rem mínimo, 1.25vw preferido, 1.25rem máximo
+      fontSize: "calc(0.8vw + 0.8vh)",
     },
     subtitle2: {
-      fontSize: "clamp(0.5rem, 1vw, 1rem)", // 0.5rem mínimo, 1vw preferido, 1rem máximo
+      fontSize: "calc(0.675vw + 0.675vh)",
     },
     body1: {
-      fontSize: "clamp(0.5rem, 1vw, 1rem)", // 0.5rem mínimo, 1vw preferido, 1rem máximo
+      fontSize: "calc(0.675vw + 0.675vh)",
     },
     body2: {
-      fontSize: "clamp(0.5rem, 0.875vw, 0.875rem)", // 0.5rem mínimo, 0.875vw preferido, 0.875rem máximo
+      fontSize: "calc(0.55vw + 0.55vh)",
     },
     caption: {
-      fontSize: "clamp(0.375rem, 0.75vw, 0.75rem)", // 0.375rem mínimo, 0.75vw preferido, 0.75rem máximo
+      fontSize: "calc(0.55vw + 0.55vh)",
     },
     overline: {
-      fontSize: "clamp(0.375rem, 0.75vw, 0.75rem)", // 0.375rem mínimo, 0.75vw preferido, 0.75rem máximo
+      fontSize: "calc(0.55vw + 0.55vh)",
     },
     button: {
-      fontSize: "clamp(0.5rem, 0.875vw, 0.875rem)", // 0.5rem mínimo, 0.875vw preferido, 0.875rem máximo
+      fontSize: "calc(0.675vw + 0.675vh)",
     },
   },
 });
-// components: {
-//   MuiSvgIcon: {
-//     styleOverrides: {
-//       root: {
-//         color: "#000000", // Color predeterminado para todos los íconos
-//         '&.MuiSvgIcon-colorPrimary': {
-//           color: "#000000", // Color para íconos con colorPrimary
-//         },
-//         '&.MuiSvgIcon-colorSecondary': {
-//           color: "#000000", // Color para íconos con colorSecondary
-//         },
-//       },
-//     },
-//   },
-// },
 
 // Dark theme
 const darkTheme = createTheme({
