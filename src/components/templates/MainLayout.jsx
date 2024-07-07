@@ -14,7 +14,6 @@ const MainLayout = ({
   toggleForm,
   count,
   page,
-  setPage,
   filterProps,
   setFilterProps,
   filterStrings,
@@ -27,7 +26,7 @@ const MainLayout = ({
         container
         direction="column"
         spacing="1rem"
-        sx = {{ minHeight: "95vh" }}
+        sx={{ minHeight: "95vh" }}
       >
         <Grid item xs={12} md={12}>
           {!data ? (
@@ -69,7 +68,13 @@ const MainLayout = ({
               height: "100%",
             }}
           >
-            {data && <Pagination count={count} page={page} setPage={setPage} />}
+            {data && (
+              <Pagination
+                count={count}
+                page={page}
+                setFilterProps={setFilterProps}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>

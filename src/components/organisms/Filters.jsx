@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import { usePropsChanged } from "../../hooks/usePropsChanged";
 import {
   Stack,
@@ -12,13 +12,38 @@ import {
   InputLabel,
   Typography,
   Button,
+  Grid,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Search } from "@mui/icons-material";
 import { adapter } from "../../functions/adapter";
 import { invAdapterType } from "../../functions/invAdapterType";
-import { isRutField } from "../../functions/typeFields";
+import { isNumberField, isRutField } from "../../functions/typeFields";
 import { formatRut } from "../../functions/format";
+import { formatNumber } from "../../functions/format";
+
+const StyledSelect = styled(Select)(({ theme }) => ({
+  boxShadow: theme.shadows[3],
+  height: "2.5rem",
+  fontSize: "calc(.6vw + .6vh)",
+  borderRadius: ".5rem",
+  "& .MuiSvgIcon-root": {
+    color: theme.palette.secondary.contrastText,
+  },
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiInputBase-root": {
+    boxShadow: theme.shadows[3],
+    height: "2.5rem",
+    borderRadius: ".5rem",
+    fontSize: "calc(.6vw + .6vh)",
+    bgcolor: theme.palette.grey[200],
+    "& .MuiSvgIcon-root": {
+      color: theme.palette.secondary.contrastText,
+    },
+  },
+}));
 
 const isDateTable = (currentTable) => {
   return (
@@ -44,8 +69,8 @@ const Filters = ({
   const [category, setCategory] = useState(filterProps?.dato);
 
   const { isChanged } = usePropsChanged({
-    currentProps: filterProps,
-    initialProps: defaultFilterProps,
+    currentProps: (({ offset, ...rest  }) => rest)(filterProps),
+    initialProps: (({ offset, ...rest  }) => rest)(defaultFilterProps),
   });
 
   useEffect(() => {
@@ -63,6 +88,7 @@ const Filters = ({
     setCategory(category);
     setFilterProps((prevProps) => ({
       ...prevProps,
+      offset: 0,
       dato: category,
     }));
   };
@@ -72,6 +98,7 @@ const Filters = ({
     setDesde(date);
     setFilterProps((prevProps) => ({
       ...prevProps,
+      offset: 0,
       desde: date,
     }));
   };
@@ -81,6 +108,7 @@ const Filters = ({
     setHasta(date);
     setFilterProps((prevProps) => ({
       ...prevProps,
+      offset: 0,
       hasta: date,
     }));
   };
@@ -88,6 +116,8 @@ const Filters = ({
   const handleSearchChange = (e) => {
     const search = isRutField(category)
       ? formatRut(e.target.value)
+      : isNumberField(category)
+      ? formatNumber(e.target.value)
       : e.target.value;
     setBusqueda(search);
 
@@ -107,6 +137,7 @@ const Filters = ({
     const newTimeoutId = setTimeout(() => {
       setFilterProps((prevProps) => ({
         ...prevProps,
+        offset: 0,
         texto,
         number,
       }));
@@ -120,8 +151,9 @@ const Filters = ({
   };
 
   return (
+    // VACIAR FILTROS
     <Stack spacing="calc(.5vw + .5vh)">
-      <Stack height="3vh"direction="row">
+      <Stack height="3vh" direction="row">
         {isChanged && (
           <Button
             variant="contained"
@@ -157,151 +189,129 @@ const Filters = ({
         )}
       </Stack>
 
-      <Stack
-        direction="row"
-        width="100%"
-        spacing={3}
-        alignItems="center"
-        sx={{
-          bgcolor: theme.palette.background.default,
-        }}
-      >
-        <Stack direction="column" flex={1}>
-          <FormControl>
-            <InputLabel id="categoria">Categoría</InputLabel>
-            <Select
-              labelId="categoria"
-              value={category}
-              label="Categoría"
-              onChange={handleChangeCategory}
-              disabled={isLoading}
-              sx={{
-                boxShadow: theme.shadows[3],
-                // height: "5vh",
-                height: "2.5rem",
-                borderRadius: ".5rem",
-                "& .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.contrastText,
-                },
-              }}
-            >
-              {filterStrings.map((item) => (
-                <MenuItem value={adapter(item, currentTable)}>{item}</MenuItem>
-              ))}
-              {filterNumbers.map((item) => (
-                <MenuItem value={adapter(item, currentTable)}>{item}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Stack>
-        <Stack direction="column" flex={1}>
-          <FormControl>
-            <InputLabel id="ordenar">Ordenar por</InputLabel>
-            <Select
-              labelId="ordenar"
-              defaultValue="recent"
-              label="Ordenar por"
-              disabled={isLoading}
-              sx={{
-                boxShadow: theme.shadows[3],
-                height: "2.5rem",
-                borderRadius: ".5rem",
-                "& .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.contrastText,
-                },
-              }}
-            >
-              <MenuItem value="recent">Más recientes</MenuItem>
-              <MenuItem value="oldest">Más antiguos</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
-
-        {isDateTable(currentTable) && (
-          <Stack direction="row" flex={1} alignItems={"center"}>
-            <TextField
-              label="Desde"
-              type="date"
-              value={desde}
-              onChange={handleChangeDesde}
-              disabled={isLoading}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                sx: {
-                  boxShadow: theme.shadows[3],
-                  height: "2.5rem",
-                  borderRadius: ".5rem",
-                  "& .MuiSvgIcon-root": {
-                    color: theme.palette.secondary.contrastText,
-                  },
-                },
-              }}
-            />
-            <Typography
-              variant="body2"
-              paddingLeft=".5em"
-              paddingRight=".5em"
-              sx={{ color: theme.palette.secondary.contrastText }}
-            >
-              -
-            </Typography>
-            <TextField
-              label="Hasta"
-              type="date"
-              value={hasta}
-              onChange={handleChangeHasta}
-              disabled={isLoading}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                sx: {
-                  boxShadow: theme.shadows[3],
-                  height: "2.5rem",
-                  borderRadius: ".5rem",
-                  "& .MuiSvgIcon-root": {
-                    color: theme.palette.secondary.contrastText,
-                  },
-                },
-              }}
-            />
+      {/* Filtros */}
+      <Grid container direction="row" width="100%" alignItems="center">
+        {/* Categoría */}
+        <Grid item xs={2}>
+          <Stack direction="column" width="90%">
+            <FormControl>
+              <InputLabel id="categoria">Categoría</InputLabel>
+              <StyledSelect
+                labelId="categoria"
+                value={category}
+                label="Categoría"
+                onChange={handleChangeCategory}
+                disabled={isLoading}
+              >
+                {filterStrings.map((item) => (
+                  <MenuItem key={item} value={adapter(item, currentTable)}>
+                    {item}
+                  </MenuItem>
+                ))}
+                {filterNumbers.map((item) => (
+                  <MenuItem key={item} value={adapter(item, currentTable)}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </StyledSelect>
+            </FormControl>
           </Stack>
-        )}
-        {/* Búsqueda */}
-        <Stack direction="column" flex={1.5}>
-          <TextField
-            label="Búsqueda"
-            placeholder="Buscar..."
-            value={busqueda}
-            onChange={handleSearchChange}
-            inputProps={{
-              maxLength: isRutField(category) && 12,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
+        </Grid>
+
+        {/* Ordenar por */}
+        <Grid item xs={1.75}>
+          <Stack direction="column" width="90%">
+            <FormControl>
+              <InputLabel id="ordenar">Ordenar por</InputLabel>
+              <StyledSelect
+                labelId="ordenar"
+                defaultValue="recent"
+                label="Ordenar por"
+                disabled={isLoading}
+              >
+                <MenuItem value="recent">Más recientes</MenuItem>
+                <MenuItem value="oldest">Más antiguos</MenuItem>
+              </StyledSelect>
+            </FormControl>
+          </Stack>
+        </Grid>
+
+        {/* Desde, hasta */}
+        <Grid item xs={3.5}>
+          <Stack direction="row" width="90%">
+            {isDateTable(currentTable) && (
+              <Stack direction="row" width="100%" alignItems={"center"}>
+                <StyledTextField
+                  label="Desde"
+                  type="date"
+                  value={desde}
+                  onChange={handleChangeDesde}
+                  disabled={isLoading}
+                />
+                <Typography
+                  variant="body2"
+                  paddingLeft=".5em"
+                  paddingRight=".5em"
                   sx={{ color: theme.palette.secondary.contrastText }}
                 >
-                  <Search />
-                </InputAdornment>
-              ),
-              sx: {
-                fontSize: "1vw",
-                boxShadow: theme.shadows[3],
-                height: "2.5rem",
-                borderRadius: "1rem",
-                bgcolor: theme.palette.grey[200],
-                "& .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.contrastText,
-                },
-              },
-            }}
-          />
-        </Stack>
-      </Stack>
+                  -
+                </Typography>
+                <StyledTextField
+                  label="Hasta"
+                  type="date"
+                  value={hasta}
+                  onChange={handleChangeHasta}
+                  disabled={isLoading}
+                />
+              </Stack>
+            )}
+          </Stack>
+        </Grid>
+
+        <Grid item xs={4.75}>
+          <Stack direction="row" width="100%" spacing={1}>
+            {/* Mayor a, menor a */}
+            <Stack direction="column" width="25%">
+              {invAdapterType(category, currentTable) === "number" && (
+                <StyledSelect defaultValue="recent" disabled={isLoading}>
+                  <MenuItem value="recent">Mayor a</MenuItem>
+                  <MenuItem value="oldest">Menor a</MenuItem>
+                </StyledSelect>
+              )}
+            </Stack>
+
+            {/* Búsqueda */}
+            <Stack direction="column" width="100%">
+              <TextField
+                label="Búsqueda"
+                placeholder="Buscar..."
+                value={busqueda}
+                onChange={handleSearchChange}
+                inputProps={{
+                  maxLength: isRutField(category) && 12,
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      sx={{ color: theme.palette.secondary.contrastText }}
+                    >
+                      <Search />
+                    </InputAdornment>
+                  ),
+                  sx: {
+                    fontSize: "calc(.6vw + .6vh)",
+                    boxShadow: theme.shadows[3],
+                    height: "2.5rem",
+                    bgcolor: theme.palette.grey[200],
+                    borderRadius: ".5rem",
+                  },
+                }}
+              />
+            </Stack>
+          </Stack>
+        </Grid>
+      </Grid>
     </Stack>
   );
 };

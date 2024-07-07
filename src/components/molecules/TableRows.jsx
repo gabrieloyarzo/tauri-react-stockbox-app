@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useDialog } from "../../context/DialogContext";
+import { useColumns } from "../../hooks/useColumns";
 import { useTheme } from "@mui/material";
 import {
   IconButton,
@@ -32,18 +33,8 @@ const isDetailTable = (currentTable) => {
   );
 };
 
-const isIdTable = (currentTable) => {
-  return (
-    currentTable === "sales" ||
-    currentTable === "refunds" ||
-    currentTable === "purchases" ||
-    currentTable === "products"
-  );
-};
-
 const TableRows = ({
   data,
-  columns,
   fetchData,
   toggleForm,
   setFormProps,
@@ -53,6 +44,7 @@ const TableRows = ({
   const { currentTable, isLoading, tableColumns } = useTable();
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
+  const { columns } = useColumns();
 
   // index key which would contain the array of details if it exists
   const dIndexKey =
@@ -142,39 +134,26 @@ const TableRows = ({
         ) : (
           data.map((obj, index) => (
             <TableRow key={index}>
-              {isIdTable(currentTable)
-                ? columns.map(
-                    (column, index) =>
-                      index !== 0 &&
-                      !Array.isArray(obj[column]) &&
-                      (typeof obj[column] === "number" ? (
-                        <TableCell key={index} sx={{ textAlign: "right" }}>
-                          {isMoneyField(column) ? `$ ${formatNumber(obj[column])}` : formatNumber(obj[column])}
-                        </TableCell>
-                      ) : (
-                        <TableCell key={index}>{obj[column]}</TableCell>
-                      ))
-                  )
-                : columns.map((column, index) => {
-                    if (column === "rol") {
-                      return (
-                        <TableCell key={index} sx={{ textAlign: "center" }}>
-                          <CustomTableChip role={obj[column]} />
-                        </TableCell>
-                      );
-                    }
-                    if (!Array.isArray(obj[column])) {
-                      return typeof obj[column] === "number" ? (
-                        <TableCell key={index} sx={{ textAlign: "right" }}>
-                          {formatNumber(obj[column])}
-                        </TableCell>
-                      ) : (
-                        <TableCell key={index}>{obj[column]}</TableCell>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+              {columns.map((column, index) => {
+                if (column === "rol") {
+                  return (
+                    <TableCell key={index} sx={{ textAlign: "center" }}>
+                      <CustomTableChip role={obj[column]} />
+                    </TableCell>
+                  );
+                }
+                if (!Array.isArray(obj[column])) {
+                  return typeof obj[column] === "number" ? (
+                    <TableCell key={index} sx={{ textAlign: "right" }}>
+                      {formatNumber(obj[column])}
+                    </TableCell>
+                  ) : (
+                    <TableCell key={index}>{obj[column]}</TableCell>
+                  );
+                } else {
+                  return null;
+                }
+              })}
               <TableCell key="options" sx={{ textAlign: "center" }}>
                 <div>
                 {currentTable === "sales" && (

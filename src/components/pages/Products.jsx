@@ -42,19 +42,6 @@ const Products = () => {
     }
   );
 
-  useEffect(() => {
-    setTableColumns(Object.values(iProduct).map((item) => item[0]));
-    setCurrentTable("products");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("products_page", page);
-    setFilterProps((prevProps) => ({
-      ...prevProps,
-      offset: (page - 1) * 10,
-    }));
-  }, [page]);
-
   const [tableData, setTableData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [codes, setCodes] = useState([]);
@@ -85,7 +72,18 @@ const Products = () => {
   };
 
   useEffect(() => {
+    setTableColumns(Object.values(iProduct).map((item) => item[0]));
+    setCurrentTable("products");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("products_page", page);
+  }, [page]);
+
+  useEffect(() => {
     fetchData(filterProps);
+    const offset = filterProps?.offset ?? 0;
+    setPage((offset + 10) / 10);
   }, [filterProps]);
 
   // Forms

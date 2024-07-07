@@ -3,14 +3,17 @@ import { useTable } from "../../context/TableContext";
 import MuiPagination from "@mui/material/Pagination";
 import { Stack } from "@mui/material";
 
-const Pagination = ({ page, setPage, count }) => {
+const Pagination = ({ page, setFilterProps, count }) => {
   const { isLoading } = useTable();
 
   const handleChange = (event, value) => {
     if (value === page) {
       return;
     }
-    setPage(value);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: (value - 1) * 10,
+    }));
   };
 
   return (
