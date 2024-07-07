@@ -8,7 +8,7 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
 
   if (incremento && incremento.includes('↓')) {
     incrementoColor = 'red';
-    }
+  }
 
   return (
     <Box
@@ -20,30 +20,30 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
         display: 'flex', 
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: '85%',
+        height: '90%',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)',
       }}
     >
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         <Grid item xs={12}>
-          <Typography component="div" sx={{ fontWeight: "bold", textAlign: 'center', fontSize: '15px'}}>
+          <Typography variant="subtitle1" sx={{ fontWeight: "bold", textAlign: 'center' }}>
             {titulo}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography component="div" sx={{ fontWeight: "bold", textAlign: 'center', fontSize: '22px', color: '#266763'}}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", textAlign: 'center', color: '#266763'}}>
             {monto}
           </Typography>
         </Grid>
         {(incremento || periodo) && (
           <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             {incremento && (
-              <Typography fontSize="18px" color={incrementoColor}>
+              <Typography variant="body1" color={incrementoColor}>
                 {incremento}
               </Typography>
             )}
             {periodo && (
-              <Typography fontSize="10px" color="text.secondary">
+              <Typography variant="caption" color="text.secondary">
                 {periodo}
               </Typography>
             )}
@@ -97,7 +97,7 @@ const CardGrid = () => {
         setAnalyticsData({
           IngresosTotales: response.data.sumTotalSales,
           NVentas: response.data.countSales,
-          NCompras: response.data.countPurchases,
+          NAlertas: response.data.countNotifactions,
           NProveedores: response.data.countProviders,
           NProductos: response.data.catProducts,
         });
@@ -122,20 +122,20 @@ const CardGrid = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={2.4}>
+      <Grid item xs={12} sm={6} md={2.4}>
         <CardFormat titulo="Ingresos totales" monto={`$${formatNumber(currentMonthSales)}`} incremento={incrementoIngresos} periodo="Último mes" />
       </Grid>
-      <Grid item xs={2.4}>
+      <Grid item xs={12} sm={6} md={2.4}>
         <CardFormat titulo="N° de ventas" monto={analyticsData.NVentas} />
       </Grid>
-      <Grid item xs={2.4}>
-        <CardFormat titulo="N° de compras" monto={analyticsData.NCompras} />
-      </Grid>
-      <Grid item xs={2.4}>
+      <Grid item xs={12} sm={6} md={2.4}>
         <CardFormat titulo="N° de proveedores" monto={analyticsData.NProveedores} />
       </Grid>
-      <Grid item xs={2.4}>
-        <CardFormat titulo="N° de inventario actual" monto={analyticsData.NProductos} />
+      <Grid item xs={12} sm={6} md={2.4}>
+        <CardFormat titulo="N° de alertas activas" monto={analyticsData.NAlertas} />
+      </Grid>
+      <Grid item xs={12} sm={6} md={2.4}>
+        <CardFormat titulo="N° de inventario total" monto={analyticsData.NProductos} />
       </Grid>
     </Grid>
   );
