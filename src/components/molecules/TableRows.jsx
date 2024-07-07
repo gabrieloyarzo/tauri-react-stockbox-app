@@ -127,7 +127,10 @@ const TableRows = ({
         )}
         {data.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={tableColumns.length + 1} sx={{ textAlign: "center", fontStyle: "italic" }}>
+            <TableCell
+              colSpan={tableColumns.length + 1}
+              sx={{ textAlign: "center", fontStyle: "italic" }}
+            >
               Sin resultados
             </TableCell>
           </TableRow>
@@ -142,21 +145,20 @@ const TableRows = ({
                     </TableCell>
                   );
                 }
-                if (!Array.isArray(obj[column])) {
-                  return typeof obj[column] === "number" ? (
+                if (typeof obj[column] === "number") {
+                  return (
                     <TableCell key={index} sx={{ textAlign: "right" }}>
-                      {formatNumber(obj[column])}
+                      {isMoneyField(column)
+                        ? `$ ${formatNumber(obj[column])}`
+                        : `${formatNumber(obj[column])}`}
                     </TableCell>
-                  ) : (
-                    <TableCell key={index}>{obj[column]}</TableCell>
                   );
-                } else {
-                  return null;
                 }
+                return <TableCell key={index}>{obj[column]}</TableCell>;
               })}
               <TableCell key="options" sx={{ textAlign: "center" }}>
                 <div>
-                {currentTable === "sales" && (
+                  {currentTable === "sales" && (
                     <IconButton
                       onClick={() => handleRefund(obj)}
                       sx={{

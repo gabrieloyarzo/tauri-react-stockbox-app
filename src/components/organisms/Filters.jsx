@@ -183,6 +183,7 @@ const Filters = ({
               },
             }}
             onClick={handleClearFilters}
+            disabled={isLoading}
           >
             VACIAR FILTROS
           </Button>
