@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography, Grid } from '@mui/material';
 import AnalyticApi from '../../services/api/analytic.service';
+import { formatNumber } from '../../functions/helpers';
 
 const Ventas = () => {
   const [chartData, setChartData] = useState([]);
@@ -64,7 +65,7 @@ const Ventas = () => {
       <Typography gutterBottom align="left" sx={{fontSize: "24px", fontWeight: "bold"}}>
         Balance de ventas -
         <Typography component="span" color="textSecondary" sx={{fontSize: "30px", fontWeight: "bold", marginLeft: "5px"}}>
-          {`$${totalSales}`} 
+          {`$${formatNumber(totalSales)}`}
         </Typography>
       </Typography>
 
@@ -78,7 +79,6 @@ const Ventas = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis /> 
-              {/* label={{ value: 'Ventas', angle: -90, position: 'insideLeft' }} */}
               <Tooltip content={<CustomTooltip />} />
               <Line type="monotone" dataKey="amount" stroke="#266763" activeDot={{ r: 10 }} strokeWidth={2} />
             </LineChart>
