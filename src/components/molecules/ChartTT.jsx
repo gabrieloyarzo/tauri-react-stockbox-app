@@ -1,51 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LabelList } from 'recharts';
 import { Typography, Box } from '@mui/material';
-import ProductApi from '../../services/api/product.service';
+import AnalyticApi from '../../services/api/analytic.service';
 
 const TopSoldProducts = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchAllProducts = async () => {
-      const limit = 10;
-      let offset = 0;
-      let allProducts = [];
-      let hasMoreProducts = true;
+    const fetchData = async () => {
+      try {
+        const { data: { allProducts } } = await AnalyticApi.getAnalyticData();
 
-      while (hasMoreProducts) {
-        try {
-          const { data: products } = await ProductApi.getAllProducts({ limit, offset, dato: 'idp', orden: 'asc' });
-          allProducts = [...allProducts, ...products];
-
-          if (products.length < limit) {
-            hasMoreProducts = false;
-          } else {
-            offset += limit;
+        const nameCounts = allProducts.reduce((acc, { name, quantity }) => {
+          if (!acc[name]) {
+            acc[name] = {
+              name,
+              quantity: 0
+            };
           }
-        } catch (error) {
-          console.error('Error fetching products:', error);
-          hasMoreProducts = false;
-        }
+          acc[name].quantity += quantity;
+          return acc;
+        }, {});
+
+        const sortedProducts = Object.values(nameCounts)
+          .sort((a, b) => b.quantity - a.quantity)
+          .slice(0, 10);
+
+        const totalQuantity = allProducts.reduce((total, { quantity }) => total + quantity, 0);
+
+        const productData = sortedProducts.map(({ name, quantity }) => ({
+          name,
+          value: quantity,
+          percentage: ((quantity / totalQuantity) * 100).toFixed(2),
+        }));
+
+        setData(productData);
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
       }
-
-      const nameCounts = allProducts.reduce((acc, { nombre }) => {
-        acc[nombre] = (acc[nombre] || 0) + 1;
-        return acc;
-      }, {});
-
-      const totalCount = allProducts.length;
-
-      const productData = Object.keys(nameCounts).map(name => ({
-        name,
-        value: nameCounts[name],
-        percentage: ((nameCounts[name] / totalCount) * 100).toFixed(2)
-      }));
-
-      setData(productData);
     };
 
-    fetchAllProducts();
+    fetchData();
   }, []);
 
   const customLabel = ({ x, y, value, index }) => (

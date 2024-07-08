@@ -38,7 +38,7 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
         {(incremento || periodo) && (
           <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             {incremento && (
-              <Typography variant="body1" color={incrementoColor}>
+              <Typography variant="h6" color={incrementoColor}>
                 {incremento}
               </Typography>
             )}
@@ -71,10 +71,14 @@ const CardGrid = () => {
     const fetchData = async () => {
       try {
         const response = await AnalyticApi.getAnalyticData();
-        const salesData = response.data.datePriceSales.map(item => ({
-          month: new Date(item.date).toLocaleString('default', { month: 'short' }),
-          amount: item.total_price,
-        }));
+        const currentYear = new Date().getFullYear();
+
+        const salesData = response.data.datePriceSales
+          .filter(item => new Date(item.date).getFullYear() === currentYear)
+          .map(item => ({
+            month: new Date(item.date).toLocaleString('default', { month: 'short' }),
+            amount: item.total_price,
+          }));
 
         const monthlySales = salesData.reduce((acc, data) => {
           const { month, amount } = data;
@@ -102,7 +106,7 @@ const CardGrid = () => {
           NProductos: response.data.catProducts,
         });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error al obtener datos:', error);
       }
     };
 

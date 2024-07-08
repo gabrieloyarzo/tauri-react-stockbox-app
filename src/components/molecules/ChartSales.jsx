@@ -12,10 +12,15 @@ const Ventas = () => {
     const fetchData = async () => {
       try {
         const response = await AnalyticApi.getAnalyticData();
-        const salesData = response.data.datePriceSales.map(item => ({
-          month: new Date(item.date).toLocaleString('default', { month: 'short' }),
-          amount: item.total_price,
-        }));
+        console.log("Data", response)
+        const currentYear = new Date().getFullYear();
+
+        const salesData = response.data.datePriceSales
+          .filter(item => new Date(item.date).getFullYear() === currentYear)
+          .map(item => ({
+            month: new Date(item.date).toLocaleString('default', { month: 'short' }),
+            amount: item.total_price,
+          }));
 
         const monthlySales = salesData.reduce((acc, data) => {
           const { month, amount } = data;
@@ -25,34 +30,35 @@ const Ventas = () => {
           acc[month] += amount;
           return acc;
         }, {});
-  
+
         const allMonths = Array.from({ length: 12 }, (_, index) => {
-          const month = new Date(new Date().getFullYear(), index, 1);
+          const month = new Date(currentYear, index, 1);
           return {
             month: month.toLocaleString('default', { month: 'short' }),
             amount: monthlySales[month.toLocaleString('default', { month: 'short' })] || 0,
           };
         });
-  
+
         const totalSales = allMonths.reduce((total, data) => total + data.amount, 0);
-  
+
         setChartData(allMonths);
         setTotalSales(totalSales);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error al obtener datos:', error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+      const formattedValue = formatNumber(payload[0].value);
+  
       return (
         <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px' }}>
           <p>{`${label} ${new Date().getFullYear()}`}</p>
-          <p>{`Ventas: ${payload[0].value}`}</p>
+          <p>{`Ventas: $${formattedValue}`}</p>
         </div>
       );
     }
@@ -63,7 +69,7 @@ const Ventas = () => {
   return (
     <div style={{ width: '100%', height: 'auto'}}>
       <Typography gutterBottom align="left" sx={{fontSize: "24px", fontWeight: "bold"}}>
-        Balance de ventas -
+        Balance de ventas 
         <Typography component="span" color="textSecondary" sx={{fontSize: "30px", fontWeight: "bold", marginLeft: "5px"}}>
           {`$${formatNumber(totalSales)}`}
         </Typography>
