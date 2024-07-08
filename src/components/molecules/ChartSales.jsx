@@ -52,14 +52,16 @@ const Ventas = () => {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+      const formattedValue = formatNumber(payload[0].value);
+  
       return (
         <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px' }}>
           <p>{`${label} ${new Date().getFullYear()}`}</p>
-          <p>{`Ventas: ${payload[0].value}`}</p>
+          <p>{`Ventas: $${formattedValue}`}</p>
         </div>
       );
     }
-
+  
     return null;
   };
 
