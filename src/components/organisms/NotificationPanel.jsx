@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Badge, Menu, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Badge,
+  Menu,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import IconButton from "@mui/material/IconButton";
@@ -40,8 +47,8 @@ const NotificationPanel = ({ data = mockNotifications }) => {
           position: "relative",
           color: theme.palette.common.black,
           bgcolor: theme.palette.grey[300],
-          width: "2.5vw",
-          height: "2.5vw",
+          width: "calc(1.75vw + 1.75vh)",
+          height: "calc(1.75vw + 1.75vh)",
           borderRadius: ".5rem",
           "&:hover": {
             bgcolor: theme.palette.action.hover,
@@ -50,11 +57,27 @@ const NotificationPanel = ({ data = mockNotifications }) => {
         aria-label="notifications-button"
         onClick={handleClick}
       >
-        <Badge badgeContent={notifications.length} color="primary">
+        <Badge
+          badgeContent={notifications.length}
+          color="primary"
+          sx={{
+            "& .MuiBadge-badge": {},
+          }}
+        >
           {open ? (
-            <NotificationsNoneIcon sx={{ width: "2vw", height: "auto" }} />
+            <NotificationsNoneIcon
+              sx={{
+                width: "calc(1.5vw + 1.5vh)",
+                height: "calc(1.5vw + 1.5vh)",
+              }}
+            />
           ) : (
-            <NotificationsIcon sx={{ width: "2vw", height: "auto" }} />
+            <NotificationsIcon
+              sx={{
+                width: "calc(1.5vw + 1.5vh)",
+                height: "calc(1.5vw + 1.5vh)",
+              }}
+            />
           )}
         </Badge>
       </IconButton>
@@ -65,18 +88,33 @@ const NotificationPanel = ({ data = mockNotifications }) => {
         PaperProps={{
           style: {
             maxHeight: "60vh", // Ajusta la altura máxima del menú (ejemplo: 60% de la altura de la ventana)
-            width: "30ch",
+            width: "20vw",
           },
         }}
       >
-        <List>
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: '8px',
+          }}
+        >
           {notifications.map((notification) => (
-            <ListItem key={notification.id} button>
+            <ListItem
+              key={notification.id}
+              sx={{
+                width: "95%",
+                marginBottom: '.5em',
+                borderRadius: ".5em",
+                bgcolor: theme.palette.grey[200],
+              }}
+            >
               <ListItemText
-                primary={notification.message}
+                primary={notification.descripcion}
                 primaryTypographyProps={{
                   variant: "body2",
-                  sx: { fontSize: "0.8rem" },
                 }}
               />
             </ListItem>
