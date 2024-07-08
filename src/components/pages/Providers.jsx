@@ -17,6 +17,8 @@ const Providers = () => {
   const defaultFilterProps = {
     offset: 0,
     dato: "rutp",
+    valor: "",
+    orden: "desc",
   };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -39,21 +41,9 @@ const Providers = () => {
     JSON.parse(localStorage.getItem("providers_fprops")) ?? {
       offset: (page - 1) * 10,
       dato: "rutp",
+      valor: "",
     }
   );
-
-  useEffect(() => {
-    setTableColumns(Object.values(iProvider).map((item) => item[0]));
-    setCurrentTable("providers");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("providers_page", page);
-    setFilterProps((prevProps) => ({
-      ...prevProps,
-      offset: (page - 1) * 10,
-    }));
-  }, [page]);
 
   const [tableData, setTableData] = useState(null);
 
@@ -81,7 +71,19 @@ const Providers = () => {
   };
 
   useEffect(() => {
+    setTableColumns(Object.values(iProvider).map((item) => item[0]));
+    setCurrentTable("providers");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("providers_page", page);
+  }, [page]);
+
+
+  useEffect(() => {
     fetchData(filterProps);
+    const offset = filterProps?.offset ?? 0;
+    setPage((offset + 10) / 10);
   }, [filterProps]);
 
   // Forms

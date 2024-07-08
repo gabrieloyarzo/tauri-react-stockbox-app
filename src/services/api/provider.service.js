@@ -5,14 +5,14 @@ const API_URL = `${import.meta.env.VITE_API_URL}/providers`;
 const ProviderApi = {
   async getAllProviders({
     dato = "rutp",
-    orden = "asc",
     offset = 0,
     limit = 10,
-    texto = "",
+    valor = "",
+    orden = "desc",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&texto=${texto}`,
+        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

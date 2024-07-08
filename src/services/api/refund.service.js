@@ -5,16 +5,17 @@ const API_URL = `${import.meta.env.VITE_API_URL}/refunds`;
 const RefundApi = {
   async getAllRefunds({
     dato = "cod",
-    orden = "asc",
     offset = 0,
     limit = 10,
     desde = "",
     hasta = "",
-    texto = "",
+    valor = "",
+    intervalo = "igual",
+    orden = "desc",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&orden=${orden}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&texto=${texto}`,
+        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&valor=${valor}&intervalo=${intervalo}&orden=${orden}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

@@ -58,77 +58,83 @@ const Filters = ({
   setFilterProps,
   filterStrings,
   filterNumbers,
-  defaultFilterProps,
 }) => {
   const theme = useTheme();
   const { currentTable, isLoading } = useTable();
-
-  const [desde, setDesde] = useState(new Date());
-  const [hasta, setHasta] = useState(filterProps?.hasta ?? new Date());
-  const [busqueda, setBusqueda] = useState("");
-  const [category, setCategory] = useState(filterProps?.dato);
-
-  const { isChanged } = usePropsChanged({
-    currentProps: (({ offset, ...rest  }) => rest)(filterProps),
-    initialProps: (({ offset, ...rest  }) => rest)(defaultFilterProps),
-  });
-
-  useEffect(() => {
-    filterProps?.texto ? setBusqueda(filterProps?.texto) : "";
-    filterProps?.number ? setBusqueda(filterProps?.number) : "";
-    filterProps?.desde ? setDesde(filterProps?.desde) : setDesde(new Date());
-    filterProps?.hasta ? setHasta(filterProps?.hasta) : setHasta(new Date());
-    filterProps?.dato ? setCategory(filterProps?.dato) : "";
-  }, [filterProps]);
-
   const [timeoutId, setTimeoutId] = useState(null);
 
+  // Filters
+  const [valor, setValor] = useState(filterProps?.valor ?? "");
+  const [desde, setDesde] = useState(
+    filterProps?.desde ?? null
+  );
+  const [hasta, setHasta] = useState(
+    filterProps?.hasta ?? null
+  );
+  const [category, setCategory] = useState(filterProps?.dato ?? "");
+  const [orden, setOrden] = useState(filterProps?.orden ?? "desc");
+  const [intervalo, setIntervalo] = useState(filterProps?.intervalo ?? "igual");
+
+  const { isChanged } = usePropsChanged({ obj: filterProps }); 
+
   const handleChangeCategory = (e) => {
-    const category = e.target.value;
-    setCategory(category);
+    const dato = e.target.value;
+    setCategory(dato);
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: 0,
-      dato: category,
+      dato,
+    }));
+  };
+
+  const handleChangeOrden = (e) => {
+    const orden = e.target.value;
+    setOrden(orden);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: 0,
+      orden,
     }));
   };
 
   const handleChangeDesde = (e) => {
-    const date = e.target.value;
-    setDesde(date);
+    const desde = e.target.value;
+    setDesde(desde);
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: 0,
-      desde: date,
+      desde,
     }));
   };
 
   const handleChangeHasta = (e) => {
-    const date = e.target.value;
-    setHasta(date);
+    const hasta = e.target.value;
+    setHasta(hasta);
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: 0,
-      hasta: date,
+      hasta,
+    }));
+  };
+
+  const handleChangeIntervalo = (e) => {
+    const intervalo = e.target.value;
+    setIntervalo(intervalo);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: 0,
+      intervalo,
     }));
   };
 
   const handleSearchChange = (e) => {
-    const search = isRutField(category)
+    const valor = isRutField(category)
       ? formatRut(e.target.value)
       : isNumberField(category)
       ? formatNumber(e.target.value)
       : e.target.value;
-    setBusqueda(search);
 
-    let number = "";
-    let texto = "";
-
-    if (invAdapterType(category, currentTable) === "number") {
-      number = search;
-    } else {
-      texto = search;
-    }
+    setValor(valor);
 
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -138,8 +144,8 @@ const Filters = ({
       setFilterProps((prevProps) => ({
         ...prevProps,
         offset: 0,
-        texto,
-        number,
+        dato: category,
+        valor,
       }));
     }, 500);
 
@@ -147,7 +153,17 @@ const Filters = ({
   };
 
   const handleClearFilters = () => {
-    setFilterProps({ ...defaultFilterProps });
+    const valor = "", desde = "", hasta = "";
+    setValor(valor);
+    setDesde(desde);
+    setHasta(hasta);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: 0,
+      valor,
+      desde,
+      hasta,
+    }));
   };
 
   return (
@@ -201,7 +217,7 @@ const Filters = ({
                 labelId="categoria"
                 value={category}
                 label="Categoría"
-                onChange={handleChangeCategory}
+                onChange={(e) => setCategory(e.target.value)}
                 disabled={isLoading}
               >
                 {filterStrings.map((item) => (
@@ -226,12 +242,13 @@ const Filters = ({
               <InputLabel id="ordenar">Ordenar por</InputLabel>
               <StyledSelect
                 labelId="ordenar"
-                defaultValue="recent"
+                value={orden}
                 label="Ordenar por"
                 disabled={isLoading}
+                onChange={handleChangeOrden}
               >
-                <MenuItem value="recent">Más recientes</MenuItem>
-                <MenuItem value="oldest">Más antiguos</MenuItem>
+                <MenuItem value="desc">Más recientes</MenuItem>
+                <MenuItem value="asc">Más antiguos</MenuItem>
               </StyledSelect>
             </FormControl>
           </Stack>
@@ -248,6 +265,9 @@ const Filters = ({
                   value={desde}
                   onChange={handleChangeDesde}
                   disabled={isLoading}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
                 <Typography
                   variant="body2"
@@ -263,6 +283,9 @@ const Filters = ({
                   value={hasta}
                   onChange={handleChangeHasta}
                   disabled={isLoading}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Stack>
             )}
@@ -274,9 +297,10 @@ const Filters = ({
             {/* Mayor a, menor a */}
             <Stack direction="column" width="25%">
               {invAdapterType(category, currentTable) === "number" && (
-                <StyledSelect defaultValue="recent" disabled={isLoading}>
-                  <MenuItem value="recent">Mayor a</MenuItem>
-                  <MenuItem value="oldest">Menor a</MenuItem>
+                <StyledSelect value={intervalo} disabled={isLoading} onChange={handleChangeIntervalo}>
+                  <MenuItem value="mayor">Mayor a</MenuItem>
+                  <MenuItem value="igual">Igual a</MenuItem>
+                  <MenuItem value="menor">Menor a</MenuItem>
                 </StyledSelect>
               )}
             </Stack>
@@ -286,7 +310,7 @@ const Filters = ({
               <TextField
                 label="Búsqueda"
                 placeholder="Buscar..."
-                value={busqueda}
+                value={valor}
                 onChange={handleSearchChange}
                 inputProps={{
                   maxLength: isRutField(category) && 12,

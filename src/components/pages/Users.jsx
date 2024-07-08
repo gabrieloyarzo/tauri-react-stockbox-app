@@ -14,10 +14,6 @@ const Users = () => {
 
   const usersPage = localStorage.getItem("users_page");
   const parsedUsersPage = usersPage !== null ? Number(usersPage) : 1;
-  const defaultFilterProps = {
-    offset: 0,
-    dato: "rutu",
-  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -39,21 +35,10 @@ const Users = () => {
     JSON.parse(localStorage.getItem("users_fprops")) ?? {
       offset: (page - 1) * 10,
       dato: "rutu",
+      valor: "",
+      orden: "desc",
     }
   );
-
-  useEffect(() => {
-    setTableColumns(Object.values(iUser).map((item) => item[0]));
-    setCurrentTable("users");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("users_page", page);
-    setFilterProps((prevProps) => ({
-      ...prevProps,
-      offset: (page - 1) * 10,
-    }));
-  }, [page]);
 
   const [tableData, setTableData] = useState(null);
 
@@ -81,7 +66,18 @@ const Users = () => {
   };
 
   useEffect(() => {
+    setTableColumns(Object.values(iUser).map((item) => item[0]));
+    setCurrentTable("users");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("users_page", page);
+  }, [page]);
+
+  useEffect(() => {
     fetchData(filterProps);
+    const offset = filterProps?.offset ?? 0;
+    setPage((offset + 10) / 10);
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);
@@ -108,7 +104,6 @@ const Users = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
-            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <UserForm

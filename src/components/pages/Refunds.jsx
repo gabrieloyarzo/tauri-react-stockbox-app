@@ -6,6 +6,7 @@ import MainLayout from "../templates/MainLayout";
 import RefundForm from "../organisms/forms/RefundForm";
 import Reload from "../molecules/Reload";
 import { iRefund } from "../../functions/dataStructure";
+import { describe } from "vitest";
 
 const Refunds = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
@@ -14,10 +15,6 @@ const Refunds = () => {
 
   const refundsPage = localStorage.getItem("refunds_page");
   const parsedRefundsPage = refundsPage !== null ? Number(refundsPage) : 1;
-  const defaultFilterProps = {
-    offset: 0,
-    dato: "cod",
-  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -39,21 +36,13 @@ const Refunds = () => {
     JSON.parse(localStorage.getItem("refunds_fprops")) ?? {
       offset: (page - 1) * 10,
       dato: "cod",
+      desde: "",
+      hasta: "",
+      valor: "",
+      intervalo: "igual",
+      orden: "desc",
     }
   );
-
-  useEffect(() => {
-    setTableColumns(Object.values(iRefund).map((item) => item[0]));
-    setCurrentTable("refunds");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("refunds_page", page);
-    setFilterProps((prevProps) => ({
-      ...prevProps,
-      offset: (page - 1) * 10,
-    }));
-  }, [page]);
 
   // Table related
   const [tableData, setTableData] = useState(null);
@@ -82,9 +71,20 @@ const Refunds = () => {
       setIsLoading(false);
     }
   };
+  
+  useEffect(() => {
+    setTableColumns(Object.values(iRefund).map((item) => item[0]));
+    setCurrentTable("refunds");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("refunds_page", page);
+  }, [page]);
 
   useEffect(() => {
     fetchData(filterProps);
+    const offset = filterProps?.offset ?? 0;
+    setPage((offset + 10) / 10);
   }, [filterProps]);
 
   // Forms
@@ -114,7 +114,6 @@ const Refunds = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
-            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <RefundForm

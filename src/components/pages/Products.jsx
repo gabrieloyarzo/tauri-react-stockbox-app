@@ -14,10 +14,6 @@ const Products = () => {
 
   const productsPage = localStorage.getItem("products_page");
   const parsedProductsPage = productsPage !== null ? Number(productsPage) : 1;
-  const defaultFilterProps = {
-    offset: 0,
-    dato: "cod",
-  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -39,6 +35,9 @@ const Products = () => {
     JSON.parse(localStorage.getItem("products_fprops")) ?? {
       offset: (page - 1) * 10,
       dato: "cod",
+      valor: "",
+      orden: "desc",
+      intervalo: "igual",
     }
   );
 
@@ -113,7 +112,6 @@ const Products = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
-            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <ProductForm

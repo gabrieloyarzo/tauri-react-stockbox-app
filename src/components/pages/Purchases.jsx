@@ -18,10 +18,6 @@ const Purchases = () => {
   const purchasesPage = localStorage.getItem("purchases_page");
   const parsedPurchasesPage =
     purchasesPage !== null ? Number(purchasesPage) : 1;
-  const defaultFilterProps = {
-    offset: 0,
-    dato: "cod",
-  };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -43,21 +39,13 @@ const Purchases = () => {
     JSON.parse(localStorage.getItem("purchases_fprops")) ?? {
       offset: (page - 1) * 10,
       dato: "cod",
+      desde: "",
+      hasta: "",
+      valor: "",
+      intervalo: "igual",
+      orden: "desc",
     }
   );
-
-  useEffect(() => {
-    setTableColumns(Object.values(iPurchase).map((item) => item[0]));
-    setCurrentTable("purchases");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("purchases_page", page);
-    setFilterProps((prevProps) => ({
-      ...prevProps,
-      offset: (page - 1) * 10,
-    }));
-  }, [page]);
 
   // Table related
   const [tableData, setTableData] = useState(null);
@@ -89,9 +77,20 @@ const Purchases = () => {
       setIsLoading(false);
     }
   };
+  
+  useEffect(() => {
+    setTableColumns(Object.values(iPurchase).map((item) => item[0]));
+    setCurrentTable("purchases");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("purchases_page", page);
+  }, [page]);
 
   useEffect(() => {
     fetchData(filterProps);
+    const offset = filterProps?.offset ?? 0;
+    setPage((offset + 10) / 10);
   }, [filterProps]);
 
   // Forms
@@ -121,7 +120,6 @@ const Purchases = () => {
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
-            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <PurchaseForm
