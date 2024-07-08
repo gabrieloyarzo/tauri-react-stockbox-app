@@ -1,28 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Badge, Menu, List, ListItem, ListItemText } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import IconButton from "@mui/material/IconButton";
+import { mockNotifications } from "../../../mock/notificationsMock.js";
 
-const NotificationPanel = () => {
+const useNotifications = ({ data }) => {
+  const [notifications, setNotifications] = useState(mockNotifications);
+
+  useEffect(() => {
+    setNotifications(data);
+  }, [data]);
+
+  return { notifications };
+};
+
+const NotificationPanel = ({ data = mockNotifications }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [notifications, setNotifications] = useState([
-    { id: 1, message: 'Notification 1' },
-    { id: 2, message: 'Notification 2' },
-    { id: 3, message: 'Notification 3' },
-    { id: 4, message: 'Notification 4' },
-    { id: 5, message: 'Notification 5' },
-    { id: 6, message: 'Notification 6' },
-    { id: 7, message: 'Notification 7' },
-    { id: 8, message: 'Notification 8' },
-    { id: 9, message: 'Notification 9' },
-    { id: 10, message: 'Notification 10' },
-    { id: 11, message: 'Notification 11' },
 
-  ]);
+  const { notifications } = useNotifications({ data });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,16 +32,6 @@ const NotificationPanel = () => {
   };
 
   const open = Boolean(anchorEl);
-
-  // Función para obtener el mensaje específico de la notificación
-  const getNotificationMessage = (notification) => {
-    // Aquí se debería obtener el nombre, ID y cantidad desde la notificación
-    const nombre = "Producto X";
-    const numeroId = 123;
-    const cantidad = 5;
-
-    return `El producto ${nombre} de ID ${numeroId} tiene actualmente ${cantidad} de stock disponible. Se recomienda regularizar a la brevedad.`;
-  };
 
   return (
     <>
@@ -62,7 +51,7 @@ const NotificationPanel = () => {
         onClick={handleClick}
       >
         <Badge badgeContent={notifications.length} color="primary">
-          {notifications.length === 0 ? (
+          {open ? (
             <NotificationsNoneIcon sx={{ width: "2vw", height: "auto" }} />
           ) : (
             <NotificationsIcon sx={{ width: "2vw", height: "auto" }} />
@@ -75,8 +64,8 @@ const NotificationPanel = () => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: '60vh', // Ajusta la altura máxima del menú (ejemplo: 60% de la altura de la ventana)
-            width: '30ch',
+            maxHeight: "60vh", // Ajusta la altura máxima del menú (ejemplo: 60% de la altura de la ventana)
+            width: "30ch",
           },
         }}
       >
@@ -84,8 +73,11 @@ const NotificationPanel = () => {
           {notifications.map((notification) => (
             <ListItem key={notification.id} button>
               <ListItemText
-                primary={getNotificationMessage(notification)}
-                primaryTypographyProps={{ variant: "body2", sx: { fontSize: "0.8rem" } }} 
+                primary={notification.message}
+                primaryTypographyProps={{
+                  variant: "body2",
+                  sx: { fontSize: "0.8rem" },
+                }}
               />
             </ListItem>
           ))}
