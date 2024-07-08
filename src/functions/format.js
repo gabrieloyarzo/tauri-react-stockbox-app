@@ -5,11 +5,26 @@ export function formatDateToSpanish(dateString) {
     return dateString;
   }
 
-  const [year, month, day] = dateString.split('-').map(Number);
+  const [year, month, day] = dateString.split("-").map(Number);
 
-  const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+  const months = [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dic",
+  ];
 
-  const formattedDate = `${day.toString().padStart(2, '0')} ${months[month - 1]} ${year}`;
+  const formattedDate = `${day.toString().padStart(2, "0")} ${
+    months[month - 1]
+  } ${year}`;
 
   return formattedDate;
 }
@@ -24,10 +39,9 @@ export const formatNumber = (number) => {
   return cleanNumber;
 };
 
-
 export function formatRut(rut) {
   const cleanRUT = rut.replace(/[^0-9kK]/g, "").toUpperCase();
-  
+
   if (cleanRUT.length < 2) {
     return cleanRUT;
   }
@@ -43,7 +57,7 @@ export function formatRut(rut) {
     }
   }
 
-  return (formattedBody + "-" + dv);
+  return formattedBody + "-" + dv;
 }
 
 export const formatNumberWithMax = (number, max) => {
@@ -56,6 +70,22 @@ export const formatNumberWithMax = (number, max) => {
   if (cleanNumber > max) {
     cleanNumber = max;
   }
+
+  return cleanNumber;
+};
+
+export const formatNumberAddThousandsSeparator = (number) => {
+  let cleanNumber = number.replace(/[^0-9]/g, "");
+
+  if (cleanNumber.startsWith("0")) {
+    cleanNumber = cleanNumber.slice(1);
+  }
+
+  return cleanNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+export const formatNumberDeleteThousandsSeparator = (number) => {
+  let cleanNumber = number.replace(/[^0-9]/g, "");
 
   return cleanNumber;
 };

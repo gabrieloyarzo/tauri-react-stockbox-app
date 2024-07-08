@@ -19,8 +19,11 @@ import { Search } from "@mui/icons-material";
 import { adapter } from "../../functions/adapter";
 import { invAdapterType } from "../../functions/invAdapterType";
 import { isNumberField, isRutField } from "../../functions/typeFields";
-import { formatRut } from "../../functions/format";
-import { formatNumber } from "../../functions/format";
+import {
+  formatRut,
+  formatNumberAddThousandsSeparator,
+  formatNumberDeleteThousandsSeparator,
+} from "../../functions/format";
 
 const StyledSelect = styled(Select)(({ theme }) => ({
   boxShadow: theme.shadows[3],
@@ -65,21 +68,20 @@ const Filters = ({
 
   // Filters
   const [valor, setValor] = useState(filterProps?.valor ?? "");
-  const [desde, setDesde] = useState(
-    filterProps?.desde ?? null
-  );
-  const [hasta, setHasta] = useState(
-    filterProps?.hasta ?? null
-  );
+  const [desde, setDesde] = useState(filterProps?.desde ?? null);
+  const [hasta, setHasta] = useState(filterProps?.hasta ?? null);
   const [category, setCategory] = useState(filterProps?.dato ?? "");
   const [orden, setOrden] = useState(filterProps?.orden ?? "desc");
   const [intervalo, setIntervalo] = useState(filterProps?.intervalo ?? "igual");
 
-  const { isChanged } = usePropsChanged({ obj: filterProps }); 
+  const { isChanged } = usePropsChanged({ obj: filterProps });
 
   const handleChangeCategory = (e) => {
     const dato = e.target.value;
     setCategory(dato);
+    if (valor === "") {
+      return;
+    }
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: 0,
@@ -120,6 +122,9 @@ const Filters = ({
   const handleChangeIntervalo = (e) => {
     const intervalo = e.target.value;
     setIntervalo(intervalo);
+    if (valor === "") {
+      return;
+    }
     setFilterProps((prevProps) => ({
       ...prevProps,
       offset: 0,
@@ -131,7 +136,7 @@ const Filters = ({
     const valor = isRutField(category)
       ? formatRut(e.target.value)
       : isNumberField(category)
-      ? formatNumber(e.target.value)
+      ? formatNumberAddThousandsSeparator(e.target.value)
       : e.target.value;
 
     setValor(valor);
@@ -145,7 +150,10 @@ const Filters = ({
         ...prevProps,
         offset: 0,
         dato: category,
-        valor,
+        intervalo,
+        valor: isNumberField(category)
+          ? formatNumberDeleteThousandsSeparator(valor)
+          : valor,
       }));
     }, 500);
 
@@ -153,7 +161,9 @@ const Filters = ({
   };
 
   const handleClearFilters = () => {
-    const valor = "", desde = "", hasta = "";
+    const valor = "",
+      desde = "",
+      hasta = "";
     setValor(valor);
     setDesde(desde);
     setHasta(hasta);
@@ -217,7 +227,7 @@ const Filters = ({
                 labelId="categoria"
                 value={category}
                 label="Categoría"
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={handleChangeCategory}
                 disabled={isLoading}
               >
                 {filterStrings.map((item) => (
@@ -297,7 +307,11 @@ const Filters = ({
             {/* Mayor a, menor a */}
             <Stack direction="column" width="25%">
               {invAdapterType(category, currentTable) === "number" && (
-                <StyledSelect value={intervalo} disabled={isLoading} onChange={handleChangeIntervalo}>
+                <StyledSelect
+                  value={intervalo}
+                  disabled={isLoading}
+                  onChange={handleChangeIntervalo}
+                >
                   <MenuItem value="mayor">Mayor a</MenuItem>
                   <MenuItem value="igual">Igual a</MenuItem>
                   <MenuItem value="menor">Menor a</MenuItem>
@@ -313,7 +327,7 @@ const Filters = ({
                 value={valor}
                 onChange={handleSearchChange}
                 inputProps={{
-                  maxLength: isRutField(category) && 12,
+                  maxLength: isRutField(category) ? 12 : undefined,
                 }}
                 InputProps={{
                   startAdornment: (
