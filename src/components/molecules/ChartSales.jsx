@@ -12,6 +12,7 @@ const Ventas = () => {
     const fetchData = async () => {
       try {
         const response = await AnalyticApi.getAnalyticData();
+        console.log("Data", response)
         const currentYear = new Date().getFullYear();
 
         const salesData = response.data.datePriceSales
@@ -43,7 +44,7 @@ const Ventas = () => {
         setChartData(allMonths);
         setTotalSales(totalSales);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error al obtener datos:', error);
       }
     };
 

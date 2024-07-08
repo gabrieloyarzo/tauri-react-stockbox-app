@@ -106,7 +106,7 @@ const CardGrid = () => {
           NProductos: response.data.catProducts,
         });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error al obtener datos:', error);
       }
     };
 
