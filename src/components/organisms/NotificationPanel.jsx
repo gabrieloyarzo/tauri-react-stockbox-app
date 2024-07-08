@@ -47,8 +47,8 @@ const NotificationPanel = ({ data = mockNotifications }) => {
           position: "relative",
           color: theme.palette.common.black,
           bgcolor: theme.palette.grey[300],
-          width: "calc(1.75vw + 1.75vh)",
-          height: "calc(1.75vw + 1.75vh)",
+          width: "calc(1.65vw + 1.65vh)",
+          height: "calc(1.65vw + 1.65vh)",
           borderRadius: ".5rem",
           "&:hover": {
             bgcolor: theme.palette.action.hover,
@@ -67,15 +67,15 @@ const NotificationPanel = ({ data = mockNotifications }) => {
           {open ? (
             <NotificationsNoneIcon
               sx={{
-                width: "calc(1.5vw + 1.5vh)",
-                height: "calc(1.5vw + 1.5vh)",
+                width: "calc(1.4vw + 1.4vh)",
+                height: "calc(1.4vw + 1.4vh)",
               }}
             />
           ) : (
             <NotificationsIcon
               sx={{
-                width: "calc(1.5vw + 1.5vh)",
-                height: "calc(1.5vw + 1.5vh)",
+                width: "calc(1.4vw + 1.4vh)",
+                height: "calc(1.4vw + 1.4vh)",
               }}
             />
           )}
@@ -98,7 +98,6 @@ const NotificationPanel = ({ data = mockNotifications }) => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: '8px',
           }}
         >
           {notifications.map((notification) => (
