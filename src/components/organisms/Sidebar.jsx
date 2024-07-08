@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 import LogoutMenu from "../molecules/LogoutMenu";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
@@ -32,6 +33,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 
 const Sidebar = () => {
   const theme = useTheme();
+  const { user } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
   const [value, setValue] = useState("");
@@ -194,12 +196,14 @@ const Sidebar = () => {
                   icon={<Groups />}
                   iconPosition="start"
                 />
-                <StyledTab
-                  value="users"
-                  label={!isSmallScreen && "Usuarios"}
-                  icon={<PersonSearch />}
-                  iconPosition="start"
-                />
+                {user?.rol === "ADMIN" && (
+                  <StyledTab
+                    value="users"
+                    label={!isSmallScreen && "Usuarios"}
+                    icon={<PersonSearch />}
+                    iconPosition="start"
+                  />
+                )}
                 <StyledTab
                   value="help"
                   label={!isSmallScreen && "Ayuda"}
