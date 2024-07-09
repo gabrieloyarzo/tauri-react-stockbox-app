@@ -38,7 +38,7 @@ const TableRows = ({
   fetchData,
   toggleForm,
   setFormProps,
-  filterProps,
+  allColumns,
   setFilterProps,
   count,
 }) => {
@@ -232,7 +232,7 @@ const TableRows = ({
                     </Tooltip>
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDelete(obj[columns[0]])}
+                    onClick={() => handleDelete(obj[allColumns[0]])}
                     sx={{
                       borderRadius: ".25em",
                       color: "secondary.contrastText",
