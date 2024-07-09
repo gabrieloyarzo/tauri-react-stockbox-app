@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Dashboard,
   Purchases,
+  Refunds,
   Products,
   Providers,
   Sales,
@@ -37,6 +38,7 @@ const RouterApp = () => {
                 <Route path="/" element={<Navigate to="/analytics" />} />
                 <Route path="/analytics" element={<Dashboard />} />
                 <Route path="/purchases" element={<Purchases />} />
+                <Route path="/refunds" element={<Refunds />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/providers" element={<Providers />} />
                 <Route path="/sales" element={<Sales />} />

@@ -6,7 +6,6 @@ import MainLayout from "../templates/MainLayout";
 import RefundForm from "../organisms/forms/RefundForm";
 import Reload from "../molecules/Reload";
 import { iRefund } from "../../functions/dataStructure";
-import { describe } from "vitest";
 
 const Refunds = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
@@ -14,7 +13,8 @@ const Refunds = () => {
   const { showSnackbar } = useSnackbar();
 
   const refundsPage = localStorage.getItem("refunds_page");
-  const parsedRefundsPage = refundsPage !== null ? Number(refundsPage) : 1;
+  const parsedRefundsPage =
+    refundsPage !== null ? Number(refundsPage) : 1;
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -46,7 +46,6 @@ const Refunds = () => {
 
   // Table related
   const [tableData, setTableData] = useState(null);
-  const [saleCodes, setSaleCodes] = useState([]);
 
   const fetchData = async (props) => {
     setError(null);
@@ -60,7 +59,6 @@ const Refunds = () => {
         })();
 
       setTableData(refunds.data);
-      setSaleCodes(refunds.saleCodes);
       setCount(refunds.largo);
 
       localStorage.setItem("refunds_fprops", JSON.stringify(filterProps));
@@ -119,7 +117,6 @@ const Refunds = () => {
             <RefundForm
               {...formProps}
               closeForm={() => setOpenForm(false)}
-              saleCodes={saleCodes}
               filterProps={filterProps}
             />
           )}
