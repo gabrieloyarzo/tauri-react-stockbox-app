@@ -101,7 +101,7 @@ const CardGrid = () => {
         setAnalyticsData({
           IngresosTotales: response.data.sumTotalSales,
           NVentas: response.data.countSales,
-          NAlertas: response.data.countNotifactions,
+          NCompras: response.data.countPurchases,
           NProveedores: response.data.countProviders,
           NProductos: response.data.catProducts,
         });
@@ -133,13 +133,13 @@ const CardGrid = () => {
         <CardFormat titulo="N° de ventas" monto={analyticsData.NVentas} />
       </Grid>
       <Grid item xs={12} sm={6} md={2.4}>
+        <CardFormat titulo="N° de compras" monto={analyticsData.NCompras} />
+      </Grid>
+      <Grid item xs={12} sm={6} md={2.4}>
         <CardFormat titulo="N° de proveedores" monto={analyticsData.NProveedores} />
       </Grid>
       <Grid item xs={12} sm={6} md={2.4}>
         <CardFormat titulo="N° de alertas activas" monto={analyticsData.NAlertas} />
-      </Grid>
-      <Grid item xs={12} sm={6} md={2.4}>
-        <CardFormat titulo="N° de inventario total" monto={analyticsData.NProductos} />
       </Grid>
     </Grid>
   );
