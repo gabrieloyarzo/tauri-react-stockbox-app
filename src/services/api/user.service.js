@@ -7,12 +7,12 @@ const UserApi = {
     dato = "rutu",
     offset = 0,
     limit = 10,
-    value = "",
+    valor = "",
     orden = "desc",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&value=${value}&orden=${orden}`,
+        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

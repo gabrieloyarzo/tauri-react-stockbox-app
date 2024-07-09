@@ -30,6 +30,7 @@ export function formatDateToSpanish(dateString) {
 }
 
 export const formatNumber = (number) => {
+  number = number.toString();
   let cleanNumber = number.replace(/[^0-9]/g, "");
 
   if (cleanNumber.startsWith("0")) {
@@ -61,6 +62,7 @@ export function formatRut(rut) {
 }
 
 export const formatNumberWithMax = (number, max) => {
+  number = number.toString();
   let cleanNumber = number.replace(/[^0-9]/g, "");
 
   if (cleanNumber.startsWith("0")) {
@@ -75,6 +77,7 @@ export const formatNumberWithMax = (number, max) => {
 };
 
 export const formatNumberAddThousandsSeparator = (number) => {
+  number = number.toString();
   let cleanNumber = number.replace(/[^0-9]/g, "");
 
   if (cleanNumber.startsWith("0")) {

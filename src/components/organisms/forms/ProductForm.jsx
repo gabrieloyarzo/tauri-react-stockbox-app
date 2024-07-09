@@ -16,7 +16,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import { validateProduct } from "../../../services/validation/productValidation";
 import { isEmptyObject } from "../../../functions/helpers";
-import { formatNumber } from "../../../functions/format";
+import {
+  formatNumber,
+  formatNumberAddThousandsSeparator,
+  formatNumberDeleteThousandsSeparator,
+} from "../../../functions/format";
 import { isNumberField } from "../../../functions/typeFields";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -44,16 +48,22 @@ const ProductForm = ({
     cod: initialData?.cod || "",
     nombre: initialData?.nombre || "",
     cat: initialData?.cat || "",
-    cit: initialData?.cit || "",
-    mCit: initialData?.mCit || "",
-    precio: initialData?.precio || "",
+    cit: initialData?.cit
+      ? formatNumberAddThousandsSeparator(initialData?.cit)
+      : "",
+    mCit: initialData?.mCit
+      ? formatNumberAddThousandsSeparator(initialData?.mCit)
+      : "",
+    precio: initialData?.precio
+      ? formatNumberAddThousandsSeparator(initialData?.precio)
+      : "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: isNumberField(e.target.name)
-        ? formatNumber(e.target.value)
+        ? formatNumberAddThousandsSeparator(e.target.value)
         : e.target.value,
     });
   };
@@ -74,9 +84,15 @@ const ProductForm = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    formData["precio"] = formatNumberDeleteThousandsSeparator(formData.precio);
+    formData["cit"] = formatNumberDeleteThousandsSeparator(formData.cit);
+    formData["mCit"] = formatNumberDeleteThousandsSeparator(formData.mCit);
+
     if (
-      JSON.stringify({ idp: initialData?.idp, ...formData }) ===
-      JSON.stringify(initialData)
+      JSON.stringify({
+        idp: initialData?.idp,
+        ...formData,
+      }) === JSON.stringify(initialData)
     ) {
       return;
     }

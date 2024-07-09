@@ -132,7 +132,9 @@ const TableRows = ({
               zIndex: 1,
             }}
           >
-            <CircularProgress />
+            <td colSpan={100}>
+              <CircularProgress />
+            </td>
           </Box>
         )}
         {data.length === 0 ? (
