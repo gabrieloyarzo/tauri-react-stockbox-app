@@ -78,13 +78,11 @@ const Sales = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("sales_page", page);
-  }, [page]);
-
-  useEffect(() => {
     fetchData(filterProps);
     const offset = filterProps?.offset ?? 0;
-    setPage((offset + 10) / 10);
+    const pagina = (offset + 10) / 10;
+    setPage(pagina);
+    localStorage.setItem("sales_page", pagina);
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);

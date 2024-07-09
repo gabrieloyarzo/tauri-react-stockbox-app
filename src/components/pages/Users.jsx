@@ -71,13 +71,11 @@ const Users = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("users_page", page);
-  }, [page]);
-
-  useEffect(() => {
     fetchData(filterProps);
     const offset = filterProps?.offset ?? 0;
-    setPage((offset + 10) / 10);
+    const pagina = (offset + 10) / 10;
+    setPage(pagina);
+    localStorage.setItem("users_page", pagina);
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
 import { useVariables } from "../../context/VariablesContext";
-import { useFilter } from "../../context/FilterContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import PurchaseApi from "../../services/api/purchase.service";
 import MainLayout from "../templates/MainLayout";
@@ -84,13 +83,11 @@ const Purchases = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("purchases_page", page);
-  }, [page]);
-
-  useEffect(() => {
     fetchData(filterProps);
     const offset = filterProps?.offset ?? 0;
-    setPage((offset + 10) / 10);
+    const pagina = (offset + 10) / 10;
+    setPage(pagina);
+    localStorage.setItem("purchases_page", pagina);
   }, [filterProps]);
 
   // Forms

@@ -52,6 +52,7 @@ const Refunds = () => {
     setIsLoading(true);
     try {
       const refunds = await RefundApi.getAllRefunds(props);
+      console.log(refunds)
       isFirstLoad &&
         (() => {
           showSnackbar(refunds.message, "success");
@@ -76,13 +77,11 @@ const Refunds = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("refunds_page", page);
-  }, [page]);
-
-  useEffect(() => {
     fetchData(filterProps);
     const offset = filterProps?.offset ?? 0;
-    setPage((offset + 10) / 10);
+    const pagina = (offset + 10) / 10;
+    setPage(pagina);
+    localStorage.setItem("refunds_page", pagina);
   }, [filterProps]);
 
   // Forms

@@ -76,13 +76,11 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("products_page", page);
-  }, [page]);
-
-  useEffect(() => {
     fetchData(filterProps);
     const offset = filterProps?.offset ?? 0;
-    setPage((offset + 10) / 10);
+    const pagina = (offset + 10) / 10;
+    setPage(pagina);
+    localStorage.setItem("products_page", pagina);
   }, [filterProps]);
 
   // Forms

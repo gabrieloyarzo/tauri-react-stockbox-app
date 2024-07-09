@@ -23,6 +23,8 @@ const Table = ({
   toggleForm,
   setFormProps,
   filterProps,
+  setFilterProps,
+  count,
 }) => {
   const columns = useTableColumns({ data });
 
@@ -37,6 +39,8 @@ const Table = ({
           toggleForm={toggleForm}
           setFormProps={setFormProps}
           filterProps={filterProps}
+          setFilterProps={setFilterProps}
+          count={count}
         />
       </TableMUI>
     </TableContainer>

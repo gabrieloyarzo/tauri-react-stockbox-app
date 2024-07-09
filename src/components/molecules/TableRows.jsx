@@ -39,6 +39,8 @@ const TableRows = ({
   toggleForm,
   setFormProps,
   filterProps,
+  setFilterProps,
+  count,
 }) => {
   const theme = useTheme();
   const { currentTable, isLoading, tableColumns } = useTable();
@@ -90,13 +92,20 @@ const TableRows = ({
   const confirmDelete = async (id) => {
     try {
       const response = await auxDelete({ currentTable, id });
-      await fetchData(filterProps);
+      setFilterProps((prevProps) => ({
+        ...prevProps,
+        offset:
+          (prevProps?.offset + 10) / 10 > Math.ceil((count - 1) / 10) &&
+          prevProps?.offset !== 0
+            ? prevProps?.offset - 10
+            : prevProps?.offset,
+      }));
       showSnackbar(response.message, "success");
     } catch (error) {
       showSnackbar(error.response.data.message, "error");
     }
   };
-  
+
   return (
     <>
       <TableBody
@@ -110,6 +119,7 @@ const TableRows = ({
       >
         {isLoading && (
           <Box
+            component="tr"
             sx={{
               position: "absolute",
               top: 0,

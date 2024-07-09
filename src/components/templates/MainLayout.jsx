@@ -53,7 +53,9 @@ const MainLayout = ({
                   toggleForm={toggleForm}
                   setFormProps={setFormProps}
                   filterProps={filterProps}
+                  setFilterProps={setFilterProps}
                   defaultFilterProps={defaultFilterProps}
+                  count={count}
                 />
               </>
             )}
