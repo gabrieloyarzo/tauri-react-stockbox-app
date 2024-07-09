@@ -4,7 +4,13 @@ import { useTheme } from "@mui/material/styles";
 import { useDialog } from "../../../context/DialogContext";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { styled } from "@mui/material/styles";
-import { Button, TextField, Box, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Autocomplete,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
 import { validateProvider } from "../../../services/validation/providerValidation";
@@ -26,7 +32,7 @@ const ProviderForm = ({
   filterProps,
 }) => {
   const theme = useTheme();
-  const { setProviders } = useVariables();
+  const { setProviders, providerTypes } = useVariables();
   const { showDialog } = useDialog();
   const { showSnackbar } = useSnackbar();
 
@@ -230,16 +236,39 @@ const ProviderForm = ({
                 maxLength: 20,
               }}
             />
-            <StyledTextField
-              label="Tipo"
-              name="tipo"
-              value={formData.tipo}
-              onChange={handleChange}
-              error={!!errors.tipo}
-              helperText={errors.tipo}
-              inputProps={{
-                maxLength: 20,
+            <Autocomplete
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                "& .MuiSvgIcon-root": {
+                  color: theme.palette.secondary.contrastText,
+                },
               }}
+              options={providerTypes}
+              value={formData.tipo}
+              freeSolo
+              onChange={(event, newValue) => {
+                handleChange({
+                  target: { name: "tipo", value: newValue },
+                });
+              }}
+              renderInput={(params) => (
+                <StyledTextField
+                  {...params}
+                  label="Tipo"
+                  name="tipo"
+                  value={formData.tipo}
+                  onChange={handleChange}
+                  error={!!errors.tipo}
+                  helperText={errors.tipo}
+                  inputProps={{
+                    ...params.inputProps,
+                    maxLength: 20,
+                  }}
+                />
+              )}
             />
             <Box
               sx={{
