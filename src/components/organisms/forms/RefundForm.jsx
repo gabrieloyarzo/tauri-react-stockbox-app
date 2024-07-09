@@ -242,7 +242,7 @@ const RefundForm = ({ mode = "create", data = mockData }) => {
                     {detalle.cit}
                   </Typography>
                   <TextField
-                    sx={{ display: "flex", flex: 1, alignItems: "center", flex: 1 }}
+                    sx={{ display: "flex", flex: 1, alignItems: "center" }}
                     InputProps={{
                       sx: {
                         width: "60%",
