@@ -139,7 +139,7 @@ const CardGrid = () => {
         <CardFormat titulo="N° de proveedores" monto={analyticsData.NProveedores} />
       </Grid>
       <Grid item xs={12} sm={6} md={2.4}>
-        <CardFormat titulo="N° de alertas activas" monto={analyticsData.NAlertas} />
+        <CardFormat titulo="N° de inventario total" monto={analyticsData.NProductos} />
       </Grid>
     </Grid>
   );
