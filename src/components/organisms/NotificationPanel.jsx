@@ -7,10 +7,12 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  IconButton,
+  Box,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { mockNotifications } from "../../../mock/notificationsMock.js";
 
 const useNotifications = ({ data }) => {
@@ -37,6 +39,9 @@ const NotificationPanel = ({ data = mockNotifications }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  /*const handleDelete = (id) => {
+  };*/
 
   const open = Boolean(anchorEl);
 
@@ -87,8 +92,8 @@ const NotificationPanel = ({ data = mockNotifications }) => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: "60vh", // Ajusta la altura máxima del menú (ejemplo: 60% de la altura de la ventana)
-            width: "20vw",
+            maxHeight: "60vh", 
+            width: "25vw",
           },
         }}
       >
@@ -105,17 +110,36 @@ const NotificationPanel = ({ data = mockNotifications }) => {
               key={notification.id}
               sx={{
                 width: "95%",
-                marginBottom: '.5em',
+                marginBottom: ".5em",
                 borderRadius: ".5em",
-                bgcolor: theme.palette.grey[200],
+                bgcolor: theme.palette.common.white,
+                borderLeft: `5px solid ${theme.palette.primary.main}`, /*Linea verde*/
               }}
             >
-              <ListItemText
-                primary={notification.descripcion}
-                primaryTypographyProps={{
-                  variant: "body2",
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
                 }}
-              />
+              >
+                <ListItemText
+                  primary={notification.titulo}   /*Aqui va el titulo de noti.*/
+                  primaryTypographyProps={{
+                    variant: "body1",  /*Cambio el tipo de letra del titulo.*/
+                    sx: { fontWeight: "bold", color: theme.palette.primary.main },
+                  }}
+                  secondary={notification.descripcion} /*Aqui descripción de noti.*/
+                />
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleDelete(notification.id)}
+                  sx={{ color: theme.palette.primary.main }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
             </ListItem>
           ))}
         </List>
