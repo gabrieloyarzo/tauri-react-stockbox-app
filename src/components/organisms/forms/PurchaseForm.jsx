@@ -298,11 +298,13 @@ const PurchaseForm = ({
           transform: "translate(-29.5%, -50%)",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           overflow: "hidden",
           bgcolor: "#ffffff",
           border: "1.5px solid #266763",
           borderRadius: "1rem",
+          overflowX: "hidden",
+          overflowY: "auto",
         }}
       >
         <Box
@@ -634,7 +636,7 @@ const PurchaseForm = ({
                   sx={{
                     backgroundColor: "#266763",
                     color: "#ffffff",
-                    fontSize: "0.8rem",
+                    fontSize: theme.typography.body2.fontSize,
                     textTransform: "none",
                     "&:hover": {
                       backgroundColor: "#c3fa7b",
@@ -676,8 +678,6 @@ const PurchaseForm = ({
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "150px",
                   "&:hover": {
                     backgroundColor: "#c3fa7b",
                     color: "#7e7e7e",
@@ -695,8 +695,6 @@ const PurchaseForm = ({
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "150px",
                   "&:hover": {
                     backgroundColor: "#c3fa7b",
                     color: "#7e7e7e",
