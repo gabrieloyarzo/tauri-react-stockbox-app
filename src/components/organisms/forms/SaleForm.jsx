@@ -295,11 +295,13 @@ const SaleForm = ({
           transform: "translate(-29.5%, -50%)",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           overflow: "hidden",
           bgcolor: "#ffffff",
           border: "1.5px solid #266763",
           borderRadius: "1rem",
+          overflowX: "hidden",
+          overflowY: "auto",
         }}
       >
         <Box
