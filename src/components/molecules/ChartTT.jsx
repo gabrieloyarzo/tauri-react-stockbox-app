@@ -50,12 +50,12 @@ const TopSoldProducts = () => {
   );
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
-      <Typography gutterBottom align="left" sx={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '30px' }}>
+    <Box sx={{ width: '100%', height: '100%'}}>
+      <Typography gutterBottom align="left" sx={{ fontSize: '20px', fontWeight: 'bold', marginLeft: '30px' }}>
         Productos más vendidos
       </Typography>
-      <ResponsiveContainer width="100%" height={360}>
-        <BarChart layout="vertical" data={data} margin={{ top: 5, right: 5 }}>
+      <ResponsiveContainer width="100%" height={259}>
+        <BarChart layout="vertical" data={data} margin={{ top: 8, right: 5 }}>
           <XAxis type="number" tick={false} axisLine={false} />
           <YAxis type="category" dataKey="name" tick={false} axisLine={false} />
           <Bar dataKey="value" fill="#266763" barSize={7}>

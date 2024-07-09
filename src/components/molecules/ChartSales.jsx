@@ -67,17 +67,17 @@ const Ventas = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: 'auto'}}>
-      <Typography gutterBottom align="left" sx={{fontSize: "24px", fontWeight: "bold"}}>
+    <div style={{ width: '100%', height: '70%'}}>
+      <Typography gutterBottom align="left" sx={{fontSize: "20px", fontWeight: "bold"}}>
         Balance de ventas 
-        <Typography component="span" color="textSecondary" sx={{fontSize: "30px", fontWeight: "bold", marginLeft: "5px"}}>
+        <Typography component="span" color="textSecondary" sx={{fontSize: "22px", fontWeight: "bold", marginLeft: "5px"}}>
           {`$${formatNumber(totalSales)}`}
         </Typography>
       </Typography>
 
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={230}>
             <LineChart
               data={chartData}
               margin={{ top: 5, right: 10, left: 7, bottom: 5 }}
