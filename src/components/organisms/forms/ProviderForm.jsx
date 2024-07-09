@@ -217,9 +217,7 @@ const ProviderForm = ({
               onChange={handleChange}
               error={!!errors.lugar}
               helperText={errors.lugar}
-              inputProps={{
-                maxLength: 20,
-              }}
+              inputProps={{ maxLength: 100 }}
             />
             <StyledTextField
               label="Teléfono"

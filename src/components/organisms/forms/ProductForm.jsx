@@ -233,7 +233,7 @@ const ProductForm = ({
               error={!!errors.nombre}
               helperText={errors.nombre}
               inputProps={{
-                maxLength: 20,
+                maxLength: 50,
               }}
             />
             <Autocomplete
@@ -265,7 +265,7 @@ const ProductForm = ({
                   helperText={errors.cat}
                   inputProps={{
                     ...params.inputProps,
-                    maxLength: 20,
+                    maxLength: 50,
                   }}
                 />
               )}

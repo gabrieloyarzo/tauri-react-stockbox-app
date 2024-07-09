@@ -215,7 +215,7 @@ const UserForm = ({ mode, initialData, closeForm, fetchData, filterProps }) => {
               error={!!errors.pwd}
               helperText={errors.pwd}
               inputProps={{
-                maxLength: 60,
+                maxLength: 16,
               }}
             />
             <StyledTextField

@@ -341,6 +341,7 @@ const PurchaseForm = ({
                   handleChange(e);
                   handleValidateCode(e);
                 }}
+                inputProps={{ maxLength: 20 }}
               />
 
               <Box
@@ -564,6 +565,7 @@ const PurchaseForm = ({
                         width: "60%",
                       },
                     }}
+                    inputProps={{ maxLength: 10 }}
                   />
 
                   <StyledStack sx={{ textAlign: "center", flex: 1 }}>
@@ -581,6 +583,7 @@ const PurchaseForm = ({
                           width: "80%",
                         },
                       }}
+                      inputProps={{ maxLength: 15 }}
                     />
                   </StyledStack>
 
