@@ -12,38 +12,38 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
 
   return (
     <Box
-      sx={{ 
+      sx={{
         textAlign: 'center',
-        p: 1, 
+        p: 0.6,
         borderRadius: "15px",
         bgcolor: "#EFEFEF",
-        display: 'flex', 
+        display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: '90%',
+        height: '75%',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)',
       }}
     >
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         <Grid item xs={12}>
-          <Typography variant="subtitle1" sx={{ fontWeight: "bold", textAlign: 'center' }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: 'center' }}>
             {titulo}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", textAlign: 'center', color: '#266763'}}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", textAlign: 'center', color: '#266763' }}>
             {monto}
           </Typography>
         </Grid>
         {(incremento || periodo) && (
-          <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginBottom: '1em' }}>
             {incremento && (
               <Typography variant="h6" color={incrementoColor}>
                 {incremento}
               </Typography>
             )}
             {periodo && (
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="body1" sx={{ fontSize: "0.75em", marginBottom: '0.5em' }} color="text.secondary">
                 {periodo}
               </Typography>
             )}
