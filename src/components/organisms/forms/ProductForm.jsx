@@ -174,12 +174,14 @@ const ProductForm = ({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           overflow: "hidden",
           bgcolor: "#ffffff",
           border: "1.5px solid #266763",
           borderRadius: "15px",
           p: 2,
+          overflowX: "hidden",
+          overflowY: "auto",
         }}
       >
         <Box
