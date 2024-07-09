@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
+import { useVariables } from "../../context/VariablesContext";
 import UserApi from "../../services/api/user.service";
 import MainLayout from "../templates/MainLayout";
 import UserForm from "../organisms/forms/UserForm";
@@ -11,6 +12,7 @@ const Users = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
     useTable();
   const { showSnackbar } = useSnackbar();
+  const { setUserRoles } = useVariables();
 
   const usersPage = localStorage.getItem("users_page");
   const parsedUsersPage = usersPage !== null ? Number(usersPage) : 1;
@@ -22,7 +24,7 @@ const Users = () => {
 
   // Filters strings
   const filterStrings = Object.values(iUser)
-    .filter((item) => item[1] === "string")
+    .filter((item) => item[1] === "string" && item[0] !== "Rol")
     .map((item) => item[0]);
 
   // Filters numbers
@@ -37,6 +39,7 @@ const Users = () => {
       dato: "rutu",
       valor: "",
       orden: "desc",
+      rol: "todos",
     }
   );
 
@@ -54,6 +57,7 @@ const Users = () => {
         })();
 
       setTableData(users.data);
+      setUserRoles(users.roles);
       setCount(users.largo);
 
       localStorage.setItem("users_fprops", JSON.stringify(filterProps));

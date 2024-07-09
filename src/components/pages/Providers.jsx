@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
+import { useVariables } from "../../context/VariablesContext";
 import ProviderApi from "../../services/api/provider.service";
 import MainLayout from "../templates/MainLayout";
 import ProviderForm from "../organisms/forms/ProviderForm";
@@ -11,6 +12,7 @@ const Providers = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
     useTable();
   const { showSnackbar } = useSnackbar();
+  const { setProviderTypes } = useVariables();
 
   const providersPage = localStorage.getItem("providers_page");
   const parsedProvidersPage = providersPage !== null ? Number(providersPage) : 1;
@@ -19,6 +21,7 @@ const Providers = () => {
     dato: "rutp",
     valor: "",
     orden: "desc",
+    tipo: "todos",
   };
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -28,7 +31,7 @@ const Providers = () => {
 
   // Filters strings
   const filterStrings = Object.values(iProvider)
-    .filter((item) => item[1] === "string")
+    .filter((item) => item[1] === "string" && item[0] !== "Tipo")
     .map((item) => item[0]);
 
   // Filters numbers
@@ -59,6 +62,7 @@ const Providers = () => {
         })();
 
       setTableData(providers.data);
+      setProviderTypes(providers.types);
       setCount(providers.largo);
 
       localStorage.setItem("providers_fprops", JSON.stringify(filterProps));

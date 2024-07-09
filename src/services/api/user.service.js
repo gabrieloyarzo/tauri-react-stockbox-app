@@ -9,10 +9,11 @@ const UserApi = {
     limit = 10,
     valor = "",
     orden = "desc",
+    rol = "todos",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}`,
+        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}&rol=${rol}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

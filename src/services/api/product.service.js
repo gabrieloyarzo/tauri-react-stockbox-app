@@ -10,10 +10,11 @@ const ProductApi = {
     valor = "",
     intervalo = "igual",
     orden = "desc",
+    categoria = "todos",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&intervalo=${intervalo}&orden=${orden}`,
+        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&intervalo=${intervalo}&orden=${orden}&categoria=${categoria}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

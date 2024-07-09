@@ -9,10 +9,11 @@ const ProviderApi = {
     limit = 10,
     valor = "",
     orden = "desc",
+    tipo = "todos",
   } = {}) {
     try {
       const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}`,
+        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}&tipo=${tipo}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

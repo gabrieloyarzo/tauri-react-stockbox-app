@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
+import { useVariables } from "../../context/VariablesContext";
 import { useTheme, styled } from "@mui/material/styles";
 import { usePropsChanged } from "../../hooks/usePropsChanged";
 import {
@@ -64,6 +65,7 @@ const Filters = ({
 }) => {
   const theme = useTheme();
   const { currentTable, isLoading } = useTable();
+  const { userRoles, providerTypes, categories } = useVariables();
   const [timeoutId, setTimeoutId] = useState(null);
 
   // Filters
@@ -74,6 +76,16 @@ const Filters = ({
   const [orden, setOrden] = useState(filterProps?.orden ?? "desc");
   const [intervalo, setIntervalo] = useState(filterProps?.intervalo ?? "igual");
 
+  // Users roles
+  const [userRole, setUserRole] = useState("todos");
+
+  // Providers types
+  const [providerType, setProviderType] = useState("todos");
+
+  // Products categories
+  const [productCategory, setProductCategory] = useState("todos");
+
+  // To empty the filters
   const { isChanged } = usePropsChanged({ obj: filterProps });
 
   const handleChangeCategory = (e) => {
@@ -129,6 +141,36 @@ const Filters = ({
       ...prevProps,
       offset: 0,
       intervalo,
+    }));
+  };
+
+  const handleChangeUserRole = (e) => {
+    const rol = e.target.value;
+    setUserRole(rol);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: 0,
+      rol,
+    }));
+  };
+
+  const handleChangeProviderType = (e) => {
+    const tipo = e.target.value;
+    setProviderType(tipo);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: 0,
+      tipo,
+    }));
+  };
+
+  const handleChangeProductCategory = (e) => {
+    const categoria = e.target.value;
+    setProductCategory(categoria);
+    setFilterProps((prevProps) => ({
+      ...prevProps,
+      offset: 0,
+      categoria,
     }));
   };
 
@@ -222,11 +264,11 @@ const Filters = ({
         <Grid item xs={2}>
           <Stack direction="column" width="90%">
             <FormControl>
-              <InputLabel id="categoria">Categoría</InputLabel>
+              <InputLabel id="filtrar-por">Filtrar por</InputLabel>
               <StyledSelect
-                labelId="categoria"
+                labelId="filtrar-por"
                 value={category}
-                label="Categoría"
+                label="Filtrar por"
                 onChange={handleChangeCategory}
                 disabled={isLoading}
               >
@@ -266,8 +308,8 @@ const Filters = ({
 
         {/* Desde, hasta */}
         <Grid item xs={3.5}>
-          <Stack direction="row" width="90%">
-            {isDateTable(currentTable) && (
+          {isDateTable(currentTable) && (
+            <Stack direction="row" width="90%">
               <Stack direction="row" width="100%" alignItems={"center"}>
                 <StyledTextField
                   label="Desde"
@@ -298,8 +340,71 @@ const Filters = ({
                   }}
                 />
               </Stack>
-            )}
-          </Stack>
+            </Stack>
+          )}
+          {currentTable === "users" && (
+            <Stack direction="row" width="50%">
+              <FormControl>
+                <InputLabel id="rol">Rol</InputLabel>
+                <StyledSelect
+                  labelId="rol"
+                  label="Rol"
+                  value={userRole}
+                  disabled={isLoading}
+                  onChange={handleChangeUserRole}
+                >
+                  <MenuItem value="todos">Todos</MenuItem>
+                  {userRoles.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+              </FormControl>
+            </Stack>
+          )}
+          {currentTable === "providers" && (
+            <Stack direction="row" width="50%">
+              <FormControl>
+                <InputLabel id="tipo">Tipo</InputLabel>
+                <StyledSelect
+                  labelId="tipo"
+                  label="Tipo"
+                  value={providerType}
+                  disabled={isLoading}
+                  onChange={handleChangeProviderType}
+                >
+                  <MenuItem value="todos">Todos</MenuItem>
+                  {providerTypes.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+              </FormControl>
+            </Stack>
+          )}
+          {currentTable === "products" && (
+            <Stack direction="row" width="50%">
+              <FormControl>
+                <InputLabel id="categoria">Categoría</InputLabel>
+                <StyledSelect
+                  labelId="categoria"
+                  label="Categoría"
+                  value={productCategory}
+                  disabled={isLoading}
+                  onChange={handleChangeProductCategory}
+                >
+                  <MenuItem value="todos">Todos</MenuItem>
+                  {categories.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+              </FormControl>
+            </Stack>
+          )}
         </Grid>
 
         <Grid item xs={4.75}>

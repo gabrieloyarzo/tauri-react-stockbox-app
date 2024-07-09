@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
+import { useVariables } from "../../context/VariablesContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
@@ -11,6 +12,7 @@ const Products = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
     useTable();
   const { showSnackbar } = useSnackbar();
+  const { categories, setCategories } = useVariables();
 
   const productsPage = localStorage.getItem("products_page");
   const parsedProductsPage = productsPage !== null ? Number(productsPage) : 1;
@@ -22,7 +24,7 @@ const Products = () => {
 
   // Filters strings
   const filterStrings = Object.values(iProduct)
-    .filter((item) => item[1] === "string")
+    .filter((item) => item[1] === "string" && item[0] !== "Categoría")
     .map((item) => item[0]);
 
   // Filters numbers
@@ -38,11 +40,11 @@ const Products = () => {
       valor: "",
       orden: "desc",
       intervalo: "igual",
+      categoria: "todos",
     }
   );
 
   const [tableData, setTableData] = useState(null);
-  const [categories, setCategories] = useState([]);
   const [codes, setCodes] = useState([]);
 
   const fetchData = async (props) => {
