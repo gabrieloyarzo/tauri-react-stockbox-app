@@ -128,7 +128,7 @@ const Help = () => {
       longText:
         "Si necesita ayuda adicional, puede contactar al equipo de soporte de StockBox.",
       steps: [
-        "Enviar un correo a stockbox_support@gmail.com",
+        "Enviar un correo a stockbox.soporte@gmail.com",
         "En el asunto del correo agregar inicialmente ''StockBox - Asunto del contacto''.",
         "Y listo.",
       ],  
