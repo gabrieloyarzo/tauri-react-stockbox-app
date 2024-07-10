@@ -59,11 +59,11 @@ const TendenciasVentas = () => {
   }, [currentYear, previousYear]);
 
   return (
-    <Box sx={{ width: '100%', height: 'auto' }}>
-      <Typography gutterBottom align="left" sx={{ fontSize: "24px", fontWeight: "bold" }}>
+    <Box sx={{ width: '100%', height: '100%'}}>
+      <Typography gutterBottom align="left" sx={{ fontSize: "20px", fontWeight: "bold" }}>
         Tendencia de ventas
       </Typography>
-      <Box sx={{ width: '100%', height: 325 }}>
+      <Box sx={{ width: '100%', height: 259 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 10 }}>
             <CartesianGrid stroke="none" />

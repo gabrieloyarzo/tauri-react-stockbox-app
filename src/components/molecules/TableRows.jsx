@@ -24,6 +24,7 @@ import LoopIcon from "@mui/icons-material/Loop";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RenderModal from "../../functions/renderModal";
 import CustomTableChip from "../atoms/custom-ui/CustomTableChip";
+import RefundForm from "../organisms/forms/RefundForm";
 
 const isDetailTable = (currentTable) => {
   return (
@@ -38,7 +39,7 @@ const TableRows = ({
   fetchData,
   toggleForm,
   setFormProps,
-  filterProps,
+  allColumns,
   setFilterProps,
   count,
 }) => {
@@ -58,6 +59,10 @@ const TableRows = ({
   const [activeModal, setActiveModal] = useState(false);
   const [modalProps, setModalProps] = useState({});
 
+  // Refund form
+  const [activeRefund, setActiveRefund] = useState(false);
+  const [sale, setSale] = useState({});
+
   const handleDetails = (details) => {
     setModalProps({
       data: details,
@@ -67,8 +72,8 @@ const TableRows = ({
   };
 
   const handleRefund = (sale) => {
-    // TODO: Create refund
-    console.log(sale);
+    setSale(sale);
+    setActiveRefund(true);
   };
 
   const handleEdit = (obj) => {
@@ -232,7 +237,7 @@ const TableRows = ({
                     </Tooltip>
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDelete(obj[columns[0]])}
+                    onClick={() => handleDelete(obj[allColumns[0]])}
                     sx={{
                       borderRadius: ".25em",
                       color: "secondary.contrastText",
@@ -258,6 +263,14 @@ const TableRows = ({
       </TableBody>
       {activeModal && (
         <RenderModal currentTable={currentTable} modalProps={modalProps} />
+      )}
+      {activeRefund && (
+        <RefundForm
+          mode="create"
+          data={sale}
+          setActiveRefund={setActiveRefund}
+          closeForm={() => setActiveRefund(false)}
+        />
       )}
     </>
   );

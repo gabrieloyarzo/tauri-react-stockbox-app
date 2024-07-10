@@ -6,15 +6,15 @@ import TableHeader from "../molecules/TableHeader";
 import TableRows from "../molecules/TableRows";
 
 const useTableColumns = ({ data }) => {
-  const [columns, setColumns] = useState([]);
+  const [allColumns, setAllColumns] = useState([]);
 
   useEffect(() => {
     if (data && data.length > 0) {
-      setColumns(Object.keys(data[0]));
+      setAllColumns(Object.keys(data[0]));
     }
   }, [data]);
 
-  return columns;
+  return { allColumns };
 };
 
 const Table = ({
@@ -26,15 +26,15 @@ const Table = ({
   setFilterProps,
   count,
 }) => {
-  const columns = useTableColumns({ data });
+  const { allColumns } = useTableColumns({ data });
 
   return (
     <TableContainer component={Paper}>
       <TableMUI className="tabla-datos" aria-label="content table">
-        <TableHeader defaultColumns={columns} />
+        <TableHeader defaultColumns={allColumns} />
         <TableRows
           data={data}
-          columns={columns}
+          allColumns={allColumns}
           fetchData={fetchData}
           toggleForm={toggleForm}
           setFormProps={setFormProps}
