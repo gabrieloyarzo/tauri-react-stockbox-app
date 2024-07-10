@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUser } from "../../context/UserContext";
+import { useWebSocket } from "../../context/WebSocketContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +26,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { setUserData } = useUser();
+  const { connectWebSocket } = useWebSocket();
 
   const [checked, setChecked] = useState(
     localStorage.getItem("usuario") !== null
@@ -73,6 +75,7 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token.data.token);
         setUserData();
+        connectWebSocket(token.data.token);
         showSnackbar(token.data.message, "success");
         navigate("/");
       }
