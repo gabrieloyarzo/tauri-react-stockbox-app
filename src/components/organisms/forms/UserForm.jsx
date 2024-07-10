@@ -127,6 +127,18 @@ const UserForm = ({ mode, initialData, closeForm, fetchData, filterProps }) => {
     <>
       <Box
         sx={{
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+          top: 0,
+          left: 0,
+          bgcolor: "rgba(0, 0, 0, 0.5)", 
+          zIndex: 0, 
+        }}
+      />
+      
+      <Box
+        sx={{
           zIndex: 1,
           position: "absolute",
           width: "80vw",
