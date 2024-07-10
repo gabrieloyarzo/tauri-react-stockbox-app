@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { usePage } from "../../hooks/usePage";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import RefundApi from "../../services/api/refund.service";
@@ -12,14 +13,9 @@ const Refunds = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
-  const refundsPage = localStorage.getItem("refunds_page");
-  const parsedRefundsPage =
-    refundsPage !== null ? Number(refundsPage) : 1;
-
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(parsedRefundsPage);
 
   // Filters strings
   const filterStrings = Object.values(iRefund)
@@ -34,7 +30,7 @@ const Refunds = () => {
   // Filters
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("refunds_fprops")) ?? {
-      offset: (page - 1) * 10,
+      offset: 0,
       dato: "codr",
       desde: "",
       hasta: "",
@@ -43,6 +39,8 @@ const Refunds = () => {
       orden: "desc",
     }
   );
+
+  const { page } = usePage({ filterProps });
 
   // Table related
   const [tableData, setTableData] = useState(null);
@@ -71,7 +69,7 @@ const Refunds = () => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     setTableColumns(Object.values(iRefund).map((item) => item[0]));
     setCurrentTable("refunds");
@@ -79,20 +77,13 @@ const Refunds = () => {
 
   useEffect(() => {
     fetchData(filterProps);
-    const offset = filterProps?.offset ?? 0;
-    const pagina = (offset + 10) / 10;
-    setPage(pagina);
-    localStorage.setItem("refunds_page", pagina);
   }, [filterProps]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (
-    isFirstLoad &&
-    (currentTable !== "refunds" || page !== parsedRefundsPage)
-  ) {
+  if (isFirstLoad && currentTable !== "refunds") {
     return null;
   }
 
@@ -107,7 +98,6 @@ const Refunds = () => {
             toggleForm={() => setOpenForm(!openForm)}
             count={count}
             page={page}
-            setPage={setPage}
             filterProps={filterProps}
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}

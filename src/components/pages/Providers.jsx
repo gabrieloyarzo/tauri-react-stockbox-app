@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
+import { usePage } from "../../hooks/usePage";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useVariables } from "../../context/VariablesContext";
 import ProviderApi from "../../services/api/provider.service";
@@ -14,20 +15,9 @@ const Providers = () => {
   const { showSnackbar } = useSnackbar();
   const { setProviderTypes } = useVariables();
 
-  const providersPage = localStorage.getItem("providers_page");
-  const parsedProvidersPage = providersPage !== null ? Number(providersPage) : 1;
-  const defaultFilterProps = {
-    offset: 0,
-    dato: "rutp",
-    valor: "",
-    orden: "desc",
-    tipo: "todos",
-  };
-
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(parsedProvidersPage);
 
   // Filters strings
   const filterStrings = Object.values(iProvider)
@@ -42,12 +32,16 @@ const Providers = () => {
   // Filters
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("providers_fprops")) ?? {
-      offset: (page - 1) * 10,
+      offset: 0,
       dato: "rutp",
       valor: "",
+      orden: "desc",
+      tipo: "todos",
     }
   );
 
+  const { page } = usePage({ filterProps });
+  
   const [tableData, setTableData] = useState(null);
 
   const fetchData = async (props) => {
@@ -82,17 +76,13 @@ const Providers = () => {
 
   useEffect(() => {
     fetchData(filterProps);
-    const offset = filterProps?.offset ?? 0;
-    const pagina = (offset + 10) / 10;
-    setPage(pagina);
-    localStorage.setItem("providers_page", pagina);
   }, [filterProps]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (isFirstLoad && (currentTable !== "providers" || page !== parsedProvidersPage)) {
+  if (isFirstLoad && (currentTable !== "providers")) {
     return null;
   }
 
@@ -107,12 +97,10 @@ const Providers = () => {
             toggleForm={() => setOpenForm(!openForm)}
             count={count}
             page={page}
-            setPage={setPage}
             filterProps={filterProps}
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
             filterNumbers={filterNumbers}
-            defaultFilterProps={defaultFilterProps}
           />
           {openForm && (
             <ProviderForm
