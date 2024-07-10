@@ -12,7 +12,6 @@ const Ventas = () => {
     const fetchData = async () => {
       try {
         const response = await AnalyticApi.getAnalyticData();
-        console.log("Data", response)
         const currentYear = new Date().getFullYear();
 
         const salesData = response.data.datePriceSales
