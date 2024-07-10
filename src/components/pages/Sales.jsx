@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { usePage } from "../../hooks/usePage";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import SaleApi from "../../services/api/sale.service";
@@ -12,13 +13,9 @@ const Sales = () => {
     useTable();
   const { showSnackbar } = useSnackbar();
 
-  const salesPage = localStorage.getItem("sales_page");
-  const parsedSalesPage = salesPage !== null ? Number(salesPage) : 1;
-
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(parsedSalesPage);
 
   // Filters strings
   const filterStrings = Object.values(iSales)
@@ -33,7 +30,7 @@ const Sales = () => {
   // Filters
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("sales_fprops")) ?? {
-      offset: (page - 1) * 10,
+      offset: 0,
       dato: "cod",
       desde: "",
       hasta: "",
@@ -42,6 +39,8 @@ const Sales = () => {
       orden: "desc",
     }
   );
+
+  const { page } = usePage({ filterProps });
 
   const [tableData, setTableData] = useState(null);
   const [products, setProducts] = useState([]);
@@ -79,16 +78,12 @@ const Sales = () => {
 
   useEffect(() => {
     fetchData(filterProps);
-    const offset = filterProps?.offset ?? 0;
-    const pagina = (offset + 10) / 10;
-    setPage(pagina);
-    localStorage.setItem("sales_page", pagina);
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (isFirstLoad && (currentTable !== "sales" || page !== parsedSalesPage)) {
+  if (isFirstLoad && (currentTable !== "sales")) {
     return null;
   }
 
@@ -103,7 +98,6 @@ const Sales = () => {
             toggleForm={() => setOpenForm(!openForm)}
             count={count}
             page={page}
-            setPage={setPage}
             filterProps={filterProps}
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}

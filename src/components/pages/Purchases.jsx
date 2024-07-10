@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { usePage } from "../../hooks/usePage";
 import { useTable } from "../../context/TableContext";
 import { useVariables } from "../../context/VariablesContext";
 import { useSnackbar } from "../../context/SnackbarContext";
@@ -14,14 +15,9 @@ const Purchases = () => {
   const { setProviders } = useVariables();
   const { showSnackbar } = useSnackbar();
 
-  const purchasesPage = localStorage.getItem("purchases_page");
-  const parsedPurchasesPage =
-    purchasesPage !== null ? Number(purchasesPage) : 1;
-
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(parsedPurchasesPage);
 
   // Filters strings
   const filterStrings = Object.values(iPurchase)
@@ -36,7 +32,7 @@ const Purchases = () => {
   // Filters
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("purchases_fprops")) ?? {
-      offset: (page - 1) * 10,
+      offset: 0,
       dato: "cod",
       desde: "",
       hasta: "",
@@ -45,6 +41,8 @@ const Purchases = () => {
       orden: "desc",
     }
   );
+
+  const { page } = usePage({ filterProps });
 
   // Table related
   const [tableData, setTableData] = useState(null);
@@ -76,7 +74,7 @@ const Purchases = () => {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
     setTableColumns(Object.values(iPurchase).map((item) => item[0]));
     setCurrentTable("purchases");
@@ -84,20 +82,13 @@ const Purchases = () => {
 
   useEffect(() => {
     fetchData(filterProps);
-    const offset = filterProps?.offset ?? 0;
-    const pagina = (offset + 10) / 10;
-    setPage(pagina);
-    localStorage.setItem("purchases_page", pagina);
   }, [filterProps]);
 
   // Forms
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (
-    isFirstLoad &&
-    (currentTable !== "purchases" || page !== parsedPurchasesPage)
-  ) {
+  if (isFirstLoad && currentTable !== "purchases") {
     return null;
   }
 
@@ -112,7 +103,6 @@ const Purchases = () => {
             toggleForm={() => setOpenForm(!openForm)}
             count={count}
             page={page}
-            setPage={setPage}
             filterProps={filterProps}
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}

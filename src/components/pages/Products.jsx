@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTable } from "../../context/TableContext";
 import { useVariables } from "../../context/VariablesContext";
 import { useSnackbar } from "../../context/SnackbarContext";
+import { usePage } from "../../hooks/usePage";
 import ProductApi from "../../services/api/product.service";
 import MainLayout from "../templates/MainLayout";
 import ProductForm from "../organisms/forms/ProductForm";
@@ -14,13 +15,9 @@ const Products = () => {
   const { showSnackbar } = useSnackbar();
   const { categories, setCategories } = useVariables();
 
-  const productsPage = localStorage.getItem("products_page");
-  const parsedProductsPage = productsPage !== null ? Number(productsPage) : 1;
-
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(parsedProductsPage);
 
   // Filters strings
   const filterStrings = Object.values(iProduct)
@@ -35,7 +32,7 @@ const Products = () => {
   // Filters
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("products_fprops")) ?? {
-      offset: (page - 1) * 10,
+      offset: 0,
       dato: "cod",
       valor: "",
       orden: "desc",
@@ -43,6 +40,8 @@ const Products = () => {
       categoria: "todos",
     }
   );
+
+  const { page } = usePage({ filterProps });
 
   const [tableData, setTableData] = useState(null);
   const [codes, setCodes] = useState([]);
@@ -79,10 +78,6 @@ const Products = () => {
 
   useEffect(() => {
     fetchData(filterProps);
-    const offset = filterProps?.offset ?? 0;
-    const pagina = (offset + 10) / 10;
-    setPage(pagina);
-    localStorage.setItem("products_page", pagina);
   }, [filterProps]);
 
   // Forms
@@ -91,7 +86,7 @@ const Products = () => {
 
   if (
     isFirstLoad &&
-    (currentTable !== "products" || page !== parsedProductsPage)
+    (currentTable !== "products")
   ) {
     return null;
   }
@@ -107,7 +102,6 @@ const Products = () => {
             toggleForm={() => setOpenForm(!openForm)}
             count={count}
             page={page}
-            setPage={setPage}
             filterProps={filterProps}
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}

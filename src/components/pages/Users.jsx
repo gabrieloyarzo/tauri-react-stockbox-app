@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { usePage } from "../../hooks/usePage";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
 import { useVariables } from "../../context/VariablesContext";
@@ -14,13 +15,9 @@ const Users = () => {
   const { showSnackbar } = useSnackbar();
   const { setUserRoles } = useVariables();
 
-  const usersPage = localStorage.getItem("users_page");
-  const parsedUsersPage = usersPage !== null ? Number(usersPage) : 1;
-
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
   const [count, setCount] = useState(0);
-  const [page, setPage] = useState(parsedUsersPage);
 
   // Filters strings
   const filterStrings = Object.values(iUser)
@@ -35,13 +32,15 @@ const Users = () => {
   // Filters
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("users_fprops")) ?? {
-      offset: (page - 1) * 10,
+      offset: 0,
       dato: "rutu",
       valor: "",
       orden: "desc",
       rol: "todos",
     }
   );
+
+  const { page } = usePage({ filterProps });
 
   const [tableData, setTableData] = useState(null);
 
@@ -76,16 +75,12 @@ const Users = () => {
 
   useEffect(() => {
     fetchData(filterProps);
-    const offset = filterProps?.offset ?? 0;
-    const pagina = (offset + 10) / 10;
-    setPage(pagina);
-    localStorage.setItem("users_page", pagina);
   }, [filterProps]);
 
   const [openForm, setOpenForm] = useState(false);
   const [formProps, setFormProps] = useState({});
 
-  if (isFirstLoad && (currentTable !== "users" || page !== parsedUsersPage)) {
+  if (isFirstLoad && (currentTable !== "users")) {
     return null;
   }
 
@@ -101,7 +96,6 @@ const Users = () => {
             toggleForm={() => setOpenForm(!openForm)}
             count={count}
             page={page}
-            setPage={setPage}
             filterProps={filterProps}
             setFilterProps={setFilterProps}
             filterStrings={filterStrings}
