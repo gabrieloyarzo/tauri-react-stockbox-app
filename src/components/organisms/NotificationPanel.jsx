@@ -6,9 +6,14 @@ import {
   List,
   ListItem,
   ListItemText,
-  Divider,
   IconButton,
   Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -29,8 +34,11 @@ const NotificationPanel = ({ data = mockNotifications }) => {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const { notifications } = useNotifications({ data });
+  const [notifications, setNotifications] = useState(mockNotifications);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    id: null,
+    open: false,
+  });
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -40,8 +48,22 @@ const NotificationPanel = ({ data = mockNotifications }) => {
     setAnchorEl(null);
   };
 
-  /*const handleDelete = (id) => {
-  };*/
+  const handleOpenConfirmation = (id) => {
+    setDeleteConfirmation({ id, open: true });
+  };
+
+  const handleCloseConfirmation = () => {
+    setDeleteConfirmation({ id: null, open: false });
+  };
+
+  const handleConfirmDelete = () => {
+    const updatedNotifications = notifications.filter(
+      (notification) => notification.id !== deleteConfirmation.id
+    );
+    setNotifications(updatedNotifications);
+    handleCloseConfirmation();
+    handleClose(); // Cerrar el menú después de eliminar
+  };
 
   const open = Boolean(anchorEl);
 
@@ -92,7 +114,7 @@ const NotificationPanel = ({ data = mockNotifications }) => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: "60vh", 
+            maxHeight: "60vh",
             width: "25vw",
           },
         }}
@@ -113,7 +135,7 @@ const NotificationPanel = ({ data = mockNotifications }) => {
                 marginBottom: ".5em",
                 borderRadius: ".5em",
                 bgcolor: theme.palette.common.white,
-                borderLeft: `5px solid ${theme.palette.primary.main}`, /*Linea verde*/
+                borderLeft: `5px solid ${theme.palette.primary.main}`,
               }}
             >
               <Box
@@ -125,16 +147,19 @@ const NotificationPanel = ({ data = mockNotifications }) => {
                 }}
               >
                 <ListItemText
-                  primary={notification.titulo}   /*Aqui va el titulo de noti.*/
+                  primary={notification.titulo}
                   primaryTypographyProps={{
-                    variant: "body1",  /*Cambio el tipo de letra del titulo.*/
-                    sx: { fontWeight: "bold", color: theme.palette.primary.main },
+                    variant: "body1",
+                    sx: {
+                      fontWeight: "bold",
+                      color: theme.palette.primary.main,
+                    },
                   }}
-                  secondary={notification.descripcion} /*Aqui descripción de noti.*/
+                  secondary={notification.descripcion}
                 />
                 <IconButton
                   aria-label="delete"
-                  onClick={() => handleDelete(notification.id)}
+                  onClick={() => handleOpenConfirmation(notification.id)}
                   sx={{ color: theme.palette.primary.main }}
                 >
                   <DeleteIcon />
@@ -144,6 +169,29 @@ const NotificationPanel = ({ data = mockNotifications }) => {
           ))}
         </List>
       </Menu>
+
+      {/* Diálogo de confirmación */}
+      <Dialog
+        open={deleteConfirmation.open}
+        onClose={handleCloseConfirmation}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Confirmar eliminación</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que quieres eliminar esta notificación?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmation} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Eliminar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
