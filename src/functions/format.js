@@ -69,8 +69,12 @@ export const formatNumberWithMax = (number, max) => {
     cleanNumber = cleanNumber.slice(1);
   }
 
-  if (cleanNumber > max) {
-    cleanNumber = max;
+  let numericValue = Number(cleanNumber);
+  const maxValue = Number(max);
+
+  while (numericValue > maxValue) {
+    cleanNumber = cleanNumber.slice(0, -1);
+    numericValue = Number(cleanNumber);
   }
 
   return cleanNumber;
@@ -92,3 +96,25 @@ export const formatNumberDeleteThousandsSeparator = (number) => {
 
   return cleanNumber;
 };
+
+export const formatNumberAddThousandsSeparatorWithMax = (number, max) => {
+  number = formatNumberDeleteThousandsSeparator(number.toString());
+  max = formatNumberDeleteThousandsSeparator(max.toString());
+
+  let cleanNumber = number.replace(/[^0-9]/g, "");
+
+  if (cleanNumber.startsWith("0")) {
+    cleanNumber = cleanNumber.slice(1);
+  }
+
+  let numericValue = Number(cleanNumber);
+  const maxValue = Number(max);
+
+  while (numericValue > maxValue) {
+    cleanNumber = cleanNumber.slice(0, -1);
+    numericValue = Number(cleanNumber);
+  }
+
+  return cleanNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+

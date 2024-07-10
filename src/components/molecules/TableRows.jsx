@@ -77,11 +77,19 @@ const TableRows = ({
   };
 
   const handleEdit = (obj) => {
-    setFormProps({
-      mode: "modify",
-      fetchData: fetchData,
-      initialData: obj,
-    });
+    if (currentTable === "refunds") {
+      setFormProps({
+        mode: "modify",
+        fetchData: fetchData,
+        data: obj,
+      });
+    } else {
+      setFormProps({
+        mode: "modify",
+        fetchData: fetchData,
+        initialData: obj,
+      });
+    }
     toggleForm();
   };
 

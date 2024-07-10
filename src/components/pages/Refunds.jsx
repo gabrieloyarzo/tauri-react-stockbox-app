@@ -35,7 +35,7 @@ const Refunds = () => {
   const [filterProps, setFilterProps] = useState(
     JSON.parse(localStorage.getItem("refunds_fprops")) ?? {
       offset: (page - 1) * 10,
-      dato: "cod",
+      dato: "codr",
       desde: "",
       hasta: "",
       valor: "",
@@ -46,13 +46,13 @@ const Refunds = () => {
 
   // Table related
   const [tableData, setTableData] = useState(null);
+  const [codes, setCodes] = useState([]);
 
   const fetchData = async (props) => {
     setError(null);
     setIsLoading(true);
     try {
       const refunds = await RefundApi.getAllRefunds(props);
-      console.log(refunds)
       isFirstLoad &&
         (() => {
           showSnackbar(refunds.message, "success");
@@ -60,6 +60,7 @@ const Refunds = () => {
         })();
 
       setTableData(refunds.data);
+      setCodes(refunds.codes);
       setCount(refunds.largo);
 
       localStorage.setItem("refunds_fprops", JSON.stringify(filterProps));
@@ -117,6 +118,7 @@ const Refunds = () => {
               {...formProps}
               closeForm={() => setOpenForm(false)}
               filterProps={filterProps}
+              codes={codes}
             />
           )}
         </>

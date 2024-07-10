@@ -1,4 +1,5 @@
 import React from "react";
+import { useTable } from "../../context/TableContext";
 import Table from "../organisms/Table";
 import AddButton from "../molecules/AddButton";
 import SkeletonTable from "../../components/molecules/SkeletonTable";
@@ -20,6 +21,7 @@ const MainLayout = ({
   filterNumbers,
   defaultFilterProps,
 }) => {
+  const { currentTable } = useTable();
   return (
     <>
       <Grid
@@ -80,7 +82,7 @@ const MainLayout = ({
           </Box>
         </Grid>
       </Grid>
-      {data && (
+      {data && currentTable !== "refunds" && (
         <AddButton
           fetchData={fetchData}
           toggleForm={toggleForm}

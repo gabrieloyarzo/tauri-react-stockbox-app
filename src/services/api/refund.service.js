@@ -4,7 +4,7 @@ const API_URL = `${import.meta.env.VITE_API_URL}/refunds`;
 
 const RefundApi = {
   async getAllRefunds({
-    dato = "cod",
+    dato = "codr",
     offset = 0,
     limit = 10,
     desde = "",
@@ -36,14 +36,14 @@ const RefundApi = {
       });
       return response.data;
     } catch (error) {
-      console.error("Error al obtener devolucion:", error);
+      console.error("Error al obtener devolución:", error);
       throw error;
     }
   },
 
-  async createProvider(providerData) {
+  async createRefund(refundData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, providerData, {
+      const response = await axios.post(`${API_URL}/create`, refundData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,16 +51,16 @@ const RefundApi = {
       });
       return response.data;
     } catch (error) {
-      console.error("Error al crear proveedor:", error);
+      console.error("Error al crear devolución:", error);
       throw error;
     }
   },
 
-  async updateProvider(providerId, updatedProviderData) {
+  async updateRefund(refundId, updatedRefundData) {
     try {
       const response = await axios.put(
-        `${API_URL}/${providerId}/edit`,
-        updatedProviderData,
+        `${API_URL}/${refundId}/edit`,
+        updatedRefundData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,14 +70,14 @@ const RefundApi = {
       );
       return response.data;
     } catch (error) {
-      console.error("Error al actualizar proveedor:", error);
+      console.error("Error al actualizar devolución:", error);
       throw error;
     }
   },
 
-  async deleteProvider(providerId) {
+  async deleteRefund(refundId) {
     try {
-      const response = await axios.delete(`${API_URL}/${providerId}/delete`, {
+      const response = await axios.delete(`${API_URL}/${refundId}/delete`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -85,7 +85,7 @@ const RefundApi = {
       });
       return response.data;
     } catch (error) {
-      console.error("Error al eliminar proveedor:", error);
+      console.error("Error al eliminar devolución:", error);
       throw error;
     }
   },
