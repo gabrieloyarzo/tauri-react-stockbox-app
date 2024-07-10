@@ -1,6 +1,6 @@
 // WebSocketContext.jsx
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "./SnackbarContext";
 
 export const useWebSocket = () => useContext(WebSocketContext);
