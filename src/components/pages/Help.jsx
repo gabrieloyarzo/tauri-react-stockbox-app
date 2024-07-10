@@ -114,7 +114,7 @@ const Help = () => {
       longText:
         "A continuación, te ofrecemos los pasos necesarios para realizar la devolución de una venta en nuestro sistema.",
       steps: [
-        "Ir a la sección ''Venta''.",
+        "Ir a la sección ''Ventas''.",
         "Busca la venta de la cual deseas realizar la devolución utilizando el método que te resulte más conveniente.",
         "Una vez localizada, selecciona el icono de devolución.",
         "Complete los campos requeridos con la información necesaria para procesar la devolución.",
