@@ -153,7 +153,7 @@ const NotificationPanel = ({ data }) => {
                       color: theme.palette.primary.main,
                     },
                   }}
-                  secondary={notification.desc}
+                  secondary={`${notification.desc} - ${notification.fecha}`}
                 />
                 <IconButton
                   aria-label="delete"
