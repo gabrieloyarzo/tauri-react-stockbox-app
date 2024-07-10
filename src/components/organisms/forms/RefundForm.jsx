@@ -2,44 +2,27 @@ import React, { useState } from "react";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
 import { useTheme } from "@mui/material/styles";
-import {
-  Button,
-  TextField,
-  Box,
-  Typography,
-  Stack,
-  Grid,
-} from "@mui/material";
+import { Button, TextField, Box, Typography, Stack, Grid } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import RefundApi from "../../../services/api/refund.service";
 
 const mockData = {
-  idpu: 14, // No se usa
-  cod: "P012",
-  rutp: "20.939.766-8", // No se usa
-  rutu: "21.578.935-7", // No se usa
-  fecha: "2023-05-08", // No se usa
-  total: 1200,
+  ids: 2,
+  cod: "P010",
+  rutc: "20.643.821-5",
+  rutu: "21.578.935-7",
+  fecha: "2024-06-05",
+  total: 600,
   detalles: [
     {
-      idp: 7, // No se usa
-      nombre: "Producto 1",
+      idp: 23,
       cit: 12,
-      precio: 100, // No se usa
-      suma: 1200, // No se usa
-      cod: "002",
-    },
-    {
-      idp: 8, // No se usa
-      nombre: "Producto 2",
-      cit: 50,
-      precio: 100, // No se usa
-      suma: 1200, // No se usa
-      cod: "005",
+      precio: 50,
+      suma: 600,
+      cod: "003",
     },
   ],
 };
@@ -70,13 +53,16 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const RefundForm = ({ mode = "create", data = mockData }) => {
+const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
   const theme = useTheme();
+
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
 
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({});
+
+
 
   return (
     <>
@@ -193,13 +179,6 @@ const RefundForm = ({ mode = "create", data = mockData }) => {
                     fontWeight="bold"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
-                    Producto
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    fontWeight="bold"
-                    sx={{ textAlign: "center", flex: 1 }}
-                  >
                     Cantidad total
                   </Typography>
                   <Typography
@@ -224,18 +203,16 @@ const RefundForm = ({ mode = "create", data = mockData }) => {
               }}
             >
               {data.detalles.map((detalle, index) => (
-                <StyledStack paddingBottom=".5%" alignItems="center" justifyContent="center">
+                <StyledStack
+                  paddingBottom=".5%"
+                  alignItems="center"
+                  justifyContent="center"
+                >
                   <Typography
                     variant="body2"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
                     {detalle.cod}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ textAlign: "center", flex: 1 }}
-                  >
-                    {detalle.nombre}
                   </Typography>
                   <Typography
                     variant="body2"
@@ -266,12 +243,12 @@ const RefundForm = ({ mode = "create", data = mockData }) => {
               InputProps={{
                 sx: {
                   fontSize: theme.typography.body2.fontSize,
-                }
+                },
               }}
               InputLabelProps={{
                 sx: {
                   fontSize: theme.typography.body2.fontSize,
-                }
+                },
               }}
             />
 
@@ -299,7 +276,7 @@ const RefundForm = ({ mode = "create", data = mockData }) => {
                     color: "#7e7e7e",
                   },
                 }}
-                onClick={() => {}}
+                onClick={closeForm}
               >
                 Cerrar
               </Button>
