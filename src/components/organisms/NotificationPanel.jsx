@@ -19,7 +19,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationApi from "../../services/api/notification.service.js";
-
+import { useSnackbar } from "../../context/SnackbarContext"
 
 const NotificationPanel = ({ data }) => {
   const theme = useTheme();
@@ -29,11 +29,14 @@ const NotificationPanel = ({ data }) => {
     id: null,
     open: false,
   });
-
+  const { showSnackbar } = useSnackbar();
+  let idGlobal = null;
+    
   useEffect(() => {
       const fetchData = async () => {
 	  const notifications = await NotificationApi.getAllNotifications();
 	  setNotifications(notifications);
+	  console.log(notifications)
     };
     fetchData();
   }, []);
@@ -47,20 +50,32 @@ const NotificationPanel = ({ data }) => {
   };
 
   const handleOpenConfirmation = (id) => {
-    setDeleteConfirmation({ id, open: true });
+      setDeleteConfirmation({ id, open: true });
+      
   };
 
   const handleCloseConfirmation = () => {
     setDeleteConfirmation({ id: null, open: false });
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     const updatedNotifications = notifications.filter(
-      (notification) => notification.id !== deleteConfirmation.id
+	(notification) => notification.id !== deleteConfirmation.id
     );
+      
+      try {
+	   const response = await NotificationApi.deleteNotification(deleteConfirmation.id);
+	   showSnackbar(response.data.message,"success");
+      } catch (error){
+	  showSnackbar(error.response.data.message,"error");
+	  
+      }
+      
     setNotifications(updatedNotifications);
     handleCloseConfirmation();
     handleClose(); // Cerrar el menú después de eliminar
+
+
   };
 
   const open = Boolean(anchorEl);
@@ -157,10 +172,10 @@ const NotificationPanel = ({ data }) => {
                 />
                 <IconButton
                   aria-label="delete"
-                  onClick={() => handleOpenConfirmation(notification.id)}
+                  onClick={() => handleOpenConfirmation(notification.idn)}
                   sx={{ color: theme.palette.primary.main }}
                 >
-                  <DeleteIcon />
+                    <DeleteIcon  />
                 </IconButton>
               </Box>
             </ListItem>

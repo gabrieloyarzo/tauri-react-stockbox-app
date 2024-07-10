@@ -74,7 +74,7 @@ const NotificationApi = {
           },
         }
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error al eliminar notificacion:", error);
       throw error;
