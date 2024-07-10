@@ -19,7 +19,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import EngineeringIcon from '@mui/icons-material/Engineering';
+import CachedIcon from '@mui/icons-material/Cached';
 
 // Styled component for the Card
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -107,16 +107,19 @@ const Help = () => {
     },
     {
       id: 5,
-      icon: <EngineeringIcon fontSize="large" />,
-      title: "¿En construcción de momento?",
+      icon: <CachedIcon fontSize="large" />,
+      title: "¿Cómo realizar una devolución?",
       shortText:
-        "Texto breve para la pregunta 5, ojalá de dos líneas porque sí.",
+        "Descubre como realizar una devolución de venta.",
       longText:
-        "Texto más extenso para la pregunta 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "A continuación, te ofrecemos los pasos necesarios para realizar la devolución de una venta en nuestro sistema.",
       steps: [
-        "Hacer una cosa llamada 1.",
-        "Hacer una cosa llamada 2.",
-        "Hacer una cosa llamada 3.",
+        "Ir a la sección ''Venta''.",
+        "Busca la venta de la cual deseas realizar la devolución utilizando el método que te resulte más conveniente.",
+        "Una vez localizada, selecciona el icono de devolución.",
+        "Complete los campos requeridos con la información necesaria para procesar la devolución.",
+        "Si todo está correcto, elija la opción de guardar para confirmar la devolución.",
+        "En caso contrario, si decide no proceder, elija la opción de cancelar.",
       ],
     },
     {
