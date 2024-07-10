@@ -40,11 +40,10 @@ export const iSales = {
 };
 
 export const iRefund = {
-	idr: ["refund_id", "string"],
-	ids: ["sale_id", "string"],
-	cod: ["code", "string"],
-	fecha: ["date", "date"],
-	desc: ["description", "string"],
-	nota: ["note_refund", "string"],
+	codr: ["Código de devolución", "string"],
+	cod: ["Código de venta", "string"],
+	fecha: ["Fecha", "date"],
+	desc: ["Descripción", "string"],
+	nota: ["Nota de crédito", "string"],
 };
 

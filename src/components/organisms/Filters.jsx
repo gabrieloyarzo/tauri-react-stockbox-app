@@ -395,7 +395,7 @@ const Filters = ({
                   disabled={isLoading}
                   onChange={handleChangeProductCategory}
                 >
-                  <MenuItem value="todos">Todos</MenuItem>
+                  <MenuItem value="todos">Todas</MenuItem>
                   {categories.map((item) => (
                     <MenuItem key={item} value={item}>
                       {item}

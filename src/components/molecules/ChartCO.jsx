@@ -18,7 +18,7 @@ const CommercialOperations = () => {
         const data = [
           { name: 'Ventas', value: AnalyticData.data.countSales },
           { name: 'Compras', value: AnalyticData.data.countPurchases },
-          { name: 'Devoluciones', value: AnalyticData.data.countRefounds }
+          { name: 'Devoluciones', value: AnalyticData.data.countRefunds }
         ]; 
 
         setAnalyticsData(data);

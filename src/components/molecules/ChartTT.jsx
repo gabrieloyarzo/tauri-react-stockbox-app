@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LabelList } from 'rec
 import { Typography, Box } from '@mui/material';
 import AnalyticApi from '../../services/api/analytic.service';
 
-const TopSoldProducts = () => {
+const Moststockproducts = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const TopSoldProducts = () => {
   return (
     <Box sx={{ width: '100%', height: '100%'}}>
       <Typography gutterBottom align="left" sx={{ fontSize: '20px', fontWeight: 'bold', marginLeft: '30px' }}>
-        Productos más vendidos
+        Productos con mayor stock
       </Typography>
       <ResponsiveContainer width="100%" height={259}>
         <BarChart layout="vertical" data={data} margin={{ top: 8, right: 5 }}>
@@ -67,4 +67,4 @@ const TopSoldProducts = () => {
   );
 };
 
-export default TopSoldProducts;
+export default Moststockproducts;

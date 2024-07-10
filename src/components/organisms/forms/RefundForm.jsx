@@ -8,24 +8,15 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import RefundApi from "../../../services/api/refund.service";
-
-const mockData = {
-  ids: 2,
-  cod: "P010",
-  rutc: "20.643.821-5",
-  rutu: "21.578.935-7",
-  fecha: "2024-06-05",
-  total: 600,
-  detalles: [
-    {
-      idp: 23,
-      cit: 12,
-      precio: 50,
-      suma: 600,
-      cod: "003",
-    },
-  ],
-};
+import {
+  formatNumberAddThousandsSeparator as formatNumAddThousands,
+  formatNumberDeleteThousandsSeparator as formatNumDeleteThousands,
+  formatNumberWithMax as formatNumWithMax,
+} from "../../../functions/format";
+import {
+  validateRefund,
+  validateRefundItems,
+} from "../../../services/validation/refundValidation";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -41,28 +32,121 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const ItemTextField = styled(TextField)(({ theme }) => ({
-  "& .MuiInputBase-input": {
-    height: ".25em",
-  },
-}));
-
 const StyledStack = styled(Stack)(({ theme }) => ({
   width: "100%",
   flexDirection: "row",
   alignItems: "center",
 }));
 
-const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
+const RefundForm = ({
+  mode = "create",
+  data,
+  closeForm,
+  filterProps,
+  fetchData,
+  codes,
+}) => {
   const theme = useTheme();
 
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
 
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({});
+  const [itemErrors, setItemErrors] = useState([{}]);
+  const [formData, setFormData] = useState({
+    ids: data?.ids,
+    codr: data?.codr ?? "",
+    fecha: data?.fecha ?? new Date().toISOString().split("T")[0],
+    desc: data?.desc ?? "",
+    nota: data?.nota ?? "",
+  });
 
+  const [formDataItems, setFormDataItems] = useState(data?.detalles);
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleChangeItem = (index, e) => {
+    setFormDataItems((prevItems) =>
+      prevItems.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              [e.target.name]: formatNumWithMax(e.target.value, item.cit),
+            }
+          : item
+      )
+    );
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const submitData = {
+      ...formData,
+      detalles: formDataItems.map((item) => ({
+        idp: item.idp,
+        citr: Number(item.citr),
+      })),
+    };
+
+    const newErrors = validateRefund(submitData);
+    const newItemErrors = validateRefundItems(submitData.detalles);
+
+    if (Object.keys(newErrors).length > 0 || newItemErrors.length > 0) {
+      setErrors(newErrors);
+      setItemErrors(newItemErrors);
+      return;
+    }
+
+    if (mode === "modify") {
+      showDialog(
+        "Modificar compra",
+        "¿Está seguro que desea modificar la devolución?",
+        "Modificar",
+        () => confirmModify(submitData)
+      );
+    } else {
+      setLoading(true);
+      try {
+        const response = await RefundApi.createRefund(submitData);
+        showSnackbar(response.message, "success");
+        closeForm();
+      } catch (error) {
+        showSnackbar(error.response.data.message, "error");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleValidateCode = (e) => {
+    const { value } = e.target;
+    if (codes.includes(value) && value !== data?.codr) {
+      setErrors((prevErrors) => ({ ...prevErrors, codr: true }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, codr: false }));
+    }
+  };
+
+  const confirmModify = async (submitData) => {
+    setLoading(true);
+    try {
+      const response = await RefundApi.updateRefund(data?.idr, submitData);
+      await fetchData(filterProps);
+      showSnackbar(response.message, "success");
+      closeForm();
+    } catch (error) {
+      showSnackbar(error.response.data.message, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -73,11 +157,11 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
           height: "100vh",
           top: 0,
           left: 0,
-          bgcolor: "rgba(0, 0, 0, 0.5)", 
-          zIndex: 0, 
+          bgcolor: "rgba(0, 0, 0, 0.5)",
+          backdropFilter: "blur(10px)",
+          zIndex: 1,
         }}
       />
-      
       <Box
         sx={{
           zIndex: 1,
@@ -88,7 +172,7 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
           top: "50%",
           left: "50%",
           display: "flex",
-          transform: "translate(-29.5%, -50%)",
+          transform: "translate(-50%, -50%)",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-start",
@@ -119,7 +203,7 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
           </Typography>
         </Box>
 
-        <form onSubmit={() => {}} style={{ width: "100%" }}>
+        <form onSubmit={handleSubmit} style={{ width: "100%" }}>
           <Box
             sx={{
               width: "100%",
@@ -133,32 +217,38 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
                 <Grid item xs={6}>
                   <StyledTextField
                     label="Código de devolución"
-                    name="cod"
-                    // value={formData.cod}
-                    // error={!!errors.cod}
-                    // onChange={(e) => {
-                    //   handleChange(e);
-                    //   handleValidateCode(e);
-                    // }}
+                    name="codr"
+                    value={formData.codr}
+                    error={!!errors.codr}
+                    onChange={(e) => {
+                      handleChange(e);
+                      handleValidateCode(e);
+                    }}
                   />
-                  <StyledTextField label="Nota de crédito" name="nota" />
+                  <StyledTextField
+                    label="Nota de crédito"
+                    name="nota"
+                    value={formData.nota}
+                    error={!!errors.nota}
+                    onChange={handleChange}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <StyledTextField
                     label="Código de venta"
-                    value={data.cod}
+                    value={data?.cod}
                     disabled
                   />
                   <StyledTextField
                     label="Fecha"
                     name="fecha"
                     type="date"
+                    value={formData.fecha}
+                    error={!!errors.fecha}
+                    onChange={handleChange}
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    // value={formData.fecha}
-                    // error={!!errors.fecha}
-                    // onChange={() => {}}
                   />
                 </Grid>
               </Grid>
@@ -214,26 +304,31 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
                 maxHeight: "220px",
               }}
             >
-              {data.detalles.map((detalle, index) => (
+              {formDataItems.map((item, index) => (
                 <StyledStack
                   paddingBottom=".5%"
                   alignItems="center"
                   justifyContent="center"
+                  key={index}
                 >
                   <Typography
                     variant="body2"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
-                    {detalle.cod}
+                    {item.cod}
                   </Typography>
                   <Typography
                     variant="body2"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
-                    {detalle.cit}
+                    {formatNumAddThousands(item.cit)}
                   </Typography>
                   <TextField
                     sx={{ display: "flex", flex: 1, alignItems: "center" }}
+                    name="citr"
+                    value={item.citr}
+                    error={!!itemErrors[index]?.citr}
+                    onChange={(e) => handleChangeItem(index, e)}
                     InputProps={{
                       sx: {
                         width: "60%",
@@ -248,10 +343,14 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
 
             <TextField
               label="Descripción"
+              name="desc"
+              value={formData.desc}
               multiline
               rows={3}
               variant="outlined"
+              onChange={handleChange}
               sx={{ width: "90%" }}
+              error={!!errors.desc}
               InputProps={{
                 sx: {
                   fontSize: theme.typography.body2.fontSize,
@@ -281,8 +380,6 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "150px",
                   "&:hover": {
                     backgroundColor: "#c3fa7b",
                     color: "#7e7e7e",
@@ -294,14 +391,12 @@ const RefundForm = ({ mode = "create", data = mockData, closeForm }) => {
               </Button>
               <LoadingButton
                 variant="contained"
-                loading={false}
+                loading={loading}
                 loadingPosition="end"
                 endIcon={<SaveIcon />}
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "150px",
                   "&:hover": {
                     backgroundColor: "#c3fa7b",
                     color: "#7e7e7e",

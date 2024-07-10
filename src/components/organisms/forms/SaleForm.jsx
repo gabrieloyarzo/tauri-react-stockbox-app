@@ -289,11 +289,11 @@ const SaleForm = ({
           height: "100vh",
           top: 0,
           left: 0,
-          bgcolor: "rgba(0, 0, 0, 0.5)", 
-          zIndex: 0, 
+          bgcolor: "rgba(0, 0, 0, 0.5)",
+          backdropFilter: "blur(10px)",
+          zIndex: 1,
         }}
       />
-      
       <Box
         sx={{
           zIndex: 1,
@@ -304,7 +304,7 @@ const SaleForm = ({
           top: "50%",
           left: "50%",
           display: "flex",
-          transform: "translate(-29.5%, -50%)",
+          transform: "translate(-50%, -50%)",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-start",

@@ -18,30 +18,28 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { mockNotifications } from "../../../mock/notificationsMock.js";
+import NotificationApi from "../../services/api/notification.service.js";
 
-const useNotifications = ({ data }) => {
-  const [notifications, setNotifications] = useState(mockNotifications);
 
-  useEffect(() => {
-    setNotifications(data);
-  }, [data]);
-
-  return { notifications };
-};
-
-const NotificationPanel = ({ data = mockNotifications }) => {
+const NotificationPanel = ({ data }) => {
   const theme = useTheme();
-
   const [anchorEl, setAnchorEl] = useState(null);
-  const [notifications, setNotifications] = useState(mockNotifications);
+  const [notifications, setNotifications] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState({
     id: null,
     open: false,
   });
 
+  useEffect(() => {
+      const fetchData = async () => {
+	  const notifications = await NotificationApi.getAllNotifications();
+	  setNotifications(notifications);
+    };
+    fetchData();
+  }, []);
+
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+      setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -155,7 +153,7 @@ const NotificationPanel = ({ data = mockNotifications }) => {
                       color: theme.palette.primary.main,
                     },
                   }}
-                  secondary={notification.descripcion}
+                  secondary={notification.desc}
                 />
                 <IconButton
                   aria-label="delete"

@@ -293,10 +293,10 @@ const PurchaseForm = ({
           top: 0,
           left: 0,
           bgcolor: "rgba(0, 0, 0, 0.5)",
-          zIndex: 0, 
+          backdropFilter: "blur(10px)",
+          zIndex: 1,
         }}
       />
-      
       <Box
         sx={{
           zIndex: 1,
@@ -307,7 +307,7 @@ const PurchaseForm = ({
           top: "50%",
           left: "50%",
           display: "flex",
-          transform: "translate(-29.5%, -50%)",
+          transform: "translate(-50%, -50%)",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-start",
@@ -317,8 +317,9 @@ const PurchaseForm = ({
           borderRadius: "1rem",
           overflowX: "hidden",
           overflowY: "auto",
-          boxShadow: '0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)',
-          transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+          boxShadow:
+            "0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12)",
+          transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
         }}
       >
         <Box
@@ -420,9 +421,11 @@ const PurchaseForm = ({
                   sx={{
                     position: "absolute",
                     display: "flex",
-                    top: "1.5vw",
+                    top: "1.6vw",
                     right: "-2.25vw",
                     transform: "translateY(-50%)",
+                    width: "calc(1.25vh + 1.25vw)",
+                    height: "calc(1.25vh + 1.25vw)",
                     borderRadius: ".25em",
                     bgcolor: theme.palette.grey[200],
                     color: theme.palette.grey[500],
