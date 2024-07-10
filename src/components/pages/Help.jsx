@@ -19,7 +19,7 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import EngineeringIcon from '@mui/icons-material/Engineering';
+import CachedIcon from '@mui/icons-material/Cached';
 
 // Styled component for the Card
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -49,7 +49,14 @@ const Help = () => {
       shortText:
         "Obtén instrucciones sobre cómo añadir un producto al sistema.",
       longText:
-        "Texto más extenso para la pregunta 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "Si necesitas añadir un nuevo producto al sistema, a continuación te proporcionamos los pasos detallados",
+      steps: [
+        "Dirígete a la sección de ''Productos''. ", 
+        "Haz clic en el icono de agregar (+) ubicado en la esquina inferior derecha.", 
+        "Completa los campos solicitados con la información adecuada.",
+        "Para guardar el producto registrado, selecciona el botón de guardar.",
+        "Si decides no registrar el producto, simplemente cierra el formulario.",
+      ],
     },
     {
       id: 2,
@@ -58,7 +65,14 @@ const Help = () => {
       shortText:
         "Obtén instrucciones sobre cómo registrar una nueva venta.",
       longText:
-        "Texto más extenso para la pregunta 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "Si necesitas incorporar una venta realizada en el sistema, a continuación se detallan los pasos que debes seguir para llevar a cabo este proceso.",
+      steps: [
+        "Accede a la sección de ''Ventas''.",
+        "Haz clic en el icono de agregar (+) ubicado en la esquina inferior derecha.",
+        "Completa todos los campos requeridos con la información precisa.",
+        "Guarda la venta registrada seleccionando la opción correspondiente.",
+        "Si optas por no registrar la venta, puedes cerrar el formulario sin guardar cambios.",
+      ],
     },
     {
       id: 3,
@@ -67,7 +81,13 @@ const Help = () => {
       shortText:
         "Descubre cómo buscar un producto en el inventario.",
       longText:
-        "Texto más extenso para la pregunta 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "Si necesitas buscar un producto en particular, aquí tienes una guía paso a paso para ayudarte a realizar esta tarea.",
+      steps: [
+        "Ve a la sección de ''Productos''.",
+        "Utiliza el filtro de búsqueda según tus necesidades.",
+        "En la barra de búsqueda, ingresa los detalles del producto que deseas encontrar.",
+        "Después de realizar la búsqueda, revisa los resultados y toma las acciones pertinentes según sea necesario.",
+      ],
     },
     {
       id: 4,
@@ -76,20 +96,30 @@ const Help = () => {
       shortText:
         "Aprende a añadir nuevos proveedores al sistema.",
       longText:
-        "Texto más extenso para la pregunta 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "Si necesitas incorporar un nuevo proveedor al sistema, a continuación se detallan los pasos que debes seguir para llevar a cabo este proceso.",
+      steps: [
+        "Ir al apartado ''Proveedores''.",
+        "Haz clic en el icono de agregar (+) ubicado en la esquina inferior derecha.",
+        "Proporciona toda la información necesaria en los campos correspondientes.",
+        "Haz clic en la opción adecuada para guardar la información del proveedor registrado.",
+        "Si prefieres no guardar el proveedor, simplemente cierra el formulario.",
+      ],
     },
     {
       id: 5,
-      icon: <EngineeringIcon fontSize="large" />,
-      title: "¿En construcción de momento?",
+      icon: <CachedIcon fontSize="large" />,
+      title: "¿Cómo realizar una devolución?",
       shortText:
-        "Texto breve para la pregunta 5, ojalá de dos líneas porque sí.",
+        "Descubre como realizar una devolución de venta.",
       longText:
-        "Texto más extenso para la pregunta 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "A continuación, te ofrecemos los pasos necesarios para realizar la devolución de una venta en nuestro sistema.",
       steps: [
-        "Hacer una cosa llamada 1.",
-        "Hacer una cosa llamada 2.",
-        "Hacer una cosa llamada 3.",
+        "Ir a la sección ''Venta''.",
+        "Busca la venta de la cual deseas realizar la devolución utilizando el método que te resulte más conveniente.",
+        "Una vez localizada, selecciona el icono de devolución.",
+        "Complete los campos requeridos con la información necesaria para procesar la devolución.",
+        "Si todo está correcto, elija la opción de guardar para confirmar la devolución.",
+        "En caso contrario, si decide no proceder, elija la opción de cancelar.",
       ],
     },
     {
@@ -99,7 +129,12 @@ const Help = () => {
       shortText:
         "Encuentra la información de contacto de soporte técnico.",
       longText:
-        "Texto más extenso para la pregunta 6. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elementum molestie quam, et facilisis eros condimentum tincidunt.",
+        "Si necesita ayuda adicional, puede contactar al equipo de soporte de StockBox.",
+      steps: [
+        "Enviar un correo a stockbox.soporte@gmail.com",
+        "En el asunto del correo agregar inicialmente ''StockBox - Asunto del contacto''.",
+        "Y listo.",
+      ],  
     },
   ];
 
