@@ -13,10 +13,10 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { auxDelete } from "../../functions/auxDelete";
 import { deleteDialogTitleAndContext } from "../../functions/dialogTitleAndContext";
 import { formatNumber } from "../../functions/helpers";
-import { formatDateToSpanish } from "../../functions/format";
 import { isMoneyField } from "../../functions/typeFields";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +25,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import RenderModal from "../../functions/renderModal";
 import CustomTableChip from "../atoms/custom-ui/CustomTableChip";
 import RefundForm from "../organisms/forms/RefundForm";
+import RefundApi from "../../services/api/refund.service";
 
 const isDetailTable = (currentTable) => {
   return (
@@ -62,6 +63,7 @@ const TableRows = ({
   // Refund form
   const [activeRefund, setActiveRefund] = useState(false);
   const [sale, setSale] = useState({});
+  const [loadingRefund, setLoadingRefund] = useState(false);
 
   const handleDetails = (details) => {
     setModalProps({
@@ -74,6 +76,19 @@ const TableRows = ({
   const handleRefund = (sale) => {
     setSale(sale);
     setActiveRefund(true);
+  };
+
+  const handleModifyRefund = async (idr) => {
+    setLoadingRefund(true);
+    try {
+      const response = await RefundApi.getRefund(idr);
+      setSale(response.data);
+      setActiveRefund(true);
+    } catch (error) {
+      showSnackbar(error.response.data.message, "error");
+    } finally {
+      setLoadingRefund(false);
+    }
   };
 
   const handleEdit = (obj) => {
@@ -182,33 +197,60 @@ const TableRows = ({
                 return <TableCell key={index}>{obj[column]}</TableCell>;
               })}
               <TableCell key="options" sx={{ textAlign: "center" }}>
-                <div>
-                  {currentTable === "sales" && (
-                    <IconButton
-                      onClick={() => handleRefund(obj)}
-                      sx={{
-                        borderRadius: ".25em",
-                        color: "secondary.contrastText",
-                        "&:hover": {
-                          backgroundColor: "#C3FA7B",
-                        },
-                      }}
-                    >
-                      <Tooltip
-                        title="Crear devolución"
-                        placement="bottom"
-                        arrow
-                        enterDelay={500}
+                  {currentTable === "sales" &&
+                    (obj?.idr ? (
+                      <LoadingButton
+                        onClick={() => handleModifyRefund(obj?.idr)}
+                        loading={loadingRefund}
+                        sx={{
+                          minWidth: 0,
+                          minHeight: 0,
+                          width: "calc(1.5vh + 1.5vw)",
+                          height: "calc(1.5vh + 1.5vw)",
+                        }}
                       >
-                        <LoopIcon />
-                      </Tooltip>
-                    </IconButton>
-                  )}
+                        <Tooltip
+                          title="Modificar devolución"
+                          placement="bottom"
+                          arrow
+                          enterDelay={500}
+                        >
+                          <LoopIcon />
+                        </Tooltip>
+                      </LoadingButton>
+                    ) : (
+                      <IconButton
+                        onClick={() => handleRefund(obj)}
+                        sx={{
+                          borderRadius: ".25em",
+                          width: "calc(1.5vh + 1.5vw)",
+                          height: "calc(1.5vh + 1.5vw)",
+                          color: obj?.idr
+                            ? theme.palette.success.light
+                            : "secondary.contrastText",
+                          "&:hover": {
+                            backgroundColor: "#C3FA7B",
+                          },
+                        }}
+                      >
+                        <Tooltip
+                          title="Crear devolución"
+                          placement="bottom"
+                          arrow
+                          enterDelay={500}
+                        >
+                          <LoopIcon />
+                        </Tooltip>
+                      </IconButton>
+                    ))}
+
                   {dIndexKey && (
                     <IconButton
                       onClick={() => handleDetails(obj)}
                       sx={{
                         borderRadius: ".25em",
+                        width: "calc(1.5vh + 1.5vw)",
+                        height: "calc(1.5vh + 1.5vw)",
                         color: "secondary.contrastText",
                         "&:hover": {
                           backgroundColor: "#C3FA7B",
@@ -229,6 +271,8 @@ const TableRows = ({
                     onClick={() => handleEdit(obj)}
                     sx={{
                       borderRadius: ".25em",
+                      width: "calc(1.5vh + 1.5vw)",
+                      height: "calc(1.5vh + 1.5vw)",
                       color: "secondary.contrastText",
                       "&:hover": {
                         backgroundColor: "#C3FA7B",
@@ -248,6 +292,8 @@ const TableRows = ({
                     onClick={() => handleDelete(obj[allColumns[0]])}
                     sx={{
                       borderRadius: ".25em",
+                      width: "calc(1.5vh + 1.5vw)",
+                      height: "calc(1.5vh + 1.5vw)",
                       color: "secondary.contrastText",
                       "&:hover": {
                         backgroundColor: "#C3FA7B",
@@ -263,7 +309,6 @@ const TableRows = ({
                       <DeleteIcon />
                     </Tooltip>
                   </IconButton>
-                </div>
               </TableCell>
             </TableRow>
           ))
@@ -276,8 +321,8 @@ const TableRows = ({
         <RefundForm
           mode="create"
           data={sale}
-          setActiveRefund={setActiveRefund}
           closeForm={() => setActiveRefund(false)}
+          fetchData={fetchData}
         />
       )}
     </>

@@ -32,10 +32,8 @@ const CustomDialog = ({
     <Dialog
       open={open}
       onClose={closeDialog}
-      PaperProps={{
-        sx: {
-          transform: "translateX(27.5%)",
-        },
+      BackdropProps={{
+        sx: { backdropFilter: "blur(10px)" },
       }}
     >
       <DialogTitle

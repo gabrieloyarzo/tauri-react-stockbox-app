@@ -13,6 +13,10 @@ import {
   formatNumberDeleteThousandsSeparator as formatNumDeleteThousands,
   formatNumberWithMax as formatNumWithMax,
 } from "../../../functions/format";
+import {
+  validateRefund,
+  validateRefundItems,
+} from "../../../services/validation/refundValidation";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
@@ -49,6 +53,7 @@ const RefundForm = ({
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [itemErrors, setItemErrors] = useState([{}]);
   const [formData, setFormData] = useState({
     ids: data?.ids,
     codr: data?.codr ?? "",
@@ -89,6 +94,15 @@ const RefundForm = ({
         citr: Number(item.citr),
       })),
     };
+
+    const newErrors = validateRefund(submitData);
+    const newItemErrors = validateRefundItems(submitData.detalles);
+
+    if (Object.keys(newErrors).length > 0 || newItemErrors.length > 0) {
+      setErrors(newErrors);
+      setItemErrors(newItemErrors);
+      return;
+    }
 
     if (mode === "modify") {
       showDialog(
@@ -144,10 +158,10 @@ const RefundForm = ({
           top: 0,
           left: 0,
           bgcolor: "rgba(0, 0, 0, 0.5)",
-          zIndex: 0,
+          backdropFilter: "blur(10px)",
+          zIndex: 1,
         }}
       />
-
       <Box
         sx={{
           zIndex: 1,
@@ -313,6 +327,7 @@ const RefundForm = ({
                     sx={{ display: "flex", flex: 1, alignItems: "center" }}
                     name="citr"
                     value={item.citr}
+                    error={!!itemErrors[index]?.citr}
                     onChange={(e) => handleChangeItem(index, e)}
                     InputProps={{
                       sx: {
@@ -335,6 +350,7 @@ const RefundForm = ({
               variant="outlined"
               onChange={handleChange}
               sx={{ width: "90%" }}
+              error={!!errors.desc}
               InputProps={{
                 sx: {
                   fontSize: theme.typography.body2.fontSize,
@@ -364,8 +380,6 @@ const RefundForm = ({
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "150px",
                   "&:hover": {
                     backgroundColor: "#c3fa7b",
                     color: "#7e7e7e",
@@ -383,8 +397,6 @@ const RefundForm = ({
                 sx={{
                   backgroundColor: "#266763",
                   color: "#ffffff",
-                  fontSize: "0.8rem",
-                  width: "150px",
                   "&:hover": {
                     backgroundColor: "#c3fa7b",
                     color: "#7e7e7e",
