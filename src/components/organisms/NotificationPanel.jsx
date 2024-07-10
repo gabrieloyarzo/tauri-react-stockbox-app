@@ -170,7 +170,6 @@ const NotificationPanel = ({ data = mockNotifications }) => {
         </List>
       </Menu>
 
-      {/* Diálogo de confirmación */}
       <Dialog
         open={deleteConfirmation.open}
         onClose={handleCloseConfirmation}
