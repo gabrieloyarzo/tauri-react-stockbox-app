@@ -60,8 +60,8 @@ const Sales = () => {
         })();
 
       setTableData(sales.data);
-      //setProducts(sales.products);
-      setProducts(trueProducts.message);
+      setProducts(sales.products);
+      //setProducts(trueProducts.message);
       setCodes(sales.codes);
       setCount(sales.largo);
 
