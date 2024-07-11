@@ -142,9 +142,6 @@ const RefundForm = ({
   };
 
   const handleClose = () => {
-    console.log("formData", formData);
-    console.log("formDataItems", formDataItems);
-
     mode === "modify" ||
     (isEmptyObject({
       codr: formData?.codr,
@@ -349,7 +346,7 @@ const RefundForm = ({
                   <TextField
                     sx={{ display: "flex", flex: 1, alignItems: "center" }}
                     name="citr"
-                    value={item.citr}
+                    value={formatNumAddThousands(item.citr)}
                     error={!!itemErrors[index]?.citr}
                     onChange={(e) => handleChangeItem(index, e)}
                     InputProps={{

@@ -1,26 +1,7 @@
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { formatNumber } from "../../../functions/helpers";
-
-// {
-//   "cod": "544354",
-//   "idr": 8,
-//   "ids": 32,
-//   "codr": "566565",
-//   "fecha": "2024-07-11",
-//   "desc": "Prueba si devuelve 5 deben haber 10",
-//   "nota": "6565656565",
-//   "creado": "2024-07-11T01:52:36.335Z",
-//   "detalles": [
-//       {
-//           "idp": 43,
-//           "citr": 5,
-//           "cit": 5,
-//           "cod": "2001"
-//       }
-//   ]
-// }
+import { formatNumberAddThousandsSeparator as formatNumAddThousands } from "../../../functions/format";
 
 const RefundDetails = ({ data, closeModal }) => {
   const theme = useTheme();
@@ -141,10 +122,10 @@ const RefundDetails = ({ data, closeModal }) => {
                       {item.cod}
                     </td>
                     <td style={{ textAlign: "center", width: "33%" }}>
-                      {item.cit}
+                      {formatNumAddThousands(item.cit)}
                     </td>
                     <td style={{ textAlign: "center", width: "33%" }}>
-                      {item.citr}
+                      {formatNumAddThousands(item.citr)}
                     </td>
                   </tr>
                 ))}

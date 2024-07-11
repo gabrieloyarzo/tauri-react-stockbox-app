@@ -26,7 +26,12 @@ import {
   isEmptyArrayWithObjects,
 } from "../../../functions/helpers";
 import SaleApi from "../../../services/api/sale.service";
-import { formatRut, formatNumber } from "../../../functions/format";
+import {
+  formatRut,
+  formatNumber,
+  formatNumberAddThousandsSeparator as formatNumAddThousands,
+  formatNumberDeleteThousandsSeparator as formatNumDeleteThousands,
+} from "../../../functions/format";
 import { isNumberField } from "../../../functions/typeFields";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -120,7 +125,9 @@ const SaleForm = ({
 
   const handleChangeItem = (index, e) => {
     const name = e.target.name;
-    const value = isNumberField(name) ? formatNumber(e.target.value) : e.target.value;
+    const value = isNumberField(name)
+      ? formatNumber(e.target.value)
+      : e.target.value;
 
     setSaleItems((prevItems) =>
       prevItems.map((row, i) =>
@@ -241,10 +248,7 @@ const SaleForm = ({
 
   const confirmModify = async (submitData) => {
     try {
-      const response = await SaleApi.updateSale(
-        initialData.ids,
-        submitData
-      );
+      const response = await SaleApi.updateSale(initialData.ids, submitData);
       await fetchData(filterProps);
       showSnackbar(response.message, "success");
       closeForm();
@@ -279,7 +283,6 @@ const SaleForm = ({
   };
 
   if (user?.rut === "") {
-    console.log("no rut:", user);
     return null;
   }
 
@@ -497,7 +500,7 @@ const SaleForm = ({
 
                   <ItemTextField
                     name="cit"
-                    value={row.cit}
+                    value={formatNumAddThousands(row.cit)}
                     onChange={(e) => handleChangeItem(index, e)}
                     error={!!itemErrors[index]?.cit}
                     sx={{ alignItems: "center", flex: 1 }}
@@ -515,7 +518,7 @@ const SaleForm = ({
                     </Typography>
                     <ItemTextField
                       name="precio"
-                      value={row.precio}
+                      value={formatNumAddThousands(row.precio)}
                       onChange={(e) => handleChangeItem(index, e)}
                       error={!!itemErrors[index]?.precio}
                       sx={{ alignItems: "left" }}
@@ -532,7 +535,7 @@ const SaleForm = ({
                     variant="body2"
                     sx={{ textAlign: "right", flex: 1 }}
                   >
-                    {`$ ${row.suma}`}
+                    {`$ ${formatNumAddThousands(row.suma)}`}
                   </Typography>
 
                   <Box sx={{ flex: 0.3, marginLeft: 1 }}>
@@ -595,7 +598,7 @@ const SaleForm = ({
                     width: "20%",
                   }}
                 >
-                  <Typography variant="body1">{`$ ${total}`}</Typography>
+                  <Typography variant="body1">{`$ ${formatNumAddThousands(total)}`}</Typography>
                 </Box>
               </Box>
             </Box>

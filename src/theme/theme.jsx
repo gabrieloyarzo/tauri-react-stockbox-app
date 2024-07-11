@@ -131,6 +131,17 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          ".MuiIconButton-root": {
+            width: "calc(1.25vw + 1.25vh)",
+            height: "calc(1.25vw + 1.25vh)",
+            borderRadius: ".25rem",
+          },
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         h1: {
