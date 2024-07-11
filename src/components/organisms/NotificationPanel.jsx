@@ -19,6 +19,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationApi from "../../services/api/notification.service.js";
+import { formatTimestamp } from "../../functions/format.js";
 
 
 const NotificationPanel = ({ data }) => {
@@ -60,7 +61,7 @@ const NotificationPanel = ({ data }) => {
     );
     setNotifications(updatedNotifications);
     handleCloseConfirmation();
-    handleClose(); // Cerrar el menú después de eliminar
+    handleClose(); 
   };
 
   const open = Boolean(anchorEl);
@@ -125,23 +126,19 @@ const NotificationPanel = ({ data }) => {
             alignItems: "center",
           }}
         >
-          {notifications.map((notification) => (
-            <ListItem
-              key={notification.id}
-              sx={{
-                width: "95%",
-                marginBottom: ".5em",
-                borderRadius: ".5em",
-                bgcolor: theme.palette.common.white,
-                borderLeft: `5px solid ${theme.palette.primary.main}`,
-              }}
-            >
-              <Box
+          {notifications.map((notification) => {
+            const { fecha, hora } = formatTimestamp(notification.creado);
+
+            return (
+              <ListItem
+                key={notification.id}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "100%",
+                  width: "95%",
+                  marginBottom: ".5em",
+                  borderRadius: ".5em",
+                  bgcolor: theme.palette.common.white,
+                  borderLeft: `5px solid ${theme.palette.primary.main}`,
+                  position: "relative",
                 }}
               >
                 <ListItemText
@@ -153,18 +150,43 @@ const NotificationPanel = ({ data }) => {
                       color: theme.palette.primary.main,
                     },
                   }}
-                  secondary={`${notification.desc} - ${notification.fecha}`}
+                  secondary={notification.desc}
+                  sx={{
+                    position: "relative", 
+                    left: "1em", 
+                    maxWidth: "calc(100% - 4em)", 
+                    overflowWrap: "break-word", 
+                  }}
                 />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "0.5em",
+                    right: "0.5em",
+                    color: theme.palette.text.secondary,
+                    fontSize: "0.8rem",
+                    textAlign: "right",
+                  }}
+                > 
+                  {fecha}
+                  <br/>
+                  {hora}
+                </Box>
                 <IconButton
                   aria-label="delete"
                   onClick={() => handleOpenConfirmation(notification.id)}
-                  sx={{ color: theme.palette.primary.main }}
+                  sx={{
+                    position: "absolute",
+                    bottom: "-0.01em",
+                    right: "0.5em",
+                    color: theme.palette.primary.main,
+                  }}
                 >
                   <DeleteIcon />
                 </IconButton>
-              </Box>
-            </ListItem>
-          ))}
+              </ListItem>
+            );
+          })}
         </List>
       </Menu>
 
