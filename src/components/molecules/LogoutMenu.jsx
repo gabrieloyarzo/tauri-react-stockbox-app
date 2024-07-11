@@ -25,9 +25,9 @@ const StyledButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   marginBottom: ".5em",
   justifyContent: "flex-start",
-  backgroundColor: theme.palette.primary.dark,
+  backgroundColor: theme.palette.primary.main,
   "&:hover": {
-    backgroundColor: "#B72424",
+    backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
     borderRadius: "2rem",
   },
