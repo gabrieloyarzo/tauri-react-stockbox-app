@@ -3,7 +3,26 @@ import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatNumber } from "../../../functions/helpers";
 
-const RefundsDetails = ({ data, closeModal }) => {
+// {
+//   "cod": "544354",
+//   "idr": 8,
+//   "ids": 32,
+//   "codr": "566565",
+//   "fecha": "2024-07-11",
+//   "desc": "Prueba si devuelve 5 deben haber 10",
+//   "nota": "6565656565",
+//   "creado": "2024-07-11T01:52:36.335Z",
+//   "detalles": [
+//       {
+//           "idp": 43,
+//           "citr": 5,
+//           "cit": 5,
+//           "cod": "2001"
+//       }
+//   ]
+// }
+
+const RefundDetails = ({ data, closeModal }) => {
   const theme = useTheme();
 
   return (
@@ -48,23 +67,27 @@ const RefundsDetails = ({ data, closeModal }) => {
           }}
         >
           <Box>
-            <Typography sx={{ mb: 0, pl: 3, pt: 2 }}>
-            Código de devolución: {data.fecha}
+            <Typography variant="h5" sx={{ mb: 0, pl: 3, pt: 4, pb: 1.5 }}>
+              Cód. de venta:
             </Typography>
-            <Typography sx={{ mb: 0, pl: 3, pt: 2, pb: 2 }}>
-            Código de venta: {data.cod}
+            <Typography variant="h4" sx={{ mb: 0, pl: 3, pb: 3 }}>
+              {data?.cod}
             </Typography>
           </Box>
           <Box>
             <Typography sx={{ textAlign: "right", pr: 3 }}>
-              Nota de crédito: {data.fecha}
+              Cód. de devolución: {data.codr}
             </Typography>
             <Typography sx={{ textAlign: "right", pr: 3 }}>
               Fecha: {data.fecha}
             </Typography>
           </Box>
         </Box>
+
         <Box sx={{ p: 5 }}>
+          <Typography>
+            <strong>Descripción:</strong> {data.desc}
+          </Typography>
           <hr
             style={{
               borderTop: "1px solid grey",
@@ -73,41 +96,60 @@ const RefundsDetails = ({ data, closeModal }) => {
             }}
           />{" "}
           {/* LINEA */}
-          <Box sx={{ py: 1, fontWeight: "bold", textAlign: "center", marginRight: "100px" }}>
+          <Box sx={{ py: 1, fontWeight: "bold", textAlign: "center" }}>
             <Typography component="div">
               <Box>
                 <span
                   style={{
-                    width: "20%",
+                    width: "33%",
                     display: "inline-block",
                     fontWeight: "bold",
                     textAlign: "center",
                   }}
                 >
-                  Código del producto: {}
+                  Código del producto
                 </span>
                 <span
                   style={{
-                    width: "25%",
+                    width: "33%",
                     display: "inline-block",
                     fontWeight: "bold",
                     textAlign: "center",
                   }}
                 >
-                  Cantidad total: {}
+                  Cantidad total
                 </span>
                 <span
                   style={{
-                    width: "25%",
+                    width: "33%",
                     display: "inline-block",
                     fontWeight: "bold",
                     textAlign: "center",
                   }}
                 >
-                  Cantidad a reembolsar: {}
+                  Cantidad reembolsada
                 </span>
               </Box>
             </Typography>
+          </Box>
+          <Box sx={{ maxHeight: "150px", overflowY: "auto" }}>
+            <table style={{ width: "100%" }}>
+              <tbody>
+                {data.detalles.map((item, index) => (
+                  <tr key={index}>
+                    <td style={{ textAlign: "center", width: "33%" }}>
+                      {item.cod}
+                    </td>
+                    <td style={{ textAlign: "center", width: "33%" }}>
+                      {item.cit}
+                    </td>
+                    <td style={{ textAlign: "center", width: "33%" }}>
+                      {item.citr}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </Box>
           <hr
             style={{
@@ -118,11 +160,7 @@ const RefundsDetails = ({ data, closeModal }) => {
           />{" "}
           {/* LINEA */}
         </Box>
-        <Box >
-          <Typography sx={{ textAlign: "left", marginLeft: 5 }}>
-            Descripción: {data.cod}
-          </Typography>    
-        </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -154,4 +192,4 @@ const RefundsDetails = ({ data, closeModal }) => {
   );
 };
 
-export default RefundsDetails;
+export default RefundDetails;

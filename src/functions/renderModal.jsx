@@ -1,6 +1,6 @@
 import SaleDetails from "../components/organisms/modals/SaleDetails";
 import PurchaseDetails from "../components/organisms/modals/PurchaseDetails";
-import RefundsDetails from "../components/organisms/modals/RefundsDetails";
+import RefundDetails from "../components/organisms/modals/RefundDetails";
 
 const RenderModal = ({ currentTable, modalProps }) => {
   switch (currentTable) {
@@ -9,7 +9,7 @@ const RenderModal = ({ currentTable, modalProps }) => {
     case "sales":
       return <SaleDetails {...modalProps} />;
     case "refunds":
-      return <RefundsDetails {...modalProps} />;
+      return <RefundDetails {...modalProps} />;
     default:
       return null;
   }
