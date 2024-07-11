@@ -7,6 +7,7 @@ import MainLayout from "../templates/MainLayout";
 import SaleForm from "../organisms/forms/SaleForm";
 import Reload from "../molecules/Reload";
 import { iSales } from "../../functions/dataStructure";
+import ProductApi from "../../services/api/product.service";
 
 const Sales = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
@@ -50,7 +51,8 @@ const Sales = () => {
     setError(null);
     setIsLoading(true);
     try {
-      const sales = await SaleApi.getAllSales(props);
+	const sales = await SaleApi.getAllSales(props);
+	const trueProducts = await ProductApi.getTrueProducts();
       isFirstLoad &&
         (() => {
           showSnackbar(sales.message, "success");
@@ -58,10 +60,13 @@ const Sales = () => {
         })();
 
       setTableData(sales.data);
-      setProducts(sales.products);
+      //setProducts(sales.products);
+      setProducts(trueProducts.message);
       setCodes(sales.codes);
       setCount(sales.largo);
 
+	//console.log("ESto es lo real",productos);
+	
       localStorage.setItem("sales_fprops", JSON.stringify(filterProps));
     } catch (error) {
       setError(error.response.data.message);

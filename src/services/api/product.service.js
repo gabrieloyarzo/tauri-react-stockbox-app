@@ -90,6 +90,23 @@ const ProductApi = {
       throw error;
     }
   },
+
+    async getTrueProducts() {
+	try {
+	    const response = await axios.get(`${API_URL}/getAll`, {
+		headers: {
+		    "Content-Type": "application/json",
+		    Authorization: `Bearer ${localStorage.getItem("token")}`,
+		},
+	    });
+	    return response.data;
+	} catch (error) {
+	    console.error("Error al eliminar producto:", error);
+	    throw error;
+    }
+    },
 };
+
+
 
 export default ProductApi;
