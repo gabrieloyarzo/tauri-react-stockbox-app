@@ -19,7 +19,6 @@ const Pagination = ({ page, setFilterProps, count }) => {
   return (
     <Stack spacing={2}>
       <MuiPagination
-        size="large"
         count={Math.ceil(count / 10)}
         variant="outlined"
         color="primary"
@@ -27,6 +26,12 @@ const Pagination = ({ page, setFilterProps, count }) => {
         page={page}
         onChange={handleChange}
         disabled={isLoading}
+        sx={{
+          ".MuiPaginationItem-root": {
+            width: "calc(2vh + 2vw)",
+            height: "calc(2vh + 2vw)",
+          },
+        }}
       />
     </Stack>
   );
