@@ -26,6 +26,22 @@ const WebSocketContextProvider = ({ children }) => {
     ws.addEventListener("open", () => {
       console.log("WebSocket conexión establecida");
     });
+
+    ws.onopen = () => {
+      ws.send(
+        JSON.stringify({ type: "auth", token: localStorage.getItem("token") })
+      );
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log(data);
+      if (data.status === "invalid") {
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    };
+
     setWebSocket(ws);
   };
 
@@ -37,14 +53,8 @@ const WebSocketContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      connectWebSocket();
-    }
-    else {
-      disconnectWebSocket();
-      navigate("/login");
-    }
-  }, []);
+    connectWebSocket();
+  }, [navigate]);
 
   const value = {
     connectWebSocket,
