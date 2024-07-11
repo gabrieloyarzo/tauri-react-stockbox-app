@@ -37,7 +37,6 @@ const NotificationPanel = ({ data }) => {
       const fetchData = async () => {
 	  const notifications = await NotificationApi.getAllNotifications();
 	  setNotifications(notifications);
-	  console.log(notifications)
     };
     fetchData();
   }, []);
@@ -141,12 +140,12 @@ const NotificationPanel = ({ data }) => {
             alignItems: "center",
           }}
         >
-          {notifications.map((notification) => {
+          {notifications.map((notification, index) => {
             const { fecha, hora } = formatTimestamp(notification.creado);
 
             return (
               <ListItem
-                key={notification.id}
+                key={index}
                 sx={{
                   width: "95%",
                   marginBottom: ".5em",

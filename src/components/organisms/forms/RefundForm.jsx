@@ -17,19 +17,13 @@ import {
   validateRefund,
   validateRefundItems,
 } from "../../../services/validation/refundValidation";
+import {
+  isEmptyObject,
+  isEmptyArrayWithObjects,
+} from "../../../functions/helpers";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   marginBottom: "2vh",
-  width: "100%",
-  "& .MuiInputBase-input": {
-    height: ".75vw",
-  },
-  "& .MuiInputLabel-root": {
-    fontSize: ".85vw",
-  },
-  "& .MuiInputBase-root": {
-    fontSize: ".85vw",
-  },
 }));
 
 const StyledStack = styled(Stack)(({ theme }) => ({
@@ -62,7 +56,16 @@ const RefundForm = ({
     nota: data?.nota ?? "",
   });
 
-  const [formDataItems, setFormDataItems] = useState(data?.detalles);
+  const [formDataItems, setFormDataItems] = useState(() => {
+    const updatedDetails =
+      data?.detalles?.map((detail) => {
+        return {
+          ...detail,
+          citr: detail.citr || "",
+        };
+      });
+    return updatedDetails;
+  });
 
   const handleChange = (e) => {
     setFormData({
@@ -115,6 +118,7 @@ const RefundForm = ({
       setLoading(true);
       try {
         const response = await RefundApi.createRefund(submitData);
+        await fetchData(filterProps);
         showSnackbar(response.message, "success");
         closeForm();
       } catch (error) {
@@ -126,12 +130,35 @@ const RefundForm = ({
   };
 
   const handleValidateCode = (e) => {
+    if (!codes) {
+      return;
+    }
     const { value } = e.target;
     if (codes.includes(value) && value !== data?.codr) {
       setErrors((prevErrors) => ({ ...prevErrors, codr: true }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, codr: false }));
     }
+  };
+
+  const handleClose = () => {
+    console.log("formData", formData);
+    console.log("formDataItems", formDataItems);
+
+    mode === "modify" ||
+    (isEmptyObject({
+      codr: formData?.codr,
+      nota: formData?.nota,
+      desc: formData?.desc,
+    }) &&
+      isEmptyArrayWithObjects(formDataItems?.map((item) => item?.citr)))
+      ? closeForm()
+      : showDialog(
+          "Descartar registro",
+          "¿Está seguro que desea descartar el registro?",
+          "Descartar",
+          () => closeForm()
+        );
   };
 
   const confirmModify = async (submitData) => {
@@ -167,7 +194,7 @@ const RefundForm = ({
         sx={{
           zIndex: 1,
           position: "absolute",
-          width: "40vw",
+          width: "50vw",
           minWidth: "440px",
           maxHeight: "90vh",
           top: "50%",
@@ -225,6 +252,7 @@ const RefundForm = ({
                       handleChange(e);
                       handleValidateCode(e);
                     }}
+                    sx={{ width: "100%" }}
                   />
                   <StyledTextField
                     label="Nota de crédito"
@@ -232,12 +260,14 @@ const RefundForm = ({
                     value={formData.nota}
                     error={!!errors.nota}
                     onChange={handleChange}
+                    sx={{ width: "100%" }}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <StyledTextField
                     label="Código de venta"
                     value={data?.cod}
+                    sx={{ width: "100%" }}
                     disabled
                   />
                   <StyledTextField
@@ -250,6 +280,7 @@ const RefundForm = ({
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    sx={{ width: "100%" }}
                   />
                 </Grid>
               </Grid>
@@ -271,21 +302,18 @@ const RefundForm = ({
               <Box sx={{ display: "flex", width: "90%" }}>
                 <StyledStack>
                   <Typography
-                    variant="body2"
                     fontWeight="bold"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
                     Código del producto
                   </Typography>
                   <Typography
-                    variant="body2"
                     fontWeight="bold"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
                     Cantidad total
                   </Typography>
                   <Typography
-                    variant="body2"
                     fontWeight="bold"
                     sx={{ textAlign: "center", flex: 1 }}
                   >
@@ -312,16 +340,10 @@ const RefundForm = ({
                   justifyContent="center"
                   key={index}
                 >
-                  <Typography
-                    variant="body2"
-                    sx={{ textAlign: "center", flex: 1 }}
-                  >
+                  <Typography sx={{ textAlign: "center", flex: 1 }}>
                     {item.cod}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ textAlign: "center", flex: 1 }}
-                  >
+                  <Typography sx={{ textAlign: "center", flex: 1 }}>
                     {formatNumAddThousands(item.cit)}
                   </Typography>
                   <TextField
@@ -334,7 +356,6 @@ const RefundForm = ({
                       sx: {
                         width: "60%",
                         height: "2.5vw",
-                        fontSize: theme.typography.body2.fontSize,
                       },
                     }}
                   />
@@ -352,16 +373,6 @@ const RefundForm = ({
               onChange={handleChange}
               sx={{ width: "90%" }}
               error={!!errors.desc}
-              InputProps={{
-                sx: {
-                  fontSize: theme.typography.body2.fontSize,
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  fontSize: theme.typography.body2.fontSize,
-                },
-              }}
             />
 
             <Box
@@ -386,7 +397,7 @@ const RefundForm = ({
                     color: "#7e7e7e",
                   },
                 }}
-                onClick={closeForm}
+                onClick={handleClose}
               >
                 Cerrar
               </Button>

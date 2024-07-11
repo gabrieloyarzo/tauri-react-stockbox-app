@@ -185,10 +185,7 @@ const SaleForm = ({
     };
 
     const { idr, ...rest } = newData;
-
     const submitData = { ...rest };
-
-    console.log(submitData);
 
     if (mode === "modify") {
       showDialog(

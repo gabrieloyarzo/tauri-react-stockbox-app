@@ -41,6 +41,7 @@ const TableRows = ({
   toggleForm,
   setFormProps,
   allColumns,
+  filterProps,
   setFilterProps,
   count,
 }) => {
@@ -121,12 +122,13 @@ const TableRows = ({
     toggleForm();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (data) => {
+    console.log(data[allColumns[0]]);
     showDialog(
-      deleteDialogTitleAndContext(currentTable).title,
-      deleteDialogTitleAndContext(currentTable).content,
+      deleteDialogTitleAndContext(currentTable, data).title,
+      deleteDialogTitleAndContext(currentTable, data).content,
       "Eliminar",
-      () => confirmDelete(id)
+      () => confirmDelete(data[allColumns[0]])
     );
   };
 
@@ -302,7 +304,7 @@ const TableRows = ({
                   </Tooltip>
                 </IconButton>
                 <IconButton
-                  onClick={() => handleDelete(obj[allColumns[0]])}
+                  onClick={() => handleDelete(obj)}
                   sx={{
                     borderRadius: ".25em",
                     width: "calc(1.5vh + 1.5vw)",
@@ -335,7 +337,7 @@ const TableRows = ({
           mode={mode}
           data={sale}
           closeForm={() => setActiveRefund(false)}
-          fetchData={fetchData}
+          fetchData={() => fetchData(filterProps)}
         />
       )}
     </>
