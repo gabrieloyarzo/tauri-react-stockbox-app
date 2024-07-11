@@ -432,7 +432,7 @@ const Filters = ({
                 value={valor}
                 onChange={handleSearchChange}
                 inputProps={{
-                  maxLength: isRutField(category) ? 12 : undefined,
+                  maxLength: isRutField(category) ? 12 : 150,
                 }}
                 InputProps={{
                   startAdornment: (
