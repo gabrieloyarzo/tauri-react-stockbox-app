@@ -190,7 +190,12 @@ const NotificationPanel = ({ data }) => {
                 <IconButton
                   aria-label="delete"
                   onClick={() => handleOpenConfirmation(notification.idn)}
-                  sx={{ color: theme.palette.primary.main }}
+                  sx={{
+                    position: "absolute",
+                    bottom: "-0.01em", 
+                    right: "0.5em", 
+                    color: theme.palette.primary.main,
+                  }}
                 >
                     <DeleteIcon  />
                 </IconButton>
