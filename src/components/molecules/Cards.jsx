@@ -82,8 +82,8 @@ const CardGrid = () => {
     IngresosTotales: 0,
     NVentas: 0,
     NCompras: 0,
+    NDevoluciones: 0,
     NProveedores: 0,
-    NProductos: 0
   });
 
   const [currentMonthSales, setCurrentMonthSales] = useState(0);
@@ -125,7 +125,7 @@ const CardGrid = () => {
           NVentas: response.data.countSales,
           NCompras: response.data.countPurchases,
           NProveedores: response.data.countProviders,
-          NProductos: response.data.catProducts,
+          NDevoluciones: response.data.countRefunds,
         });
       } catch (error) {
         console.error('Error al obtener datos:', error);
@@ -158,10 +158,10 @@ const CardGrid = () => {
         <CardFormat titulo="N° de compras" monto={analyticsData.NCompras} />
       </Grid>
       <Grid item xs={12} sm={6} md={2.4}>
-        <CardFormat titulo="N° de proveedores" monto={analyticsData.NProveedores} />
+        <CardFormat titulo="N° de devoluciones" monto={analyticsData.NDevoluciones} />
       </Grid>
-      <Grid item xs={12} sm={6} md={2.4}>
-        <CardFormat titulo="N° de inventario total" monto={analyticsData.NProductos} />
+            <Grid item xs={12} sm={6} md={2.4}>
+        <CardFormat titulo="N° de proveedores" monto={analyticsData.NProveedores} />
       </Grid>
     </Grid>
   );
