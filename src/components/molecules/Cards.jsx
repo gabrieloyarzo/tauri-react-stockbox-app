@@ -50,7 +50,7 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
             flex: 1,
             fontSize: "0.75em", 
             wordBreak: 'break-word', 
-            textAlign: 'left', // Alinea el periodo a la izquierda
+            textAlign: 'left',
             overflow: 'hidden',
           }} 
           color="text.secondary"
@@ -64,7 +64,7 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
             flex: 1,
             wordBreak: 'break-word', 
             fontSize: 'clamp(1rem, 2vw, 1rem)',
-            textAlign: 'right', // Alinea el incremento a la derecha
+            textAlign: 'right',
             overflow: 'hidden',
           }}
         >
