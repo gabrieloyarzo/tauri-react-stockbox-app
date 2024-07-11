@@ -8,6 +8,7 @@ import MainLayout from "../templates/MainLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
 import Reload from "../molecules/Reload";
 import { iPurchase } from "../../functions/dataStructure";
+import ProductApi from "../../services/api/product.service"
 
 const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
@@ -53,7 +54,8 @@ const Purchases = () => {
     setError(null);
     setIsLoading(true);
     try {
-      const purchases = await PurchaseApi.getAllPurchases(props);
+	const purchases = await PurchaseApi.getAllPurchases(props);
+	const trueProducts = await ProductApi.getTrueProducts();
       isFirstLoad &&
         (() => {
           showSnackbar(purchases.message, "success");
@@ -62,7 +64,8 @@ const Purchases = () => {
 
       setTableData(purchases.data);
       setProviders(purchases.providers);
-      setProducts(purchases.products);
+	//setProducts(purchases.products);
+      setProducts(trueProducts.message)
       setCodes(purchases.codes);
       setCount(purchases.largo);
 
