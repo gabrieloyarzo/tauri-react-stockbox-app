@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { usePage } from "../../hooks/usePage";
 import { useTable } from "../../context/TableContext";
 import { useSnackbar } from "../../context/SnackbarContext";
+import { useVariables } from "../../context/VariablesContext";
 import SaleApi from "../../services/api/sale.service";
 import MainLayout from "../templates/MainLayout";
 import SaleForm from "../organisms/forms/SaleForm";
 import Reload from "../molecules/Reload";
 import { iSales } from "../../functions/dataStructure";
-import ProductApi from "../../services/api/product.service";
 
 const Sales = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
     useTable();
   const { showSnackbar } = useSnackbar();
+  const { setRefundCodes } = useVariables();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [error, setError] = useState(null);
@@ -51,8 +52,7 @@ const Sales = () => {
     setError(null);
     setIsLoading(true);
     try {
-	const sales = await SaleApi.getAllSales(props);
-	const trueProducts = await ProductApi.getTrueProducts();
+	const sales = await SaleApi.getAllSales(props)
       isFirstLoad &&
         (() => {
           showSnackbar(sales.message, "success");
@@ -61,11 +61,9 @@ const Sales = () => {
 
       setTableData(sales.data);
       setProducts(sales.products);
-      //setProducts(trueProducts.message);
+      setRefundCodes(sales.refundCodes);
       setCodes(sales.codes);
       setCount(sales.largo);
-
-	//console.log("ESto es lo real",productos);
 	
       localStorage.setItem("sales_fprops", JSON.stringify(filterProps));
     } catch (error) {

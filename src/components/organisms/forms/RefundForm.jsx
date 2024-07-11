@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useVariables } from "../../../context/VariablesContext";
 import { useSnackbar } from "../../../context/SnackbarContext";
 import { useDialog } from "../../../context/DialogContext";
 import { useTheme } from "@mui/material/styles";
@@ -41,6 +42,10 @@ const RefundForm = ({
   codes,
 }) => {
   const theme = useTheme();
+
+  const { refundCodes } = useVariables();
+
+  const codigos = codes || refundCodes;
 
   const { showSnackbar } = useSnackbar();
   const { showDialog } = useDialog();
@@ -130,11 +135,11 @@ const RefundForm = ({
   };
 
   const handleValidateCode = (e) => {
-    if (!codes) {
+    if (!codigos) {
       return;
     }
     const { value } = e.target;
-    if (codes.includes(value) && value !== data?.codr) {
+    if (codigos.includes(value) && value !== data?.codr) {
       setErrors((prevErrors) => ({ ...prevErrors, codr: true }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, codr: false }));

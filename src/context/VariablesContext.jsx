@@ -9,6 +9,7 @@ const VariablesContextProvider = ({ children }) => {
   const [userRoles, setUserRoles] = useState([]);
   const [providerTypes, setProviderTypes] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [refundCodes, setRefundCodes] = useState([]);
 
   return (
     <VariablesContext.Provider
@@ -21,6 +22,8 @@ const VariablesContextProvider = ({ children }) => {
         setProviderTypes,
         categories,
         setCategories,
+        refundCodes,
+        setRefundCodes,
       }}
     >
       {children}

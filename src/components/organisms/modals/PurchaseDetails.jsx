@@ -27,7 +27,7 @@ const PurchaseDetails = ({ data, closeModal }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "80vw",
+          width: "50%",
           maxWidth: "600px",
           maxHeight: "90vh",
           bgcolor: theme.palette.background.default,
@@ -131,18 +131,18 @@ const PurchaseDetails = ({ data, closeModal }) => {
               <tbody>
                 {data.detalles.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ textAlign: "center", width: "20%" }}>
+                    <td style={{ textAlign: "center", width: "20%", fontSize: theme.typography.body1.fontSize }}>
                       {item.cod}
                     </td>
-                    <td style={{ textAlign: "center", width: "20%" }}>
+                    <td style={{ textAlign: "center", width: "20%", fontSize: theme.typography.body1.fontSize }}>
                       {formatNumber(item.cit)}
                     </td>
-                    <td style={{ textAlign: "center", width: "1%" }}>x</td>
-                    <td style={{ textAlign: "center", width: "25%" }}>
+                    <td style={{ textAlign: "center", width: "1%", fontSize: theme.typography.body1.fontSize }}>x</td>
+                    <td style={{ textAlign: "center", width: "25%", fontSize: theme.typography.body1.fontSize }}>
                       {" "}
                       {`$ ${formatNumber(item.precio)}`}
                     </td>
-                    <td style={{ textAlign: "center", width: "20%" }}>
+                    <td style={{ textAlign: "center", width: "20%", fontSize: theme.typography.body1.fontSize }}>
                       {" "}
                       {`$ ${formatNumber(item.suma)}`}
                     </td>
@@ -162,10 +162,9 @@ const PurchaseDetails = ({ data, closeModal }) => {
           <Typography
             variant="h6"
             sx={{
-              mt: 1,
               textAlign: "Right",
               marginRight: "25px",
-              fontSize: "17px",
+              fontSize: theme.typography.subtitle1.fontSize,
             }}
           >
             {`Total: $ ${formatNumber(data.total)}`}
@@ -176,7 +175,6 @@ const PurchaseDetails = ({ data, closeModal }) => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            p: 2,
           }}
         >
           <Button
@@ -185,13 +183,12 @@ const PurchaseDetails = ({ data, closeModal }) => {
             sx={{
               backgroundColor: theme.palette.primary.main,
               color: theme.palette.primary.contrastText,
-              fontSize: "0.8rem",
-              width: "150px",
+              fontSize: theme.typography.body1.fontSize,
               "&:hover": {
                 backgroundColor: theme.palette.secondary.main,
                 color: theme.palette.secondary.contrastText,
               },
-              margin: "0 auto",
+              marginBottom: "20px",
             }}
             onClick={closeModal}
           >

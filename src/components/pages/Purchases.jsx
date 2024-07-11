@@ -8,12 +8,11 @@ import MainLayout from "../templates/MainLayout";
 import PurchaseForm from "../organisms/forms/PurchaseForm";
 import Reload from "../molecules/Reload";
 import { iPurchase } from "../../functions/dataStructure";
-import ProductApi from "../../services/api/product.service"
 
 const Purchases = () => {
   const { currentTable, setCurrentTable, setIsLoading, setTableColumns } =
     useTable();
-  const { setProviders } = useVariables();
+  const { setProviders, setProviderTypes } = useVariables();
   const { showSnackbar } = useSnackbar();
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -55,7 +54,6 @@ const Purchases = () => {
     setIsLoading(true);
     try {
 	const purchases = await PurchaseApi.getAllPurchases(props);
-	const trueProducts = await ProductApi.getTrueProducts();
       isFirstLoad &&
         (() => {
           showSnackbar(purchases.message, "success");
@@ -65,7 +63,7 @@ const Purchases = () => {
       setTableData(purchases.data);
       setProviders(purchases.providers);
       setProducts(purchases.products);
-      //setProducts(trueProducts.message)
+      setProviderTypes(purchases.providerTypes);
       setCodes(purchases.codes);
       setCount(purchases.largo);
 

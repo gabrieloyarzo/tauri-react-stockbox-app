@@ -1,9 +1,11 @@
 import React from "react";
+import { useTheme } from "@mui/material/styles";
 import { useTable } from "../../context/TableContext";
 import MuiPagination from "@mui/material/Pagination";
 import { Stack } from "@mui/material";
 
 const Pagination = ({ page, setFilterProps, count }) => {
+  const theme = useTheme();
   const { isLoading } = useTable();
 
   const handleChange = (event, value) => {
@@ -30,6 +32,7 @@ const Pagination = ({ page, setFilterProps, count }) => {
           ".MuiPaginationItem-root": {
             width: "calc(2vh + 2vw)",
             height: "calc(2vh + 2vw)",
+            fontSize: theme.typography.body1.fontSize,
           },
         }}
       />

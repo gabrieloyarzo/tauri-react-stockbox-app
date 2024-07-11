@@ -27,7 +27,7 @@ const RefundDetails = ({ data, closeModal }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "80vw",
+          width: "50%",
           maxWidth: "600px",
           maxHeight: "90vh",
           bgcolor: theme.palette.background.default,
@@ -118,13 +118,13 @@ const RefundDetails = ({ data, closeModal }) => {
               <tbody>
                 {data.detalles.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ textAlign: "center", width: "33%" }}>
+                    <td style={{ textAlign: "center", width: "33%", fontSize: theme.typography.body1.fontSize }}>
                       {item.cod}
                     </td>
-                    <td style={{ textAlign: "center", width: "33%" }}>
+                    <td style={{ textAlign: "center", width: "33%", fontSize: theme.typography.body1.fontSize }}>
                       {formatNumAddThousands(item.cit)}
                     </td>
-                    <td style={{ textAlign: "center", width: "33%" }}>
+                    <td style={{ textAlign: "center", width: "33%", fontSize: theme.typography.body1.fontSize }}>
                       {formatNumAddThousands(item.citr)}
                     </td>
                   </tr>
@@ -146,7 +146,6 @@ const RefundDetails = ({ data, closeModal }) => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            p: 2,
           }}
         >
           <Button
@@ -161,7 +160,7 @@ const RefundDetails = ({ data, closeModal }) => {
                 backgroundColor: theme.palette.secondary.main,
                 color: theme.palette.secondary.contrastText,
               },
-              margin: "0 auto",
+              marginBottom: "20px",
             }}
             onClick={closeModal}
           >
