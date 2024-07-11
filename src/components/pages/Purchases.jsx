@@ -64,8 +64,8 @@ const Purchases = () => {
 
       setTableData(purchases.data);
       setProviders(purchases.providers);
-	//setProducts(purchases.products);
-      setProducts(trueProducts.message)
+      setProducts(purchases.products);
+      //setProducts(trueProducts.message)
       setCodes(purchases.codes);
       setCount(purchases.largo);
 
