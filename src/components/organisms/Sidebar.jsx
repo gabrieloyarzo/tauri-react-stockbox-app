@@ -23,7 +23,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   fontSize: theme.typography.subtitle1.fontSize,
   color: theme.palette.primary.contrastText,
   textTransform: "none",
-  marginBottom: ".5em",
+  marginBottom: "5%",
   justifyContent: "flex-start",
   "& .MuiSvgIcon-root": {
     width: "1.5vw",
@@ -82,7 +82,7 @@ const Sidebar = () => {
             justifyContent="center"
             alignItems="center"
             paddingTop=".75em"
-            paddingBottom=".75em"
+            paddingBottom="7.5%"
           >
             <CardMedia
               component="img"
