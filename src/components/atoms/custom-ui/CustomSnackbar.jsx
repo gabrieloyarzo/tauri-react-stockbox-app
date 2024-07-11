@@ -48,7 +48,7 @@ const ProgressBar = ({ duration }) => {
 };
 
 const CustomSnackbar = ({ open, closeSnack, message, severity }) => {
-  const duration = 3000;
+  const duration = 2000;
 
   return (
     <Snackbar
