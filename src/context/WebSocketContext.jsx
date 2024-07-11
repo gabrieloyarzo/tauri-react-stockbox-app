@@ -27,20 +27,20 @@ const WebSocketContextProvider = ({ children }) => {
       console.log("WebSocket conexión establecida");
     });
 
-    ws.onopen = () => {
-      ws.send(
-        JSON.stringify({ type: "auth", token: localStorage.getItem("token") })
-      );
-    };
+    // ws.onopen = () => {
+    //   ws.send(
+    //     JSON.stringify({ type: "auth", token: localStorage.getItem("token") })
+    //   );
+    // };
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log(data);
-      if (data.status === "invalid") {
-        localStorage.removeItem("token");
-        navigate("/login");
-      }
-    };
+    // ws.onmessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   console.log(data);
+    //   if (data.status === "invalid") {
+    //     localStorage.removeItem("token");
+    //     navigate("/login");
+    //   }
+    // };
 
     setWebSocket(ws);
   };

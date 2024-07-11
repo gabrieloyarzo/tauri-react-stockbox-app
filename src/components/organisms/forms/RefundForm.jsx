@@ -106,7 +106,7 @@ const RefundForm = ({
 
     if (mode === "modify") {
       showDialog(
-        "Modificar compra",
+        "Modificar devolución",
         "¿Está seguro que desea modificar la devolución?",
         "Modificar",
         () => confirmModify(submitData)
@@ -135,6 +135,7 @@ const RefundForm = ({
   };
 
   const confirmModify = async (submitData) => {
+    console.log(submitData);
     setLoading(true);
     try {
       const response = await RefundApi.updateRefund(data?.idr, submitData);

@@ -63,6 +63,7 @@ const TableRows = ({
   // Refund form
   const [activeRefund, setActiveRefund] = useState(false);
   const [sale, setSale] = useState({});
+  const [mode, setMode] = useState("create");
   const [loadingRefund, setLoadingRefund] = useState(
     new Array(data.length).fill(false)
   );
@@ -76,6 +77,7 @@ const TableRows = ({
   };
 
   const handleRefund = (sale) => {
+    setMode("create");
     setSale(sale);
     setActiveRefund(true);
   };
@@ -88,6 +90,7 @@ const TableRows = ({
     });
     try {
       const response = await RefundApi.getRefund(idr);
+      setMode("modify");
       setSale(response.data);
       setActiveRefund(true);
     } catch (error) {
@@ -329,7 +332,7 @@ const TableRows = ({
       )}
       {activeRefund && (
         <RefundForm
-          mode="create"
+          mode={mode}
           data={sale}
           closeForm={() => setActiveRefund(false)}
           fetchData={fetchData}
