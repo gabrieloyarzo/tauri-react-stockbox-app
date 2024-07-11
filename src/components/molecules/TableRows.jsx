@@ -63,7 +63,9 @@ const TableRows = ({
   // Refund form
   const [activeRefund, setActiveRefund] = useState(false);
   const [sale, setSale] = useState({});
-  const [loadingRefund, setLoadingRefund] = useState(false);
+  const [loadingRefund, setLoadingRefund] = useState(
+    new Array(data.length).fill(false)
+  );
 
   const handleDetails = (details) => {
     setModalProps({
@@ -78,8 +80,12 @@ const TableRows = ({
     setActiveRefund(true);
   };
 
-  const handleModifyRefund = async (idr) => {
-    setLoadingRefund(true);
+  const handleModifyRefund = async (index, idr) => {
+    setLoadingRefund(prevLoadingRefund => {
+      const newLoadingRefund = [...prevLoadingRefund];
+      newLoadingRefund[index] = true;
+      return newLoadingRefund;
+    });
     try {
       const response = await RefundApi.getRefund(idr);
       setSale(response.data);
@@ -87,7 +93,11 @@ const TableRows = ({
     } catch (error) {
       showSnackbar(error.response.data.message, "error");
     } finally {
-      setLoadingRefund(false);
+      setLoadingRefund(prevLoadingRefund => {
+        const newLoadingRefund = [...prevLoadingRefund];
+        newLoadingRefund[index] = false;
+        return newLoadingRefund;
+      });
     }
   };
 
@@ -197,78 +207,56 @@ const TableRows = ({
                 return <TableCell key={index}>{obj[column]}</TableCell>;
               })}
               <TableCell key="options" sx={{ textAlign: "center" }}>
-                  {currentTable === "sales" &&
-                    (obj?.idr ? (
-                      <LoadingButton
-                        onClick={() => handleModifyRefund(obj?.idr)}
-                        loading={loadingRefund}
-                        sx={{
-                          minWidth: 0,
-                          minHeight: 0,
-                          width: "calc(1.5vh + 1.5vw)",
-                          height: "calc(1.5vh + 1.5vw)",
-                        }}
+                {currentTable === "sales" &&
+                  (obj?.idr ? (
+                    <LoadingButton
+                      onClick={() => handleModifyRefund(index, obj?.idr)}
+                      loading={loadingRefund[index]}
+                      sx={{
+                        minWidth: 0,
+                        minHeight: 0,
+                        width: "calc(1.5vh + 1.5vw)",
+                        height: "calc(1.5vh + 1.5vw)",
+                      }}
+                    >
+                      <Tooltip
+                        title="Modificar devolución"
+                        placement="bottom"
+                        arrow
+                        enterDelay={500}
                       >
-                        <Tooltip
-                          title="Modificar devolución"
-                          placement="bottom"
-                          arrow
-                          enterDelay={500}
-                        >
-                          <LoopIcon />
-                        </Tooltip>
-                      </LoadingButton>
-                    ) : (
-                      <IconButton
-                        onClick={() => handleRefund(obj)}
-                        sx={{
-                          borderRadius: ".25em",
-                          width: "calc(1.5vh + 1.5vw)",
-                          height: "calc(1.5vh + 1.5vw)",
-                          color: obj?.idr
-                            ? theme.palette.success.light
-                            : "secondary.contrastText",
-                          "&:hover": {
-                            backgroundColor: "#C3FA7B",
-                          },
-                        }}
-                      >
-                        <Tooltip
-                          title="Crear devolución"
-                          placement="bottom"
-                          arrow
-                          enterDelay={500}
-                        >
-                          <LoopIcon />
-                        </Tooltip>
-                      </IconButton>
-                    ))}
-
-                  {dIndexKey && (
+                        <LoopIcon />
+                      </Tooltip>
+                    </LoadingButton>
+                  ) : (
                     <IconButton
-                      onClick={() => handleDetails(obj)}
+                      onClick={() => handleRefund(obj)}
                       sx={{
                         borderRadius: ".25em",
                         width: "calc(1.5vh + 1.5vw)",
                         height: "calc(1.5vh + 1.5vw)",
-                        color: "secondary.contrastText",
+                        color: obj?.idr
+                          ? theme.palette.success.light
+                          : "secondary.contrastText",
                         "&:hover": {
                           backgroundColor: "#C3FA7B",
                         },
                       }}
                     >
                       <Tooltip
-                        title="Ver detalles"
+                        title="Crear devolución"
                         placement="bottom"
                         arrow
                         enterDelay={500}
                       >
-                        <VisibilityIcon />
+                        <LoopIcon />
                       </Tooltip>
                     </IconButton>
-                  )}
+                  ))}
+
+                {dIndexKey && (
                   <IconButton
-                    onClick={() => handleEdit(obj)}
+                    onClick={() => handleDetails(obj)}
                     sx={{
                       borderRadius: ".25em",
                       width: "calc(1.5vh + 1.5vw)",
@@ -280,35 +268,57 @@ const TableRows = ({
                     }}
                   >
                     <Tooltip
-                      title="Editar"
+                      title="Ver detalles"
                       placement="bottom"
                       arrow
                       enterDelay={500}
                     >
-                      <EditIcon />
+                      <VisibilityIcon />
                     </Tooltip>
                   </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(obj[allColumns[0]])}
-                    sx={{
-                      borderRadius: ".25em",
-                      width: "calc(1.5vh + 1.5vw)",
-                      height: "calc(1.5vh + 1.5vw)",
-                      color: "secondary.contrastText",
-                      "&:hover": {
-                        backgroundColor: "#C3FA7B",
-                      },
-                    }}
+                )}
+                <IconButton
+                  onClick={() => handleEdit(obj)}
+                  sx={{
+                    borderRadius: ".25em",
+                    width: "calc(1.5vh + 1.5vw)",
+                    height: "calc(1.5vh + 1.5vw)",
+                    color: "secondary.contrastText",
+                    "&:hover": {
+                      backgroundColor: "#C3FA7B",
+                    },
+                  }}
+                >
+                  <Tooltip
+                    title="Editar"
+                    placement="bottom"
+                    arrow
+                    enterDelay={500}
                   >
-                    <Tooltip
-                      title="Borrar"
-                      placement="bottom"
-                      arrow
-                      enterDelay={500}
-                    >
-                      <DeleteIcon />
-                    </Tooltip>
-                  </IconButton>
+                    <EditIcon />
+                  </Tooltip>
+                </IconButton>
+                <IconButton
+                  onClick={() => handleDelete(obj[allColumns[0]])}
+                  sx={{
+                    borderRadius: ".25em",
+                    width: "calc(1.5vh + 1.5vw)",
+                    height: "calc(1.5vh + 1.5vw)",
+                    color: "secondary.contrastText",
+                    "&:hover": {
+                      backgroundColor: "#C3FA7B",
+                    },
+                  }}
+                >
+                  <Tooltip
+                    title="Borrar"
+                    placement="bottom"
+                    arrow
+                    enterDelay={500}
+                  >
+                    <DeleteIcon />
+                  </Tooltip>
+                </IconButton>
               </TableCell>
             </TableRow>
           ))
