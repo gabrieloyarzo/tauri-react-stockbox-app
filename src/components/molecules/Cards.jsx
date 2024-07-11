@@ -20,39 +20,61 @@ const CardFormat = ({ titulo, monto, incremento, periodo }) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        height: '75%',
+        height: '100%',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.4)',
+        overflow: 'hidden',
       }}
     >
-      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: 'center' }}>
-            {titulo}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", textAlign: 'center', color: '#266763' }}>
-            {monto}
-          </Typography>
-        </Grid>
-        {(incremento || periodo) && (
-          <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginBottom: '1em' }}>
-            {incremento && (
-              <Typography variant="h6" color={incrementoColor}>
-                {incremento}
-              </Typography>
-            )}
-            {periodo && (
-              <Typography variant="body1" sx={{ fontSize: "0.75em", marginBottom: '0.5em' }} color="text.secondary">
-                {periodo}
-              </Typography>
-            )}
-          </Grid>
-        )}
-      </Grid>
+      <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: 'center' }}>
+        {titulo}
+      </Typography>
+      <Typography 
+        variant="h5" 
+        sx={{ 
+          fontWeight: "bold", 
+          textAlign: 'center', 
+          color: '#266763', 
+          wordBreak: 'break-word', 
+          fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+          transition: 'font-size 0.2s ease',
+          maxWidth: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        {monto}
+      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 0 }}>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+            flex: 1,
+            fontSize: "0.75em", 
+            wordBreak: 'break-word', 
+            textAlign: 'left', // Alinea el periodo a la izquierda
+            overflow: 'hidden',
+          }} 
+          color="text.secondary"
+        >
+          {periodo}
+        </Typography>
+        <Typography 
+          variant="h6" 
+          color={incrementoColor} 
+          sx={{ 
+            flex: 1,
+            wordBreak: 'break-word', 
+            fontSize: 'clamp(1rem, 2vw, 1rem)',
+            textAlign: 'right', // Alinea el incremento a la derecha
+            overflow: 'hidden',
+          }}
+        >
+          {incremento}
+        </Typography>
+      </Box>
     </Box>
   );
-}
+}  
+
 
 const CardGrid = () => {
   

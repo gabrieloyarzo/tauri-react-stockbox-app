@@ -58,6 +58,18 @@ const TendenciasVentas = () => {
     fetchData();
   }, [currentYear, previousYear]);
 
+  const formatYAxis = (value) => {
+    if (value >= 1000000) {
+      const millionValue = value / 1000000;
+      return `${millionValue.toFixed(millionValue < 10 ? 1 : 0)}M`;
+    } else if (value >= 100000) {
+      const thousandValue = value / 1000;
+      return `${thousandValue.toFixed(0)}m`; 
+    } else {
+      return formatNumber(value); 
+    }
+  };
+
   return (
     <Box sx={{ width: '100%', height: '100%'}}>
       <Typography gutterBottom align="left" sx={{ fontSize: "20px", fontWeight: "bold" }}>
@@ -68,7 +80,7 @@ const TendenciasVentas = () => {
           <BarChart data={data} margin={{ top: 10 }}>
             <CartesianGrid stroke="none" />
             <XAxis dataKey="month" />
-            <YAxis />
+            <YAxis tickFormatter={(value) => `${formatYAxis(value)}`}/> 
             <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
             <Legend
               verticalAlign="top"

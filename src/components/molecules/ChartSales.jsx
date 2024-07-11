@@ -4,7 +4,7 @@ import { Typography, Grid } from '@mui/material';
 import AnalyticApi from '../../services/api/analytic.service';
 import { formatNumber } from '../../functions/helpers';
 
-const Ventas = () => {
+const AnnualSales  = () => {
   const [chartData, setChartData] = useState([]);
   const [totalSales, setTotalSales] = useState(0); 
 
@@ -65,6 +65,18 @@ const Ventas = () => {
     return null;
   };
 
+  const formatYAxis = (value) => {
+    if (value >= 1000000) {
+      const millionValue = value / 1000000;
+      return `${millionValue.toFixed(millionValue < 10 ? 1 : 0)}M`;
+    } else if (value >= 100000) {
+      const thousandValue = value / 1000;
+      return `${thousandValue.toFixed(0)}m`; 
+    } else {
+      return formatNumber(value); 
+    }
+  };
+
   return (
     <div style={{ width: '100%', height: '70%'}}>
       <Typography gutterBottom align="left" sx={{fontSize: "20px", fontWeight: "bold"}}>
@@ -79,11 +91,11 @@ const Ventas = () => {
           <ResponsiveContainer width="100%" height={230}>
             <LineChart
               data={chartData}
-              margin={{ top: 5, right: 10, left: 7, bottom: 5 }}
+              margin={{ top: 2}}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis /> 
+              <YAxis tickFormatter={(value) => `${formatYAxis(value)}`}/> 
               <Tooltip content={<CustomTooltip />} />
               <Line type="monotone" dataKey="amount" stroke="#266763" activeDot={{ r: 10 }} strokeWidth={2} />
             </LineChart>
@@ -94,4 +106,4 @@ const Ventas = () => {
   );
 };
 
-export default Ventas;
+export default AnnualSales;
