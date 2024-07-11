@@ -165,7 +165,7 @@ const SaleForm = ({
       return;
     }
 
-    const submitData = {
+    const newData = {
       ...formData,
       total: total,
       detalles: saleItems.map(({ cod, ...item }) => {
@@ -183,6 +183,12 @@ const SaleForm = ({
         return newItem;
       }),
     };
+
+    const { idr, ...rest } = newData;
+
+    const submitData = { ...rest };
+
+    console.log(submitData);
 
     if (mode === "modify") {
       showDialog(
