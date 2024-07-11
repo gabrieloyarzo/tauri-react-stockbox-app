@@ -54,7 +54,7 @@ const Moststockproducts = () => {
       <Typography gutterBottom align="left" sx={{ fontSize: '20px', fontWeight: 'bold', marginLeft: '30px' }}>
         Productos con mayor stock
       </Typography>
-      <ResponsiveContainer width="100%" height={259}>
+      <ResponsiveContainer width="100%" height={281}>
         <BarChart layout="vertical" data={data} margin={{ top: 8, right: 5 }}>
           <XAxis type="number" tick={false} axisLine={false} />
           <YAxis type="category" dataKey="name" tick={false} axisLine={false} />

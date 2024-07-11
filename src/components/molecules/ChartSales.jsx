@@ -8,6 +8,11 @@ const AnnualSales  = () => {
   const [chartData, setChartData] = useState([]);
   const [totalSales, setTotalSales] = useState(0); 
 
+  const getMonthAbbreviation = (date) => {
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    return months[date.getMonth()];
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,7 +22,7 @@ const AnnualSales  = () => {
         const salesData = response.data.datePriceSales
           .filter(item => new Date(item.date).getFullYear() === currentYear)
           .map(item => ({
-            month: new Date(item.date).toLocaleString('default', { month: 'short' }),
+            month: getMonthAbbreviation(new Date(item.date)),
             amount: item.total_price,
           }));
 
@@ -33,8 +38,8 @@ const AnnualSales  = () => {
         const allMonths = Array.from({ length: 12 }, (_, index) => {
           const month = new Date(currentYear, index, 1);
           return {
-            month: month.toLocaleString('default', { month: 'short' }),
-            amount: monthlySales[month.toLocaleString('default', { month: 'short' })] || 0,
+            month: getMonthAbbreviation(month),
+            amount: monthlySales[getMonthAbbreviation(month)] || 0,
           };
         });
 
@@ -78,7 +83,7 @@ const AnnualSales  = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '70%'}}>
+    <div style={{ width: '100%', height: '70%' }}>
       <Typography gutterBottom align="left" sx={{fontSize: "20px", fontWeight: "bold"}}>
         Balance de ventas 
         <Typography component="span" color="textSecondary" sx={{fontSize: "22px", fontWeight: "bold", marginLeft: "5px"}}>
@@ -91,11 +96,11 @@ const AnnualSales  = () => {
           <ResponsiveContainer width="100%" height={230}>
             <LineChart
               data={chartData}
-              margin={{ top: 2}}
+              margin={{ top: 2, right: 5, left: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis tickFormatter={(value) => `${formatYAxis(value)}`}/> 
+              <YAxis tickFormatter={(value) => `${formatYAxis(value)}`} />
               <Tooltip content={<CustomTooltip />} />
               <Line type="monotone" dataKey="amount" stroke="#266763" activeDot={{ r: 10 }} strokeWidth={2} />
             </LineChart>
