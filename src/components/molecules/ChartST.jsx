@@ -75,9 +75,9 @@ const TendenciasVentas = () => {
       <Typography gutterBottom align="left" sx={{ fontSize: "20px", fontWeight: "bold" }}>
         Tendencia de ventas
       </Typography>
-      <Box sx={{ width: '100%', height: 259 }}>
+      <Box sx={{ width: '100%', height: 279 }}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 10 }}>
+          <BarChart data={data} margin={{ top: 3 }}>
             <CartesianGrid stroke="none" />
             <XAxis dataKey="month" />
             <YAxis tickFormatter={(value) => `${formatYAxis(value)}`}/> 

@@ -218,7 +218,7 @@ const Sidebar = () => {
         <Box
           width="85%"
           display="flex"
-          justifyContent={isSmallScreen ? "center" : "left"}
+          justifyContent={isSmallScreen ? "center" : "center"}
         >
           <LogoutMenu isSmallScreen={isSmallScreen} />
         </Box>

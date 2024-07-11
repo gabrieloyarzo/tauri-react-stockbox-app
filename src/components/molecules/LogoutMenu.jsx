@@ -25,14 +25,14 @@ const StyledButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   marginBottom: ".5em",
   justifyContent: "flex-start",
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.dark,
   "&:hover": {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: "#B72424",
     color: theme.palette.primary.contrastText,
     borderRadius: "2rem",
   },
   "& .MuiSvgIcon-root": {
-    width: "1.5vw",
+    width: "1.2vw",
     height: "auto",
   },
   borderRadius: "2rem",
