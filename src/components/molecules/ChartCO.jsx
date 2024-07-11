@@ -41,10 +41,10 @@ const CommercialOperations = () => {
             data={analyticsData}
             cx="50%"
             cy="50%"
-            innerRadius={40}
-            outerRadius={60}
+            innerRadius={15}
+            outerRadius={35}
             fill="#8884d8"
-            paddingAngle={5}
+            paddingAngle={2}
             dataKey="value"
             label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
           >
