@@ -17,7 +17,8 @@ import { LoadingButton } from "@mui/lab";
 import { auxDelete } from "../../functions/auxDelete";
 import { deleteDialogTitleAndContext } from "../../functions/dialogTitleAndContext";
 import { formatNumber } from "../../functions/helpers";
-import { isMoneyField } from "../../functions/typeFields";
+import { isMoneyField, isDateField } from "../../functions/typeFields";
+import { formatDate } from "../../functions/format";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoopIcon from "@mui/icons-material/Loop";
@@ -84,7 +85,7 @@ const TableRows = ({
   };
 
   const handleModifyRefund = async (index, idr) => {
-    setLoadingRefund(prevLoadingRefund => {
+    setLoadingRefund((prevLoadingRefund) => {
       const newLoadingRefund = [...prevLoadingRefund];
       newLoadingRefund[index] = true;
       return newLoadingRefund;
@@ -97,7 +98,7 @@ const TableRows = ({
     } catch (error) {
       showSnackbar(error.response.data.message, "error");
     } finally {
-      setLoadingRefund(prevLoadingRefund => {
+      setLoadingRefund((prevLoadingRefund) => {
         const newLoadingRefund = [...prevLoadingRefund];
         newLoadingRefund[index] = false;
         return newLoadingRefund;
@@ -209,7 +210,13 @@ const TableRows = ({
                     </TableCell>
                   );
                 }
-                return <TableCell key={index}>{obj[column]}</TableCell>;
+                return (
+                  <TableCell key={index}>
+                    {isDateField(column)
+                      ? formatDate(obj[column])
+                      : obj[column]}
+                  </TableCell>
+                );
               })}
               <TableCell key="options" sx={{ textAlign: "center" }}>
                 {currentTable === "sales" &&

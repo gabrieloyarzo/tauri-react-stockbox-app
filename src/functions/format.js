@@ -124,16 +124,31 @@ export const formatTimestamp = (timestamp) => {
 
   // Obtener la fecha en formato yyyy-mm-dd
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
   const fecha = `${year}-${month}-${day}`;
 
   // Obtener la hora en formato hh:mm
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
   const hora = `${hours}:${minutes}`;
 
   return { fecha, hora };
-}
+};
 
+export const formatDate = (date) => {
+  const fecha = new Date(date);
+
+  const idiomaDelDispositivo = navigator.language || navigator.userLanguage;
+
+  const formatter = new Intl.DateTimeFormat(idiomaDelDispositivo, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  const fechaFormateada = formatter.format(fecha);
+
+  return fechaFormateada;
+};

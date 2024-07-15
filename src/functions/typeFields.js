@@ -15,3 +15,7 @@ export const isNumberField = (field) => {
     field === "suma"
   );
 };
+
+export const isDateField = (field) => {
+  return field === "fecha";
+};
