@@ -122,7 +122,7 @@ const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          // fontSize: "1em", // Tamaño de letra relativo en rem o em
+          textTransform: "none",
           padding: "0.5em 1em",
           "&:hover": {
             backgroundColor: "#c3fa7b",

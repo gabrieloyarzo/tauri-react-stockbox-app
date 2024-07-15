@@ -12,8 +12,8 @@ const SnackbarContextProvider = ({ children }) => {
     severity: "info",
   });
 
-  const showSnackbar = (message, severity = "info") => {
-    setSnackbar({ open: true, message, severity });
+  const showSnackbar = (message, severity = "info", duration = 3000) => {
+    setSnackbar({ open: true, message, severity, duration });
   };
 
   const handleClose = (event, reason) => {

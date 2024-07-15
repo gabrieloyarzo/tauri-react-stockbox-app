@@ -147,7 +147,7 @@ const Login = () => {
                 >
                   <Stack
                     sx={{
-                      width: "95%",
+                      width: "85%",
                       alignItems: "center",
                       justifyContent: "center",
                     }}
@@ -156,7 +156,7 @@ const Login = () => {
                       variant="h4"
                       sx={{ fontWeight: "bold", textAlign: "center" }}
                     >
-                      ¡BIENVENIDO A STOCKBOX!
+                      ¡Bienvenido a StockBox!
                     </Typography>
                     <Typography variant="h5" sx={{ textAlign: "center" }}>
                       Accede a tu cuenta
@@ -228,7 +228,7 @@ const Login = () => {
                         type="submit"
                         autoFocus
                       >
-                        INGRESAR
+                        Ingresar
                       </LoadingButton>
                     </Stack>
                   </Box>

@@ -1,11 +1,20 @@
 import React, { forwardRef, useState, useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 import { Snackbar, Alert, Box } from "@mui/material";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
-  return <Alert elevation={6} ref={ref} {...props} />;
+  return (
+    <Alert
+      {...props}
+      elevation={6}
+      ref={ref}
+      sx={{ ".MuiAlert-action": { display: "none" } }}
+    />
+  );
 });
 
 const ProgressBar = ({ duration }) => {
+  const theme = useTheme();
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -29,7 +38,7 @@ const ProgressBar = ({ duration }) => {
       sx={{
         height: "5%",
         width: "100%",
-        backgroundColor: "#e0e0e0",
+        backgroundColor: theme.palette.grey[200],
         position: "absolute",
         left: 0,
         bottom: 0,
@@ -39,7 +48,7 @@ const ProgressBar = ({ duration }) => {
         sx={{
           height: "100%",
           width: `${progress}%`,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          backgroundColor: theme.palette.grey[400],
           transition: "width 0.1s linear",
         }}
       />
@@ -47,9 +56,13 @@ const ProgressBar = ({ duration }) => {
   );
 };
 
-const CustomSnackbar = ({ open, closeSnack, message, severity }) => {
-  const duration = 2000;
-
+const CustomSnackbar = ({
+  open,
+  closeSnack,
+  message,
+  severity,
+  duration = 3000,
+}) => {
   return (
     <Snackbar
       open={open}
