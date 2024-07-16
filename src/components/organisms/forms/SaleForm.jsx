@@ -264,6 +264,7 @@ const SaleForm = ({
   const removeSaleItem = (index) => {
     if (saleItems.length > 1) {
       setSaleItems((prevItems) => prevItems.filter((_, i) => i !== index));
+      setItemErrors((prevErrors) => prevErrors?.filter((_, i) => i !== index));
     }
   };
 
@@ -598,7 +599,9 @@ const SaleForm = ({
                     width: "20%",
                   }}
                 >
-                  <Typography variant="body1">{`$ ${formatNumAddThousands(total)}`}</Typography>
+                  <Typography variant="body1">{`$ ${formatNumAddThousands(
+                    total
+                  )}`}</Typography>
                 </Box>
               </Box>
             </Box>

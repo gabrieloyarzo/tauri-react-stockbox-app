@@ -260,6 +260,7 @@ const PurchaseForm = ({
   const removePurchaseItem = (index) => {
     if (purchaseItems.length > 1) {
       setPurchaseItems((prevItems) => prevItems.filter((_, i) => i !== index));
+      setItemErrors((prevErrors) => prevErrors?.filter((_, i) => i !== index));
     }
   };
 
