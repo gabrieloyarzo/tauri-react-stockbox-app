@@ -19,8 +19,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationApi from "../../services/api/notification.service.js";
-import { formatTimestamp } from "../../functions/format.js";
-import { useSnackbar } from "../../context/SnackbarContext"
+import { formatTimestamp, formatDate } from "../../functions/format.js";
+import { useSnackbar } from "../../context/SnackbarContext";
 
 const NotificationPanel = ({ data }) => {
   const theme = useTheme();
@@ -32,17 +32,17 @@ const NotificationPanel = ({ data }) => {
   });
   const { showSnackbar } = useSnackbar();
   let idGlobal = null;
-    
+
   useEffect(() => {
-      const fetchData = async () => {
-	  const notifications = await NotificationApi.getAllNotifications();
-	  setNotifications(notifications);
+    const fetchData = async () => {
+      const notifications = await NotificationApi.getAllNotifications();
+      setNotifications(notifications);
     };
     fetchData();
   }, []);
 
   const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -50,8 +50,7 @@ const NotificationPanel = ({ data }) => {
   };
 
   const handleOpenConfirmation = (id) => {
-      setDeleteConfirmation({ id, open: true });
-      
+    setDeleteConfirmation({ id, open: true });
   };
 
   const handleCloseConfirmation = () => {
@@ -60,22 +59,21 @@ const NotificationPanel = ({ data }) => {
 
   const handleConfirmDelete = async () => {
     const updatedNotifications = notifications.filter(
-	(notification) => notification.id !== deleteConfirmation.id
+      (notification) => notification.id !== deleteConfirmation.id
     );
-      
-      try {
-	   const response = await NotificationApi.deleteNotification(deleteConfirmation.id);
-	   showSnackbar(response.data.message,"success");
-      } catch (error){
-	  showSnackbar(error.response.data.message,"error");
-	  
-      }
-      
+
+    try {
+      const response = await NotificationApi.deleteNotification(
+        deleteConfirmation.id
+      );
+      showSnackbar(response.data.message, "success");
+    } catch (error) {
+      showSnackbar(error.response.data.message, "error");
+    }
+
     setNotifications(updatedNotifications);
     handleCloseConfirmation();
     handleClose(); // Cerrar el menú después de eliminar
-
-
   };
 
   const open = Boolean(anchorEl);
@@ -140,67 +138,99 @@ const NotificationPanel = ({ data }) => {
             alignItems: "center",
           }}
         >
-          {notifications.map((notification, index) => {
-            const { fecha, hora } = formatTimestamp(notification.creado);
+          {notifications.length > 0 ? (
+            () => {
+              notifications.map((notification, index) => {
+                const { fecha, hora } = formatTimestamp(notification.creado);
 
-            return (
-              <ListItem
-                key={index}
-                sx={{
-                  width: "95%",
-                  marginBottom: ".5em",
-                  borderRadius: ".5em",
-                  bgcolor: theme.palette.common.white,
-                  borderLeft: `5px solid ${theme.palette.primary.main}`,
-                  position: "relative",
-                }}
-              >
-                <ListItemText
-                  primary={notification.titulo}
-                  primaryTypographyProps={{
-                    variant: "body1",
-                    sx: {
-                      fontWeight: "bold",
-                      color: theme.palette.primary.main,
-                    },
-                  }}
-                  secondary={notification.desc}
-                  sx={{
-                    position: "relative", 
-                    left: "1em", 
-                    maxWidth: "calc(100% - 4em)", 
-                    overflowWrap: "break-word", 
-                  }}
-                />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "0.5em",
-                    right: "0.5em",
-                    color: theme.palette.text.secondary,
-                    fontSize: "0.8rem",
-                    textAlign: "right",
-                  }}
-                > 
-                  {fecha}
-                  <br/>
-                  {hora}
-                </Box>
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => handleOpenConfirmation(notification.idn)}
-                  sx={{
-                    position: "absolute",
-                    bottom: "-0.01em", 
-                    right: "0.5em", 
+                return (
+                  <ListItem
+                    key={index}
+                    sx={{
+                      width: "95%",
+                      marginBottom: ".5em",
+                      borderRadius: ".5em",
+                      bgcolor: theme.palette.common.white,
+                      borderLeft: `5px solid ${theme.palette.primary.main}`,
+                      position: "relative",
+                    }}
+                  >
+                    <ListItemText
+                      primary={notification.titulo}
+                      primaryTypographyProps={{
+                        variant: "body1",
+                        sx: {
+                          fontWeight: "bold",
+                          color: theme.palette.primary.main,
+                        },
+                      }}
+                      secondary={notification.desc}
+                      sx={{
+                        position: "relative",
+                        left: "1em",
+                        maxWidth: "calc(100% - 4em)",
+                        overflowWrap: "break-word",
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "0.5em",
+                        right: "0.5em",
+                        color: theme.palette.text.secondary,
+                        fontSize: "0.8rem",
+                        textAlign: "right",
+                      }}
+                    >
+                      {formatDate(fecha)}
+                      <br />
+                      {hora}
+                    </Box>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleOpenConfirmation(notification.idn)}
+                      sx={{
+                        position: "absolute",
+                        bottom: "-0.01em",
+                        right: "0.5em",
+                        color: theme.palette.primary.main,
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItem>
+                );
+              });
+            }
+          ) : (
+            <ListItem
+              sx={{
+                width: "95%",
+                marginBottom: ".5em",
+                borderRadius: ".5em",
+                bgcolor: theme.palette.common.white,
+                borderLeft: `5px solid ${theme.palette.primary.main}`,
+                position: "relative",
+              }}
+            >
+              <ListItemText
+                primary="No hay notificaciones"
+                primaryTypographyProps={{
+                  variant: "body1",
+                  sx: {
+                    fontWeight: "bold",
                     color: theme.palette.primary.main,
-                  }}
-                >
-                    <DeleteIcon  />
-                </IconButton>
-              </ListItem>
-            );
-          })}
+                  },
+                }}
+                sx={{
+                  position: "relative",
+                  left: "1em",
+                  maxWidth: "calc(100% - 4em)",
+                  overflowWrap: "break-word",
+                }}
+              />
+            </ListItem>
+          )}
         </List>
       </Menu>
 
