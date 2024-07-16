@@ -2,6 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatNumber } from "../../../functions/helpers";
+import { formatDate } from "../../../functions/format";
 
 const SaleDetails = ({ data, closeModal }) => {
   const theme = useTheme();
@@ -60,7 +61,7 @@ const SaleDetails = ({ data, closeModal }) => {
               Código: {data.cod}
             </Typography>
             <Typography sx={{ textAlign: "right", pr: 3 }}>
-              Fecha: {data.fecha}
+              Fecha: {formatDate(data.fecha)}
             </Typography>
           </Box>
         </Box>

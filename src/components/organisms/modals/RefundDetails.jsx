@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { formatNumberAddThousandsSeparator as formatNumAddThousands } from "../../../functions/format";
+import { formatNumberAddThousandsSeparator as formatNumAddThousands, formatDate } from "../../../functions/format";
 
 const RefundDetails = ({ data, closeModal }) => {
   const theme = useTheme();
@@ -60,7 +60,7 @@ const RefundDetails = ({ data, closeModal }) => {
               Cód. de devolución: {data.codr}
             </Typography>
             <Typography sx={{ textAlign: "right", pr: 3 }}>
-              Fecha: {data.fecha}
+              Fecha: {formatDate(data.fecha)}
             </Typography>
           </Box>
         </Box>

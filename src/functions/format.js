@@ -137,18 +137,31 @@ export const formatTimestamp = (timestamp) => {
   return { fecha, hora };
 };
 
-export const formatDate = (date) => {
-  const fecha = new Date(date);
+export const formatDate = (fechaString) => {
+  const idiomaDelDispositivo = navigator.languages
+    ? navigator.languages[0]
+    : navigator.language || navigator.userLanguage;
 
-  const idiomaDelDispositivo = navigator.language || navigator.userLanguage;
+  // default to English
+  if (idiomaDelDispositivo.substring(0, 2) === "en") return fechaString;
 
-  const formatter = new Intl.DateTimeFormat(idiomaDelDispositivo, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  const opcionesDeFormato = {
+    es: { day: "numeric", month: "numeric", year: "numeric" },
+    fr: { day: "numeric", month: "long", year: "numeric" },
+    // Or more languages
+  };
 
-  const fechaFormateada = formatter.format(fecha);
+  const formatoFecha = opcionesDeFormato[idiomaDelDispositivo.substring(0, 2)];
 
-  return fechaFormateada;
+  if (formatoFecha) {
+    const partes = fechaString.split('-');
+    const fecha = new Date(partes[0], partes[1] - 1, partes[2]);
+
+    return new Intl.DateTimeFormat(idiomaDelDispositivo, formatoFecha).format(
+      fecha
+    );
+  } else {
+    return fechaString;
+  }
 };
+
