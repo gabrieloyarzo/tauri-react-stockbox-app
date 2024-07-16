@@ -142,8 +142,8 @@ export const formatDate = (fechaString) => {
     ? navigator.languages[0]
     : navigator.language || navigator.userLanguage;
 
-  // default to English
-  if (idiomaDelDispositivo.substring(0, 2) === "en") return fechaString;
+  // Default to English
+  if (idiomaDelDispositivo.substring(0, 2) === "en") return fechaString.replace(/\//g, '-');
 
   const opcionesDeFormato = {
     es: { day: "numeric", month: "numeric", year: "numeric" },
@@ -157,11 +157,11 @@ export const formatDate = (fechaString) => {
     const partes = fechaString.split('-');
     const fecha = new Date(partes[0], partes[1] - 1, partes[2]);
 
-    return new Intl.DateTimeFormat(idiomaDelDispositivo, formatoFecha).format(
-      fecha
-    );
+    const fechaFormateada = new Intl.DateTimeFormat(idiomaDelDispositivo, formatoFecha).format(fecha);
+
+    return fechaFormateada.replace(/\//g, '-');
   } else {
-    return fechaString;
+    return fechaString.replace(/\//g, '-');
   }
 };
 
