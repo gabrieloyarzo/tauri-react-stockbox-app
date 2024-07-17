@@ -1,6 +1,7 @@
 import React from "react";
 import { useUser } from "../../context/UserContext";
 import { Typography, Stack } from "@mui/material";
+import { capitalizeFirstLetter } from "../../functions/helpers";
 
 const Profile = () => {
   const { user } = useUser();
@@ -11,7 +12,7 @@ const Profile = () => {
         {`${user?.nombre} ${user?.apellido}`}
       </Typography>
       <Typography variant="body2" color="textSecondary">
-        {user?.rol}
+        {capitalizeFirstLetter(user?.rol)}
       </Typography>
     </Stack>
   );

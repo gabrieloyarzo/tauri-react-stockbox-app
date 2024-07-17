@@ -24,7 +24,7 @@ const UserContextProvider = ({ children }) => {
       const apellido = tokenData.lastname;
       setUser((user) => ({
         rut: rut ?? user.rut,
-        rol: rol ? capitalizeFirstLetter(rol) : user.rol,
+        rol: rol ? rol : user.rol,
         nombre: nombre ? capitalizeFirstLetter(nombre) : user.nombre,
         apellido: apellido ? capitalizeFirstLetter(apellido) : user.apellido,
       }));

@@ -196,7 +196,7 @@ const Sidebar = () => {
                   icon={<Groups />}
                   iconPosition="start"
                 />
-                {user?.rol === "ADMIN" && (
+                {user?.rol.toUpperCase() === "ADMIN" && (
                   <StyledTab
                     value="users"
                     label={!isSmallScreen && "Usuarios"}
