@@ -397,8 +397,8 @@ const PurchaseForm = ({
                     })
                   }
                   renderOption={(props, option) => (
-                    <Box component="li" {...props}>
-                      <div>
+                    <Box component="li" {...props} key={option.rutp}>
+                      <div key={option.rutp}>
                         <Typography fontSize="14px">{option.rutp}</Typography>
                         <Typography fontSize="12px" color="textSecondary">
                           {option.nombre}
@@ -520,7 +520,7 @@ const PurchaseForm = ({
               }}
             >
               {purchaseItems.map((row, index) => (
-                <StyledStack paddingBottom=".5%">
+                <StyledStack paddingBottom=".5%" key={index}>
                   <Autocomplete
                     sx={{
                       display: "flex",
@@ -553,7 +553,7 @@ const PurchaseForm = ({
                       });
                     }}
                     renderOption={(props, option) => (
-                      <Box component="li" {...props}>
+                      <Box component="li" {...props} key={option.idp}>
                         <div key={option.idp}>
                           <Typography fontSize="14px">{option.cod}</Typography>
                           <Typography fontSize="12px" color="textSecondary">
