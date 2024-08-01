@@ -75,7 +75,7 @@ const CustomSnackbar = ({
     >
       <SnackbarAlert onClose={closeSnack} severity={severity}>
         {message}
-        <ProgressBar duration={duration} />
+        {/* <ProgressBar duration={duration} /> */}
       </SnackbarAlert>
     </Snackbar>
   );

@@ -3,23 +3,16 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/providers`;
 
 const ProviderApi = {
-  async getAllProviders({
-    dato = "rutp",
-    offset = 0,
-    limit = 10,
-    valor = "",
-    orden = "desc",
-    tipo = "todos",
-  } = {}) {
+  async getAllProviders(query) {
     try {
-      const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}&tipo=${tipo}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        params: {
+          ...query,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener proveedores:", error);

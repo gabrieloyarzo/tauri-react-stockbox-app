@@ -3,23 +3,16 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/users`;
 
 const UserApi = {
-  async getAllUsers({
-    dato = "rutu",
-    offset = 0,
-    limit = 10,
-    valor = "",
-    orden = "desc",
-    rol = "todos",
-  } = {}) {
+  async getAllUsers(query) {
     try {
-      const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&orden=${orden}&rol=${rol}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        params: {
+          ...query,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener usuarios:", error);

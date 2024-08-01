@@ -3,23 +3,14 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/refunds`;
 
 const RefundApi = {
-  async getAllRefunds({
-    dato = "codr",
-    offset = 0,
-    limit = 10,
-    desde = "",
-    hasta = "",
-    valor = "",
-    intervalo = "igual",
-    orden = "desc",
-  } = {}) {
+  async getAllRefunds(query) {
     try {
-      const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&desde=${desde}&hasta=${hasta}&valor=${valor}&intervalo=${intervalo}&orden=${orden}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      const response = await axios.get(`${API_URL}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        params: {
+          ...query,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener devoluciones:", error);

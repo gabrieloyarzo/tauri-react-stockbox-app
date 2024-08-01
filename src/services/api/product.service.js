@@ -3,24 +3,16 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 const ProductApi = {
-  async getAllProducts({
-    dato = "cod",
-    offset = 0,
-    limit = 10,
-    valor = "",
-    intervalo = "igual",
-    orden = "desc",
-    categoria = "todos",
-  } = {}) {
+  async getAllProducts(query) {
     try {
-      const response = await axios.get(
-        `${API_URL}?dato=${dato}&offset=${offset}&limit=${limit}&valor=${valor}&intervalo=${intervalo}&orden=${orden}&categoria=${categoria}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        params: {
+          ...query,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error al obtener productos:", error);
@@ -91,22 +83,20 @@ const ProductApi = {
     }
   },
 
-    async getTrueProducts() {
-	try {
-	    const response = await axios.get(`${API_URL}/getAll`, {
-		headers: {
-		    "Content-Type": "application/json",
-		    Authorization: `Bearer ${localStorage.getItem("token")}`,
-		},
-	    });
-	    return response.data;
-	} catch (error) {
-	    console.error("Error al eliminar producto:", error);
-	    throw error;
+  async getTrueProducts() {
+    try {
+      const response = await axios.get(`${API_URL}/getAll`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      throw error;
     }
-    },
+  },
 };
-
-
 
 export default ProductApi;

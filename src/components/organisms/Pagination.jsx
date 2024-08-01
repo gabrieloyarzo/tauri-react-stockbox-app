@@ -30,8 +30,8 @@ const Pagination = ({ page, setFilterProps, count }) => {
         disabled={isLoading}
         sx={{
           ".MuiPaginationItem-root": {
-            width: "calc(2vh + 2vw)",
-            height: "calc(2vh + 2vw)",
+            width: "calc(1.75vh + 1.75vw)",
+            height: "calc(1.75vh + 1.75vw)",
             fontSize: theme.typography.body1.fontSize,
           },
         }}
